@@ -80,3 +80,6 @@ form.search input[type='submit'] {
 	width:calc(100% - 80px);
 	vertical-align: bottom;
 }
+img {
+	max-width:100%;
+}
