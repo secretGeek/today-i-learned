@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="see-all-console-colors">see all console colors:</h1>
 <pre><code>[enum]::GetValues([System.ConsoleColor]) | Foreach-Object {Write-Host $_ -ForegroundColor $_}
 </code></pre>
@@ -43,7 +48,7 @@ foreach( $fcolor in $colors )
 <li><a href="http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx">http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx</a></li>
 </ul>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

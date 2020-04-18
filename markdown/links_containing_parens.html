@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="links-containing-parens-in-markdown">Links containing parens, in Markdown</h1>
 <p>I'm writing <a href="http://YourFirstProduct.com">Your First Product</a> (the book, not the website) in markdown. (Okay - the site is mostly written in markdown too, but I digress)... there was a url that ends with a closing parenthesis.</p>
 <p>The markdown parser in gitbook did not understand this (although the one in pandoc did). To make it work everywhere I had to encode the parens as %20 and %29 respectively.</p>
@@ -30,7 +35,7 @@
 <li><a href="http://blog.codinghorror.com/the-problem-with-urls/">http://blog.codinghorror.com/the-problem-with-urls/</a></li>
 </ul>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

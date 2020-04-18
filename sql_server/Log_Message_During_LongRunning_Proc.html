@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="log-message-immediately-during-a-long-running-procedure">Log message immediately during a long running procedure</h1>
 <p>Sometimes you have a long running process, and you want it to emit messages, but you don't want to wait until the end to see those messages.</p>
 <p>Then raise them as errors, as follows:</p>
@@ -28,7 +33,7 @@ RAISERROR (@Message, 0, 1) WITH NOWAIT
 <li><a href="https://msdn.microsoft.com/en-us/library/ms175976.aspx">TRY...CATCH (Transact-SQL)</a></li>
 </ul>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

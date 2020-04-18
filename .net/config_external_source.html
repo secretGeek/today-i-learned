@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="config-from-an-external-source">Config from an external source</h1>
 <p>Say you want your connectionStrings to be pulled in from an external file, you can do that like this:</p>
 <pre><code>&lt;connectionStrings configSource=&quot;ConnectionStringsProduction.xml&quot; /&gt; 
@@ -13,7 +18,7 @@
 <p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique.</p>
 <p>Or if you have 3 different web applications that all want the same config for just part of their config file, you can use this trick.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

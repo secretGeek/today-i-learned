@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="find-deleted-files-in-mercurial">Find Deleted Files in Mercurial</h1>
 <p>To find which revision a file was deleted in, use</p>
 <pre><code>hg log --template &quot;{rev}: {file_dels}\n&quot;
@@ -22,7 +27,7 @@
 <p>Then you can grep those details to find the deleted file you're interested in, and see when it was deleted.</p>
 <p>You can then browse to the specific revision, via tortoise hg, <code>thg.exe</code>.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

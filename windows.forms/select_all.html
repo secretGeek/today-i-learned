@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="press-ctrl-a-to-select-all-in-a-textbox">Press Ctrl-A to select all in a textbox</h1>
 <p><strong>NOTE</strong> textbox must be multiline.</p>
 <pre><code>private void txtSQL_KeyDown(object sender, KeyEventArgs e)
@@ -35,7 +40,7 @@ private void KeyPressSelectAll(TextBoxBase t, KeyEventArgs e)
 <p>regarding 't.Focus()'</p>
 <p>If the KeyPressSelectAll method can be triggerd by a different control, e.g. a button or menu, then you might also want to set focus to the textbox, so that the selection is made visible.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

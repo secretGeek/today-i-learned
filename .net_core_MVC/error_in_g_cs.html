@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="error-in-razorviews.g.cshtml.cs-page">Error in Razor\Views...*.g.cshtml.cs page</h1>
 <p>Sometimes, particularly after upgrading from one .net core verison to another I see errors in <code>g.cshtml.cs</code> pages...</p>
 <pre><code>Severity	Code	Description	Project	File	Line	Suppression State
@@ -16,7 +21,7 @@ Error	CS0246	The type or namespace name 'VerifyCodeViewModel' could not be found
 <p>There will be an error and it will be evident in the cshtml file itself.</p>
 <p>For some of them the error was that I had to add another <code>@using</code> statement to the <code>_ViewImports.cshtml</code> file. But it could be anything.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

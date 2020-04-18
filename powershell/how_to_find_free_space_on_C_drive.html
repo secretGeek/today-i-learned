@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="how-to-find-how-much-free-space-is-left-on-a-drive">How to find how much free space is left on a drive</h1>
 <p>In short:</p>
 <pre><code>get-psdrive C
@@ -17,7 +22,7 @@
 <pre><code>get-psdrive C | % { &quot;&quot; + &quot;{0:0.00}&quot; -f ($_.Used/1GB) + &quot; GB used, &quot; + &quot;{0:0.00}&quot; -f ($_.Free/1GB)   + &quot; GB free&quot;}
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

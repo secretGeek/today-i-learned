@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="delete-files-older-than-90-days">Delete files older than 90 days</h1>
 <p>First, list files older than 90 days...</p>
 <pre><code>find . -mtime +90 -type f
@@ -16,7 +21,7 @@
 <pre><code>find . -mtime +90 -type f -delete
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

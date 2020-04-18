@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="run-a-command-against-each-table">Run a command against each table</h1>
 <p>While I generally use NimbleText to <a href="http://nimbletext.com/HowTo/OneQueryManyTables">run a command against each table</a>, there are some handy features built into SQL Server that let you do this in a quite seamless manner.</p>
 <blockquote>
@@ -34,7 +39,7 @@ exec sp_MSforeachtable 'print &quot;Should I drop <em>?&quot;', '</em>'</p>
 <p><code>sp_msforeachdb</code>: Runs a command with '?' replaced with each database name (v7 and up)</p>
 </blockquote>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

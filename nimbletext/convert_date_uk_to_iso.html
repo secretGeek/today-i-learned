@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="convert-date-from-uk-format-to-iso-8601">Convert date from UK format to ISO 8601</h1>
 <p>aka -- Convert date from Australian format to ISO 8601</p>
 <p>If '$1' is an australian or UK date such as:</p>
@@ -22,7 +27,7 @@
 <pre><code>&lt;% $1.split('/')[2].split(' ')[0] %&gt;-&lt;% ('000' + $1.split('/')[1]).right(2) %&gt;-&lt;% ('00' + $1.split('/')[0]).right(2) %&gt;
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

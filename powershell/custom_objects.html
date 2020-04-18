@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="create-custom-objects">Create custom objects.</h1>
 <p>Say you have two variables, <code>$name</code> and <code>$count</code> -- and you want to create a custom object that contains just those two properies....</p>
 <pre><code>$myObject = New-Object psobject -property  @{name = $name; count = $count}
@@ -23,7 +28,7 @@
 } | ConvertTo-CSV  -NoTypeInformation | out-file &quot;Name_And_Count.csv&quot;  
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

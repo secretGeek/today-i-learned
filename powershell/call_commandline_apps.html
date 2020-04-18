@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="how-to-call-command-line-apps-like-a-powershell-pro">How to call command line apps like a powershell pro....</h1>
 <p>Call command line apps via powershell like this:</p>
 <pre><code>$arguments = @(&quot;/i&quot;, $msiInstallPath, &quot;/L* $msiInstallPath.log&quot;, &quot;/qn&quot;, &quot;/norestart&quot;)
@@ -13,7 +18,7 @@ $process = Start-Process -FilePath &quot;msiexec.exe&quot; -ArgumentList $argume
 </code></pre>
 <p>That's how the professional do it. And so should you. Allegedly.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

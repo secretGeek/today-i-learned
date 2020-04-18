@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="want-to-prompt-user-for-credentials-and-then-run-a-script-on-a-remote-machine">Want to prompt user for credentials and then run a script on a remote machine?</h1>
 <p>Assuming the Remote Computer Name is stored in a variable <code>$remoteComputerName</code></p>
 <pre><code>$name = Read-Host (&quot;What is the account name to use for remote execution, please include the domain, e.g. AD\&quot; + $env:username + &quot;)&quot;)
@@ -17,7 +22,7 @@ Invoke-Command -ComputerName $remoteComputerName -ScriptBlock {
 } -credential $name
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

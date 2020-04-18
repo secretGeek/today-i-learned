@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="form-value-count-limit-1024-exceeded">Form value count limit 1024 exceeded</h1>
 <p>I've got a form with 2500 elements. (Why not!?) (It's for doing bulk updates if you must know)</p>
 <p>In line with the suggested code <a href="http://stackoverflow.com/questions/38357108/form-submit-resulting-in-invaliddataexception-form-value-count-limit-1024-exce">here</a> I implemented a <code>RequestFormSizeLimit</code> attribute like so</p>
@@ -57,7 +62,7 @@ public ActionResult BulkUpdate(UpdateDetails updateDetails)
 <li><a href="http://stackoverflow.com/questions/38357108/form-submit-resulting-in-invaliddataexception-form-value-count-limit-1024-exce">Form submit resulting in 'InvalidDataException: Form value count limit 1024 exceeded.'</a></li>
 </ul>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

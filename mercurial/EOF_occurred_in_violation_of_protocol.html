@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="abort-error_ssl.c504-eof-occurred-in-violation-of-protocol">abort: error: _ssl.c:504: EOF occurred in violation of protocol</h1>
 <p>You may get this error, as I do on &quot;machine 1&quot;:</p>
 <pre><code>&gt; hg in
@@ -100,7 +105,7 @@ abort: error: EOF occurred in violation of protocol (_ssl.c:661)
 <p>Okay - after restarting a few times, I resolved it by updating my proxy (in mercurial settings) do a different proxy.</p>
 <p>I inspected the corporate script that runs to determine the proxy, and extracted the value from there.</p>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

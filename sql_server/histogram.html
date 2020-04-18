@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="example-query-for-bucketing-up-a-bunch-of-values">Example query for bucketing up a bunch of values.</h1>
 <p>Example of sorting results into buckets (ranges), and showing the count in each bucket, as well as the average of some other column, for members in that bucket.</p>
 <pre><code>declare @interval int = 5000 --bucket size
@@ -26,7 +31,7 @@ order by
     Floor(DirectDistance/@interval)  --order by bucket
 </code></pre>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

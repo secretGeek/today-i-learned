@@ -6,6 +6,11 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
+<header>
+<div class='nav'><a href='/today-i-learned'>TIL</a></div>
+</header>
+<div class='breadcrumb'>*</div>
+<article>
 <h1 id="make-windows-mobile-text-to-speech-voices-available-for-system.speech.synthesis">Make Windows Mobile Text-to-Speech voices available for System.Speech.Synthesis</h1>
 <p>Okay, thanks to reddit comment from a 'Pessimist__Prime' (details below) I found a way to enable some more voices on my (Win 8+) machine, without installing anything else.</p>
 <p>Under text-to-speech settings I could see various voices (such as &quot;Microsoft James Mobile&quot;) but these voices were not visible when calling <code>synth.GetInstalledVoices</code> (where <code>synth = new System.Speech.Synthesis.SpeechSynthesizer()</code>).</p>
@@ -35,7 +40,7 @@ foreach($voice in $listVoices)
 <li><a href="https://www.reddit.com/r/EliteDangerous/comments/5d02vv/if_you_use_voiceattack_eddi_or_any_other/">If you use VoiceAttack, EDDI or any other Text-To-Speech program - and you are on Windows 10, you can install the 'Microsoft Mobile Voices' for more variety</a></li>
 </ul>
 
+</article>
 </body>
-<script>
-</script>
+<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>

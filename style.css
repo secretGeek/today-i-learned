@@ -1,10 +1,15 @@
-body {
+body,html {
+  color:#333;
+  font-size:1.2em;
+  background-color:#FFF;
+	padding:0;
+	margin:0;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+article {
   max-width:70ch;
   padding:2ch;
   margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
 }
 pre {
   white-space:pre-wrap;
@@ -12,4 +17,36 @@ pre {
   background-color:#FFF;
   padding:1ch;
   border-radius:4px;
+}
+header {
+  background-color:white;
+  margin:0;
+	padding:0;
+	box-shadow:0 2px 2px #CCC;
+}
+header div.nav{
+  max-width:70ch;
+  margin:auto;
+	padding:1ch;
+	
+}
+header div.nav a {
+	text-decoration:none;
+	padding:0.5ch;
+	margin-left:-0.5ch;
+	border-radius:12px;
+}
+header div.nav a:hover {
+	text-decoration:underline;
+	box-shadow:0 0 4px #666;
+}
+div.breadcrumb {
+  max-width:70ch;
+  margin:auto;
+	margin-top:1ch;
+  padding:0 1ch;
+	border-radius:4px;
+	background-color:#fff;
+	box-shadow:0 2px 2px inset #F1F1F1;
+	color:#555;
 }
