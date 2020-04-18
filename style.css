@@ -81,5 +81,19 @@ form.search input[type='submit'] {
 	vertical-align: bottom;
 }
 img {
-	max-width:100%;
+	max-width:calc(100% - 30px);
+	border:1px solid #CCC;
+	box-shadow:0 2px 3px #AAA;
+	margin:15px auto;
+	display:block;
+}
+img[src='today_i_learned.png'],img[src='yfp_book.png'] {
+	border:none;
+	box-shadow:none;
+}
+table {
+	margin:auto;
+	border:1px solid #CCC;
+	padding:2ch;
+	border-radius:5px;
 }
