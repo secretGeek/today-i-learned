@@ -1,3 +1,6 @@
+* {
+	box-sizing: border-box;
+}
 body,html {
   color:#333;
   font-size:1.2em;
@@ -49,4 +52,31 @@ div.breadcrumb {
 	background-color:#fff;
 	box-shadow:0 2px 2px inset #F1F1F1;
 	color:#555;
+}
+form.search {
+	float:right;
+}
+form.search input[type='text'] {
+	border-radius:12px;
+	border-top-right-radius:0;
+	border-bottom-right-radius:0
+}
+form.search input[type='submit'] {
+	border-radius:12px; 
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+	padding:0;
+	margin-top:0;
+	width:29px;
+	height:29px;
+}
+.search-text 
+{
+	margin-left:25px;
+	color:#555;
+	xbackground-color:#666;
+	padding: 0 2px 0 15px;
+	height:29px;
+	width:calc(100% - 80px);
+	vertical-align: bottom;
 }
