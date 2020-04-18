@@ -5,7 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
 <h1 id="trim-or-zero-out-a-portion-of-a-datetime">Trim or zero-out a portion of a datetime....</h1>
 <p>To trim off the milliseconds.... (this was necessary when sending to XML for consumption by Excel...)</p>
 <pre><code>DATEADD(ms, -DATEPART(ms, YourDate), YourDate)

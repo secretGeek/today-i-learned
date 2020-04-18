@@ -5,7 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
 <h1 id="find-files-older-than-x-days">Find Files Older than X Days</h1>
 <pre><code>Get-ChildItem | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-30)}
 </code></pre>

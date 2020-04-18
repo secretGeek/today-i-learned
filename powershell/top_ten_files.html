@@ -5,7 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
 <h1 id="top-10-files-by-size-in-all-subfolders">Top 10 files by size, in all subfolders</h1>
 <pre><code>gci . -r | sort Length -d | select -f 10 | ft FullName, Length
 </code></pre>
