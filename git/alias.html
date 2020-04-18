@@ -28,7 +28,9 @@ pre {
 <pre><code>[alias]
 	# mercurial compatability, more see https://github.com/sympy/sympy/wiki/Git-hg-rosetta-stone#Rosetta_Stone
 	outgoing = log --branches --not --remotes=origin
-	out = !&quot;git outgoing&quot;
+	out = !git outgoing
+	incoming = !git fetch ; git log ..origin/master
+	in = !&quot;git incoming&quot;
 	st = status
 	stat = status
 	outy = !&quot;git l4 --branches --not --remotes=origin&quot;
@@ -44,6 +46,8 @@ pre {
 	l6 = log --graph --decorate --pretty=oneline --abbrev-commit #LOL
 	lg = !&quot;git l4&quot; # points at my current favorite out of those
 
+	cheat = !cat 'C:/users/leonb/Dropbox/secretGeek/util/powershell/scriptlets/git_cheat.txt'
+
 	# Phil Haack's aliases, see http://haacked.com/archive/2014/07/28/github-flow-aliases/
 	co = checkout
 	ec = config --global -e
@@ -57,12 +61,14 @@ pre {
 	wipe = !git add -A &amp;&amp; git commit -qm 'WIPE SAVEPOINT' &amp;&amp; git reset HEAD~1 --hard
 	bclean = &quot;!f() { git branch --merged ${1-master} | grep -v &quot; ${1-master}$&quot; | xargs -r git branch -d; }; f&quot;
 	bdone = &quot;!f() { git checkout ${1-master} &amp;&amp; git up &amp;&amp; git bclean ${1-master}; }; f&quot;
-	cheat = !cat C:/wip/nimble/util/powershell/scriptlets/git_cheat.txt
+	#alias = !git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	alias = config --get-regexp alias
+	#ooutgoing = log --branches --not --remotes=origin
+	#oout = ooutgoing
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="https://gist.github.com/mwhite/6887990">The Ultimate Git Alias Setup</a></li>
-<li><a href="http://haacked.com/archive/2014/07/28/github-flow-aliases/">Phil Haack's aliases</a></li>
+<li><a href="https://gist.github.com/mwhite/6887990">TheUltimate Git Alias Setup</a></li>
 </ul>
 
 </body>
