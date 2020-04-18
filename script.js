@@ -1,8 +1,22 @@
 /* on start.... */
 // populate the breadcrumb
 // bind a 'show menu' behaviour to the hamburger menu
-
-
+var currentPage = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+var parentUrl = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+var currentTitle = currentPage.substring(0, currentPage.lastIndexOf('.'));
+var topicTOC = parentUrl + '/01_summary.html';
+var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
+var homeLink = "<a href='/today-i-learned/index.html'>TIL</a>";
+var joiner = " &raquo; ";
+var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
+if (topicTitle == "today-i-learned") 
+{
+		$id('breadcrumb').innerHTML = homeLink + joiner + "home";
+} 
+else 
+{
+	$id('breadcrumb').innerHTML = homeLink + joiner + topicLink + joiner + currentTitle;
+}
 
 /* utility functions */
 function htmlToElement(html) {

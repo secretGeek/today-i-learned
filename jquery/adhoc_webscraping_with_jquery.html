@@ -3,13 +3,14 @@
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>{{title}}</title>
+<script type="text/javascript" src="/today-i-learned/script.js" defer></script>
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/today-i-learned/style.css">
 <header>
 <div class='nav'><a href='/today-i-learned'>TIL</a></div>
 </header>
-<div class='breadcrumb'>*</div>
+<div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="adhoc-web-scraping-with-jquery">Adhoc web scraping with jquery</h1>
 <p>Sometimes you need to grab and format some data from a web page, and regular copy/paste techniques are just not good enough.</p>
@@ -57,5 +58,4 @@ document.getElementsByTagName('head')[0].appendChild(jq);
 
 </article>
 </body>
-<script type="text/javascript" src="/today-i-learned/script.js"></script>
 </html>
