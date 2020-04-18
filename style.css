@@ -1,15 +1,15 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 body,html {
   color:#333;
   font-size:1.2em;
   background-color:#FFF;
-	padding:0;
-	margin:0;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  padding:0;
+  margin:0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-article {
+article, footer {
   max-width:70ch;
   padding:2ch;
   margin:auto;
@@ -24,76 +24,86 @@ pre {
 header {
   background-color:white;
   margin:0;
-	padding:0;
-	box-shadow:0 2px 2px #CCC;
+  padding:0;
+  box-shadow:0 2px 2px #CCC;
+  position:relative;
+  z-index:20;
+}
+footer {
+	text-align:center;
 }
 header div.nav{
   max-width:70ch;
   margin:auto;
-	padding:1ch;
-	
+  padding:2ch;
 }
 header div.nav a {
-	text-decoration:none;
-	padding:0.5ch;
-	margin-left:-0.5ch;
-	border-radius:12px;
+  text-decoration:none;
+  padding:0.5ch;
+  margin-left:-0.5ch;
+  border-radius:12px;
+  color:#333;
 }
 header div.nav a:hover {
-	text-decoration:underline;
-	box-shadow:0 0 4px #666;
+  box-shadow:0 0 4px #666, 0 0 8px inset #666;
+  color:blue;
 }
 div.breadcrumb {
   max-width:70ch;
   margin:auto;
-	margin-top:1ch;
-  padding:0 1ch;
-	border-radius:4px;
-	background-color:#fff;
-	box-shadow:0 2px 2px inset #F1F1F1;
-	color:#555;
+  margin-top:0;
+  padding:0.5ch 1ch;
+  border-top-left-radius:0;
+  border-top-right-radius:0;
+  border-bottom-left-radius:1ch;
+  border-bottom-right-radius:1ch;
+  background-color:#f1f1f1;
+  box-shadow:0 -2px 2px inset #F1F1F1, 0 2px 2px #CCC;
+  position:relative;
+  z-index:2;
+  color:#555;
 }
 form.search {
-	float:right;
+  float:right;
 }
 form.search input[type='text'] {
-	border-radius:12px;
-	border-top-right-radius:0;
-	border-bottom-right-radius:0
+  border-radius:12px;
+  border-top-right-radius:0;
+  border-bottom-right-radius:0
 }
 form.search input[type='submit'] {
-	border-radius:12px; 
-	border-top-left-radius:0;
-	border-bottom-left-radius:0;
-	padding:0;
-	margin-top:0;
-	width:29px;
-	height:29px;
+  border-radius:12px; 
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+  padding:0;
+  margin-top:0;
+  width:29px;
+  height:29px;
 }
 .search-text 
 {
-	margin-left:25px;
-	color:#555;
-	xbackground-color:#666;
-	padding: 0 2px 0 15px;
-	height:29px;
-	width:calc(100% - 80px);
-	vertical-align: bottom;
+  margin-left:25px;
+  color:#555;
+  xbackground-color:#666;
+  padding: 0 2px 0 15px;
+  height:29px;
+  width:calc(100% - 80px);
+  vertical-align: bottom;
 }
 img {
-	max-width:calc(100% - 30px);
-	border:1px solid #CCC;
-	box-shadow:0 2px 3px #AAA;
-	margin:15px auto;
-	display:block;
+  max-width:calc(100% - 30px);
+  border:1px solid #CCC;
+  box-shadow:0 2px 3px #AAA;
+  margin:15px auto;
+  display:block;
 }
 img[src='today_i_learned.png'],img[src='yfp_book.png'] {
-	border:none;
-	box-shadow:none;
+  border:none;
+  box-shadow:none;
 }
 table {
-	margin:auto;
-	border:1px solid #CCC;
-	padding:2ch;
-	border-radius:5px;
+  margin:auto;
+  border:1px solid #CCC;
+  padding:2ch;
+  border-radius:5px;
 }

@@ -25,9 +25,37 @@ Each bucket is 1000 bytes.</p>
 <pre><code>dir |
     group-object -property { [int]($_.length / 1000) } | sort @{e={$_.Name -as [int]}} |
         format-table @{Expression={[string]([int]($_.Name) * 1000) + &quot;-&quot; + [string](-1+([int]($_.Name)+1) * 1000)};Label=&quot;Bucket&quot;;width=10},
-            @{Expression={$_.Count};Label=&quot;Count&quot;;width=10},
-            @{Expression={$_.Group};Label=&quot;Members&quot;;width=50} -autosize
+            @{Expression={$                /*
+            //if (OutputPath != null &amp;&amp; !String.IsNullOrWhiteSpace(IncludeFileTypes))
+            {
+                var fileTypes = IncludeFileTypes.Split(&quot;;&quot;.ToCharArray());
+                foreach (var fileType in fileTypes)
+                {
+                    foreach (var f in Directory.EnumerateFiles(InputPath, fileType, Recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
+                    {
+                        var inputFilePath = Path.GetDirectoryName(f);
+                        var relativePath = Path.GetRelativePath(InputPath, inputFilePath);
+                        var targetFileName = Path.Combine(OutputPath, relativePath, Path.GetFileName(f));
+                        // don't copy anything FROM the output path.....
+                        //TODO: depends if OS is case-insensitive
+                        if (inputFilePath.ToLowerInvariant().StartsWith(OutputPath.ToLowerInvariant()))
+                        {
+                            continue;
+                        }
+                        if (!DryRun)
+                        {
+                            File.Copy(f, targetFileName, true);
+                        } else
+                        {
+                            Console.WriteLine($&quot;dryrun: copy {f} {targetFileName}&quot;);
+                        }
+                    }
+                }
+                
+            }*/
 </code></pre>
+<p Expression="{$_.Group">_.Count};Label=&quot;Count&quot;;width=10},
+@;Label=&quot;Members&quot;;width=50} -autosize</p>
 <p><em>Consider</em> running the initial <code>dir</code> recursively with <code>-rec</code></p>
 <p>Group by file type:</p>
 <pre><code>dir -rec | group-object -property { ($_.extension) } | sort @{e={$_.Name -as [int]}} 
@@ -35,7 +63,7 @@ Each bucket is 1000 bytes.</p>
 <p>Exclude directories (but include their files)</p>
 <pre><code>dir -rec | ?{ $_.PSIsContainer -ne $true } | group-object -property { ($_.extension) } | sort
 </code></pre>
-<p>...for looking at all markdown files in TIL...</p>
+<p>...for looking at size of all markdown files in TIL...</p>
 <pre><code>dir . *.md -rec | ?{ $_.PSIsContainer -ne $true } |
      group-object -property { [int]($_.length / 300) } | sort @{e={$_.Name -as [int]}} |
          format-table @{Expression={[string]([int]($_.Name) * 300) + &quot;-&quot; + [string](-1+([int]($_.Name)+1) * 300)};Label=&quot;Bucket&quot;;width=10},
@@ -44,5 +72,6 @@ Each bucket is 1000 bytes.</p>
 </code></pre>
 
 </article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
 </body>
 </html>

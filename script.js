@@ -10,12 +10,12 @@ function configureBreadcrumb() {
 	if (currentTitle == "01_summary") currentTitle = "topic contents";
 	topicTitle = topicTitle.replace(/_/g, " ");
 	currentTitle = currentTitle.replace(/_/g, " ");
-	var homeLink = "<a href='/today-i-learned/index.html#topics'>TIL</a>";
+	var homeLink = "<a href='/today-i-learned/index.html#topics'>Topics</a>";
 	var joiner = " &raquo; ";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
 	if (topicTitle == "today-i-learned") 
 	{
-			$id('breadcrumb').innerHTML = homeLink + joiner + "home";
+			$id('breadcrumb').innerHTML = homeLink + joiner + "index";
 	} 
 	else 
 	{
