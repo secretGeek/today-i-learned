@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="error-in-razorviews.g.cshtml.cs-page">Error in Razor\Views...*.g.cshtml.cs page</h1>
+<p>Sometimes, particularly after upgrading from one .net core verison to another I see errors in <code>g.cshtml.cs</code> pages...</p>
+<pre><code>Severity	Code	Description	Project	File	Line	Suppression State
+Error	CS0246	The type or namespace name 'VerifyCodeViewModel' could not be found (are you missing a using directive or an assembly reference?)	mysite	C:\apps\websites\mysite\obj\Debug\netcoreapp2.1\Razor\Views\Account\VerifyCode.g.cshtml.cs	23	Active
+</code></pre>
+<p>I can never remember what to do.</p>
+<p>The trick is to go and look at the <code>cshtml</code> file (the razor view itself) that the <code>.cs</code> file is compiled from.</p>
+<p>There will be an error and it will be evident in the cshtml file itself.</p>
+<p>For some of them the error was that I had to add another <code>@using</code> statement to the <code>_ViewImports.cshtml</code> file. But it could be anything.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="backoff-i.e.slow-down-hitting-the-api">backoff (i.e. slow down) hitting the API</h1>
+<p>Here's what the JSON looks like when the stackexchange api tells you to backoff (i.e. to make less requests)...</p>
+<pre><code>{
+  &quot;items&quot;: [
+    {
+ ...
+    }
+  ],
+  &quot;backoff&quot;: 10
+}
+</code></pre>
+<p>Here's how I back off...</p>
+<pre><code>if (jsonBody.IndexOf(&quot;backoff&quot;) &gt;= 0)
+{
+    if (data.backoff != null)
+    {
+        int delay = (int)data.backoff.Value;
+        System.Threading.Thread.Sleep(delay * 1000);
+    }
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

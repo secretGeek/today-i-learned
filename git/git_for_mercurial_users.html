@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="git-for-mercurial-users">git for mercurial users</h1>
+<h2 id="how-mercurial-does-it">how mercurial does it...</h2>
+<p><img src="mercurial_overview.png" alt="mercurial overview" /></p>
+<h2 id="how-git-does-it">how git does it...</h2>
+<p><img src="git_overview.png" alt="git overview" /></p>
+<p>big difference is the &quot;staging area&quot; and fetch/pull.</p>
+<table>
+<thead>
+<tr>
+<th>mercurial</th>
+<th>git</th>
+<th>note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hg init</td>
+<td>git init</td>
+<td></td>
+</tr>
+<tr>
+<td>hg pull</td>
+<td>git fetch</td>
+<td>bring into local repo but not working folder</td>
+</tr>
+<tr>
+<td>hg pull --update</td>
+<td>git pull</td>
+<td>bring into local repo <em>and</em> working folder</td>
+</tr>
+<tr>
+<td>hg pull --rebase</td>
+<td>git pull --rebase</td>
+<td></td>
+</tr>
+<tr>
+<td>hg status</td>
+<td>git status</td>
+<td></td>
+</tr>
+<tr>
+<td>hg diff</td>
+<td>git diff HEAD</td>
+<td>shows all changes whether staged or not</td>
+</tr>
+<tr>
+<td>hg outgoing</td>
+<td>git log --branches --not --remotes=origin</td>
+<td>(bit of a mouthful, can use an alias)</td>
+</tr>
+</tbody>
+</table>
+<p>See: <a href="https://github.com/sympy/sympy/wiki/Git-hg-rosetta-stone#Rosetta_Stone">https://github.com/sympy/sympy/wiki/Git-hg-rosetta-stone#Rosetta_Stone</a></p>
+<h2 id="git-config-example">git config example</h2>
+<pre><code>[http]
+	proxy = {your proxy if needed}
+[https]
+	proxy = {your proxy if needed}
+[user]
+	name = Leon 
+	email = Leon@example.com
+[credential]
+	helper = manager
+[alias]
+	outgoing = log --branches --not --remotes=origin
+	out = !git outgoing
+	incoming = !git fetch ; git log ..origin/master
+	in = !&quot;git incoming&quot;
+	st = status
+	stat = status
+	paths = remote -v
+	path = !&quot;git paths&quot;
+	heads = show-ref
+	alias = config --get-regexp alias
+	
+</code></pre>
+<h2 id="set-up-your-config">set up your config</h2>
+<pre><code>git config --global user.name &quot;Leon&quot;
+git config --global user.email &quot;Leon@example.com&quot;
+git config --global http.proxy {your proxy if needed}
+git config --global https.proxy {your proxy if needed}
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="http://haacked.com/archive/2014/07/28/github-flow-aliases/">Phil Haack's aliases</a></li>
+<li><a href="https://github.com/sympy/sympy/wiki/Git-hg-rosetta-stone#Rosetta_Stone">Rosetta stone</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

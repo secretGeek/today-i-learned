@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="adding-http_proxy-to-nuget-config">Adding http_proxy to nuget config</h1>
+<p>I couldn't build a project locally because it wouldn't restore its nuget packages and kept receiving this error message:</p>
+<blockquote>
+<p>Unable to load the service index for source <a href="https://api.nuget.org/v3/index.json">https://api.nuget.org/v3/index.json</a>.</p>
+</blockquote>
+<p>The secret was to add the proxy information to this file:</p>
+<pre><code>&gt; cd $env:appdata\nuget
+&gt; n NuGet.Config
+</code></pre>
+<p>(Also known as <code>%appdata%\nuget\NuGet.Config</code>)</p>
+<p>And add the <code>config</code> element shown below:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;configuration&gt;
+  &lt;packageSources&gt;
+	&lt;add key=&quot;nuget.org&quot; value=&quot;https://api.nuget.org/v3/index.json&quot; protocolVersion=&quot;3&quot; /&gt;
+  &lt;/packageSources&gt;
+  &lt;config&gt;
+	&lt;add key=&quot;http_proxy&quot; value=&quot;http://YOUR_PROXY:8080&quot; /&gt;
+  &lt;/config&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>Then restart visual studio. Right click the solution and choose &quot;Restore Packages&quot;.</p>
+<p>This change can also be effected at the commandline, by running a &quot;Developer Command Prompt for VS 2017&quot; and there-in typing:</p>
+<pre><code>nuget config -set http_proxy=http://YOUR_PROXY:8080
+</code></pre>
+<p>If you don't want to add it for all solutions you can allegedly just add a <code>http_proxy</code> to the local <code>nuget.config</code> within your solution.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/9232160/nuget-behind-proxy">SO: NuGet Behind Proxy</a></li>
+<li><a href="https://docs.microsoft.com/en-us/nuget/schema/nuget-config-file">NuGet.Config reference</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="deleting-millions-of-rows-from-sql-server">Deleting millions of rows from SQL Server</h1>
+<p>So, you've <a href=".%5Cfind_large_tables.html">found large tables</a> and now you want to trim them down to size... Not drop them them, just delete most of the rows, using some conditions.</p>
+<p>If you run a:</p>
+<pre><code>DELETE FROM SOMETABLE
+WHERE &quot;SOME_CONDITION&quot;
+</code></pre>
+<p>...you'll be waiting a long time.</p>
+<p>As it alleges in the comments at the <a href="http://stackoverflow.com/questions/24785439/deleting-1-millions-rows-in-sql-server">source</a>:</p>
+<blockquote>
+<p>Any delete operation will causing locking - on the row level. But once your transaction has more than 5000 row-level locks, SQL Server will do a lock escalation and lock the entire table in exclusive mode<br />—marc_s</p>
+</blockquote>
+<p>So this uses <code>Delete top(@batchsize) ... </code> in a <code>while</code> loop to do the needful.</p>
+<pre><code>DECLARE
+	@BATCHSIZE INT,
+	@WAITFORVAL VARCHAR(8),
+	@ITERATION INT,
+	@TOTALROWS INT,
+	@MAXRUNTIME VARCHAR(8),
+	@BSTOPATMAXTIME BIT,
+	@MSG VARCHAR(500),
+	@STARTALL DATETIME,
+	@STARTBATCH DATETIME,
+	@ENDBATCH DATETIME
+
+SET DEADLOCK_PRIORITY LOW;
+SET @BATCHSIZE = 4000;
+SET @WAITFORVAL = '00:00:10' -- Delay between deletes -- UPDATE THIS
+SET @MAXRUNTIME = '08:00:00' -- 8AM
+SET @BSTOPATMAXTIME = 1 -- ENFORCE 8AM STOP TIME
+SET @ITERATION = 0 -- LEAVE THIS
+SET @TOTALROWS = 0 -- LEAVE THIS
+
+SET @STARTALL = GetDate()
+
+WHILE @BATCHSIZE&gt;0
+BEGIN
+	-- IF @BSTOPATMAXTIME = 1, THEN WE'LL STOP THE WHOLE JOB AT A SET TIME...
+	IF @BSTOPATMAXTIME=1 AND CONVERT(VARCHAR(8),GETDATE(),108) &gt;= @MAXRUNTIME
+	BEGIN
+		RETURN
+	END
+
+	SET @STARTBATCH = GetDate()
+
+	/* vv You need to update this!*/
+	DELETE TOP(@BATCHSIZE)
+	FROM SOMETABLE
+	WHERE SOMECONDITION
+	/* ^^ You need to update that */
+
+	SET @BATCHSIZE=@@ROWCOUNT
+	SET @ENDBATCH = GETDATE()
+
+
+	SET @ITERATION=@ITERATION+1
+	SET @TOTALROWS=@TOTALROWS+@BATCHSIZE
+	SET @MSG = 'Iteration: ' + CAST(@ITERATION AS VARCHAR) + ' Total deletes:' + CAST(@TOTALROWS AS VARCHAR)
+	RAISERROR (@MSG, 0, 1) WITH NOWAIT
+	SET @MSG = 'Batch duration: ' +
+			Cast(DATEDIFF(s, @STARTBATCH, @ENDBATCH) as varchar) +
+			' seconds. Batch Speed ' + CAST(CAST(@BATCHSIZE as float)/(DATEDIFF(s, @STARTBATCH, @ENDBATCH)) AS VARCHAR) +
+			' rows per seconds. Subtotal elapsed: ' +
+			CAST(DATEDIFF(s, @STARTALL, @ENDBATCH) as varchar) +
+			' seconds. Cumulative Speed ' + CAST(CAST(@TOTALROWS as float)/(DATEDIFF(s, @STARTALL, @ENDBATCH)) AS VARCHAR) +
+			' rows per second'
+	RAISERROR (@MSG, 0, 1) WITH NOWAIT
+	WAITFOR DELAY @WAITFORVAL
+END
+
+SET @MSG = 'TOTAL elapsed: ' +
+  CAST(DATEDIFF(s, @STARTALL, @ENDBATCH) as varchar) +
+  ' seconds. Total rows: ' + CAST(@TOTALROWS AS VARCHAR) +
+  '. Final Speed: ' + CAST(CAST(@TOTALROWS as float)/(DATEDIFF(s, @STARTALL, @ENDBATCH)) AS VARCHAR) +
+  ' rows per second'
+RAISERROR (@MSG, 0, 1) WITH NOWAIT
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/24785439/deleting-1-millions-rows-in-sql-server">Deleting 1 millions rows in SQL Server</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="update_millions_of_rows.html">Updating millions of rows from SQL Server</a></li>
+<li><a href=".%5Cfind_large_tables.html">Find large tables</a></li>
+<li><a href=".%5CLog_Message_During_LongRunning_Proc.html">Log Message Asynchronously</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

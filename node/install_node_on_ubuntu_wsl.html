@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="install-node-on-windows-subsystem-for-linux-ubuntu">install node on windows subsystem for linux / ubuntu</h1>
+<p>The guide referenced in the source section is useful.</p>
+<p>I'll explain each line....</p>
+<p>Ensure you have a <code>~/.bashrc</code>, as the following script depends on it existing.</p>
+<pre><code>$ touch ~/.bashrc
+</code></pre>
+<p>Download and execute the script listed here. (The full content of the script is provided further down, for inspection....)</p>
+<pre><code>$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+</code></pre>
+<p>All going well, that will have put nvm - the node version manager - on your system.</p>
+<p>To use it you need to restart bash...</p>
+<pre><code>// restart bash
+</code></pre>
+<p>Now use nvm to install node....</p>
+<pre><code>$ nvm install node
+</code></pre>
+<p>Result was something like this:</p>
+<pre><code>$ nvm install node
+Downloading and installing node v10.8.0...
+Downloading https://nodejs.org/dist/v10.8.0/node-v10.8.0-linux-x64.tar.xz...
+######################################################################## 100.0%
+Computing checksum with sha256sum
+Checksums matched!
+Now using node v10.8.0 (npm v6.2.0)
+Creating default alias: default -&gt; node (-&gt; v10.8.0)
+</code></pre>
+<p>Here's the full content of the script from <a href="https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh">https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh</a></p>
+<pre><code>#!/usr/bin/env bash
+
+{ # this ensures the entire script is downloaded #
+
+nvm_has() {
+  type &quot;$1&quot; &gt; /dev/null 2&gt;&amp;1
+}
+
+nvm_install_dir() {
+  printf %s &quot;${NVM_DIR:-&quot;$HOME/.nvm&quot;}&quot;
+}
+
+nvm_latest_version() {
+  echo &quot;v0.33.6&quot;
+}
+
+nvm_profile_is_bash_or_zsh() {
+  local TEST_PROFILE
+  TEST_PROFILE=&quot;${1-}&quot;
+  case &quot;${TEST_PROFILE-}&quot; in
+	*&quot;/.bashrc&quot; | *&quot;/.bash_profile&quot; | *&quot;/.zshrc&quot;)
+	  return
+	;;
+	*)
+	  return 1
+	;;
+  esac
+}
+
+#
+# Outputs the location to NVM depending on:
+# * The availability of $NVM_SOURCE
+# * The method used (&quot;script&quot; or &quot;git&quot; in the script, defaults to &quot;git&quot;)
+# NVM_SOURCE always takes precedence unless the method is &quot;script-nvm-exec&quot;
+#
+nvm_source() {
+  local NVM_METHOD
+  NVM_METHOD=&quot;$1&quot;
+  local NVM_SOURCE_URL
+  NVM_SOURCE_URL=&quot;$NVM_SOURCE&quot;
+  if [ &quot;_$NVM_METHOD&quot; = &quot;_script-nvm-exec&quot; ]; then
+	NVM_SOURCE_URL=&quot;https://raw.githubusercontent.com/creationix/nvm/$(nvm_latest_version)/nvm-exec&quot;
+  elif [ &quot;_$NVM_METHOD&quot; = &quot;_script-nvm-bash-completion&quot; ]; then
+	NVM_SOURCE_URL=&quot;https://raw.githubusercontent.com/creationix/nvm/$(nvm_latest_version)/bash_completion&quot;
+  elif [ -z &quot;$NVM_SOURCE_URL&quot; ]; then
+	if [ &quot;_$NVM_METHOD&quot; = &quot;_script&quot; ]; then
+	  NVM_SOURCE_URL=&quot;https://raw.githubusercontent.com/creationix/nvm/$(nvm_latest_version)/nvm.sh&quot;
+	elif [ &quot;_$NVM_METHOD&quot; = &quot;_git&quot; ] || [ -z &quot;$NVM_METHOD&quot; ]; then
+	  NVM_SOURCE_URL=&quot;https://github.com/creationix/nvm.git&quot;
+	else
+	  echo &gt;&amp;2 &quot;Unexpected value \&quot;$NVM_METHOD\&quot; for \$NVM_METHOD&quot;
+	  return 1
+	fi
+  fi
+  echo &quot;$NVM_SOURCE_URL&quot;
+}
+
+#
+# Node.js version to install
+#
+nvm_node_version() {
+  echo &quot;$NODE_VERSION&quot;
+}
+
+nvm_download() {
+  if nvm_has &quot;curl&quot;; then
+	curl --compressed -q &quot;$@&quot;
+  elif nvm_has &quot;wget&quot;; then
+	# Emulate curl with wget
+	ARGS=$(echo &quot;$*&quot; | command sed -e 's/--progress-bar /--progress=bar /' \
+						   -e 's/-L //' \
+						   -e 's/--compressed //' \
+						   -e 's/-I /--server-response /' \
+						   -e 's/-s /-q /' \
+						   -e 's/-o /-O /' \
+						   -e 's/-C - /-c /')
+	# shellcheck disable=SC2086
+	eval wget $ARGS
+  fi
+}
+
+install_nvm_from_git() {
+  local INSTALL_DIR
+  INSTALL_DIR=&quot;$(nvm_install_dir)&quot;
+
+  if [ -d &quot;$INSTALL_DIR/.git&quot; ]; then
+	echo &quot;=&gt; nvm is already installed in $INSTALL_DIR, trying to update using git&quot;
+	command printf &quot;\r=&gt; &quot;
+	command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; fetch origin tag &quot;$(nvm_latest_version)&quot; --depth=1 2&gt; /dev/null || {
+	  echo &gt;&amp;2 &quot;Failed to update nvm, run 'git fetch' in $INSTALL_DIR yourself.&quot;
+	  exit 1
+	}
+  else
+	# Cloning to $INSTALL_DIR
+	echo &quot;=&gt; Downloading nvm from git to '$INSTALL_DIR'&quot;
+	command printf &quot;\r=&gt; &quot;
+	mkdir -p &quot;${INSTALL_DIR}&quot;
+	if [ &quot;$(ls -A &quot;${INSTALL_DIR}&quot;)&quot; ]; then
+	  command git init &quot;${INSTALL_DIR}&quot; || {
+		echo &gt;&amp;2 'Failed to initialize nvm repo. Please report this!'
+		exit 2
+	  }
+	  command git --git-dir=&quot;${INSTALL_DIR}/.git&quot; remote add origin &quot;$(nvm_source)&quot; 2&gt; /dev/null \
+		|| command git --git-dir=&quot;${INSTALL_DIR}/.git&quot; remote set-url origin &quot;$(nvm_source)&quot; || {
+		echo &gt;&amp;2 'Failed to add remote &quot;origin&quot; (or set the URL). Please report this!'
+		exit 2
+	  }
+	  command git --git-dir=&quot;${INSTALL_DIR}/.git&quot; fetch origin tag &quot;$(nvm_latest_version)&quot; --depth=1 || {
+		echo &gt;&amp;2 'Failed to fetch origin with tags. Please report this!'
+		exit 2
+	  }
+	else
+	  command git clone &quot;$(nvm_source)&quot; -b &quot;$(nvm_latest_version)&quot; --depth=1 &quot;${INSTALL_DIR}&quot; || {
+		echo &gt;&amp;2 'Failed to clone nvm repo. Please report this!'
+		exit 2
+	  }
+	fi
+  fi
+  command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; checkout -f --quiet &quot;$(nvm_latest_version)&quot;
+  if [ ! -z &quot;$(command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; show-ref refs/heads/master)&quot; ]; then
+	if command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; branch --quiet 2&gt;/dev/null; then
+	  command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; branch --quiet -D master &gt;/dev/null 2&gt;&amp;1
+	else
+	  echo &gt;&amp;2 &quot;Your version of git is out of date. Please update it!&quot;
+	  command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; branch -D master &gt;/dev/null 2&gt;&amp;1
+	fi
+  fi
+
+  echo &quot;=&gt; Compressing and cleaning up git repository&quot;
+  if ! command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; reflog expire --expire=now --all; then
+	echo &gt;&amp;2 &quot;Your version of git is out of date. Please update it!&quot;
+  fi
+  if ! command git --git-dir=&quot;$INSTALL_DIR&quot;/.git --work-tree=&quot;$INSTALL_DIR&quot; gc --auto --aggressive --prune=now ; then
+	echo &gt;&amp;2 &quot;Your version of git is out of date. Please update it!&quot;
+  fi
+  return
+}
+
+#
+# Automatically install Node.js
+#
+nvm_install_node() {
+  local NODE_VERSION
+  NODE_VERSION=&quot;$(nvm_node_version)&quot;
+
+  if [ -z &quot;$NODE_VERSION&quot; ]; then
+	return 0
+  fi
+
+  echo &quot;=&gt; Installing Node.js version $NODE_VERSION&quot;
+  nvm install &quot;$NODE_VERSION&quot;
+  local CURRENT_NVM_NODE
+
+  CURRENT_NVM_NODE=&quot;$(nvm_version current)&quot;
+  if [ &quot;$(nvm_version &quot;$NODE_VERSION&quot;)&quot; == &quot;$CURRENT_NVM_NODE&quot; ]; then
+	echo &quot;=&gt; Node.js version $NODE_VERSION has been successfully installed&quot;
+  else
+	echo &gt;&amp;2 &quot;Failed to install Node.js $NODE_VERSION&quot;
+  fi
+}
+
+install_nvm_as_script() {
+  local INSTALL_DIR
+  INSTALL_DIR=&quot;$(nvm_install_dir)&quot;
+  local NVM_SOURCE_LOCAL
+  NVM_SOURCE_LOCAL=&quot;$(nvm_source script)&quot;
+  local NVM_EXEC_SOURCE
+  NVM_EXEC_SOURCE=&quot;$(nvm_source script-nvm-exec)&quot;
+  local NVM_BASH_COMPLETION_SOURCE
+  NVM_BASH_COMPLETION_SOURCE=&quot;$(nvm_source script-nvm-bash-completion)&quot;
+
+  # Downloading to $INSTALL_DIR
+  mkdir -p &quot;$INSTALL_DIR&quot;
+  if [ -f &quot;$INSTALL_DIR/nvm.sh&quot; ]; then
+	echo &quot;=&gt; nvm is already installed in $INSTALL_DIR, trying to update the script&quot;
+  else
+	echo &quot;=&gt; Downloading nvm as script to '$INSTALL_DIR'&quot;
+  fi
+  nvm_download -s &quot;$NVM_SOURCE_LOCAL&quot; -o &quot;$INSTALL_DIR/nvm.sh&quot; || {
+	echo &gt;&amp;2 &quot;Failed to download '$NVM_SOURCE_LOCAL'&quot;
+	return 1
+  } &amp;
+  nvm_download -s &quot;$NVM_EXEC_SOURCE&quot; -o &quot;$INSTALL_DIR/nvm-exec&quot; || {
+	echo &gt;&amp;2 &quot;Failed to download '$NVM_EXEC_SOURCE'&quot;
+	return 2
+  } &amp;
+  nvm_download -s &quot;$NVM_BASH_COMPLETION_SOURCE&quot; -o &quot;$INSTALL_DIR/bash_completion&quot; || {
+	echo &gt;&amp;2 &quot;Failed to download '$NVM_BASH_COMPLETION_SOURCE'&quot;
+	return 2
+  } &amp;
+  for job in $(jobs -p | sort)
+  do
+	wait &quot;$job&quot; || return $?
+  done
+  chmod a+x &quot;$INSTALL_DIR/nvm-exec&quot; || {
+	echo &gt;&amp;2 &quot;Failed to mark '$INSTALL_DIR/nvm-exec' as executable&quot;
+	return 3
+  }
+}
+
+nvm_try_profile() {
+  if [ -z &quot;${1-}&quot; ] || [ ! -f &quot;${1}&quot; ]; then
+	return 1
+  fi
+  echo &quot;${1}&quot;
+}
+
+#
+# Detect profile file if not specified as environment variable
+# (eg: PROFILE=~/.myprofile)
+# The echo'ed path is guaranteed to be an existing file
+# Otherwise, an empty string is returned
+#
+nvm_detect_profile() {
+  if [ -n &quot;${PROFILE}&quot; ] &amp;&amp; [ -f &quot;${PROFILE}&quot; ]; then
+	echo &quot;${PROFILE}&quot;
+	return
+  fi
+
+  local DETECTED_PROFILE
+  DETECTED_PROFILE=''
+  local SHELLTYPE
+  SHELLTYPE=&quot;$(basename &quot;/$SHELL&quot;)&quot;
+
+  if [ &quot;$SHELLTYPE&quot; = &quot;bash&quot; ]; then
+	if [ -f &quot;$HOME/.bashrc&quot; ]; then
+	  DETECTED_PROFILE=&quot;$HOME/.bashrc&quot;
+	elif [ -f &quot;$HOME/.bash_profile&quot; ]; then
+	  DETECTED_PROFILE=&quot;$HOME/.bash_profile&quot;
+	fi
+  elif [ &quot;$SHELLTYPE&quot; = &quot;zsh&quot; ]; then
+	DETECTED_PROFILE=&quot;$HOME/.zshrc&quot;
+  fi
+
+  if [ -z &quot;$DETECTED_PROFILE&quot; ]; then
+	for EACH_PROFILE in &quot;.profile&quot; &quot;.bashrc&quot; &quot;.bash_profile&quot; &quot;.zshrc&quot;
+	do
+	  if DETECTED_PROFILE=&quot;$(nvm_try_profile &quot;${HOME}/${EACH_PROFILE}&quot;)&quot;; then
+		break
+	  fi
+	done
+  fi
+
+  if [ ! -z &quot;$DETECTED_PROFILE&quot; ]; then
+	echo &quot;$DETECTED_PROFILE&quot;
+  fi
+}
+
+#
+# Check whether the user has any globally-installed npm modules in their system
+# Node, and warn them if so.
+#
+nvm_check_global_modules() {
+  command -v npm &gt;/dev/null 2&gt;&amp;1 || return 0
+
+  local NPM_VERSION
+  NPM_VERSION=&quot;$(npm --version)&quot;
+  NPM_VERSION=&quot;${NPM_VERSION:--1}&quot;
+  [ &quot;${NPM_VERSION%%[!-0-9]*}&quot; -gt 0 ] || return 0
+
+  local NPM_GLOBAL_MODULES
+  NPM_GLOBAL_MODULES=&quot;$(
+	npm list -g --depth=0 |
+	command sed -e '/ npm@/d' -e '/ (empty)$/d'
+  )&quot;
+
+  local MODULE_COUNT
+  MODULE_COUNT=&quot;$(
+	command printf %s\\n &quot;$NPM_GLOBAL_MODULES&quot; |
+	command sed -ne '1!p' |                     # Remove the first line
+	wc -l | tr -d ' '                           # Count entries
+  )&quot;
+
+  if [ &quot;${MODULE_COUNT}&quot; != '0' ]; then
+	# shellcheck disable=SC2016
+	echo '=&gt; You currently have modules installed globally with `npm`. These will no'
+	# shellcheck disable=SC2016
+	echo '=&gt; longer be linked to the active version of Node when you install a new node'
+	# shellcheck disable=SC2016
+	echo '=&gt; with `nvm`; and they may (depending on how you construct your `$PATH`)'
+	# shellcheck disable=SC2016
+	echo '=&gt; override the binaries of modules installed with `nvm`:'
+	echo
+
+	command printf %s\\n &quot;$NPM_GLOBAL_MODULES&quot;
+	echo '=&gt; If you wish to uninstall them at a later point (or re-install them under your'
+	# shellcheck disable=SC2016
+	echo '=&gt; `nvm` Nodes), you can remove them from the system Node as follows:'
+	echo
+	echo '     $ nvm use system'
+	echo '     $ npm uninstall -g a_module'
+	echo
+  fi
+}
+
+nvm_do_install() {
+  if [ -z &quot;${METHOD}&quot; ]; then
+	# Autodetect install method
+	if nvm_has git; then
+	  install_nvm_from_git
+	elif nvm_has nvm_download; then
+	  install_nvm_as_script
+	else
+	  echo &gt;&amp;2 'You need git, curl, or wget to install nvm'
+	  exit 1
+	fi
+  elif [ &quot;${METHOD}&quot; = 'git' ]; then
+	if ! nvm_has git; then
+	  echo &gt;&amp;2 &quot;You need git to install nvm&quot;
+	  exit 1
+	fi
+	install_nvm_from_git
+  elif [ &quot;${METHOD}&quot; = 'script' ]; then
+	if ! nvm_has nvm_download; then
+	  echo &gt;&amp;2 &quot;You need curl or wget to install nvm&quot;
+	  exit 1
+	fi
+	install_nvm_as_script
+  fi
+
+  echo
+
+  local NVM_PROFILE
+  NVM_PROFILE=&quot;$(nvm_detect_profile)&quot;
+  local PROFILE_INSTALL_DIR
+  PROFILE_INSTALL_DIR=&quot;$(nvm_install_dir| sed &quot;s:^$HOME:\$HOME:&quot;)&quot;
+
+  SOURCE_STR=&quot;\nexport NVM_DIR=\&quot;${PROFILE_INSTALL_DIR}\&quot;\n[ -s \&quot;\$NVM_DIR/nvm.sh\&quot; ] &amp;&amp; \\. \&quot;\$NVM_DIR/nvm.sh\&quot;  # This loads nvm\n&quot;
+  COMPLETION_STR=&quot;[ -s \&quot;\$NVM_DIR/bash_completion\&quot; ] &amp;&amp; \\. \&quot;\$NVM_DIR/bash_completion\&quot;  # This loads nvm bash_completion\n&quot;
+  BASH_OR_ZSH=false
+
+  if [ -z &quot;${NVM_PROFILE-}&quot; ] ; then
+	local TRIED_PROFILE
+	if [ -n &quot;${PROFILE}&quot; ]; then
+	  TRIED_PROFILE=&quot;${NVM_PROFILE} (as defined in \$PROFILE), &quot;
+	fi
+	echo &quot;=&gt; Profile not found. Tried ${TRIED_PROFILE-}~/.bashrc, ~/.bash_profile, ~/.zshrc, and ~/.profile.&quot;
+	echo &quot;=&gt; Create one of them and run this script again&quot;
+	echo &quot;   OR&quot;
+	echo &quot;=&gt; Append the following lines to the correct file yourself:&quot;
+	command printf &quot;${SOURCE_STR}&quot;
+  else
+	if nvm_profile_is_bash_or_zsh &quot;${NVM_PROFILE-}&quot;; then
+	  BASH_OR_ZSH=true
+	fi
+	if ! command grep -qc '/nvm.sh' &quot;$NVM_PROFILE&quot;; then
+	  echo &quot;=&gt; Appending nvm source string to $NVM_PROFILE&quot;
+	  command printf &quot;${SOURCE_STR}&quot; &gt;&gt; &quot;$NVM_PROFILE&quot;
+	else
+	  echo &quot;=&gt; nvm source string already in ${NVM_PROFILE}&quot;
+	fi
+	# shellcheck disable=SC2016
+	if ${BASH_OR_ZSH} &amp;&amp; ! command grep -qc '$NVM_DIR/bash_completion' &quot;$NVM_PROFILE&quot;; then
+	  echo &quot;=&gt; Appending bash_completion source string to $NVM_PROFILE&quot;
+	  command printf &quot;$COMPLETION_STR&quot; &gt;&gt; &quot;$NVM_PROFILE&quot;
+	else
+	  echo &quot;=&gt; bash_completion source string already in ${NVM_PROFILE}&quot;
+	fi
+  fi
+  if ${BASH_OR_ZSH} &amp;&amp; [ -z &quot;${NVM_PROFILE-}&quot; ] ; then
+	echo &quot;=&gt; Please also append the following lines to the if you are using bash/zsh shell:&quot;
+	command printf &quot;${COMPLETION_STR}&quot;
+  fi
+
+  # Source nvm
+  # shellcheck source=/dev/null
+  \. &quot;$(nvm_install_dir)/nvm.sh&quot;
+
+  nvm_check_global_modules
+
+  nvm_install_node
+
+  nvm_reset
+
+  echo &quot;=&gt; Close and reopen your terminal to start using nvm or run the following to use it now:&quot;
+  command printf &quot;${SOURCE_STR}&quot;
+  if ${BASH_OR_ZSH} ; then
+	command printf &quot;${COMPLETION_STR}&quot;
+  fi
+}
+
+#
+# Unsets the various functions defined
+# during the execution of the install script
+#
+nvm_reset() {
+  unset -f nvm_has nvm_install_dir nvm_latest_version nvm_profile_is_bash_or_zsh \
+	nvm_source nvm_node_version nvm_download install_nvm_from_git nvm_install_node \
+	install_nvm_as_script nvm_try_profile nvm_detect_profile nvm_check_global_modules \
+	nvm_do_install nvm_reset
+}
+
+[ &quot;_$NVM_ENV&quot; = &quot;_testing&quot; ] || nvm_do_install
+
+} # this ensures the entire script is downloaded #	
+</code></pre>
+<h2 id="source">source</h2>
+<ul>
+<li><a href="https://gist.github.com/micahgodbolt/8b9a338c8bab7bc147975646ea20826c">WSL install Node</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

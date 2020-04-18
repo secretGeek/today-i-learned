@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="is-this-64-or-32-bit-powershell-today">Is this 64 or 32 bit PowerShell today?</h1>
+<p>On PowerShell <a href="version.html">version</a> 4.0 and up:</p>
+<pre><code>[Environment]::Is64BitProcess
+</code></pre>
+<p>More thorough again...</p>
+<pre><code># Is this a Wow64 powershell host
+function Test-Wow64() {
+    return (Test-Win32) -and (test-path env:\PROCESSOR_ARCHITEW6432)
+}
+
+# Is this a 64 bit process
+function Test-Win64() {
+    return [IntPtr]::size -eq 8
+}
+
+# Is this a 32 bit process
+function Test-Win32() {
+    return [IntPtr]::size -eq 4
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/8588960/determine-if-current-powershell-process-is-32-bit-or-64-bit">http://stackoverflow.com/questions/8588960/determine-if-current-powershell-process-is-32-bit-or-64-bit</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../windows/which_version.html">Which version of Windows is currently running?</a></li>
+<li><a href="version.html">which version of Powershell do I have?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

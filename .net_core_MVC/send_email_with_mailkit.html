@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="to-send-email-with.net-core-use-mailkit">To send email with .net core, use Mailkit</h1>
+<p>.net core (1.0) doesn't include the same email sending stuff, so you need to install 3rd party packages, such as <a href="https://github.com/jstedfast/MailKit">Mailkit</a> (add it via nuget).</p>
+<p>You also cannot currently use OAuth2 for this. (Discussion much lower down)</p>
+<pre><code>var message = new MimeMessage();
+message.From.Add(new MailboxAddress(null, settings.SendMailFromAddress));
+message.To.Add(new MailboxAddress(null, email));
+message.Subject = subject;
+message.Body = new TextPart(&quot;plain&quot;)
+{
+    Text = body
+};
+
+using (var client = new SmtpClient())
+{
+    client.Connect(settings.SendMailFromHost, settings.SendMailSMTPPort, settings.SendMailViaSSL);
+    // Note: since we don't have an OAuth2 token, disable
+    // the XOAUTH2 authentication mechanism.
+    client.AuthenticationMechanisms.Remove(&quot;XOAUTH2&quot;);
+    // Note: only needed if the SMTP server requires authentication
+    client.Authenticate(settings.SendMailFromAddress, settings.SendMailFromPassword);
+    client.Send(message);
+    client.Disconnect(true);
+}
+</code></pre>
+<p>I got this working fairly easily (sending email from a dedicated gmail address) from my local machine -- but it failed from my digitalocean linux droplet:</p>
+<pre><code>MailKit.Security.AuthenticationException: Authentication failed.
+   at MailKit.Net.Smtp.SmtpClient.Authenticate(Encoding encoding, ICredentials credentials, CancellationToken cancellationToken)
+   at MailKit.MailService.Authenticate(String userName, String password, CancellationToken cancellationToken)
+</code></pre>
+<p>...with google reporting:</p>
+<blockquote>
+<p>Subject: Someone has your password	
+Message: Someone just used your password to try to sign in to your Google Account using an application such as an email client or mobile device.</p>
+</blockquote>
+<p>And if you visit: <a href="https://security.google.com/settings/security/activity">https://security.google.com/settings/security/activity</a> you will see an &quot;Unknown device&quot; and this message:</p>
+<blockquote>
+<p>We recently prevented a sign-in attempt from this device. You indicated this attempt as yours. For your security, we'll continue to show this device in the list for two weeks. You can also review this event in your Notification &amp; alerts page.</p>
+</blockquote>
+<p>And:</p>
+<blockquote>
+<p>Sign in attempt prevented by google</p>
+</blockquote>
+<p>...which, if you expand, will reveal the IP Address (and a map of the location), which you should recognise as your droplet.</p>
+<p>To get around this you need to login as that email address, from your desktop/regular machine, and then visit this url:</p>
+<ul>
+<li><a href="https://accounts.google.com/b/0/UnlockCaptcha">https://accounts.google.com/b/0/UnlockCaptcha</a></li>
+</ul>
+<p>Leave that url open, and re-initiate the connection on your linux box. (i.e. get your digital ocean droplet to try once again to send an email)</p>
+<p>It should now succeed.</p>
+<h2 id="oauth2">OAuth2</h2>
+<p>There's a few funtime examples that say you should do something like this...</p>
+<pre><code>    var certificate = new X509Certificate2(@&quot;C:\path\to\certificate.p12&quot;, &quot;password&quot;, X509KeyStorageFlags.Exportable);
+    var credential = new ServiceAccountCredential(new ServiceAccountCredential
+        .Initializer(&quot;your-developer-id@developer.gserviceaccount.com&quot;)
+    {
+        // Note: other scopes can be found here: https://developers.google.com/gmail/api/auth/scopes
+        Scopes = new[] { &quot;https://mail.google.com/&quot; },
+        User = &quot;username@gmail.com&quot;
+    }.FromCertificate(certificate));
+            
+</code></pre>
+<p>But .net core doesn't yet have an implementation of 'ServiceAccountCredential' -- so you can't use OAuth2 for this yet (unless you write all the necessary plumbing code yourself)</p>
+<p>So you need to ensure your gmail account permits signin without use of a developer token. To enable this for your gmail account, you may need to (login as that user and then) visit:</p>
+<ul>
+<li><a href="https://www.google.com/settings/security/lesssecureapps">https://www.google.com/settings/security/lesssecureapps</a></li>
+</ul>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="http://serverfault.com/questions/541314/unlocking-server-ip-via-googles-displayunlockcaptcha-over-ssh">serverfault question on same</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

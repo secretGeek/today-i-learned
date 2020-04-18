@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="nugetpackagesmicrosoft.codeanalysis.analyzers1.1.0analyzersdotnetcsmicrosoft.codeanalysis.csharp.analyzers.dll-could-not-be-found">.nuget\packages\microsoft.codeanalysis.analyzers\1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll could not be found</h1>
+<p>This was frustrating and inexplicable (so far)</p>
+<p>Asp.net core 2.1 project (that had been upgraded from 1.0) started to fail with:</p>
+<pre><code>\.nuget\packages\microsoft.codeanalysis.analyzers\1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll 
+could not be found
+</code></pre>
+<p>There were online reports about the same problem, but I couldn't understand what they were talking about.</p>
+<p>This had occurred completely spontaneously, as far as I could tell.</p>
+<p>I searched the code base for any reference to</p>
+<pre><code>&quot;Microsoft.CodeAnalysis.CSharp&quot; 
+</code></pre>
+<p>And the only one I found was in the file</p>
+<pre><code>&quot;obj\project.assets.json&quot;
+</code></pre>
+<p>Then I went and looked at another project of mine which did not have the same problem.</p>
+<p>I found they differed only slightly in this partt of the assets file....</p>
+<p>I made them identical. Then the problem went away.</p>
+<p>The good one said:</p>
+<pre><code>&quot;Microsoft.CodeAnalysis.Analyzers/1.1.0&quot;: {
+  &quot;sha512&quot;: &quot;HS3iRWZKcUw/8eZ/08GXKY2Bn7xNzQPzf8gRPHGSowX7u7XXu9i9YEaBeBNKUXWfI7qjvT2zXtLUvbN0hds8vg==&quot;,
+</code></pre>
+<p>The bad one said:</p>
+<pre><code>&quot;Microsoft.CodeAnalysis.Analyzers/1.1.0&quot;: {
+  &quot;sha512&quot;: &quot;GM6h8wakaDLlszoxBZoqdDAs98bd0eu0qYjJX4nMEO6p05ZulUM1V5tXtaYRypGhe78bGci02ejvH4SAumYsKA==&quot;,
+</code></pre>
+<p>Another time I had this error and the assets file seemed to already have what I considered &quot;the good one&quot;. In that case a &quot;clean and rebuild&quot; seemed to do the trick.</p>
+
+</body>
+<script>
+</script>
+</html>

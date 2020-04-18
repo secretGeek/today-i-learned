@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="editing-markdown-files-from-your-phone">Editing markdown files from your phone</h1>
+<p>I want to be able to edit the books I'm writing while traveling without a laptop.</p>
+<p>So I've installed an app on my iphone called 'Plaintext 2' which integrates with dropbox.</p>
+<p>Then in the folder:</p>
+<pre><code>~\dropbox\Apps\PlainText 2\
+</code></pre>
+<p>I've placed a copy of the books I want to edit.</p>
+<p>To synchronize work from there back into the source repository I'm just going to use SourceGear's DiffMerge (<code>sgdm.exe</code>).</p>
+<p>So I have two commands ready to go...</p>
+<p>Before doing any phone-based work, to make sure the <code>dropbox\apps</code> copy is up to date:</p>
+<pre><code>sgdm.exe &quot;~dropbox\secretgeek\projects\YourFirstProduct_ebook&quot; &quot;~dropbox\Apps\PlainText 2\YourFirstProduct_ebook&quot;
+</code></pre>
+<p>After doing any phone-based work:</p>
+<pre><code>sgdm.exe &quot;~dropbox\Apps\PlainText 2\YourFirstProduct_ebook&quot; &quot;~dropbox\projects\YourFirstProduct_ebook&quot;
+</code></pre>
+<p>(I can then cherry pick the changes back into the base repository)</p>
+<p>A similar app that is a dedicated markdown editor is 'Clarity'. I may use this instead.</p>
+
+</body>
+<script>
+</script>
+</html>

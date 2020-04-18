@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="jquery-event-on-textarea-change">Jquery event on textarea change</h1>
+<p>This is surprising and has gone through a few changes across the years.</p>
+<pre><code>var oldVal = &quot;&quot;;
+
+$(&quot;#textarea&quot;).on(&quot;change keyup paste&quot;, function() {
+    var currentVal = $(this).val();
+    if(currentVal == oldVal) {
+        return; //check to prevent multiple simultaneous triggers
+    }
+
+    oldVal = currentVal;
+    //action to be performed on textarea changed
+    alert(&quot;changed!&quot;);
+});
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

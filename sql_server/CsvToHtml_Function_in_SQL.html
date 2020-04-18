@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="csv-to-html-function-in-sql">Csv To Html function in SQL</h1>
+<p>This is a somewhat naive CSV to Html function in SQL.</p>
+<p>It's real purpose is an intermediate step before turning the Html into XML, so you can have 1 row per item in the original CSV.</p>
+<pre><code>ALTER FUNCTION [dbo].[CsvToHtml] (@value AS nvarchar(max), @separator as nvarchar(10))
+RETURNS nvarchar(max)
+AS 
+	BEGIN
+		return 
+				 '&lt;li&gt;' +					-- Wrap in list item html
+					REPLACE(REPLACE(REPLACE(REPLACE(REPLACE( -- Perform 5 replacements, count them:
+						@Value, 
+						' ',''),					-- 1. remove spaces
+						CHAR(13), ''),				-- 2. remove carriage returns
+						CHAR(10), @separator),		-- 3. treat line feeds as commas (separators)
+						'&amp;', '&amp;amp;'),				-- 4. XML encode ampersands.
+						@separator, '&lt;/li&gt;&lt;li&gt;')	-- 5. turn separators into new list item markers
+					+ '&lt;/li&gt;' 
+	END
+GO
+</code></pre>
+<p>Given:</p>
+<pre><code>select [dbo].[CsvToHtml]('a,b,c', ',')
+</code></pre>
+<p>It will return:</p>
+<pre><code>&lt;li&gt;a&lt;/li&gt;&lt;li&gt;b&lt;/li&gt;&lt;li&gt;c&lt;/li&gt;
+</code></pre>
+<p>Now you can put that function inside this one...</p>
+<pre><code>ALTER FUNCTION [dbo].[CsvToXml] (@value AS nvarchar(max), @separator as nvarchar(10))
+RETURNS xml
+AS 
+BEGIN
+	return 
+	CONVERT(XML, [dbo].[CsvToHtml](@value, @Separator)).query('.')
+END
+</code></pre>
+<p>Given</p>
+<pre><code>select [dbo].[CsvToXml]('a,b,c', ',')
+</code></pre>
+<p>It will return this XML type:</p>
+<pre><code>&lt;li&gt;a&lt;/li&gt;
+&lt;li&gt;b&lt;/li&gt;
+&lt;li&gt;c&lt;/li&gt;
+</code></pre>
+<p>Imagine we have a fictional blogging system with an annoying CSV column called <code>Article</code>.<code>Tags</code></p>
+<pre><code>	Select 
+		a.Name,
+		nodes.li.value('.','nvarchar(max)') as as Tag
+	FROM 
+	( 
+		SELECT tempXml = dbo.CsvToXml(a.Tags, ','),
+			Name
+		FROM Articles a
+	) AS a CROSS APPLY tempXml.nodes('li') AS nodes(li)
+	where 
+	not nodes.li.value('.','nvarchar(max)') is null	
+</code></pre>
+<p>...and now we have a list of all the tags, 1 per row, adjacent to its article name.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="connect-linqpad-to-oracle">Connect Linqpad to Oracle</h1>
+<p>...using an IQ Connection.</p>
+<p>Step 1, <code>Add connection</code></p>
+<p><img src="add_connection.png" alt="Click add connection" /></p>
+<p>Step 2, click <code>view more drivers</code></p>
+<p><img src="view_more_drivers.png" alt="Click view more drivers" /></p>
+<p>Step 3, Find &quot;IQ Driver - for MySQL, SQLite, Oracle&quot;</p>
+<p><img src="find_iq_driver.png" alt="Find IQ Driver" /></p>
+<p>click &quot;Download &amp; Enable Driver&quot;</p>
+<p>Now when you choose &quot;Add Connection&quot; you'll forever see &quot;IQ&quot; listed.</p>
+<p><img src="add_connection_shows_iq_driver.png" alt="Add connection shows IQ" /></p>
+<p>Pick Next.</p>
+<p>Choose <code>Direct (Oracle Client not Required)</code></p>
+<p>(it has these limitations: <a href="http://www.devart.com/dotconnect/oracle/docs/DirectMode.html">http://www.devart.com/dotconnect/oracle/docs/DirectMode.html</a></p>
+<p>Now here are the tricks....</p>
+<p>Given this connection string</p>
+<pre><code>&quot;Data Source=SRV1238xx1.example.com:1234/DS128x; User Id=UserUser; Password=PassPass;&quot;
+</code></pre>
+<p>On the dialog, you would set:</p>
+<pre><code>Server = SRV1238xx1.example.com
+User = UserUser
+password = PassPass
+</code></pre>
+<p>Give it a friendly name</p>
+<p>Then on the 'Advanced' tab Set:</p>
+<pre><code>Port = 1234
+</code></pre>
+<p>And in addition connection string options, type:</p>
+<pre><code>Service Name=DS128x
+</code></pre>
+<p><strong>Note the space between Service and Name</strong></p>
+<p>Optionallly, you can set a default schema, if you know a schema that you're most interested in. (It's not mentioned in the example connection string above. Setting one will allow you to browse the schema details: list of tables, views, columns, etc.)</p>
+<p>Hit <code>test</code> to test. And Bob's your Uncle.</p>
+<h1 id="upgrading-the-iq-driver">Upgrading the &quot;IQ Driver&quot;</h1>
+<p>Although this worked perfectly well at first, one day the Oracle DBA's upgraded something on the servers and suddenly my linqpad queries returned this error:</p>
+<blockquote>
+<p>Connection Error: ORA-28040: No matching authentication protocol</p>
+</blockquote>
+<p>The solution was to update my copy of the IQ Driver. To do this I had to remove it, and add it again.</p>
+<p>To remove it:</p>
+<p>Click &quot;Add connection&quot; as shown above, select the &quot;IQ (Support Oracle, MySQL, SQLite)&quot; data context, and click &quot;Delete Driver&quot;</p>
+<p><img src="delete_iq_driver.png" alt="Delete Driver" /></p>
+<p>Then add the driver back in, as explained above. i.e. click &quot;View more drivers...&quot; and select the one you're interested in.</p>
+<p>It will now be upgraded, and your problem may be resolved.</p>
+<p>Or it may not.</p>
+<p>What do I know? I'm just some guy in the internet.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="datatables-alert">DataTables alert</h1>
+<p>If suddenly your jQuery.DataTable issues an alert like this (this is version 1.9.4):</p>
+<pre><code>DataTables warning (table id = 'DataTables_Table_0'): Cannot reinitialise DataTable.To retrieve the DataTables object for this table, pass no arguments or see the docs for bRetrieve and bDestroy
+</code></pre>
+<p>You can't stop it from being able to pop alerts, until you edit the source...</p>
+<p>Change:</p>
+<pre><code>if ( DataTable.ext.sErrMode == 'alert' )
+{
+    alert(sAlert);
+}
+</code></pre>
+<p>To:</p>
+<pre><code>if ( DataTable.ext.sErrMode == 'alert' )
+{
+    console.log(sAlert);
+}
+</code></pre>
+<p>(Originally I tried <code>console.error</code> but I don't think it's supported on IE version=old)</p>
+<p>And in the minified version of DataTables, <code>jquery.dataTables.min.js</code> you need to...</p>
+<p>Change:</p>
+<pre><code>if(&quot;alert&quot;==j.ext.sErrMode)alert(a);else throw Error(a)    
+</code></pre>
+<p>To:</p>
+<pre><code>if(&quot;alert&quot;==j.ext.sErrMode)console.log(a);else throw Error(a)
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/11941876/correctly-suppressing-warnings-in-datatables">Correctly Suppressing Warnings in DataTables?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

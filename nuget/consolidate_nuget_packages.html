@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="projects-within-a-solution-use-different-versions-of-the-same-nuget-package-consolidate-them">Projects within a solution use different versions of the same nuget package, consolidate them!</h1>
+<p>Right click on the solution and choose</p>
+<pre><code>Manage NuGet Packages for Solution...
+</code></pre>
+<p>This brings you to a page with tabs: <code>Browse</code>, <code>Installed</code>, <code>Updates</code> and <code>Consolidate</code></p>
+<p>The &quot;Consolidate&quot; page is super handy. It lists any packages which have inconsistent versions across projects.</p>
+<p><img src="consolidate_nuget_packages.png" alt="consolidate_nuget_packages" /></p>
+<p>Click the <code>Install</code> button in the lower right to bring them all into line, on the latest version. (Or pick a specific version before pressing <code>Install</code>)</p>
+
+</body>
+<script>
+</script>
+</html>

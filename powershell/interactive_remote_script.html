@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="want-to-prompt-user-for-credentials-and-then-run-a-script-on-a-remote-machine">Want to prompt user for credentials and then run a script on a remote machine?</h1>
+<p>Assuming the Remote Computer Name is stored in a variable <code>$remoteComputerName</code></p>
+<pre><code>$name = Read-Host (&quot;What is the account name to use for remote execution, please include the domain, e.g. AD\&quot; + $env:username + &quot;)&quot;)
+
+Invoke-Command -ComputerName $remoteComputerName -ScriptBlock { 
+
+    # Commands in here are remote executed, hence relative to $remoteComputerName
+
+} -credential $name
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

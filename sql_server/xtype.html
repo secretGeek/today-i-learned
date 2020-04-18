@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="xtype-in-sysobjects">Xtype (in sysobjects)</h1>
+<table>
+<thead>
+<tr>
+<th>Xtype</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AF</td>
+<td>Aggregate function (CLR)</td>
+</tr>
+<tr>
+<td>C</td>
+<td>CHECK constraint</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Default or DEFAULT constraint</td>
+</tr>
+<tr>
+<td>F</td>
+<td>FOREIGN KEY constraint</td>
+</tr>
+<tr>
+<td>L</td>
+<td>Log</td>
+</tr>
+<tr>
+<td>FN</td>
+<td>Scalar function</td>
+</tr>
+<tr>
+<td>FS</td>
+<td>Assembly (CLR) scalar-function</td>
+</tr>
+<tr>
+<td>FT</td>
+<td>Assembly (CLR) table-valued function</td>
+</tr>
+<tr>
+<td>IF</td>
+<td>In-lined table-function</td>
+</tr>
+<tr>
+<td>IT</td>
+<td>Internal table</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Stored procedure</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>Assembly (CLR) stored-procedure</td>
+</tr>
+<tr>
+<td>PK</td>
+<td>PRIMARY KEY constraint (type is K)</td>
+</tr>
+<tr>
+<td>RF</td>
+<td>Replication filter stored procedure</td>
+</tr>
+<tr>
+<td>S</td>
+<td>System table</td>
+</tr>
+<tr>
+<td>SN</td>
+<td>Synonym</td>
+</tr>
+<tr>
+<td>SQ</td>
+<td>Service queue</td>
+</tr>
+<tr>
+<td>TA</td>
+<td>Assembly (CLR) DML trigger</td>
+</tr>
+<tr>
+<td>TF</td>
+<td>Table function</td>
+</tr>
+<tr>
+<td>TR</td>
+<td>SQL DML Trigger</td>
+</tr>
+<tr>
+<td>TT</td>
+<td>Table type</td>
+</tr>
+<tr>
+<td>U</td>
+<td>User table</td>
+</tr>
+<tr>
+<td>UQ</td>
+<td>UNIQUE constraint (type is K)</td>
+</tr>
+<tr>
+<td>V</td>
+<td>View</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Extended stored procedure</td>
+</tr>
+</tbody>
+</table>
+<p>Function:</p>
+<pre><code>XType in ('AF','FS','FT','IF','TF')
+</code></pre>
+<p>Further research....</p>
+<p>You can find the above table via:</p>
+<pre><code>SELECT name 
+FROM master..spt_values
+WHERE type = 'O9T'
+</code></pre>
+<p>...<a href="https://stackoverflow.com/a/16243935">see stackoverflow</a></p>
+
+</body>
+<script>
+</script>
+</html>

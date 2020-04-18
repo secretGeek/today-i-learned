@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="delete-old-branches">Delete old branches</h1>
+<p>When I merge a pull request back into main, I delete the branch on the server</p>
+<p>But that doesn't delete it locally.</p>
+<p>I end up with a bunch of local branches that need cleaning.</p>
+<p>If I switch to such branches I see a message that &quot;the upstream is gone.&quot;</p>
+<pre><code>&gt; git checkout feature/1234-weaponise-space
+Switched to branch 'feature/1234-weaponise-space'
+Your branch is based on 'origin/feature/1234-weaponise-space', but the upstream is gone.
+  (use &quot;git branch --unset-upstream&quot; to fixup)
+</code></pre>
+<p>Yes. The upstream is <em>gone</em>. Because when the pull request was completed we chose to delete the branch on the server.</p>
+<p>Now it's time to delete the local branch.</p>
+<h2 id="delete-local-branch">Delete local branch</h2>
+<p>To delete a local branch.</p>
+<ol>
+<li>Make sure you want it gone.</li>
+<li></li>
+</ol>
+<blockquote>
+<p>Delete Local Branch
+To delete the local branch use one of the following:</p>
+<p>$ git branch -d branch_name
+$ git branch -D branch_name</p>
+<p>Note: The <code>-d</code> option is an alias for <code>--delete</code>, which only deletes the branch if it has already been fully merged in its upstream branch. You could also use <code>-D</code>, which is an alias for <code>--delete --force</code>, which deletes the branch &quot;irrespective of its merged status.&quot; [Source: man git-branch]</p>
+</blockquote>
+<h2 id="find-all-gone-branches-to-delete">Find all 'gone' branches to delete:</h2>
+<pre><code>&gt; git branch -vv
+</code></pre>
+<p>Lists all branches and has <code>: gone]</code> if their remote component has been removed. e.g.</p>
+<pre><code>&gt; git branch -vv
+
+FrogTracking								2583eea0 [origin/FrogTracking: behind 49] monkey-magnet fixed attributes on user columns
+Gespacio									e05bafd8 [origin/Gespacio: gone] Added .gitignore file to exclude .hg folder
+bug/5928-cat-chaser-ignores-2-user-columns	2583eea0 [origin/bug/5928-cat-chaser-ignores-2-user-columns: gone] monkey-magnet fixed attributes on user columns
+env-test									73e5707d [origin/env-test] remove merge markers
+feature/5784-moon-tooth						b1ec5764 [origin/feature/5784-moon-tooth: gone] 5784: moon-truth is more testable
+feature/5784-sheep-dip-re-encoder			2b60c485 [origin/feature/5784-sheep-dip-re-encoder: gone] remove commented out code
+feature/5792-cloud-taser-convert			88019a36 [origin/feature/5792-cloud-taser-convert: gone] Merge branch 'FrogTracking' into feature/5792-cloud-taser-convert
+feature/5829-convert-hops-in-shops			3816b859 [origin/feature/5829-convert-hops-in-shops: gone] hops-ify Sync moon-boot-fighter.
+feature/5884-funtegra-import-yard			d55774bc [origin/feature/5884-funtegra-import-yard: gone] funtegra: import users from yard
+feature/5959-oops-counter-Color				a111c73b [origin/feature/5959-oops-counter-Color: gone] Build pipelines: removed file moon-web-build.yml
+feature/5992-monkey-magnet-current-archive	d2f88379 [origin/feature/5992-monkey-magnet-current-archive] Sync monkey-magnet default table renamed
+* master									d16af51f [origin/master] Merge master into this branch
+refactor/cloud-taser-utc-datetime-handling	5da44411 [origin/refactor/cloud-taser-utc-datetime-handling: gone] moon: 5888 cloud-taser Online.
+</code></pre>
+<p>So the real point here is <code>: gone]</code> substring referring to the missing origin.</p>
+<h2 id="to-delete-the-origin">To delete the origin</h2>
+<p>(for example, if you forgot to delete it when merging your pull request)</p>
+<p>Delete it on the origin....</p>
+<pre><code>git push --delete origin feature/5992-monkey-magnet-current-archive
+</code></pre>
+<p>Then delete it locally (may need to switch out of it first with <code>git co master</code>, for example)</p>
+<pre><code>git branch -d feature/5992-monkey-magnet-current-archive
+</code></pre>
+<p>May need to use <code>-D</code> to force the delete if there's some discard-worthy change in there.</p>
+
+</body>
+<script>
+</script>
+</html>

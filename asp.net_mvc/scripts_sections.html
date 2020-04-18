@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="scripts-and-sections">Scripts and Sections</h1>
+<p>Sometimes you want your view to add a little bit to more than one part of the layout .</p>
+<p>Look I'm not describing this well.</p>
+<p>In your <code>_layout.cshtml</code> there's a part that says:</p>
+<pre><code>@RenderBody()
+</code></pre>
+<p>...and that's where the current view is rendered. Fine.</p>
+<p>But sometimes you want the view to control some other parts of the template. For example it controls the title, by the doing this:</p>
+<pre><code>@{
+    ViewBag.Title = &quot;View sets the title&quot;;
+}
+</code></pre>
+<p>And <code>_layout.cshtml</code> says:</p>
+<pre><code>    &lt;title&gt;@ViewBag.Title&lt;/title&gt;
+</code></pre>
+<p>...so we're golden.</p>
+<p>But also, sometimes you want your script loading to happen at the end of the page, after rendering the view. And then, even after that, you want some view specific scripts to run. Here's how to do that. In the <code>_layout.cshtml</code> say:</p>
+<pre><code>@RenderSection(&quot;Scripts&quot;, false)
+</code></pre>
+<p>(Where <code>Scripts</code> is a word of your choosing.)</p>
+<p>Then in the view, specify what to put in the <code>Scripts</code> section, like so:</p>
+<pre><code>@section Scripts {
+    &lt;!-- anything you want... e.g. --&gt;
+    &lt;script type='text/javascript'&gt;
+    alert('View specific js');
+    &lt;/script&gt;
+}
+</code></pre>
+<p>...and it's entirely optional. Layout can define a section, Views don't have to populate it.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="trailing-cr-lf">Trailing Cr Lf</h1>
+<p>Trailing Carriage return (\r) and Linefeed (\n) in a varchar are really hard to detect in SSMS.</p>
+<p>Imagine there's three columns, A, B and C that have the same content except B has two trailing spaces and C has a trailing '\r\n'.</p>
+<pre><code>Select A,B,C from Table
+</code></pre>
+<p>In SSMS the grid will silently turn the '\r\n' into two spaces.</p>
+<p>So it will look like B and C both have two trailing spaces.</p>
+<p>If you compare A=B it will return <code>true</code> (because 'A' == 'A  ' according to SQL)</p>
+<p>If you compare B=C (or A=C) it will return 'false' -- even though A and B will both look (in the grid) like they have trailing spaces.</p>
+<p>If you switch the output to text mode, the carriage return line feed will be retained.</p>
+
+</body>
+<script>
+</script>
+</html>

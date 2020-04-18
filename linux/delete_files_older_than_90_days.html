@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="delete-files-older-than-90-days">Delete files older than 90 days</h1>
+<p>First, list files older than 90 days...</p>
+<pre><code>find . -mtime +90 -type f
+</code></pre>
+<p>(note, could specify a specific/absolute folder instead of &quot;.&quot; for current folder)</p>
+<p>Note <code>-type f</code> means &quot;files&quot;</p>
+<p>Happy with the result? Add a <code>-delete</code> parameter to delete those files. So long, files!</p>
+<pre><code>find . -mtime +90 -type f -delete
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

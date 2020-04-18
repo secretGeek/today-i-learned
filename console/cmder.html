@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="cmder">Cmder</h1>
+<p>Cmder relies on Conemu to create a beautiful console experience on windows.</p>
+<h2 id="download">download</h2>
+<p>from <a href="http://cmder.net/">http://cmder.net/</a></p>
+<p>Try downloading &quot;mini&quot; -- see if it works suitably.</p>
+<h2 id="insert-text">insert text</h2>
+<p>What matters the most: How do you insert?</p>
+<p>Paste with <code>Shift Insert</code> -- which on a macbook air is &quot;<code>fn shift enter</code>&quot;</p>
+<p>Can also use <code>Ctrl V</code> or Right Click, though they give slightly different behavior....</p>
+<p><img src="CmdEr_Paste_Settings.png" alt="cmder paste settings" /></p>
+<p>Also turn on &quot;Automatically remove newline when pasting single line.&quot; That looks good.</p>
+<h2 id="using-powershell-with-cmder">Using Powershell with Cmder...</h2>
+<p>Set cmder to load powershell by default, via:</p>
+<p>Settings -&gt; Startup -&gt; Tasks</p>
+<p>Find the <code>{Powershell::Powershell}</code> task and move it Up Up Up to the top.</p>
+<p>Change the Commands to:</p>
+<pre><code>PowerShell -ExecutionPolicy Bypass -NoLogo -NoExit -new_console:d:&quot;C:\users\leon\dropbox\secretgeek&quot;
+</code></pre>
+<p>...instead of the default task parameters which swap in a different <code>profile.ps1</code> file, etc.</p>
+<p>Then, in:</p>
+<p>Settings -&gt; Startup</p>
+<p>Put the startup options as</p>
+<p Powershell::Powershell="">&quot;Specified Named task&quot; --&gt; </p>
+<h2 id="color-schemes">Color schemes</h2>
+<p>Their favorite color scheme is the muted tones of the &quot;Monokai&quot; color scheme.</p>
+<p>If you want a fully light colored scheme -- keeps people awake in talks -- try &quot;Tomorrow&quot;</p>
+<p>I did mess with it a little to get the colors how I wanted them in some circumstances.</p>
+<p><img src="CmdEr_Color_Scheme_Based_On_Tomorrow.png" alt="Tomorrow Color Scheme (slightly modified)" /></p>
+<h2 id="arrow-keys-when-running-bash.exe-windows-subsystem-for-linux">Arrow keys when running bash.exe (windows subsystem for linux)</h2>
+<p>This is a known issue lodged with ConEmu...</p>
+<pre><code>https://github.com/Maximus5/ConEmu/issues/811
+</code></pre>
+<p>And traced back to a fault in the design of bash.exe</p>
+<pre><code>https://github.com/Microsoft/BashOnWindows/issues/111
+</code></pre>
+<p>To fix it, I added a &quot;<code>{Bash}</code>&quot; task (in Settings -&gt; Startup -&gt; Tasks) with Command equal to:</p>
+<pre><code>%windir%\system32\bash.exe -cur_console:p1   
+</code></pre>
+<p><img src="CmdEr_Bash.png" alt="cmder bash arrows keys support" /></p>
+<p>I also added a <code>bash</code> function to my powershell <code>profile.ps1</code> which reads:</p>
+<pre><code>function bash() {
+    &amp; $env:windir&quot;\system32\bash.exe&quot; -cur_console:p1
+}
+</code></pre>
+<h2 id="fade-when-inactive">Fade when inactive</h2>
+<p>Change this in settings -&gt; Features -&gt; Color -&gt; Graphic enhancement -&gt; Fade when inactive.</p>
+<p>(Included in one of the screenshots above)</p>
+<h2 id="is-cmder-slow-over-rdp">is cmder slow over rdp?</h2>
+<p>is cmder slow over remote desktop? is cmder slow via terminal services?</p>
+<p>Turn off transparency! Right this moment! Kill it!</p>
+<p>It's under <code>Settings &gt; Features &gt; Transparency</code> -- to wit:</p>
+<pre><code>Settings &gt; Features &gt; Transparency &gt; Active window transparency &lt;- uncheck!
+Settings &gt; Features &gt; Transparency &gt; Use separate transparency value for inactive window &lt;- uncheck!
+</code></pre>
+<p><img src="cmder_rdp_speed.png" alt="turn off transparency" /></p>
+<p>Cmder will no longer be slow to paint over remote connections.</p>
+<h2 id="tabs-on-bottom">Tabs on bottom</h2>
+<pre><code>General &gt; Tab bar &gt; Tabs on Bottom &lt;-- check it on!
+</code></pre>
+<p><img src="cmder_tabs_on_bottom.png" alt="tabs on bottom" /></p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://superuser.com/questions/652155/configure-powershell-to-be-conemus-default-shell">http://superuser.com/questions/652155/configure-powershell-to-be-conemus-default-shell</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

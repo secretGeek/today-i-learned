@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="difference-between-two-dates-using-powershell">Difference between two dates (using powershell)</h1>
+<pre><code>$StartDate = '15/02/2016 10:31:41 AM';
+$EndDate = (Get-Date);
+NEW-TIMESPAN �Start $StartDate �End $EndDate
+
+Days              : 381
+Hours             : 0
+Minutes           : 15
+Seconds           : 37
+Milliseconds      : 816
+Ticks             : 329193378169011
+TotalDays         : 381.010854362281
+TotalHours        : 9144.26050469475
+TotalMinutes      : 548655.630281685
+TotalSeconds      : 32919337.8169011
+TotalMilliseconds : 32919337816.9011
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://blogs.technet.microsoft.com/heyscriptingguy/2013/12/28/powertip-get-time-difference-between-dates-with-powershell/">Get Time Difference between Dates with PowerShell</a></li>
+</ul>
+<h2 id="keywords">Keywords</h2>
+<ul>
+<li>DateDiff</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

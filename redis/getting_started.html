@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-redis-on-app-harbor">Getting started with Redis (on app harbor)</h1>
+<p>redis lets you perform simple operations on a fast in-memory (and persisted) store.</p>
+<p>It's basically a key value store, where the keys are strings, and the values can be any of five+ basic types. Links below show you the functions you can apply to each type.</p>
+<ol>
+<li><a href="http://redis.io/commands/#string">string</a>. (Can be anything, redis don't care) (if it's an integer, it can be incremented (atomically) tho!)</li>
+<li><a href="http://redis.io/commands#list">lists</a> (queues, you can push and pop... actually you can left pop, right pop, left push, right push!)</li>
+<li><a href="http://redis.io/commands#set">sets</a> (unordered sets) you can add members, union sets</li>
+<li><a href="http://redis.io/commands#sorted_set">zsets</a> (an ordered set) Each member has a score. the set is sorted by the score.</li>
+<li><a href="http://redis.io/commands#hash">hashes</a> (maps between string fields and string values)</li>
+<li><a href="http://redis.io/commands#hyperloglog">Hyperloglog</a> <a href="http://antirez.com/news/75">uhhh....</a></li>
+<li>Coming soon.</li>
+</ol>
+<p>All types are accessed by keys. Keys are strings.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://blog.appharbor.com/2012/04/23/getting-started-with-redis-on-appharbor">Getting started with Redis on AppHarbor</a> (30 meg free)</li>
+<li><a href="https://try.redis.io/">https://try.redis.io/</a></li>
+<li><a href="http://openmymind.net/2012/1/23/The-Little-Redis-Book/">Karl Seguin's 'little redis book'</a> just 29 glorious pages</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

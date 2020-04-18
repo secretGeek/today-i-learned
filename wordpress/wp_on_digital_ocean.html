@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="created-a-new-wordpress-droplet-at-digital-ocean">Created a new Wordpress droplet at digital ocean</h1>
+<p>Visiting the url it says:
+Please log into your droplet via SSH to enable your WordPress installation.</p>
+<p>Logging in via SSH, I get this welcome message:</p>
+<pre><code>Thank you for using DigitalOcean's WordPress Application.
+
+WordPress has now been enabled. You can access your WordPress instance at:
+    http://45.55.132.29
+
+The &quot;ufw&quot; firewall is enabled. All ports except for 22, 80, and 443 are BLOCKED.
+To secure your WordPress installation, fail2ban has been configured and the
+WordPress fail2ban plugin is a site enforce module in. If you do not want to use this
+plugin, remove /var/www/html/wp-content/mu-plugins/fail2ban.
+
+You are encouraged to run mysql_secure_installation to ready your server for
+production. The passwords for MySQL and the WordPress users have been saved to:
+    /root/.digitalocean_password
+
+Let's Encrypt has been pre-installed for you. If you have a domain name, and
+you will be using it with this 1-Click app, please see: http://do.co/le-apache
+
+You can learn more about using this image here: http://do.co/wordpressapp
+-------------------------------------------------------------------------------------
+To delete this message of the day: rm -rf /etc/update-motd.d/99-one-click
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

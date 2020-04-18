@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="get-member-is-awesome">Get-Member is awesome</h1>
+<p>you use it to work out the properties (and methods and more) of an object</p>
+<p>e.g.</p>
+<pre><code>alias | get-member
+
+
+Name                MemberType     Definition
+----                ----------     ----------
+Equals              Method         bool Equals(System.Object obj)
+GetHashCode         Method         int GetHashCode()
+GetType             Method         type GetType()
+...
+PSProvider          NoteProperty   ProviderInfo PSProvider=Microsoft.PowerShell.Core\Alias
+CommandType         Property       System.Management.Automation.CommandTypes CommandType {get;}
+Definition          Property       string Definition {get;}
+DisplayName         ScriptProperty System.Object DisplayName {get=if ($this.Name.IndexOf('-') -lt 0)..
+</code></pre>
+<p>etc.</p>
+<p>Sometimes I think you use get-member like this:</p>
+<pre><code>alias | % {get-member $_ }  
+</code></pre>
+<p>BUT NO -- that's not needed and it doesn't work.</p>
+
+</body>
+<script>
+</script>
+</html>

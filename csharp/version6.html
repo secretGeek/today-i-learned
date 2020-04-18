@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="c-version-6">C# version 6</h1>
+<p>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6">what's new in C#6</a></p>
+<p><strong>Table of contents</strong></p>
+<ul>
+<li><a href="#readonly-auto-props">readonly auto props</a></li>
+<li><a href="#auto-property-initializers">auto-property initializers</a></li>
+<li><a href="#expression-bodied-function-members">expression-bodied function members</a></li>
+<li><a href="#using-static">using static</a></li>
+<li><a href="#null-conditional-operators">null conditional operators</a></li>
+<li><a href="#string-interpolations">string interpolations</a></li>
+<li><a href="#exception-filters">exception filters</a></li>
+<li><a href="#the-nameof-expression">the nameof expression</a></li>
+<li><a href="#await-in-catch-and-finally-blocks">await in catch and finally blocks</a></li>
+<li><a href="#index-initializers">index initializers</a></li>
+<li><a href="#extension-add-methods-for-collection-initializers">extension <code>add</code> methods for collection initializers</a></li>
+<li><a href="#improved-overload-resolution">improved overload resolution</a></li>
+<li><a href="#deterministic-compiler-option">deterministic compiler option</a></li>
+</ul>
+<h2 id="readonly-auto-props">readonly auto props</h2>
+<p>You can have properties that can be gotten but cannot be set:</p>
+<pre><code>	public string FirstName { get; }
+	public string LastName { get; }
+</code></pre>
+<p>Wait! What? Then how do they ever get set!? Are they like a one way street out of a deadend ?</p>
+<p>Answer: They can only be set in the constructor....</p>
+<pre><code>public class Person
+{
+	public string FirstName { get; }
+	public string LastName { get; }
+
+	public Person(string firstName, string lastName)
+	{
+		if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+			throw new ArgumentException(&quot;Must set first and last name&quot;);
+		FirstName = firstName;
+		LastName = lastName;
+	}
+}
+
+void Main()
+{
+	var person = new Person (&quot;Jack&quot;,&quot;&quot;);
+	//ArgumentException: Must set first and last name
+	person.Dump();
+}
+</code></pre>
+<p>(Note this example from <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6#read-only-auto-properties">microsoft documentation</a> commits one or more of the <a href="https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/">Falsehoods Programmers Believe About Names</a>)</p>
+<p>You may be wondering... what if the constructor <em>doesn't</em> set those properties? For example, what if there's two or more constructors and some of them just forget to set the property. Do you get an exception? Nope. In that case the property just remains null.</p>
+<p>What if a different method tries to set the property?</p>
+<p>Then you receive this compiler error:</p>
+<pre><code>Property or indexer 'Person.FirstName' cannot be assigned to -- it is read only
+</code></pre>
+<p>I've shared a <a href="http://share.linqpad.net/npxbjk.linq">fuller version of example above at share.linqpad</a></p>
+<h2 id="auto-property-initializers">auto-property initializers</h2>
+<p>These are very cool.</p>
+<p>The examples above show how readonly properties can be initialized in a constructor.</p>
+<p>But some properties don't need to be initialized from a parameter, you just want to set them to a sensible default (example to follow).</p>
+<p>And if you have many such properties, or if you have many constructors, it is cumbersome to ensure that every variables was correctly initialized via every constructor.</p>
+<p>Enter auto-property initializers.</p>
+<p>You can initialize the properties underlying value right where the property is defined....</p>
+<pre><code>public class Person
+{
+	public IEnumerable&lt;Problem&gt; Problems { get; } = new List&lt;Problem&gt;();
+</code></pre>
+<p>^ In the above class, even if there were fifty constructors, none of them would need to think about initializing that property.</p>
+<p>And you can mix this with using constructors to perform initialization, from parameters even, if you wish. Constrast these three techniques being used in one class....</p>
+<pre><code>public class Person
+{
+	public IEnumerable&lt;Problem&gt; Problems { get; } = new List&lt;Problem&gt;();
+
+	public Person()
+	{
+	}
+
+	public Person(string firstName)
+	{
+		FirstName = firstName;
+		Problems = new List&lt;Problem&gt;() { new Problem() };
+	}
+
+	public Person(IEnumerable&lt;Problem&gt; problems)
+	{
+		Problems = problems;
+	}
+</code></pre>
+<p>If the class above is instantiated in three different ways, there will be a different number of problems each time:</p>
+<pre><code>(new Person()).Problems.Count().Dump();
+// 0 Problems
+(new Person(&quot;Jack&quot;)).Problems.Count().Dump();
+// 1 Problem
+(new Person(new List&lt;Problem&gt; { new Problem(), new Problem()})).Problems.Count().Dump();
+// 2 Problems
+</code></pre>
+<p>As before, I've put a <a href="http://share.linqpad.net/j2u6jm.linq">more complete example of Auto Property Initializers</a> online via Linqpad Sharing.</p>
+<h2 id="expression-bodied-function-members">expression-bodied function members</h2>
+<p>Did you like those last two features? Well the language-feature-fairies did not stop giving us gifts at that point. They took it even further.</p>
+<p>Imagine you have a simple method, that can be written as one expression. Here's an example:</p>
+<pre><code>public string FriendlyName()
+{
+	return FirstName + &quot; &quot; + LastName;
+}
+</code></pre>
+<p>(And of course with Linq... we can have extremely complex pieces of code that are still just one expression.)</p>
+<p>This single-expression method can be expressed (pun-intended) as an expression bodied function.</p>
+<pre><code>public string FriendlyName() =&gt; FirstName + &quot; &quot; + LastName;
+</code></pre>
+<p>... the syntax should be recognisable from expression lambdas, and from javascript arrow functions.</p>
+<p>(You can add parameters as well...)</p>
+<pre><code>public string FriendlyName(string title) =&gt; title + &quot; &quot; FirstName + &quot; &quot; + LastName;
+</code></pre>
+<p>This is very useful. For example you might reduce a simple controller to a bunch of one liners...</p>
+<pre><code>public class HomeController : Controller
+{
+    protected readonly IDAL DAL;
+    public HomeController(IDAL dal) =&gt; this.DAL = dal;
+    public IActionResult Index() =&gt; View(DAL.GetNews());
+    public IActionResult About() =&gt; View();
+    public IActionResult Error() =&gt; View();
+}
+</code></pre>
+<p>Much less ceremonial typing than:</p>
+<pre><code>//
+// POST: /Home/About
+public IActionResult About()
+{
+	return View();
+}
+</code></pre>
+<p>...for each of these anemic methods.</p>
+<p>Also, in somes case if you have <em>no</em> parameters, you may as well write a property instead of a method....</p>
+<pre><code>public string FriendlyName =&gt; FirstName + &quot; &quot; + LastName;
+</code></pre>
+<p>Two characters saved! (The <code>()</code>.)</p>
+<h2 id="using-static">using static</h2>
+<p>This is nifty too.</p>
+<p>Instead of peppering your code like this....</p>
+<pre><code>Console.BackgroundColor = ConsoleColor.Red;
+Console.ForegroundColor = ConsoleColor.Blue;
+Console.WriteLine(&quot;Console console console&quot;);
+</code></pre>
+<p>You can remove all those excess <code>Console</code>s by importing the static class, by adding:</p>
+<pre><code>using static System.Console;
+</code></pre>
+<p>...amongst the namespace imports.</p>
+<p>Then your code is more simply:</p>
+<pre><code>BackgroundColor = ConsoleColor.Red;
+ForegroundColor = ConsoleColor.Blue;
+WriteLine(&quot;Press F4 and see 'static System.Console'...&quot;);
+</code></pre>
+<p>...and the members of System.Console are first class.</p>
+<p>While Console is one of the most fun static classes, you can also do this for any class with static members, including your own static or non static classes, if they have static members.</p>
+<p>And there are many members on <code>string</code> that are worth using, but note that this doesn't work:</p>
+<pre><code>using static string;
+</code></pre>
+<p>You need to use the real name:</p>
+<pre><code>using static System.String;
+</code></pre>
+<p>...and you get firstclass access to <code>Join</code>, <code>IsEmptyOrWhiteSpace</code> and all your other friends.</p>
+<p><strong>But what if</strong> there are two WriteLine methods.... a local one, and one you've imported?</p>
+<p>The code will compile, there will be no warning, and the local method will be used.</p>
+<p><strong>But what if</strong> there are two WriteLine methods.... both imported via two different <code>using static</code> declarations?</p>
+<p>Then there will be a compiler error, something like:</p>
+<pre><code>The call is ambiguous between the following methods or properties: 'System.Console.WriteLine(string)' and 'UserQuery.MyOwnClass.WriteLine(string)'
+</code></pre>
+<p>**How do you do it in LinqPad?</p>
+<p>&quot;using static&quot; in Linqpad is a bit different because namespaces are imported via the Query properties (<code>F4</code>).</p>
+<p>To do this in Linqpad, press F4 and enter</p>
+<pre><code>static System.Console
+</code></pre>
+<p>...for example.</p>
+<p>(Source: <a href="https://forum.linqpad.net/discussion/1754/using-static-support">LinqPad forum</a>)</p>
+<p>And if it's a local static class, you need to give its fully qualified name, which starts with <code>UserQuery</code>, e.g. <code>static UserQuery.MyOwnClass</code></p>
+<h2 id="null-conditional-operators">null conditional operators</h2>
+<p>I've said <a href="http://www.secretgeek.net/cruel_compiler">previously</a> that statements like this are basically <code>NullReferenceException</code> generators:</p>
+<pre><code>return Person.Manager.Manager.Employees[3].Manager.Name;
+</code></pre>
+<p>And you'd be better off cutting this down to just:</p>
+<pre><code>throw new NullReferenceException();
+</code></pre>
+<p>...because somewhere in that chain of reasoning, some assumption will fail and it will all blow up.</p>
+<p>The remedy has previously been to write many lines of guarded clauses, asking effectively:</p>
+<pre><code>if person has a manager
+and that person's manager has a manager,
+and that person's manager's manager has employees,
+and that person's manager's manager's
+number of employees is at least 4,
+and that persons' manager's manager's
+4th employee has a manager
+then
+return that person's manager's
+manager's 4th employee's manager's name.
+</code></pre>
+<p>(Or put it in a <code>try...catch (NullReferenceException...</code> and that gets ugly too)</p>
+<p>The mechanical nature of all these kinds of checks implies that a &quot;sufficiently advanced&quot; compiler could do all the work for us.</p>
+<p>Well check out this ugly looking but wonderfully powerful construct, added in C#6... the null conditional operator!</p>
+<pre><code>return Person?.Manager?.Manager?.Employees[3]?.Manager.Name;
+</code></pre>
+<p>This will return <em>either</em> the result you're after, <em>or</em> <code>null</code>.</p>
+<p>My inner grammarian hates the &quot;question dot&quot; ... i start twitching just seeing it... and I have trouble remembering whether it's the question mark or the dot that comes first... but I love what it does, so I'm conflicted.</p>
+<p>Commonly it is combined with a coalescing operator, like this:</p>
+<pre><code>return Person?.Manager?.Manager?.Employees[3]?.Manager.Name ?? &quot;Unknown&quot;;
+</code></pre>
+<p>Know it. Use it. Love it.</p>
+<p>Wait... there's an bug in the above. I don't want to rewrite it... just to say:</p>
+<p>The null conditional won't help with <code>ArgumentOutOfRangeException</code> or with <code>KeyNotFoundException</code> -- as kind of implied by the description above.</p>
+<p>The part where I say</p>
+<blockquote>
+<p>number of employees is at least 4</p>
+</blockquote>
+<p>...is talking about an <code>ArgumentOutOfRangeException</code>.... that would still occur!</p>
+<p>This is not protected from at all by the null conditional operator. They'd need to invent an &quot;index conditional operator&quot;.. and this ain't one.</p>
+<p>If you write:</p>
+<pre><code>var x = manager?.Employees?[3]?.Name ?? &quot;Unknown&quot;;
+</code></pre>
+<p>That means:</p>
+<pre><code>If the manager is not null
+and the manager's employees is not null,
+take the 4th employee (this could throw)
+and if they have a name, take the name...
+...in any other case return null.
+</code></pre>
+<p>Similarly for a dictionary...</p>
+<pre><code>var x = manager?.Employees?[&quot;Sue&quot;]?.Name ?? &quot;Unknown&quot;;
+</code></pre>
+<p>...if employees is null, you're safe.. but if employees are not null, and there is <em>no</em> employee named &quot;Sue&quot;, you'll get a <code>KeyNotFoundException</code> and need to instead use some kind of safety-first extension method on <code>IDictionary&lt;K,V&gt;</code> ...</p>
+<p>So it's easily avoided by creating an extension method but it is not avoided by syntax sugar baked into the language as I inadvertently implied.</p>
+<h2 id="string-interpolations">string interpolations</h2>
+<p>The old way:</p>
+<pre><code>var thing = &quot;World&quot;;
+Console.WriteLine(string.Format(&quot;Hello {0}&quot;, thing));
+</code></pre>
+<p>The modern way:</p>
+<pre><code>var thing = &quot;World&quot;;
+Console.WriteLine($&quot;Hello {thing}&quot;);
+</code></pre>
+<p>To include a format specifier, the old way:</p>
+<pre><code>var stars = 1.3f;
+Console.WriteLine(string.Format(&quot;I give it {0:F2} stars&quot;, stars));
+</code></pre>
+<p>Same as the new way really:</p>
+<pre><code>var stars = 1.3f;
+Console.WriteLine($&quot;I give it {stars:F2} stars&quot;);
+</code></pre>
+<p>Need to deal with different cultures? Implicitly convert formatted string to <code>FormattableString</code>, then specify the culture when performing a <code>.ToString(culture)</code> on that.</p>
+<pre><code>//using System.Globalization
+FormattableString str = $&quot;Today is {DateTime.Today}&quot;;
+
+Console.WriteLine(str.ToString(new CultureInfo(&quot;en-US&quot;)));
+//Today is 7/16/2019 12:00:00 AM
+
+Console.WriteLine(str.ToString(new CultureInfo(&quot;de-DE&quot;)));
+//Today is 16.07.2019 00:00:00
+
+Console.WriteLine(str.ToString(new CultureInfo(&quot;en-UK&quot;)));
+//Today is 7/16/2019 12:00:00 AM
+</code></pre>
+<p>Escaping is pretty important in strings... we know about &quot;@&quot; strings.... how do thye combine with &quot;$&quot; strings? The dollars come first. That's easy to remember.</p>
+<pre><code>var path = $@&quot;C:\Users\{userName}\Documents&quot;;
+</code></pre>
+<p>TO output literal squiggly brackets... double them...</p>
+<pre><code>$&quot;I like squiggles {{}}&quot;.Dump();
+//I like squiggles {}
+</code></pre>
+<p>Otherwise you'll get &quot;Expected expression&quot;, or a self-explanatory message like &quot;A '}' character must be escaped (by doubling) in an interpolated string.&quot;</p>
+<p name:F2="">Because this format can already contain ':' chars, e.g.  -- it presents a challenge when you want to use a ternary expression ( e.g &quot;a &gt;  b ? a : b&quot;) -- and the solution is to put the expression inside parentheses:</p>
+<pre><code>Console.WriteLine($&quot;The winner is: {(a &gt; b ? PersonA : PersonB)}&quot;);
+</code></pre>
+<p>Many more details at <a href="https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/string-interpolation">this tutorial</a></p>
+<p>C# has needed this for a long time, I use it every chance I get. Here's ancient articles wishing for it: <a href="http://www.secretgeek.net/string_templating">previously</a> and <a href="https://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx/">phil haack 10years earlier</a></p>
+<h2 id="exception-filters">exception filters</h2>
+<p>This is a special new piece of syntax... a 'when' statement that can follow a catch --</p>
+<p>Instead of catching <em>every</em> exception of the given type, you can add a &quot;when filter&quot; so the exception handler will only catch exceptions that are:</p>
+<ol>
+<li>of the expected type (or derivation of.)</li>
+<li>match the &quot;when filter&quot; condition.</li>
+</ol>
+<p>Show don't tell --</p>
+<pre><code>catch (Exception ex) when (ex.Message.ToLowerInvariant().Contains(&quot;idea&quot;))
+{
+	Console.WriteLine(&quot;Something about ideas...&quot;);
+}
+catch (Exception ex)
+{
+	Console.WriteLine(&quot;Something else&quot;);
+}
+</code></pre>
+<p>Note that the when filter:</p>
+<ol>
+<li>can refer to the exception variable (<code>ex</code> above)</li>
+<li>can also refer to any other stuff it wants to...</li>
+</ol>
+<p>e.g.</p>
+<pre><code>catch (Exception) when (DateTime.Now.Hour &lt; 12)
+{
+	Console.WriteLine(&quot;I love the smell of freshly caught exceptions in the morning.&quot;);
+}
+</code></pre>
+<h2 id="the-nameof-expression">the nameof expression</h2>
+<p>Don't do this (anymore)....</p>
+<pre><code>public void KillPerson(string name) {
+	if (string.IsNullOrWhiteSpace(name)) {
+		throw new ArgumentNullException(&quot;name&quot;);
+	}
+</code></pre>
+<p>...If you change the 'name' parameter or misspell the &quot;name&quot; string, the compiler wouldn't notice the inconsistency.</p>
+<p>Instead, with the awesome power of <code>nameof</code></p>
+<pre><code>public void KillPerson(string name) {
+	if (string.IsNullOrWhiteSpace(name)) {
+		throw new ArgumentNullException(nameof(name));
+	}
+</code></pre>
+<p>No more margin for error!</p>
+<p>Ideally you'd use this in any place where you currently hard code the name of any symbol as a string.</p>
+<p>Consider:</p>
+<ul>
+<li>all the other Argument Exceptions Types
+<ul>
+<li>ArgumentException</li>
+<li>ArgumentOutOfRangeException</li>
+</ul>
+</li>
+<li>Logging the current method, a variable etc.</li>
+<li>Code in MVC Views that mention:
+<ul>
+<li>Action Name</li>
+<li>Controller Name (this is a questionable, see below)</li>
+</ul>
+</li>
+</ul>
+<h3 id="logging-example-with-nameof">Logging example with <code>nameof</code></h3>
+<pre><code>Console.WriteLine($&quot;{nameof(i)} == {i}&quot;);
+</code></pre>
+<p>...and the &quot;Caller info attributes&quot; introduced in version 5 can be used for more context.</p>
+<h3 id="actionname-and-controllername-examples-with-nameof">ActionName and ControllerName examples with <code>nameof</code></h3>
+<p>How can we remove the hard coding from this example?</p>
+<pre><code>@Html.ActionLink(&quot;Add sale&quot;, &quot;Create&quot;, &quot;Purchase&quot;)
+</code></pre>
+<p>Instead of &quot;Create&quot; we can use</p>
+<pre><code>`nameof(PurchaseController.Create)`
+</code></pre>
+<p>(We may need to add using statement or specify the controller's namespace in a <code>_ViewImports.cshtml</code>)</p>
+<p>But the controller is the real issue. The challenge is that 'Purchase' indicates the type <code>PurchaseController</code>. Instead of &quot;Purchase&quot; we're forced to use something like....</p>
+<pre><code>nameof(PurchaseController).Substring(0, nameof(PurchaseController).LastIndexOf(&quot;Controller&quot;))
+</code></pre>
+<p>...and you could hide a lot of that work behind a helper method, but nah, I can't see it being worthwhile at all, it's just bad. It introduces more code and more room for mistakes.</p>
+<h2 id="await-in-catch-and-finally-blocks">await in catch and finally blocks</h2>
+<p>Previously, you couldn't stick an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/await"><code>await</code></a> just anywhere... one particular example is that you could not place an <code>await</code> in a catch or finally expression.</p>
+<p>If this ruined your life, then I have some amazing news (from a year or two back). As of C# version 6, you can also place <code>await</code> in catch and finally blocks.</p>
+<p>The example given in documentation is about logging. You may still want your return to happen &quot;now&quot;. But you may fire off some log messages asynchronously.</p>
+<p>As always, writing code in catch and finally blocks is something you need to do sparingly and thoughtfully, particularly as regards code that risks throwing its own exceptions, as any current exception will be lost and/or any cleanup activities may not be completed.</p>
+<h2 id="index-initializers">index initializers</h2>
+<p>Here's my nutshell of what's happening here....</p>
+<p>Look at this ugly old ridiculous syntax for ancient C# versions prior to 6...</p>
+<pre><code>var messages = new Dictionary&lt;int, string&gt;
+{
+	{ 404, &quot;Page not Found&quot;},
+	{ 302, &quot;Page moved, but left a forwarding address.&quot;},
+	{ 500, &quot;The web server can't come out to play today.&quot;}
+};
+</code></pre>
+<p>What's happening here is that items are being added to the dictionary and one must know that the first param is the key and subsequent params are the value. It's cumbersome.</p>
+<p>Try this amazing new syntax on for size...</p>
+<pre><code>var webErrors = new Dictionary&lt;int, string&gt;
+{
+	[404] = &quot;Page not Found&quot;,
+	[302] = &quot;Page moved, but left a forwarding address.&quot;,
+	[500] = &quot;The web server can't come out to play today.&quot;
+};
+</code></pre>
+<p>Now initializing the items is consistent with the way the items are accessed.</p>
+<p>I tried to make a more interesting example, that shows a little more versatility and how the index initialization can be used (or misused?)</p>
+<p>Given classes like this....</p>
+<pre><code>class Population
+{
+	public Dictionary&lt;string, Person&gt; Citizens { get; } = new Dictionary&lt;string, Person&gt;();
+	public Person this[string name] { set =&gt; Citizens.Add(name, value); }
+	public string this[string name, int age] { set =&gt; Citizens.Add(name, new Person(name, age)); }
+}
+
+class Person
+{
+	public string Name { get; }
+	public int Age { get; }
+	public Person(string name, int age)
+	{
+		Name = name;
+		Age = age;
+	}
+}
+</code></pre>
+<p>We can initialize a new population like so:</p>
+<pre><code>var pop = new Population {
+	[&quot;fred&quot;] = new Person(&quot;fred&quot;, 100),
+	[&quot;jack&quot;, 12] = &quot;fred&quot;
+};
+</code></pre>
+<h2 id="extension-add-methods-for-collection-initializers">extension <code>Add</code> methods for collection initializers</h2>
+<p>Collection initializers are the syntax that lets you declare the starting members of a collection, such as:</p>
+<pre><code>var population = new List&lt;Person&gt; {
+	new Person { Name = &quot;Sally&quot; },
+	new Person { Name = &quot;Vera&quot; },
+	new Person(&quot;Jenny&quot;)
+};
+</code></pre>
+<p>...and here's another existing (pre C#6) feature, that you need to understand before you understand this new feature....</p>
+<p>If your collection type has an add method, it will be magically wired up for you. Let me demonstrate, using a custom collection type.</p>
+<pre><code>public class Population : IEnumerable&lt;Person&gt;
+{
+	private List&lt;Person&gt; innerPop { get; } = new List&lt;Person&gt;();
+	public IEnumerator&lt;Person&gt; GetEnumerator() =&gt; innerPop.GetEnumerator();
+	IEnumerator IEnumerable.GetEnumerator() =&gt; GetEnumerator();
+
+	// Three different 'Adds' we'll use in our initializer syntax...
+	public void Add(Person p) =&gt; innerPop.Add(p);
+	public void Add(string name) =&gt; innerPop.Add(new Person(name));
+	public void Add(string firstName, string lastName) =&gt; innerPop.Add(new Person($&quot;{firstName} {lastName}&quot;));
+}
+</code></pre>
+<p>Notice that the class above is a kind of wrapper over a <code>List&lt;Person&gt;</code> and it has three different <code>Add</code> methods.</p>
+<p>(And the class is quite short thanks to expression-bodied members, and auto-property initializers)</p>
+<p>We can get the initializer syntax to &quot;hook up&quot; with those Add methods... Add is <em>special</em> you see, as far as the compiler is concerned.</p>
+<pre><code>var pop = new Population {
+	new Person(&quot;Fred&quot;),
+	&quot;Jack&quot;,
+	{&quot;Jimbo&quot;,&quot;Jones&quot;}
+};
+</code></pre>
+<p>The code above uses the 3 different Add methods (in turn).</p>
+<p>With c#6 you can also use extension methods to extend existing collection types with <em>new</em> &quot;Add&quot; methods, which will be &quot;hooked up&quot; by initializers, if needed.</p>
+<p>For example, let's extend dictionary...</p>
+<pre><code>public static class DicExtensions
+{
+    public static void Add(this Dictionary&lt;int, string&gt; dic, int i)
+    {
+        dic.Add(i, &quot;Number &quot; + i.ToString());
+    }
+
+    public static void Add(this Dictionary&lt;int, string&gt; dic, int i, string separator, params string[] strings)
+    {
+        dic.Add(i, string.Join(separator, strings));
+    }
+}
+
+var dic = new Dictionary&lt;int, string&gt; { 3, 4, 5 };
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>Number 3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Number 4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Number 5</td>
+</tr>
+</tbody>
+</table>
+<pre><code>var d2 = new Dictionary&lt;int, string&gt; {
+	{1,&quot; sweet &quot;,&quot;Hello&quot;,&quot;World&quot;,&quot;!&quot;},
+	{2,&quot; cruel &quot;,&quot;Goodbye&quot;,&quot;World&quot;,&quot;Goodbye&quot;},
+};
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Hello sweet World sweet !</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Goodbye cruel World cruel Goodbye</td>
+</tr>
+</tbody>
+</table>
+<p>...and hence you can do the same with <code>Add</code> methods whether they are extension methods or not.</p>
+<h2 id="improved-overload-resolution">improved overload resolution</h2>
+<p>Previously:</p>
+<blockquote>
+<p>some method calls involving lambda expressions</p>
+</blockquote>
+<p>...were not implicitly resolved, and you'd need to be more explicit to avoid ambiguity.</p>
+<p>But now... times have changed and:</p>
+<blockquote>
+<p>some method calls involving lambda expressions</p>
+</blockquote>
+<p><em>are</em> implicitly resolved.</p>
+<p>I for one will be sleeping soundly tonight.</p>
+<p>I've dug into the specific scenario here, and will reproduce it verbatim...</p>
+<p>In C# &lt; 6, calling a method such as this method:</p>
+<pre><code>static Task DoThings()
+{
+	 return Task.FromResult(0);
+}
+</code></pre>
+<p>...via syntax like this:</p>
+<pre><code>Task.Run(DoThings);
+</code></pre>
+<p>...which relies on what's called the &quot;Method Group&quot; syntax (introduced in c# 2 to simplify using delegates, i think)</p>
+<p>...would not work. And you'd need to use this more ceremonial approach...</p>
+<pre><code>Task.Run(() =&gt; DoThings());
+</code></pre>
+<p>...i.e. a &quot;Full Lambda&quot; with more parens than a lisp professor.</p>
+<p>But now times have changed and you can simply say:</p>
+<pre><code>Task.Run(DoThings);
+</code></pre>
+<p>...confident in the knowledge that the compiler will be happy, you will be happy, everyone will be happy, and the things to be done will be done.</p>
+<h2 id="deterministic-compiler-option">deterministic compiler option</h2>
+<p>The compiler now has a <code>-deterministic</code> option to make sure that successive builds reuse the same guids and timestamp from one compilation to the next, so you can perform byte-for-byte comparison with more consistency, and less risk of helping humanity race toward the guid-apocalypose.</p>
+<p>I'm not likely to need this option, so I am not committing this to memory.</p>
+
+</body>
+<script>
+</script>
+</html>

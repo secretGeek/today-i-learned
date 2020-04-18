@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="test-path-is-how-you-check-if-a-file-exists">Test-Path is how you check if a file exists</h1>
+<pre><code>&gt; Test-Path Test_Path.md
+true
+</code></pre>
+<p>Easy, right.</p>
+<pre><code>&gt; Test-Path .\Test_Path.md
+true
+</code></pre>
+<p>Let's check for two files....</p>
+<pre><code>&gt; Test-Path .\Test_Path.md -and Test-Path .\histogram.md
+Test-Path : A parameter cannot be found that matches parameter name 'and'.
+</code></pre>
+<p>No, that's not right, here's how you test for two paths:</p>
+<pre><code>&gt; (Test-Path .\Test_Path.html) -and (Test-Path .\histogram.html)
+true
+</code></pre>
+<p>And how do we test for the existence of a folder/directory, with the &quot;PathType&quot; Container...</p>
+<pre><code>&gt; test-path readme.md -PathType Container
+false
+
+&gt; test-path MyFiles -PathType Container
+true
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

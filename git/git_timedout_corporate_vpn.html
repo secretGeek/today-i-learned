@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="fix-git-push-timed-out-with-corporate-proxy-e.g.visual-studio.com">Fix git push timed out with corporate proxy (e.g. visual studio .com)</h1>
+<h2 id="problem">Problem:</h2>
+<p>Any commands like <code>git push</code> or  <code>git pull</code> or <code>git clone</code> were failing by timing out, while connected to the VPN.</p>
+<pre><code>&gt; git push
+fatal: unable to access 'https://exampleteamname.visualstudio.com/exampleprojectname/_git/examplereponame/': Failed to connect to exampleteamname.visualstudio.com port 443: Timed out
+</code></pre>
+<p>All 'work from home' developers started having this problem at the same time. We think it's related to the network/proxy, not something we can really fix.</p>
+<h2 id="work-around">Work around</h2>
+<p>Disconnecting from vpn avoided the issue... but was not a solution.</p>
+<h2 id="solution">Solution</h2>
+<p>Add this to &quot;~.gitconfig&quot;</p>
+<pre><code>[http]
+proxy = http://myusername:mypassword@myproxy.domain.com:8080
+</code></pre>
+<p>...and because there is an '@' in myusername, i encoded that as %40</p>
+<p>and to find out my proxy... well that was tricky, but same as described in <a href="../mercurial/proxy_connection_attempt_failure.html">resolve: mercurial abort: error</a></p>
+<p>i.e........</p>
+<p>Proxy settings are found here:</p>
+<pre><code>Internet explorer &gt; Internet options &gt; Connections &gt; LAN Settings
+</code></pre>
+<p>In the <code>Local Area Network (LAN) Settings</code> dialog... but proxy server was not specified, instead a <code>Use automatic configuration script</code> was specified.</p>
+<p>I downloaded the script that was specified.</p>
+<p>It was a lengthy javascript file (800 lines long), starting like this:</p>
+<pre><code>function FindProxyForURL(url, host)
+{
+	hostIP = dnsResolve(host);
+	var tmpURL = url.substr(0,10);
+
+	if(tmpURL.indexOf('://') == -1)
+	{
+			 url='http://' + url;
+	}
+</code></pre>
+<p>Near the end it told you the general proxy settings to use....</p>
+<pre><code>if (shExpMatch(url, &quot;https://*&quot;))
+{
+	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+}
+else
+{
+	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+}
+</code></pre>
+<p>(Names have been changed to protect the LAN)</p>
+<p>So I took one of the proxy addresses from there</p>
+<h1 id="what-if-you-dont-have-a-password">What if you don't have a password?</h1>
+<p>Some users use some kind of single-sign on token system where they don't really have a password. That's great and modern... but what do you stick in the config?</p>
+<p>In visual studio .com you can create a token, called a private access token -- then use the token here:</p>
+<pre><code>[http]
+proxy = http://anything:PAT@myproxy.domain.com:8080
+</code></pre>
+<p>Where PAT is the private access token, and the proxy is found as described above.</p>
+
+</body>
+<script>
+</script>
+</html>

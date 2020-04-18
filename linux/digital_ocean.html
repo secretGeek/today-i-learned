@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="developing.net-core-app-and-deploying-to-linux-at-digital-ocean">Developing .net core app and deploying to linux at digital ocean.</h1>
+<p>materials you will need:</p>
+<ul>
+<li>your own domain name already purchased. (suggest <a href="http://gandi.net">http://gandi.net</a> as registrar)</li>
+<li>$5 per month to pay digital ocean</li>
+<li>need a local machine on which you will do your development. (i'll assume local machine is windows though it could easily be osx or linux)</li>
+</ul>
+<p>With any articles mentioned below: be sure to read the comments. Sometimes they highlight common problems that people have, or shortcomings/errors in the article that haven't been corrected yet.</p>
+<p>Prepare your digital ocean account</p>
+<ol>
+<li>sign up at digital ocean.</li>
+<li>use PuTTYgen to create SSH keypair</li>
+<li>tell digital ocean about your public key.</li>
+</ol>
+<p>Create and configure your droplet</p>
+<ol start="3">
+<li>create a droplet at digital ocean. Must be 64 bit (.net core does not run in 32 bit linux). Would currently be Ubuntu 16.</li>
+</ol>
+<ul>
+<li>tell it to use the SSH key you already provided it with.</li>
+</ul>
+<ol start="4">
+<li>use PuTTY to connect to your droplet as root.</li>
+</ol>
+<ul>
+<li>create a new user</li>
+<li>give that user sudo privileges</li>
+<li>test that the new user can connect through SSH.</li>
+<li>test that the new user can use sudo privileges.</li>
+<li>stop the root user from being able to connect.</li>
+<li>install and configure fail2ban</li>
+<li>customize your bash profile (totally unnecessary, but fun!!)</li>
+<li>install .net core on your droplet</li>
+<li>build a helloworld console app</li>
+<li>test your helloworld console app</li>
+<li>install sftp</li>
+<li>create /opt/websites/ -- this is the folder where you will upload your web applications</li>
+<li>create a new user who will have limited privileges such as uploading files.</li>
+<li>give the new user permissions to read and write the /opt/websites/ area.</li>
+</ul>
+<p>on your local machine:</p>
+<ul>
+<li>use filezilla to connect to your droplet, as your file uploading user.</li>
+<li>verify that you can download/upload files</li>
+<li>create a new .net core app</li>
+<li>customize its port number. (this will be handy if you want to host more than 1 app in your droplet)</li>
+<li>publish it using <code>dotnet publish</code> (from the folder that contains the <code>project.json</code> file. The published content will end up in the <code>bin\Debug\netcoreapp1.0\publish\</code> subfolder)</li>
+<li>upload the published content to your droplet</li>
+</ul>
+<p>on your droplet:</p>
+<ul>
+<li>install nginx</li>
+<li>configure nginx to act as a reverse proxy to your site</li>
+<li>run your site in a console. (dotnet <code>yoursite.dll</code>)</li>
+</ul>
+<p>from a browser:</p>
+<ul>
+<li>visit your ipaddress... see that the site is returned</li>
+<li>configure nameservers at your domain name registrar</li>
+<li>setup domain records at digital ocean (a record, cname)</li>
+</ul>
+<p>on your droplet:</p>
+<ul>
+<li>configure nginx to expect the domain name</li>
+<li>install supervisor</li>
+<li>configure supervisor to keep your app running</li>
+</ul>
+<p>from a browser:</p>
+<ul>
+<li>use pingdom or &quot;statuscake&quot; to monitor your site(s).</li>
+</ul>
+<h2 id="here-was-my-preliminary-list">Here was my preliminary list....</h2>
+<h3 id="step-one-the-must-haves">STEP ONE: THE MUST-HAVES</h3>
+<ul>
+<li>Review the <a href="https://www.digitalocean.com/community/tutorial_series/new-ubuntu-14-04-server-checklist">Ubuntu 14.04 server checklist</a> which covers:
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-14-04">Initial Ubuntu server setup</a> tutorial with step-by-step configuration instructions, and</li>
+<li>Connecting to your Droplet with <a href="https://www.digitalocean.com/community/tutorials/how-to-connect-to-your-droplet-with-ssh">SSH</a>.</li>
+</ul>
+</li>
+<li>Use DigitalOcean's DNS to <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean">set up your hostname</a> from the Control Panel.</li>
+<li>Protect your servers by reviewing these <a href="https://www.digitalocean.com/community/tutorials/7-security-measures-to-protect-your-servers">7 security measures</a>.</li>
+<li>Keep your data safe with an effective <a href="https://www.digitalocean.com/community/tutorials/how-to-choose-an-effective-backup-strategy-for-your-vps">backup strategy</a>.</li>
+</ul>
+<h3 id="step-two-web-servers">STEP TWO: WEB SERVERS</h3>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts">Install the powerful Nginx</a> web server on Ubuntu</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-14-04-lts">Use Nginx virtual hosts</a> to serve multiple sites on one server.</li>
+</ul>
+<h3 id="extra-credit-secure-file-transfer">EXTRA CREDIT: SECURE FILE TRANSFER</h3>
+<ul>
+<li>Securely transfer files to your server and between droplets <a href="https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server">using SFTP</a>.</li>
+</ul>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="http://benfoster.io/blog/how-to-configure-kestrel-urls-in-aspnet-core-rc2">http://benfoster.io/blog/how-to-configure-kestrel-urls-in-aspnet-core-rc2</a></li>
+<li><a href="https://www.microsoft.com/net/core#ubuntu">install .net core on ubuntu</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-a-host-name-with-digitalocean">How to set up a host name with digital ocean</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Chmod">chmod</a></li>
+<li><a href="https://docs.asp.net/en/latest/publishing/linuxproduction.html">.net core in production on linux (covers nginx, supervisord)</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04">How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-filezilla-to-transfer-and-manage-files-securely-on-your-vps">How To Use Filezilla to Transfer and Manage Files Securely on your VPS</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04">How To Protect SSH with Fail2Ban on Ubuntu 14.04</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04">Initial Server Setup with Ubuntu 16.04</a></li>
+<li><a href="https://help.ubuntu.com/12.04/serverguide/firewall.html">Uncomplicated FireWall (ufw) on ubuntu</a></li>
+<li><a href="http://www.hanselman.com/blog/PublishingAnASPNETCoreWebsiteToACheapLinuxVMHost.aspx">Publishing an ASP.NET Core website to a cheap Linux VM host</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

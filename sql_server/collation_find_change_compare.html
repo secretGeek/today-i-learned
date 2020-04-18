@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="collation">Collation....</h1>
+<h1 id="find-default-collation-of-the-database">Find default collation of the database</h1>
+<pre><code>Select DatabasePropertyEx('DATABASE_NAME','Collation')
+</code></pre>
+<h1 id="find-collation-of-a-column">Find collation of a column</h1>
+<pre><code>SELECT name, collation_name
+FROM sys.columns
+WHERE OBJECT_ID IN (SELECT OBJECT_ID
+FROM sys.objects
+WHERE type = 'U'
+AND SCHEMA_NAME(schema_id) = 'MySchema'
+AND name = 'MyTable')
+AND name = 'MyColumn'
+</code></pre>
+<h1 id="compare-two-values-that-have-different-collation">Compare two values that have different collation</h1>
+<pre><code>Select p.Name, w.Age
+from
+Person p
+inner join Attributes w
+on p.id = w.id collate database_default
+</code></pre>
+<h1 id="find-all-collations-used-in-a-database">Find all collations used in a database</h1>
+<pre><code>SELECT distinct collation_name
+FROM sys.columns
+</code></pre>
+<p>e.g.</p>
+<table>
+<thead>
+<tr>
+<th>Collation_Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NULL</td>
+</tr>
+<tr>
+<td>Latin1_General_BIN</td>
+</tr>
+<tr>
+<td>Latin1_General_CI_AS</td>
+</tr>
+<tr>
+<td>Latin1_General_CI_AS_KS_WS</td>
+</tr>
+<tr>
+<td>SQL_Latin1_General_CP1_CI_AS</td>
+</tr>
+</tbody>
+</table>
+<h1 id="change-collation-of-an-entire-database">Change Collation of an entire database</h1>
+<p>First try and change the collation directly</p>
+<pre><code>USE [master]
+GO
+ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS
+GO
+
+/*
+Msg 5030, Level 16, State 5, Line 5
+The database could not be exclusively locked to perform the operation.
+Msg 5072, Level 16, State 1, Line 5
+ALTER DATABASE failed. The default collation of database 'YOLO_DB' cannot be set to Latin1_General_CI_AS.
+*/
+
+
+ALTER DATABASE [YOLO_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
+
+GO 
+
+ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS; 
+
+GO 
+
+ALTER DATABASE [YOLO_DB] SET MULTI_USER; 
+
+GO
+</code></pre>
+<p>Note that having a mismatch between TempDb and your collation is the shortcut to madness.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/13785814/collation-error">SO: Collation Error</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

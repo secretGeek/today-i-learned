@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="colored-output-with-bash">Colored output with bash</h1>
+<p>From: <a href="https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux">stackoverflow</a></p>
+<p>You can use these <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape codes</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Color</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Black</td>
+<td>0;30</td>
+</tr>
+<tr>
+<td>DarkGray</td>
+<td>1;30</td>
+</tr>
+<tr>
+<td>Red</td>
+<td>0;31</td>
+</tr>
+<tr>
+<td>LightRed</td>
+<td>1;31</td>
+</tr>
+<tr>
+<td>Green</td>
+<td>0;32</td>
+</tr>
+<tr>
+<td>LightGreen</td>
+<td>1;32</td>
+</tr>
+<tr>
+<td>BrownOrange</td>
+<td>0;33</td>
+</tr>
+<tr>
+<td>Yellow</td>
+<td>1;33</td>
+</tr>
+<tr>
+<td>Blue</td>
+<td>0;34</td>
+</tr>
+<tr>
+<td>Light</td>
+<td>Blue</td>
+</tr>
+<tr>
+<td>Purple</td>
+<td>0;35</td>
+</tr>
+<tr>
+<td>LightPurple</td>
+<td>1;35</td>
+</tr>
+<tr>
+<td>Cyan</td>
+<td>0;36</td>
+</tr>
+<tr>
+<td>LightCyan</td>
+<td>1;36</td>
+</tr>
+<tr>
+<td>LightGray</td>
+<td>0;37</td>
+</tr>
+<tr>
+<td>White</td>
+<td>1;37</td>
+</tr>
+</tbody>
+</table>
+<p>To define a bunch of variables:</p>
+<p>(You'll only need to define a subset of these, depending on what colors you employ)</p>
+<pre><code>NC='\033[0m' # No Color
+BLACK='\033[0;30m'
+DARKGRAY='\033[1;30m'
+RED='\033[0;31m'
+LIGHTRED='\033[1;31m'
+GREEN='\033[0;32m'
+LIGHTGREEN='\033[1;32m'
+BROWNORANGE='\033[0;33m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+LIGHT='\033[Bluem'
+PURPLE='\033[0;35m'
+LIGHTPURPLE='\033[1;35m'
+CYAN='\033[0;36m'
+LIGHTCYAN='\033[1;36m'
+LIGHTGRAY='\033[0;37m'
+WHITE='\033[1;37m'
+
+echo -e &quot;I think ${BLACK}Black${NC} is a good color&quot;
+echo -e &quot;I think ${DARKGRAY}DarkGray${NC} is a good color&quot;
+echo -e &quot;I think ${RED}Red${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHTRED}LightRed${NC} is a good color&quot;
+echo -e &quot;I think ${GREEN}Green${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHTGREEN}LightGreen${NC} is a good color&quot;
+echo -e &quot;I think ${BROWNORANGE}BrownOrange${NC} is a good color&quot;
+echo -e &quot;I think ${YELLOW}Yellow${NC} is a good color&quot;
+echo -e &quot;I think ${BLUE}Blue${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHT}Light${NC} is a good color&quot;
+echo -e &quot;I think ${PURPLE}Purple${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHTPURPLE}LightPurple${NC} is a good color&quot;
+echo -e &quot;I think ${CYAN}Cyan${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHTCYAN}LightCyan${NC} is a good color&quot;
+echo -e &quot;I think ${LIGHTGRAY}LightGray${NC} is a good color&quot;
+echo -e &quot;I think ${WHITE}White${NC} is a good color&quot;
+</code></pre>
+<p>Or with <code>printf</code>....</p>
+<pre><code>printf &quot;I think ${RED}Red${NC} is a good color\n&quot;
+</code></pre>
+<p>Next: Background colors.</p>
+
+</body>
+<script>
+</script>
+</html>

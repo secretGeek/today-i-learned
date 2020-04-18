@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="what-is-a-module">What is a module?</h1>
+<blockquote>
+<p>In its simplest form a module is a subfolder in one of the folders listed in $env:PSModulePath with a PowerShell script of the same name (but with the extension .psm1 instead of .ps1):
+<a href="https://stackoverflow.com/questions/27713844/dot-source-a-script-within-a-function">source</a></p>
+</blockquote>
+<p>The psm1 file ends with an <code>Export-ModuleMember</code> statement saying which functions and aliases to export., e.g.</p>
+<pre><code>Export-ModuleMember -Function Get-Foo, New-Bar, ... -Alias gf, ..
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="google-chrome-design-mode-on-lets-you-edit-inline">Google Chrome: Design Mode = ON let's you edit inline</h1>
+<p>F12, dev tools -- then enter this in the console</p>
+<pre><code>document.designMode=&quot;on&quot;;
+</code></pre>
+<p>Now you can type on any element of the webpage and change what it says.</p>
+<p>You can also create a bookmarklet called 'edit' with this as the URL:</p>
+<pre><code>javascript:document.body.contentEditable='true'; document.designMode='on'; void 0
+</code></pre>
+<p>... and click it at any time to make any page easy to edit.</p>
+
+</body>
+<script>
+</script>
+</html>

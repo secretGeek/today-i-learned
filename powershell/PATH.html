@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="path-getting-it-adding-to-it-and-managing-it">PATH: getting it, adding to it and managing it</h1>
+<p>The PATH is a semi-colon separated list of locations that the OS will search when trying to lcoate an executable program.</p>
+<h2 id="getting-it">Getting it</h2>
+<p>To get the current PATH environment variable:</p>
+<pre><code>$env:path
+</code></pre>
+<p>(or in <code>cmd.exe</code> just <code>%path%</code>, or in Windows, see <a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a>)</p>
+<p>To split the path into its constituents:</p>
+<pre><code>$env:path.Split(&quot;;&quot;)
+</code></pre>
+<p>or</p>
+<pre><code>$env:path.Split(&quot;;&quot;, [System.StringSplitOptions]::RemoveEmptyEntries)
+</code></pre>
+<h2 id="adding-to-it">Adding to it</h2>
+<p>To add a folder to the <code>PATH</code>, only for the <strong>current session</strong>:</p>
+<pre><code>$env:path += [System.IO.Path]::PathSeparator + $NewPath
+</code></pre>
+<p>(To get the current folder:  $NewPath = Get-Location</p>
+<p>To persist the current session's path (requires admin)</p>
+<pre><code>[Environment]::SetEnvironmentVariable( &quot;Path&quot;, $env:Path, [System.EnvironmentVariableTarget]::Machine )
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

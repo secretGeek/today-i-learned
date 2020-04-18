@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="use-nginx-to-redirect-www-and-non-https-to-bare-https">Use nginx to redirect www and non https to bare https</h1>
+<p>Given any url like <em>any</em> of these:</p>
+<pre><code>http://www.example.com
+http://example.com
+https://www.example.com
+</code></pre>
+<p>redirect to this:</p>
+<pre><code>https://example.com
+</code></pre>
+<p>....that is, <code>https</code> (not <code>http</code>) and &quot;bare&quot; (<strong>no</strong> <code>www.</code> before the domain).</p>
+<p>(Whether you want to go bare or not is between you and your trusted board of advisors.)</p>
+<p>First, though: Why do this at all?</p>
+<ol>
+<li>For security we want it all to be https`</li>
+<li>We want a single canonical url, for SEO/traffic/google-juice/google search console purposes.</li>
+</ol>
+<h2 id="nginx-config">nginx config</h2>
+<p>Here's an nginx config file that does it...</p>
+<pre><code>server {
+	listen 80;
+	server_name www.example.com example.com;
+	return 301 https://example.com$request_uri;
+}
+
+server {
+	listen 443 ssl;
+	server_name www.example.com;
+	ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem; # managed by Certbot
+	ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
+	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+	return 301 https://example.com$request_uri;
+}
+
+server {
+	listen 443 ssl; # managed by Certbot
+	server_name example.com;
+	location / {
+		proxy_pass http://localhost:8000;
+		proxy_http_version 1.1;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection keep-alive;
+		proxy_set_header Host $host;
+		proxy_cache_bypass $http_upgrade;
+	}
+
+	ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem; # managed by Certbot
+	ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
+	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+	ssl_dhparam /etc/ssl/certs/dhparam.pem;
+}
+</code></pre>
+<p>After changing nginx config -- test it is ok with:</p>
+<pre><code>sudo nginx -t
+</code></pre>
+<p>And reload it with:</p>
+<pre><code>sudo nginx -s reload
+</code></pre>
+<p>See <a href="nginx.html">more nginx basics here</a></p>
+<h2 id="sources">sources</h2>
+<ul>
+<li><a href="https://serverfault.com/questions/258378/remove-www-and-redirect-to-https-with-nginx">serverfault: Remove &quot;www&quot; and redirect to &quot;https&quot; with nginx</a></li>
+</ul>
+<h2 id="see-also">see also</h2>
+<ul>
+<li><a href="nginx.html">nginx</a></li>
+<li><a href="lets_encrypt.html">lets encrypt and certbot</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

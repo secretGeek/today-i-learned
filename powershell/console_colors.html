@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="see-all-console-colors">see all console colors:</h1>
+<pre><code>[enum]::GetValues([System.ConsoleColor]) | Foreach-Object {Write-Host $_ -ForegroundColor $_}
+</code></pre>
+<ul>
+<li>Black</li>
+<li>DarkBlue</li>
+<li>DarkGreen</li>
+<li>DarkCyan</li>
+<li>DarkRed</li>
+<li>DarkMagenta</li>
+<li>DarkYellow</li>
+<li>Gray</li>
+<li>DarkGray</li>
+<li>Blue</li>
+<li>Green</li>
+<li>Cyan</li>
+<li>Red</li>
+<li>Magenta</li>
+<li>Yellow</li>
+<li>White</li>
+</ul>
+<p>Or to try every possible foreground/background combo:</p>
+<pre><code>$colors = [enum]::GetValues([System.ConsoleColor])
+foreach( $fcolor in $colors )
+{
+    foreach( $bcolor in $colors )
+    {
+        Write-Host -NoNewLine &quot;$fcolor/$bcolor &quot;-ForegroundColor $fcolor -BackgroundColor $bcolor
+    }
+}
+</code></pre>
+<!--  [enum]::GetValues([System.ConsoleColor]) | % { " * {0}" -f $_ }  -->
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx">http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-add-dynamically-populated-selectsdropdowns-to-a-basic-asp.net-mvc-site">How to add dynamically populated selects/dropdowns to a basic asp.net MVC site?</h1>
+<p>Here's an example control group for a drop down list that is dynamically populated from a JSON service</p>
+<pre><code>&lt;div class=&quot;control-group&quot;&gt;
+    @Html.LabelFor(m =&gt; m.Responsible, new { @class = &quot;control-label&quot; })
+    &lt;div class=&quot;controls&quot;&gt;
+        @Html.DropDownListFor(m =&gt; m.Responsible, Model.CurrentResponsibleItem, new { @id = &quot;Responsible&quot;, @style = &quot;width:300px;&quot; })
+        @Html.ValidationMessageFor(m =&gt; m.Responsible, null, new { @class = &quot;help-inline&quot; })
+        &lt;a href='~/Help/Responsible' target=&quot;_blank&quot;&gt;help &lt;span class=&quot;glyphicon glyphicon-new-window&quot;&gt;&lt;/span&gt;&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>And here's the javascript to be called in document.ready:</p>
+<pre><code>var personUrl = '/SomeUrl/GetPerson';
+var pageSize = 20;
+$('#TargetControlID').select2({
+    placeholder: 'Responsible person',
+    //Does the user have to enter any data before sending the ajax request:
+    minimumInputLength: 3,
+    allowClear: true,
+    ajax: {
+        //How long the user has to pause their typing before sending the next request
+        quietMillis: 150,
+        //The url of the json service
+        url: personUrl,
+        dataType: 'jsonp',
+        //Our search term and what page we are on
+        data: function (term, page) {
+            return {
+                pageSize: pageSize,
+                pageNum: page,
+                searchTerm: term.term
+            };
+        },
+        results: function (data, page) {
+            //Used to determine whether or not there are more results available,
+            //and if requests for more data should be sent in the infinite scrolling
+            var more = (page * pageSize) &lt; data.Total;
+            return { results: data.Results, more: more };
+        }
+    }
+});
+</code></pre>
+<p>Note the part above where it says &quot;term.term&quot;  I discovered i needed that while debugging, like a primitive cave dweller.</p>
+<p>These two DTO classes are used on the server, for sending json back to select2 in a form it expects.</p>
+<pre><code>public class Select2OptionModel
+{
+    public string id { get; set; }
+    public string text { get; set; }
+}
+
+public class Select2PagedResult
+{
+    public int total { get; set; }
+    public IEnumerable&lt;Select2OptionModel&gt; results { get; set; }
+}
+</code></pre>
+<p>Here's the method which is called by the client-side ajax, when searching for an item.</p>
+<p>(This is v ugly code, I didn't prepare it for re-use <em>at all</em>. This example fetches people records from a table, and projects them into <code>Select2OptionModel</code>s, which are then packed into a <code>Select2PagedResult</code> for use by <code>select2</code>. Ahhh... I have ignored the pageNum and pageSize too, by the looks of it. I didn't even need to worry about them for the size of my data (thousands not millions of rows))</p>
+<pre><code>    [HttpGet]
+    public ActionResult GetPerson(string searchTerm, int pageSize, int? pageNum)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm) || searchTerm.Trim().Length &lt; 3)
+        {
+            return new JsonpResult
+            {
+                Data = null
+            };
+        }
+
+        IEnumerable&lt;Select2OptionModel&gt; people;
+
+        using (var connection = new ProfiledDbConnection(SqlConnectionString.GetOpenConnection(&quot;DB&quot;), MiniProfiler.Current))
+        {
+            people = connection.SelectWhere&lt;Person&gt;(&quot;Name like @searchTerm and not ActiveDirectoryID is null&quot;,
+               new { searchTerm = &quot;%&quot; + searchTerm.Replace(&quot; &quot;, &quot;%&quot;) + &quot;%&quot; })
+               .Select(p =&gt; new Select2OptionModel {
+                    id = p.ActiveDirectoryID,
+                    text = p.Name });
+        }
+
+        Select2PagedResult result = new Select2PagedResult { total = people.Count(), results = people };
+
+        //Return the data as a jsonp result
+        return new JsonpResult
+        {
+            Data = result
+        };
+    }
+</code></pre>
+<p>That is all so lengthy, so filled with ceremony... it's not the fun-filled code we were hoping for. Sorry.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://blog.e-zest.net/tech-tutorial-select2-with-asp.net-mvc">http://blog.e-zest.net/tech-tutorial-select2-with-asp.net-mvc</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

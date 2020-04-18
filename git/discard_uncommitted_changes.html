@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="discard-uncommitted-changes">Discard uncommitted changes</h1>
+<p>You just realized the  path you've been going down was not right and you want to:</p>
+<ul>
+<li><p>Discard uncommitted changes</p>
+</li>
+<li><p>Some of which are on tracked files (files previously committed) and</p>
+</li>
+<li><p>Some of which may be on new files (files which are not tracked, have never been committed) and</p>
+<p>git stash
+git stash drop</p>
+</li>
+</ul>
+<footer>this will stash the changes to tracked files, and then lose them with drop.</footer>
+<pre><code>git clean -nd 
+</code></pre>
+<footer>This will let you see the untracked files that would be deleted (including directories)</footer>
+<p>If you're happy to lose the changes it lists then run:</p>
+<pre><code>git clean -fd
+</code></pre>
+<footer>This will delete the untracked files</footer>
+
+</body>
+<script>
+</script>
+</html>

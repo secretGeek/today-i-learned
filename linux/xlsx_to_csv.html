@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="convert-excel-spreadsheet-to-csv-on-linux-xlsx-to-csv">Convert excel spreadsheet to csv on linux (xlsx to csv)</h1>
+<p>Get gnumeric</p>
+<pre><code>apt-get install gnumeric
+</code></pre>
+<p>Then use ssconvert to do the conversion</p>
+<pre><code>ssconvert oldfile.xlsx newfile.csv
+</code></pre>
+<p>On a headless server (such as a droplet) it may issue a lot of warnings. Pipe output and warning to <code>null</code> via:</p>
+<pre><code>ssconvert oldfile.xlsx newfile.csv &gt; /dev/null 2&gt;&amp;1
+</code></pre>
+<p>Well this is a nifty trick!</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/10557360/convert-xlsx-to-csv-in-linux-command-line">Convert xlsx to csv in linux command line</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

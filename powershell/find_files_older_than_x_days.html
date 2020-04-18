@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-files-older-than-x-days">Find Files Older than X Days</h1>
+<pre><code>Get-ChildItem | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-30)}
+</code></pre>
+<p>Recursive, and short hand...</p>
+<pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)}
+</code></pre>
+<p>To a table with just the attributes I want:</p>
+<pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} |  format-table -property Length, LastWriteTime, FullName
+</code></pre>
+<p>To a tab separated string (columns are &quot;Size (Bytes)&quot;, &quot;Days Old&quot;, &quot;Full Name&quot;)</p>
+<pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} | 
+	% { &quot;&quot; +$_.Length + &quot;`t&quot; + $(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days + &quot;`t&quot; + $_.FullName } | clipp
+</code></pre>
+<p>Or just find the 10 oldest files</p>
+<pre><code>dir -rec | sort lastwritetime | select -f 10 
+</code></pre>
+<p>Or find the 10 oldest files and show them in a neat table</p>
+<pre><code>dir -rec | sort lastwritetime | select -f 10 |format-table -property @{Expression={(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days};Label=&quot;Days&quot;},Length, FullName
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

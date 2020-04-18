@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="ensure-all-files-are-added-before-a-commit">Ensure all files are added before a commit</h1>
+<p>In order to ensure all files have been added (or .hgignored) before going ahead with a commit, add the following pre-transaction commit hook to your <a href="mercurial_ini.html">mercurial.ini</a> file</p>
+<pre><code>[hooks]
+pretxncommit.add_all_files_first_please = hg stat | findstr &quot;? &quot; &amp;&amp; EXIT /B 1 || EXIT /B 0
+</code></pre>
+<p>But i've had to disable that because it fails if i have a local commit that added a file, which <a href="current_extensions.html">&quot;fetch&quot;</a> is merging to an incoming commit that also added files. or something like that.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="http://www.secretgeek.net/ensure">The little known beauty of .ensure files</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

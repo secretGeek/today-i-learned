@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="group-by">Group by...</h1>
+<p>By far the most common query I've every run in SQL Server is:</p>
+<pre><code>Select SomeColumn, Count(*) as [Count]
+from SomeTable
+group by SomeColumn
+order by 2 desc
+</code></pre>
+<p>Here's the equivalent in Linq:</p>
+<pre><code>var tableSummary = someTable.GroupBy(p=&gt; p.SomeColumn).Select(group =&gt; new { 
+                        Count = group.Count(), 
+                        SomeColumn = group.Key
+                    }).OrderByDescending(x =&gt; x.Count);
+tableSummary.Dump();
+</code></pre>
+<p>Here's a more complex example:</p>
+<pre><code>var data = new Person[] { 
+    new Person { Name = &quot;Jim&quot;, Height = 1000}, 
+    new Person { Name = &quot;Jack&quot;, Height = 2000},
+    new Person { Name = &quot;Jack&quot;, Height = 2300},
+    new Person { Name = &quot;Jim&quot;, Height = 5000},
+    new Person { Name = &quot;Jim&quot;, Height = 12}
+};
+var groups = data.GroupBy(p =&gt; p.Name, (key, values)
+    =&gt; new { 
+        Name = key, 
+        Count = values.Count(), 
+        Avg_Height = values.Average(a =&gt; a.Height), 
+        Total_Height = values.Sum(a =&gt; a.Height),
+        Name_Length = values.Average(a =&gt; a.Name.Length),
+        Name_Length2 = key.Length,
+        Max_Height = values.Max(a =&gt; a.Height),
+        Min_Height = values.Min(a =&gt; a.Height),
+        Variance_Height = values.Max(a =&gt; a.Height) - values.Min(a =&gt; a.Height),
+        Members = values}
+        ).Where(g =&gt; g.Count &gt; 1).OrderByDescending(gg =&gt; gg.Variance_Height);
+groups.Dump();
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

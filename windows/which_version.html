@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-can-i-tell-which-version-of-windows-is-currently-running">How can I tell which version of Windows is currently running?</h1>
+<pre><code>[Environment]::OSVersion.Version
+
+
+Major  Minor  Build  Revision
+-----  -----  -----  --------
+10     0      10586  0
+</code></pre>
+<p>Or (for Windows 10 Anniversary edition)</p>
+<pre><code>Major  Minor  Build  Revision
+-----  -----  -----  --------
+10     0      14393  0    
+</code></pre>
+<p>or perhaps you see...</p>
+<pre><code>Major  Minor  Build  Revision
+-----  -----  -----  --------
+6      1      7601   65536
+</code></pre>
+<p>And you can turn the major/minor into a well known version name, using the table below...</p>
+<table>
+<thead>
+<tr>
+<th>Operating system</th>
+<th>Version number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows 10</td>
+<td>10.0*</td>
+</tr>
+<tr>
+<td>Windows Server 2016</td>
+<td>10.0*</td>
+</tr>
+<tr>
+<td>Windows 8.1</td>
+<td>6.3*</td>
+</tr>
+<tr>
+<td>Windows Server 2012 R2</td>
+<td>6.3*</td>
+</tr>
+<tr>
+<td>Windows 8</td>
+<td>6.2</td>
+</tr>
+<tr>
+<td>Windows Server 2012</td>
+<td>6.2</td>
+</tr>
+<tr>
+<td>Windows 7</td>
+<td>6.1</td>
+</tr>
+<tr>
+<td>Windows Server 2008 R2</td>
+<td>6.1</td>
+</tr>
+<tr>
+<td>Windows Server 2008</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>Windows Vista</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>Windows Server 2003 R2</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>Windows Server 2003</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>Windows XP 64-Bit Edition</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>Windows XP</td>
+<td>5.1</td>
+</tr>
+<tr>
+<td>Windows 2000</td>
+<td>5.0</td>
+</tr>
+</tbody>
+</table>
+<p>And is windows a 64 or 32 bit version??</p>
+<pre><code>[Environment]::Is64BitOperatingSystem
+True
+</code></pre>
+<p>I suspect that will be true for a long time to come.</p>
+<p>Consider also....</p>
+<pre><code>[Environment]::Is64BitProcess
+True
+</code></pre>
+<p>Which is <a href="../powershell/is_this_64_or_32_bit_powershell_today.html">described here</a></p>
+<p>You can also run <code>winver.exe</code> which produces a dialog something like this:</p>
+<p>C:\users\leon\dropbox\secretGeek\util\til\windows
+<img src="winver.png" alt="WinVer.exe" /></p>
+
+</body>
+<script>
+</script>
+</html>

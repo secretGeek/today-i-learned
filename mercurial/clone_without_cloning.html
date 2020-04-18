@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="clone-without-cloning">clone without cloning</h1>
+<p>Scenario:</p>
+<p>There are mercurial repositories housed on network shares. You want to clone them locally but you know:</p>
+<ol>
+<li>It will take a while to do the initial clone</li>
+<li>While the initial clone is happening, the repository will be locked</li>
+</ol>
+<p>So the alternative is to:</p>
+<p>Copy the repository to your local machine. Either by robocopy or any other method.</p>
+<pre><code>robocopy X:\Repositories\MonoRepo C:\Repos\MonoRepo /MIR
+</code></pre>
+<p>Then edit the <code>.hg/hgrc</code> file to refer to the remote location.</p>
+<p>You want the hgrc file to say something like this:</p>
+<pre><code>[paths]
+default = X:\Repositories\MonoRepo
+</code></pre>
+<p>i.e. to specify the remote path.</p>
+
+</body>
+<script>
+</script>
+</html>

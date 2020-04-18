@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="javascript-function-to-generate-a-guid">Javascript function to generate a guid</h1>
+<p>As seen at <a href="http://www.secretgeek.net/hotGuids/index.htm">HotGuids</a></p>
+<pre><code>function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+}
+function guid() {
+   return (S4()+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+&quot;-&quot;+S4()+S4()+S4());
+}
+</code></pre>
+<p>Or as a one liner....</p>
+<pre><code>function guid() {
+   return ((((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1));
+}
+</code></pre>
+<p>Or as a NimbleText snippet....</p>
+<pre><code>&lt;% ((((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)) %&gt;
+</code></pre>
+<p>(TODO: Embed a newGuid() function in NimbleText)</p>
+<p>....ah, that's &quot;guid-like&quot; but it's not really a guid.</p>
+<p>Here's a better one:</p>
+<pre><code>function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r &amp; 0x3 | 0x8);
+	return v.toString(16);
+  });
+}
+</code></pre>
+<p>Puts a 4 and a &quot;(r &amp; 0x3 | 0x8)&quot; right where guid type 4 expects it.</p>
+
+</body>
+<script>
+</script>
+</html>

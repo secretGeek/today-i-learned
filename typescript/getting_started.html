@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-typescript">Getting started with typescript</h1>
+<pre><code>npm install -g typescript
+</code></pre>
+<p>Note you can install a specific version with <a href="../npm/install_npm.html">npm</a> by running, for example:</p>
+<pre><code>npm install typescript@2.0.0.
+</code></pre>
+<p>Here's the output I saw:</p>
+<pre><code>C:\Users\Leon\AppData\Roaming\npm\tsserver -&gt; C:\Users\Leon\AppData\Roaming\npm\node_modules\typescript\bin\tsserver
+C:\Users\Leon\AppData\Roaming\npm\tsc -&gt; C:\Users\Leon\AppData\Roaming\npm\node_modules\typescript\bin\tsc
+C:\Users\Leon\AppData\Roaming\npm
++-- typescript@2.0.10
+</code></pre>
+<p>See if <code>tsc</code> (the typescript compiler) was installed by running:</p>
+<pre><code>tsc --help
+</code></pre>
+<p>Result will be something like this:</p>
+<pre><code>Version 1.0.3.0
+Syntax:   tsc [options] [file ..]
+
+Examples: tsc hello.ts
+          tsc --out foo.js foo.ts
+          tsc @args.txt
+
+Options:
+  --codepage NUMBER             Specify the codepage to use when opening source files.
+  -d, --declaration             Generates corresponding .d.ts file.
+  -h, --help                    Print this message.
+  --mapRoot LOCATION            Specifies the location where debugger should locate map files instead of generated locations.
+  -m KIND, --module KIND        Specify module code generation: 'commonjs' or 'amd'
+  --noImplicitAny               Warn on expressions and declarations with an implied 'any' type.
+  --out FILE                    Concatenate and emit output to single file.
+  --outDir DIRECTORY            Redirect output structure to the directory.
+  --removeComments              Do not emit comments to output.
+  --sourcemap                   Generates corresponding .map file.
+  --sourceRoot LOCATION         Specifies the location where debugger should locate TypeScript files instead of source locations.
+  -t VERSION, --target VERSION  Specify ECMAScript target version: 'ES3' (default), or 'ES5'
+  -v, --version                 Print the compiler's version: 1.0.3.0
+  @&lt;file&gt;                       Insert command line options and files from a file.
+</code></pre>
+<h2 id="to-use-typescript">To use TypeScript</h2>
+<p>Create a simple javascript file, with a .ts extension, e.g.</p>
+<p>log.ts:</p>
+<pre><code>console.log(&quot;hi&quot;);
+</code></pre>
+<p>then transpile it into a js file, by running <code>tsc log.ts</code> -- the result is a javascript file, <code>log.js</code> which in this case is identical.</p>
+<p>Done that!? Woot! You're a typescript developser!</p>
+<p>So i load it up in visual studio code, by running &quot;code.exe .&quot; from the commandline, i.e.</p>
+<pre><code>code .
+</code></pre>
+<h2 id="problem-running-old-version-despite-installing-new-version">Problem: running old version despite installing new version.</h2>
+<p>The output from <code>tsc --help</code> above said my tsc version was <code>1.0.3.0</code>, even though the installer said &quot;<code>typescript@2.0.10</code>&quot;</p>
+<p>When I started vs code it straight away gave me this warning:</p>
+<blockquote>
+<p>Version mismatch! global tsc (1.0.3.0) != VS Code's language service (2.0.10). Inconsistent compile errors might occur</p>
+</blockquote>
+<p>I looked further into it, by running &quot;Get-Command tsc&quot; (in powershell) and found tsc was being loaded from:</p>
+<pre><code>C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\tsc.exe
+</code></pre>
+<p>Why? Because some earlier SDK i'd installed had added that folder to my <a href="../powershell/PATH.html">path</a>.</p>
+<p>So that old exe was found, instead of finding the one installed by npm, which is located here:</p>
+<pre><code>C:\Users\Leon\AppData\Roaming\npm\tsc.cmd
+</code></pre>
+<p>So I edited my path to <em>remove</em> that folder from it (notes on <a href="../windows/environment_variables.html">editing environment variables here...</a>)</p>
+<h2 id="resume-getting-started">Resume getting started....</h2>
+<p>You can compile multiple files at once:</p>
+<pre><code>tsc *.ts
+</code></pre>
+<p>That will produce one js file for each ts file.</p>
+<p>You can combine all the ts files into one js file.</p>
+<pre><code>tsc *.ts --out example.js
+</code></pre>
+<p>But howbout this for clever... you can tell typescript to watch files and recompile as soon as 1 changes...</p>
+<pre><code>tsc *.ts --out example.js --watch
+</code></pre>
+<h2 id="doing-more-with-visual-studio-code">Doing more with visual studio code.</h2>
+<p>The first step in working on a TypeScript project in visual studio code is to add a <code>tsconfig.json</code> file to the root of the project.</p>
+<p>It can be an empty object, like this:</p>
+<pre><code>{
+}
+</code></pre>
+<p>But why not spruce it up a bit by adding something like this...</p>
+<pre><code>{
+     &quot;compilerOptions&quot;: {
+        &quot;target&quot;: &quot;es5&quot;,
+        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;sourceMap&quot;: true
+    }
+}
+</code></pre>
+<p>Choices under 'target' are currently:</p>
+<ul>
+<li>ES3 (default)</li>
+<li>ES5</li>
+<li>ES6/ES2015</li>
+<li>ES2016</li>
+<li>ES2017</li>
+<li>ESNext</li>
+</ul>
+<p>Knowing what these mysterious things mean is part of the magic of being a web developer in 2017. Know one knows the whole path around the elephant.</p>
+<h2 id="configure-a-task-runner-in-vs-code">Configure a task runner in vs code...</h2>
+<p>Press <code>ctrl shift P</code> (and do it sort of casually, like you knew that was the right thing to do all along)</p>
+<p>That brings up what is known as the command palette. (You can also find it under the 'View' menu, where it helpfully reminds you that <code>ctrl shift p</code> is the key combo to know)</p>
+<p>Type: <code>tasks: Configure Task Runner</code> (or any shortest unique substring of that command)...</p>
+<p>...and vs code will lead you toward choosing the right type of <code>tasks.json</code> file for your nascent project, and then create it for you (in a .vscode folder)</p>
+<p><img src="task_runner.png" alt="select a task runner" /></p>
+<p>You can learn more about the <code>tasks.json</code> file format by visiting <a href="http://code.visualstudio.com/docs/editor/tasks">http://code.visualstudio.com/docs/editor/tasks</a> -- but ain't nobody got time for that.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="http://blog.teamtreehouse.com/getting-started-typescript">http://blog.teamtreehouse.com/getting-started-typescript</a></li>
+<li><a href="https://code.visualstudio.com/Docs/languages/typescript">https://code.visualstudio.com/Docs/languages/typescript</a></li>
+<li><a href="http://code.visualstudio.com/docs/editor/tasks">http://code.visualstudio.com/docs/editor/tasks</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../npm/install_npm.html">npm</a></li>
+<li><a href="../powershell/PATH.html">path</a></li>
+<li><a href="../windows/environment_variables.html">editing environment variables</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

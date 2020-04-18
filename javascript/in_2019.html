@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="javascript-fundamentals-in-2019">Javascript fundamentals in 2019</h1>
+<p>This will change no doubt. Here's where we might be right now.</p>
+<p>Use <code>document.querySelector</code> and <code>document.querySelectorAll</code> instead of jquery.</p>
+<pre><code>// always returns an array
+function $(selector) {
+	return document.querySelectorAll(selector);
+}
+</code></pre>
+<p>Don't need <code>type='text/javascript'</code> in a <code>script</code> tag.</p>
+<blockquote>
+<p>var is deprecated. Use const and/or let</p>
+</blockquote>
+<p>For a value that should never be changed use <code>const</code> , e.g.</p>
+<pre><code>const numWheels = 4;
+</code></pre>
+<p>For a value that can be changed, use let</p>
+<pre><code>let age = 0;
+</code></pre>
+<h2 id="destructuring">Destructuring</h2>
+<p>Instead of this:</p>
+<pre><code>const width = dims.width;
+const height = dims.height;
+</code></pre>
+<p>You can write:</p>
+<pre><code>const {width, height} = dims;
+</code></pre>
+<h2 id="object-declaration-made-easy">Object declaration made easy</h2>
+<p>instead of</p>
+<pre><code>const width = 300;
+const height = 150;
+const obj = {
+	width: width,
+	height: height,
+	area: function() {
+		return this.width * this.height
+	},
+};
+</code></pre>
+<p>you can simplify slightly....</p>
+<pre><code>const width = 300;
+const height = 150;
+const obj = {
+	width,
+	height,
+	area() {
+		return this.width * this.height
+	},
+};
+</code></pre>
+<h2 id="the-spread-operator">The spread operator</h2>
+<pre><code>var middle = [3, 4];
+var arr = [1, 2, ...middle, 5, 6];
+console.log(arr);
+// [1, 2, 3, 4, 5, 6]
+
+
+
+var arr = [2, 4, 8, 6, 0];
+var max = Math.max(...arr);
+console.log(max);
+// 8
+</code></pre>
+<h2 id="use-class">Use <code>class</code></h2>
+<pre><code>class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+  // Getter
+  get area() {
+    return this.calcArea();
+  }
+  // Method
+  calcArea() {
+    return this.height * this.width;
+  }
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">more about class</a></p>
+<h2 id="arrow-functions">Arrow functions</h2>
+<p>Instead of</p>
+<pre><code>thing.calc(function(value){
+  return value + 2;
+});
+</code></pre>
+<p>Use:</p>
+<pre><code>loader.load(value =&gt; {
+  return value + 2;
+});
+</code></pre>
+<p>Or even...</p>
+<pre><code>loader.load(value =&gt; value + 2);
+</code></pre>
+<blockquote>
+<p>In classic function expressions, the this keyword is bound based on the context in which it is called. With arrow functions however...it uses this from the code that contains the arrow function.</p>
+<p>—<a href="https://medium.freecodecamp.org/when-and-why-you-should-use-es6-arrow-functions-and-when-you-shouldnt-3d851d7f0b26">Cynthia Lee: When (and why) you should use ES6 arrow functions — and when you shouldn’t</a></p>
+</blockquote>
+<h2 id="promises">Promises</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises</a></p>
+<h2 id="asyncawait">Async/Await</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await">https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await</a></p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://threejsfundamentals.org/threejs/lessons/threejs-prerequisites.html">https://threejsfundamentals.org/threejs/lessons/threejs-prerequisites.html</a></li>
+<li><a href="https://codeburst.io/javascript-the-spread-operator-a867a71668ca">https://codeburst.io/javascript-the-spread-operator-a867a71668ca</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

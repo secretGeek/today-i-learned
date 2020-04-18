@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="run-a-command-against-each-table">Run a command against each table</h1>
+<p>While I generally use NimbleText to <a href="http://nimbletext.com/HowTo/OneQueryManyTables">run a command against each table</a>, there are some handy features built into SQL Server that let you do this in a quite seamless manner.</p>
+<blockquote>
+<p><code>sp_msforeachtable</code>: Runs a command with '?' replaced with each table name (v6.5 and up)</p>
+</blockquote>
+<p>For example:</p>
+<pre><code>exec sp_msforeachtable
+    @Command1 = 'print ''reindexing table ?''',
+    @Command2 = 'dbcc dbreindex(''?'')',
+    @Command3 = 'select count (*), '?' as TableName [?] from ?'
+</code></pre>
+<p>Here's a minimum example to try for yourself:</p>
+<pre><code>exec sp_msforeachtable 'select count (*), '?' as TableName [?] from ?'
+</code></pre>
+<p>You can change the character to use for tablename by supplying a second parameter
+exec sp_MSforeachtable 'print &quot;Should I drop <em>?&quot;', '</em>'</p>
+<p>Honestly, I wouldn't use this feature at all.</p>
+<p>I much prefer the versatility of getting table lists from Information_Schema or even SysObjects, and then turning those results into queries with <a href="http://nimbletext.com/HowTo/OneQueryManyTables">NimbleText</a>.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://nimbletext.com/HowTo/OneQueryManyTables">NimbleText: How to run the same query against many tables</a></li>
+<li><a href="http://stackoverflow.com/questions/121243/hidden-features-of-sql-server">Stack Overflow: Hidden Features of SQL Server</a></li>
+</ul>
+<h2 id="see-also">See also:</h2>
+<blockquote>
+<p><code>sp_msforeachdb</code>: Runs a command with '?' replaced with each database name (v7 and up)</p>
+</blockquote>
+
+</body>
+<script>
+</script>
+</html>

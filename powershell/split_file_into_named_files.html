@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="split-file-into-named-files">Split file into named files</h1>
+<p>Given an input file like this:</p>
+<pre><code>FILE:Hello.txt
+content (this will end up in Hello.txt)
+content (this will end up in Hello.txt)
+FILE:Hello2.txt
+content3 (this will end up in Hello2.txt)
+content4 (this will end up in Hello2.txt)
+</code></pre>
+<p>You can split it into two files, named <code>Hello.txt</code> and <code>Hello2.txt</code> by using the following line of powershell....</p>
+<pre><code>get-content .\file1.txt |
+	foreach {
+		if ($_ -like 'FILE:*') {
+			# Set the filename based on the token
+			$file = ($_ -split ':')[1].Trim();
+			# (consider: delete the file at this point, if it already exists)
+			if (test-path $file) {del $file}
+		} else {
+			# Append to the file. Assumes we've already set a filename
+			$_ |
+				out-file -append $file -encoding Unicode
+		}
+	}
+</code></pre>
+<p>Here's a shorter version of the same script (using common aliases)</p>
+<pre><code>cat .\file1.txt | % { if ($_ -like 'FILE:*') { $file = ($_ -split ':')[1];if (test-path $file) {del $file}} else { $_ | out-file -append $file Unicode } }
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

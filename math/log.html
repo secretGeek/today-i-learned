@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h2 id="logarithms">Logarithms</h2>
+<pre><code>Log_n (n^x) = x   (where the _n denotes &quot;subscript n&quot; and means the Log was in base n)
+</code></pre>
+<p>For example:</p>
+<pre><code>Log_10 (10)	  = 1   (The subscript 10 means the Log was in base 10)
+Log_10 (1000) = 3
+Log_2  (32)   = 5
+</code></pre>
+<p>Similarly:</p>
+<pre><code>Log_e (e) = 1
+</code></pre>
+<p>Log base e is referred to as &quot;the natural log&quot; and written as the function &quot;ln&quot; (pronounced “Lin”)</p>
+<p>Where e is <a href="eulers_number.html">Euler's numbers</a></p>
+<p>Hence</p>
+<pre><code>Log_e (x) = ln(x)   -- much easier to write, no need for subscripts.
+</code></pre>
+<p>By convention, if you write Log(x) without specifying a base, then you assume it to be base 10.</p>
+<pre><code>Log(1) = 0
+Ln(1) = 0
+
+Because n^0 = 1
+</code></pre>
+<h2 id="log-is-undefined-for-0-and-negative-numbers">Log is undefined for 0 and negative numbers.</h2>
+<p>As a positive number get smaller and smaller and closer to zero the Log of the number becomes a huge negative number</p>
+<p>e.g. 10^-10000000   is 0.0000001</p>
+<p>So   Log(0.00000001) = -7</p>
+<p>What happens when the number reaches 0? We are in spooky 'undefined' territory</p>
+<pre><code>ln(0) = undefined
+
+ln(-3) undefined
+</code></pre>
+<h2 id="basic-log-rulesthese-work-for-any-base">Basic log rules(these work for any base)</h2>
+<pre><code>Log(m^n) = n Log(m)
+
+
+Log(a) + Log(b) = Log(a*b)
+</code></pre>
+<p>e.g.
+Log(10) + Log(1000) = 1+3 = 4
+Log(10000) = 4
+10000 = 10*1000</p>
+<pre><code>Log(a) - Log(b) = Log(a/b)
+</code></pre>
+<p>e.g.
+Log(10000) - Log(100) = Log(10000/100) = Log(100) = 2</p>
+<p>The Log base switch rule</p>
+<pre><code>log_b(c) = 1 / log_c(b)
+</code></pre>
+<h2 id="convert-to-the-natural-log">Convert to the natural log.</h2>
+<p>Sometimes you'll have an equation that has a base other than 10 or <code>e</code>. To be able to get an answer on your calculator you'll need to convert it to base 10 or base <code>e</code>.</p>
+<p>In such cases you use: the log base change rule</p>
+<pre><code>log_b(x) = log_c(x) / log_c(b)
+</code></pre>
+<p>So perhaps you've ended up with an answer of: <code>log_12 (14)</code></p>
+<p>To turn this into a number....</p>
+<pre><code>log_12 (14) = ln(14) / ln(12) 
+</code></pre>
+<p>Which you can plug into a calculator (provided it has a <code>ln</code> button, i.e. it is a 'scientific' calculator)</p>
+
+</body>
+<script>
+</script>
+</html>

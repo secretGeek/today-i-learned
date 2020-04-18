@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<p>#slow and long running queries</p>
+<p>Query to show which queries are the worst performers.</p>
+<pre><code>SELECT TOP 50 creation_time 
+        ,last_execution_time
+        ,total_physical_reads
+        ,total_logical_reads 
+        ,total_logical_writes
+        , execution_count
+        , total_worker_time
+        , total_elapsed_time
+        , total_elapsed_time / execution_count avg_elapsed_time
+        ,SUBSTRING(st.text, (qs.statement_start_offset/2) + 1,
+         ((CASE statement_end_offset
+          WHEN -1 THEN DATALENGTH(st.text)
+          ELSE qs.statement_end_offset END
+            - qs.statement_start_offset)/2) + 1) AS statement_text
+FROM sys.dm_exec_query_stats AS qs
+CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) st
+where last_execution_time &gt; '18 Feb 2016'
+ORDER BY total_elapsed_time / execution_count DESC;
+</code></pre>
+<p>You may want to change the Order by...</p>
+<p>You may lacks permissions to run this. Specifically:</p>
+<pre><code>VIEW SERVER STATE permission was denied on object 'server', database 'master'.
+</code></pre>
+<p>Which requires this to be executed:</p>
+<pre><code>use master
+go
+GRANT VIEW SERVER STATE TO &lt;user_name&gt;
+</code></pre>
+<p>...if possible.</p>
+
+</body>
+<script>
+</script>
+</html>

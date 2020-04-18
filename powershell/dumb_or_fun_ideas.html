@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="sample-scripts-for-dumb-or-fun-ideas">Sample scripts for dumb or fun ideas...</h1>
+<h2 id="fractals">Fractals</h2>
+<p>A mandelbrot one liner:</p>
+<pre><code>$i=$j=$r=$x=$y=[float]-16; while(($y++) -lt 15) {for($x=0; ($x++) -lt 84; write-host (&quot; .:-;!/&gt;')|&amp;IH%*#&quot;[$k -band 15]) -nonewline){$i=$k=$r=[float]0;do{$j=$r*$r-$i*$i-2+$x/25;$i=2*$r*$i+$y/10;$r=$j} while (($j*$j+$i*$i) -lt 11 -band ($k++) -lt 111)}&quot; &quot;}
+</code></pre>
+<p>Which produces output like:</p>
+<pre><code>:::::::::::::------------------------------------------------:::::::::::::::::::::::
+:::::::::--------------------------------------------------------:::::::::::::::::::
+:::::----------------------------------;;;;;;;;;;;-------------------:::::::::::::::
+:::-----------------------------;;;;;;;;;;;;;;;;;;;;;;;;---------------:::::::::::::
+---------------------------;;;;;;;;;;;;;!!!/-H//!!!;;;;;;;;---------------::::::::::
+------------------------;;;;;;;;;;;;;!!!!//&gt;'&amp;*|I /!!!;;;;;;;;--------------::::::::
+--------------------;;;;;;;;;;;;;!!!!!!//&gt;')|:* |'&gt;//!!!!;;;;;;;--------------::::::
+----------------;;;;;;;;;;;;;!!!!!!////&gt;&gt;'|-    /-|&gt;&gt;///!!!!;;;;;--------------:::::
+------------;;;;;;;;;;;;!!!!!!!//&gt;')I'')||I      H&amp;))'&gt;&gt;&gt;&gt;*/!!;;;;;-------------::::
+--------;;;;;;;;;;!!!!!!!!!!///&gt;&gt;)H-   |             .IH&amp;*I &gt;!!;;;;;-------------:::
+-----;;;;;;;;;!!!!///////////&gt;&gt;'|:H-                      I'&gt;/!!;;;;;-------------::
+-;;;;;;;;;;!!!!/&gt;||'&gt;&gt;''''&gt;&gt;'')|%.                        %|&amp;&gt;/!!;;;;--------------:
+;;;;;;;;!!!!!//&gt;&gt;)&amp;.-!I*;H &amp;||&amp;&gt;                           *)&gt;/!!;;;;;--------------
+;;;;;!!!!!///&gt;&gt;')IH-;                                       &amp;//!!;;;;;--------------
+!!!!/////&gt;&gt;&gt;')H%:**           *                            )&gt;/!!!;;;;;;-------------
+                                                        .&amp;)&gt;//!!!;;;;;;-------------
+!!!!/////&gt;&gt;&gt;')H%:**           *                            )&gt;/!!!;;;;;;-------------
+;;;;;!!!!!///&gt;&gt;')IH-;                                       &amp;//!!;;;;;--------------
+;;;;;;;;!!!!!//&gt;&gt;)&amp;.-!I*;H &amp;||&amp;&gt;                           *)&gt;/!!;;;;;--------------
+-;;;;;;;;;;!!!!/&gt;||'&gt;&gt;''''&gt;&gt;'')|%.                        %|&amp;&gt;/!!;;;;--------------:
+-----;;;;;;;;;!!!!///////////&gt;&gt;'|:H-                      I'&gt;/!!;;;;;-------------::
+--------;;;;;;;;;;!!!!!!!!!!///&gt;&gt;)H-   |             .IH&amp;*I &gt;!!;;;;;-------------:::
+------------;;;;;;;;;;;;!!!!!!!//&gt;')I'')||I      H&amp;))'&gt;&gt;&gt;&gt;*/!!;;;;;-------------::::
+----------------;;;;;;;;;;;;;!!!!!!////&gt;&gt;'|-    /-|&gt;&gt;///!!!!;;;;;--------------:::::
+--------------------;;;;;;;;;;;;;!!!!!!//&gt;')|:* |'&gt;//!!!!;;;;;;;--------------::::::
+------------------------;;;;;;;;;;;;;!!!!//&gt;'&amp;*|I /!!!;;;;;;;;--------------::::::::
+---------------------------;;;;;;;;;;;;;!!!/-H//!!!;;;;;;;;---------------::::::::::
+:::-----------------------------;;;;;;;;;;;;;;;;;;;;;;;;---------------:::::::::::::
+:::::----------------------------------;;;;;;;;;;;-------------------:::::::::::::::
+:::::::::--------------------------------------------------------:::::::::::::::::::
+:::::::::::::------------------------------------------------:::::::::::::::::::::::    
+</code></pre>
+<p>...from WaiKin Kong, in 2006, shared here: <a href="https://blogs.msdn.microsoft.com/powershell/2006/12/28/mandelbrot-one-liner/">Mandelbrot One-liner</a></p>
+<p>A less condensed version, from <a href="http://poshcode.org/5845">poshcode, by user Zefram</a> which writes colored squares.</p>
+<pre><code>$i=[float]-16;
+$j=[float]-16;
+$r=[float]-16;
+$x=[float]-16;
+$y=[float]-16;
+
+#Color Array
+$colors=&quot;Black&quot;,&quot;DarkBlue&quot;,&quot;DarkGreen&quot;,&quot;DarkCyan&quot;,&quot;DarkRed&quot;,&quot;DarkMagenta&quot;,&quot;DarkYellow&quot;,&quot;Gray&quot;,&quot;DarkGray&quot;,&quot;Blue&quot;,&quot;Green&quot;,&quot;Cyan&quot;,&quot;Red&quot;,&quot;Magenta&quot;,&quot;Yellow&quot;,&quot;White&quot; 
+
+while(($y++) -lt 15) 
+{ 
+    for($x=0; ($x++) -lt 70; Write-Host &quot; &quot; -BackgroundColor ($colors[$k -band 15]) -NoNewline) 
+        { 
+            #Zero
+            $i=[float]0;
+            $k=[float]0;
+            $r=[float]0; 
+            do
+            {
+                #Explain to PowerShell what a complex number looks like because computers are basally stupid.
+                $j=$r*$r-$i*$i-2+$x/25; $i=2*$r*$i+$y/10; $r=$j
+            }
+            #Make sure the fractal doesn't draw to infinity
+            while (($j*$j+$i*$i) -lt 4 -band ($k++) -lt 111) 
+        } 
+    Write-Host &quot; &quot;
+}
+</code></pre>
+<h2 id="emojis">Emojis</h2>
+<pre><code>Install-Module -Name Emojis -Scope CurrentUser -Force;
+Get-Command -Module Emojis -CommandType All;
+Get-Emoji -Name airplane, ambulance;
+emoji airplane | scb;
+</code></pre>
+<p>From: <a href="https://artofshell.com/2016/04/emojis-in-powershell-yes/">Emojis in PowerShell? Yes!</a></p>
+<h2 id="cowsay">Cowsay</h2>
+<p>Based on Tony Monroe's original Unix terminal program cowsay</p>
+<p>See:</p>
+<ol>
+<li><a href="https://github.com/kanej/Posh-Cowsay">Posh-Cowsay</a> &quot;A shell cannot be called civilised until it has a talking cow.&quot;</li>
+<li><a href="http://blog.lukesampson.com/cowsay-in-powershell">Luke Sampson's implementation</a></li>
+</ol>
+<h2 id="speech-synthesis">Speech Synthesis</h2>
+<pre><code>Add-Type -AssemblyName System.Speech;
+$synth = New-Object -TypeName System.Speech.Synthesis.SpeechSynthesizer;
+$message = &quot;Hello. Is there anybody OUT there? Is there anyone at home?&quot;;
+$synth.speak($message);
+$synth.Dispose();
+</code></pre>
+<h2 id="beautiful-music">Beautiful music</h2>
+<p>From <a href="https://blogs.technet.microsoft.com/wikininjas/2013/11/13/wiki-life-geek/">Luiz Henrique Lima Campos</a>, quoted here: <a href="http://social.technet.microsoft.com/wiki/contents/articles/20989.music-from-the-command-line-performed-by-powershell.aspx">&quot;Music from the Command Line&quot;: Performed by Powershell</a>, though maybe previously from <a href="http://jeffwouters.nl/index.php/2012/03/get-your-geek-on-with-powershell-and-some-music/">Jeff Wouters</a></p>
+<pre><code>[console]::beep(440,500)       
+[console]::beep(440,500) 
+[console]::beep(440,500)        
+[console]::beep(349,350)        
+[console]::beep(523,150)        
+[console]::beep(440,500)        
+[console]::beep(349,350)        
+[console]::beep(523,150)        
+[console]::beep(440,1000) 
+[console]::beep(659,500)        
+[console]::beep(659,500)        
+[console]::beep(659,500)        
+[console]::beep(698,350)        
+[console]::beep(523,150)        
+[console]::beep(415,500)        
+[console]::beep(349,350)        
+[console]::beep(523,150)        
+[console]::beep(440,1000)
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

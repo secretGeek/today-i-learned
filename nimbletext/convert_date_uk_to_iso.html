@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="convert-date-from-uk-format-to-iso-8601">Convert date from UK format to ISO 8601</h1>
+<p>aka -- Convert date from Australian format to ISO 8601</p>
+<p>If '$1' is an australian or UK date such as:</p>
+<pre><code>4/09/2014 8:00
+11/10/2015 1:00
+27/11/2015 14:00
+</code></pre>
+<p>And you want it as an ISO-8601 date such as:</p>
+<pre><code>2014-09-04
+2015-10-11
+2015-11-27
+</code></pre>
+<p>Try this on....</p>
+<pre><code>&lt;% $1.split('/')[2].split(' ')[0] %&gt;-&lt;% ('000' + $1.split('/')[1]).right(2) %&gt;-&lt;% ('00' + $1.split('/')[0]).right(2) %&gt;
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

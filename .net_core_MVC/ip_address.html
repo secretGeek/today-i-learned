@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="ip-address">IP Address</h1>
+<p>In asp.net full-fat version you could do this:</p>
+<pre><code>Request.UserHostAddress
+</code></pre>
+<p>Now you must do this:</p>
+<pre><code>Request.HttpContext.Connection.RemoteIpAddress.ToString()
+</code></pre>
+<p>But hey, it's kinda cool, because <code>Request.HttpContext.Connection.RemoteIpAddress</code> is a real object...</p>
+<p>It's of the abstract type 'IPAddress' which is a fun little class, resembling as it does the general result you would achieve if you ate a whole box of 'IPv6' and then vomited all over the editor.</p>
+<p>But... alas... when using Kestrel and a forwarding web server (such as nginx) you will find that</p>
+<pre><code>Request.HttpContext.Connection.RemoteIpAddress.ToString() == &quot;127.0.0.1&quot;
+</code></pre>
+<p>ALL the time, which is not what you wanted to see. (Or it could be &quot;::1&quot; which is no better)</p>
+<p>This is because original IP request is terminated by <code>nginx</code>, and a new request is sent to your application. Instead if we configure nginx to put the original IP into a request header, and we look at that request header, then we will see the original remote IP address of the caller. Here's the nginx config details...</p>
+<pre><code>proxy_set_header X-Real-IP $remote_addr;
+</code></pre>
+<p>(See article on <a href="../linux/nginx.html">nginx</a> to work out exactly where to put that)</p>
+<p>In .net core MVC you can then:</p>
+<pre><code>var ipaddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+if (Request.Headers[&quot;X-Real-IP&quot;].Count() &gt; 0)
+{
+    ipaddress = Request.Headers[&quot;X-Real-IP&quot;];
+}
+</code></pre>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../linux/nginx.html">nginx</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

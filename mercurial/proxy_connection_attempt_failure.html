@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="resolve-mercurial-abort-error-a-connection-attempt-failed-because-the-connected-party-did-not-properly-respond-after-a-period-of-time-or-established-connection-failed-because-connected-host-has-failed-to-respond">resolve: mercurial abort: error: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond</h1>
+<p>When trying to pull from bitbucket while behind a corporate firewall i had this error:</p>
+<blockquote>
+<p>mercurial abort: error: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond</p>
+</blockquote>
+<p>Stackoverflow said I needed to configure a proxy.</p>
+<p>Proxy settings are found here:</p>
+<pre><code>Internet explorer &gt; Internet options &gt; Connections &gt; LAN Settings
+</code></pre>
+<p>In the <code>Local Area Network (LAN) Settings</code> dialog... but proxy server was not specified, instead a <code>Use automatic configuration script</code> was specified.</p>
+<p>I downloaded the script that was specified.</p>
+<p>It was a lengthy javascript file (800 lines long), starting like this:</p>
+<pre><code>function FindProxyForURL(url, host)
+{
+	hostIP = dnsResolve(host);
+	var tmpURL = url.substr(0,10);
+
+	if(tmpURL.indexOf('://') == -1)
+	{
+			 url='http://' + url;
+	}
+</code></pre>
+<p>Near the end it told you the general proxy settings to use....</p>
+<pre><code>if (shExpMatch(url, &quot;https://*&quot;))
+{
+	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+}
+else
+{
+	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+}
+</code></pre>
+<p>(Names have been changed to protect the LAN)</p>
+<p>So I took one of the addresses from there and put it into my <a href="mercurial_ini.html">mercurial.ini</a> file like this:</p>
+<pre><code>[http_proxy]
+host = machinename1.adomain:8080
+</code></pre>
+<p>Tried <code>hg in</code> again, and it now worked!</p>
+<p>I am good at computers today.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/8991608/configuration-for-using-mercurial-with-bitbucket-from-behind-a-certificate-rewri">Configuration for using Mercurial with Bitbucket from behind a certificate rewriting proxy?</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href=""></a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

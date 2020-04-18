@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="to-sort-unique">To Sort Unique</h1>
+<pre><code>sort -unique
+</code></pre>
+<p>e.g.</p>
+<pre><code>1..100 | % { $_ % 5} | sort -unique
+</code></pre>
+<h1 id="to-sort-by-a-property">To Sort by a Property</h1>
+<p>use:</p>
+<pre><code>sort -property &quot;propertyName&quot;
+</code></pre>
+<p>e.g.</p>
+<pre><code>get-alias -def &quot;get*&quot; | sort -property definition | ft -property Name, Definition
+</code></pre>
+<p>Another example:</p>
+<p>You can sort a file's content by the length of its lines by using:</p>
+<pre><code>cat $file | sort -property Length
+</code></pre>
+<p>To sort by file date descending (and pick only the top 10):</p>
+<pre><code>dir | sort lastwritetime -desc | select -f 10
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

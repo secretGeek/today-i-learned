@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="dpi-aware-winforms-apps">DPI Aware Winforms apps</h1>
+<p>I still struggle with this, but here's my approach currently (2019)</p>
+<p>Firstly, in Main():</p>
+<pre><code>if (Environment.OSVersion.Version.Major &gt;= 6)
+	SetProcessDPIAware();
+</code></pre>
+<p>Where:</p>
+<pre><code>[DllImport(&quot;user32.dll&quot;)]
+private static extern bool SetProcessDPIAware();
+</code></pre>
+<p>This code requires these using statements</p>
+<pre><code>using System;
+using System.Runtime.InteropServices;
+</code></pre>
+<p>It may or may not be important to set <code>AutoScaleMode</code> of forms to <code>Dpi</code> (instead of their default of <code>Font</code>).</p>
+
+</body>
+<script>
+</script>
+</html>

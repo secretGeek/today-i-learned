@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-and-fix-large-tables">Find (and fix) large tables</h1>
+<p>Some tables too big? Running out of space in your database?</p>
+<p>Easy to find:</p>
+<pre><code>SELECT top 50
+    t.NAME AS TableName,
+    s.Name AS SchemaName,
+    p.rows AS RowCounts,
+    (SUM(a.total_pages) * 8)/1024 AS TotalSpaceMB,
+    (SUM(a.used_pages) * 8)/1024 AS UsedSpaceMB,
+    ((SUM(a.total_pages) - SUM(a.used_pages)) * 8/1024) AS UnusedSpaceMB,
+    case when p.rows &gt; 0 then ((SUM(a.used_pages)*8000 ) / p.rows) else 0 end as bytes_per_row
+FROM
+    sys.tables t
+INNER JOIN
+    sys.indexes i ON t.OBJECT_ID = i.object_id
+INNER JOIN
+    sys.partitions p ON i.object_id = p.OBJECT_ID AND i.index_id = p.index_id
+INNER JOIN
+    sys.allocation_units a ON p.partition_id = a.container_id
+LEFT OUTER JOIN
+    sys.schemas s ON t.schema_id = s.schema_id
+WHERE
+    t.NAME NOT LIKE 'dt%'
+    AND t.is_ms_shipped = 0
+    AND i.OBJECT_ID &gt; 255
+GROUP BY
+    t.Name, s.Name, p.Rows
+ORDER BY
+    4 desc, 5 desc
+</code></pre>
+<p>(There's also some built in reports... but a query is the best UI)</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/7892334/get-size-of-all-tables-in-database">Get size of all tables in database</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

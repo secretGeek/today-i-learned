@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="change-google-chrome-on-startup-page-despite-being-enforced-by-administrator">Change google chrome on startup page, despite being &quot;enforced by administrator&quot;</h1>
+<p>On a corporate machine, the google chrome homepage was set to an intranet page that did not load correctly due to authentication problems. I couldn't change it because:</p>
+<blockquote>
+<p>This setting is enforced by your administrator.</p>
+</blockquote>
+<p>I found I needed to edit the settings under:</p>
+<pre><code>HKEY_CURRENT_USER\SOFTWARE\Policies\Google\Chrome\
+</code></pre>
+<p>Specifically under:</p>
+<pre><code>HKEY_CURRENT_USER\SOFTWARE\Policies\Google\Chrome\RestoreOnStartupURLs
+</code></pre>
+<p>I saved the relevant snippet to a <code>.reg</code> file, adjacent to my <a href="../powershell/create_profile.html">powershell profile</a>, so I can re-apply it later if needed.</p>
+<p>Its content is somewhat like this:</p>
+<pre><code>Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\SOFTWARE\Policies\Google\Chrome\RestoreOnStartupURLs]
+&quot;1&quot;=&quot;http://{the url i wanted}&quot;
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/20424125/startup-settings-in-chrome-disabled">Startup Settings In Chrome Disabled</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

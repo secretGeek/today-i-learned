@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="write-host-considered-harmful-so-what-should-we-do">Write-Host considered Harmful, so what should we do?</h1>
+<p>Jeffrey Snover says <a href="http://www.jsnover.com/blog/2013/12/07/write-host-considered-harmful/">Write-Host Considered Harmful</a></p>
+<p>In summary:</p>
+<ul>
+<li>For <strong>RESULTS</strong> of an operation use &quot;Write-Output&quot;</li>
+<li>For <strong>Messages</strong> use Write-Verbose</li>
+</ul>
+<p>Hmmm.</p>
+<p>But <code>Write-Output</code> doesn't let you specify <code>nonewline</code> and the relevant color.</p>
+<p>I love those things a lot!</p>
+<p>Perhaps <code>Write-Host</code> <em>is</em> the right thing for a lot of my usages.</p>
+<p>Scripting guys recommend this approach to changing text color when using Write-Output:</p>
+<pre><code>$t = $host.ui.RawUI.ForegroundColor
+$host.ui.RawUI.ForegroundColor = &quot;DarkGreen&quot;
+Write-Output &quot;this is green output&quot;
+$host.ui.RawUI.ForegroundColor = $t
+</code></pre>
+<p>Really?</p>
+<p>And someone provides this helpful example on stackoverflow of wrapping it into a &quot;Write-ColorOutput&quot; function.</p>
+<pre><code>function Write-ColorOutput($ForegroundColor)
+{
+    # save the current color
+    $fc = $host.UI.RawUI.ForegroundColor
+
+    # set the new color
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+
+    # output
+    if ($args) {
+        Write-Output $args
+    }
+    else {
+        $input | Write-Output
+    }
+
+    # restore the original color
+    $host.UI.RawUI.ForegroundColor = $fc
+}
+
+# test
+Write-ColorOutput red (ls)
+Write-ColorOutput green (ls)
+ls | Write-ColorOutput yellow
+</code></pre>
+<p>It doesn't solve the no new line feature, and it is horribly un-parallel-able (if you lose sleep over that kind of thing like some of my buddies)</p>
+<p>So here's what I'm going to do:</p>
+<p>Keep on using <code>Write-host</code> for a little longer, if I am using colors or <code>nonewline</code> flag. Yes I am.</p>
+<p>(And I reserve the right to change this at any second.)</p>
+<p>Tag: Don't follow me I'm lost too.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.jsnover.com/blog/2013/12/07/write-host-considered-harmful/">Write-Host Considered Harmful</a></li>
+<li><a href="https://blogs.technet.microsoft.com/heyscriptingguy/2012/10/11/powertip-write-powershell-output-in-color-without-using-write-host/">Scripting Guys: PowerTip: Write PowerShell Output in Color Without Using Write-Host</a></li>
+<li><a href="http://stackoverflow.com/questions/4647756/is-there-a-way-to-specify-a-font-color-when-using-write-output">SO: Is there a way to specify a font color when using write-output</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

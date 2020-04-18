@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="custom-errors-in-asp.net-mvc-5">Custom Errors in asp.net mvc 5</h1>
+<p>(This is not for .net core)</p>
+<ol>
+<li><p>Inside <code>system.web</code> element in the <code>web.config</code> file:</p>
+<pre><code> &amp;lt;customErrors defaultRedirect=&quot;~/Error&quot; mode=&quot;On&quot;&amp;gt;
+ 	&amp;lt;error statusCode=&quot;404&quot; redirect=&quot;~/Error/NotFound&quot; /&amp;gt;
+ 	&amp;lt;error statusCode=&quot;403&quot; redirect=&quot;~/Error/Forbidden&quot; /&amp;gt;
+ 	&amp;lt;error statusCode=&quot;407&quot; redirect=&quot;~/Error/Security&quot; /&amp;gt;
+ &amp;lt;/customErrors&amp;gt;
+</code></pre>
+</li>
+<li><p>In FilterConfig ensure you are <em>not</em> adding a <code>HandleErrorAttribute</code></p>
+<pre><code> public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+ {
+ 	//filters.Add(new HandleErrorAttribute()); //Ensure this is commented out or deleted.
+ }
+</code></pre>
+</li>
+<li><p>Create an Error controller.</p>
+<pre><code> public class ErrorController : Controller
+ {
+ 	public ActionResult Index()
+ 	{
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Shared/Error.cshtml
+ 		return View(&quot;Error&quot;);
+ 	}
+
+ 	public ActionResult NotFound()
+ 	{
+ 		Response.StatusCode = 404;
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Error/View.cshtml
+ 		return View();
+ 	}
+
+ 	public ActionResult Forbidden()
+ 	{
+ 		Response.StatusCode = 403;
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Error/Forbidden.cshtml
+ 		return View();
+ 	}
+ }
+</code></pre>
+</li>
+</ol>
+<p>In an action where you look for a resource but can't find it... don't do this:</p>
+<pre><code>return this.HttpNotFound();
+</code></pre>
+<p>...as that will end up at the IIS error page, not your custom error page.
+instead do this:</p>
+<pre><code>throw new System.Web.HttpException(404, &quot;No such project&quot;);
+</code></pre>
+<p>..and it will end up on your &quot;NotFound&quot; page.</p>
+<p>Inside those error handling views, I have things like this:</p>
+<pre><code>@model System.Web.Mvc.HandleErrorInfo
+@{
+	ViewBag.Title = &quot;Error&quot;;
+}
+&lt;img src=&quot;/images/Doh.jpg&quot; alt=&quot;Homer Simpson giving a Doh reaction&quot; title=&quot;Missing&quot; style=&quot;float:right;margin:30px;&quot; /&gt;
+&lt;h1 class=&quot;error&quot;&gt;404 - File not found.&lt;/h1&gt;
+@if (Model != null)
+{
+	&lt;h2 class=&quot;error&quot;&gt;@Model.Exception.Message&lt;/h2&gt;
+	if (Authorized.Admin() || Authorized.Editor())
+	{
+		&lt;p&gt;
+			Exception of type: &lt;code&gt;&lt;strong&gt;@Model.Exception.GetType().Name&lt;/strong&gt;&lt;/code&gt;&lt;br /&gt;
+			Thrown in &lt;code&gt;Controller: &lt;strong&gt;@Model.ControllerName&lt;/strong&gt;, Action: &lt;strong&gt;@Model.ActionName&lt;/strong&gt;&lt;/code&gt;
+		&lt;/p&gt;
+		&lt;h2&gt;Details:&lt;/h2&gt;
+		&lt;p&gt;@Html.Raw(Model.Exception.ToString().Replace(&quot;\r\n&quot;, &quot;&lt;br /&gt;\r\n&quot;))&lt;/p&gt;
+	}
+}
+else
+{
+	&lt;h2 class=&quot;error&quot;&gt;Look not here. We cannot find that which you seek.&lt;/h2&gt;
+}
+</code></pre>
+<p>The line <code>if (Authorized.Admin() || Authorized.Editor())</code> is specific to my situation.</p>
+<p>Others recommend:</p>
+<pre><code>@if(Model != null &amp;&amp; HttpContext.Current.IsDebuggingEnabled)
+</code></pre>
+<h2 id="previously">Previously</h2>
+<p>Previously I wrote this nasty article which showed a way to get very confused by custom errors in asp.net mvc (including deliberate typos)</p>
+<p><a href="http://www.secretgeek.net/custom_errors_mvc">Custom Errors in ASP.Net MVC: It couldn't be simpler, right?</a></p>
+<p>One comment there was very helpful, but a particular stack overflow answer was most helpful</p>
+<p><a href="https://stackoverflow.com/a/13905859/49">Pableo Romeo answer at 'How to make custom error pages work in ASP.NET MVC 4'</a></p>
+
+</body>
+<script>
+</script>
+</html>

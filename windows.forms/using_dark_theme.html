@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="test-if-windows-is-using-lightdark-theme">Test if windows is using light/dark theme</h1>
+<p>This is not yet battle tested</p>
+<pre><code>//using Microsoft.Win32
+public bool WindowsIsUsingDarkTheme()
+{
+	var keyName = @&quot;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize&quot;;
+	var valueName = &quot;AppsUseLightTheme&quot;;
+	var value = Registry.GetValue(keyName, valueName, null);
+	if (value == null)
+	{
+		return false;
+	}
+	
+	if (int.TryParse(value.ToString(), out int result)){
+		return result == 0;
+	}
+	
+	return false;
+}
+</code></pre>
+<p>Source: <a href="https://gist.github.com/secretGeek/fa0ea0039f0c5eaa7d122fe569fa2b44">https://gist.github.com/secretGeek/fa0ea0039f0c5eaa7d122fe569fa2b44</a></p>
+
+</body>
+<script>
+</script>
+</html>

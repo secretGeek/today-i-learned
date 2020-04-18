@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="appharbor-keep-alive">AppHarbor Keep alive</h1>
+<p>My sample app on AppHarbor is very slow to start up — but lickety split when it's running.</p>
+<p>You can use &quot;background workers&quot; at appHarbor to run console apps that perform actions such as keeping the site warm, rebuilding indexes etc. See for example <a href="http://www.jefclaes.be/2013/01/keeping-your-appharbor-application-pool.html">http://www.jefclaes.be/2013/01/keeping-your-appharbor-application-pool.html</a> and <a href="https://support.appharbor.com/kb/getting-started/background-workers">https://support.appharbor.com/kb/getting-started/background-workers</a> — but these are not available on the free plan, so you are looking at $49 a month minimum.</p>
+<p>So instead I'm using <a href="https://www.statuscake.com/">StatusCake</a> — free plan — to ping a particular URL (<a href="http://guessaguid.apphb.com/api/leaderboard">http://guessaguid.apphb.com/api/leaderboard</a>) on the application every 5 minutes. This should keep the app pool alive and responsive.</p>
+<p>My experience so far is that the application is kept alive and remains very responsive.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://coderwall.com/p/qqqxbg/workaround-for-appharbor-s-20-minute-app-pool-recycling">https://coderwall.com/p/qqqxbg/workaround-for-appharbor-s-20-minute-app-pool-recycling</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

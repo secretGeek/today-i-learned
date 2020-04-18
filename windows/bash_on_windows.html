@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="installing-bash-on-windows">Installing bash on windows.</h1>
+<p>You need to have (at least) Windows 10 anniversary edition:</p>
+<p>Check with <code>[Environment]::OSVersion.Version</code> (see <a href="which_version.html">How can I tell which version of Windows is currently running?</a>), you want at least &quot;10.0.14393.0&quot;</p>
+<blockquote>
+<p>Once you're sure you're using the correct version, open the Settings app and head to Update &amp; Security -&gt; For Developers. Activate the &quot;Developer Mode&quot; switch here to enable Developer Mode.</p>
+</blockquote>
+<p>You get a super scary warning (because you'll be allowing &quot;apps&quot; to be sideloaded)</p>
+<p>Then a message... &quot;installing developer mode package...&quot;</p>
+<p>The excitement is building...</p>
+<p>I didn't get past that message until I'd cleared a bunch of space on my machine and restarted... it seems to have worked... Next step...</p>
+<blockquote>
+<p>Control Panel -&gt; Programs -&gt; Turn Windows Features On or Off under Programs and Features.</p>
+</blockquote>
+<p>Enable the &quot;Windows Subsystem for Linux (Beta)&quot; option in the list here and click OK.</p>
+<p>restart.</p>
+<p>run bash.</p>
+<p>You have to confirm some scary shit.</p>
+<p>The first time it's run it downloads some stuff. Message:</p>
+<pre><code>-- Beta feature --
+This will install Ubuntu on Windows, distributed by Canonical
+and licensed under its terms available here:
+https://aka.ms/uowterms
+
+Type &quot;y&quot; to continue
+Downloading from the Windows Store... 8%
+</code></pre>
+<p>It asks you to enter a username and create a password.</p>
+<p>Then you're in.</p>
+<p>Documentation link: <a href="http://aka.ms/wsldocs">http://aka.ms/wsldocs</a></p>
+<p>All the normal <a href="../linux/bash.html">getting started on bash</a> stuff applies. (See also: <a href="http://blog.robertelder.org/intro-to-linux-command-line-for-windows-users/">A Quick Intro to Linux Command Line for Windows Users</a> and <a href="http://blog.robertelder.org/intro-to-linux-shell-scripting-for-windows-developers/">A Quick Intro to Linux Shell Scripting for Windows Developers</a> )</p>
+<p>Your traditional windows C drive is mounted at:  /mnt/c</p>
+<p>Your .profile (in home folder) says:</p>
+<pre><code># ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+    # if running bash
+    if [ -n &quot;$BASH_VERSION&quot; ]; then
+        # include .bashrc if it exists
+        if [ -f &quot;$HOME/.bashrc&quot; ]; then
+            . &quot;$HOME/.bashrc&quot;
+        fi
+    fi
+
+    # set PATH so it includes user's private bin if it exists
+    if [ -d &quot;$HOME/bin&quot; ] ; then
+        PATH=&quot;$HOME/bin:$PATH&quot;
+    fi
+</code></pre>
+<p>When you run <code>bash</code> you are running <code>C:\Windows\System32\bash.exe</code>.</p>
+<p>Bash's files/data are stored in this location in windows:</p>
+<pre><code>$env:LOCALAPPDATA\lxss
+</code></pre>
+<p>i.e.</p>
+<pre><code>%LOCALAPPDATA%\lxss
+</code></pre>
+<p>When you edit your profile in bash, you are editing this file (assuming your linux user name is &quot;LINUSER&quot;)</p>
+<pre><code>$env:LOCALAPPDATA\lxss\home\LINUSER\.profile
+</code></pre>
+<p>or</p>
+<pre><code>%LOCALAPPDATA%\lxss\home\LINUSER\.profile
+</code></pre>
+<p>And guidance from windows is very clear: DO NOT EDIT any files in this \lxss\ folder using Windows applications.</p>
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">Do not change Linux files using Windows apps and tools</a></li>
+</ul>
+<p>This is a pretty fundamental issue... I was bitten by this almost immediately... i edited my profile using Notepad++ -- and linux promptly discarded and recreated the file. I was confused until I read the above article (weeks later!)</p>
+<blockquote>
+<p>If WSL can't find Linux file metadata for a given file, it assumes the file is corrupted/damaged, and will likely fail to open/read the file correctly, causing apps, tools, etc. to fail and in some cases, delete files seen as &quot;corrupt&quot;!</p>
+<p>File metadata (e.g. permissions, ownership, timestamps, etc.) is represented differently in Linux than in Windows. Because stores your Linux files in an NTFS folder, WSL calculates and persists each Linux file's metadata in its NTFS extended attributes.</p>
+<p>However, Windows apps do not know how to (nor that they should) re-calculate &amp; persist this Linux metadata each time they create/modify a file stored under your distro's root (%localappdata\lxss).</p>
+<p>Therefore, if you use a Windows app/tool/console to create and/or modify a file under your distro root, it won't have any Linux file metadata (e.g. permissions, owner, timestamps, etc.) stored in its extended attributes.</p>
+</blockquote>
+<p>Next things to do...</p>
+<pre><code>sudo apt-get install xclip
+sudo apt-get install zsh
+sudo apt-get install tree
+</code></pre>
+<p>Apparently:</p>
+<blockquote>
+<p>bash.exe -c &quot;/usr/zsh&quot; will launch zsh directly</p>
+</blockquote>
+<p>from <a href="https://twitter.com/hmemcpy/status/786936955292483584">https://twitter.com/hmemcpy/status/786936955292483584</a></p>
+<ul>
+<li><a href="https://blogs.windows.com/buildingapps/2016/07/22/fun-with-the-windows-subsystem-for-linux/#DYZBzMFA6jH3q4qd.97">Fun with the Windows Subsystem for Linux, Pete Brown</a></li>
+<li><a href="https://4sysops.com/archives/five-fun-things-you-can-do-with-the-windows-10-bash/">Five fun things you can do with the Windows 10 Bash</a></li>
+</ul>
+<p>Important thing to do.... keep your packages up to date.</p>
+<p>I saw a window spontaneously pop open on Wednesday 13th October 2016, AptPackageIndexUpdate --</p>
+<p>(see this issue: <a href="https://github.com/Microsoft/BashOnWindows/issues/841">https://github.com/Microsoft/BashOnWindows/issues/841</a>)</p>
+<p>Turns out that's ok and perfectly acceptable, for now.</p>
+<p>When you restart bash on windows, you might see a message like:</p>
+<pre><code>18 packages can be updated.
+11 updates are security updates.
+</code></pre>
+<p>In which case, don't forget to:</p>
+<pre><code>sudo apt-get update
+</code></pre>
+<p>I found that doing that, then exiting bash and coming back in... I now had:</p>
+<pre><code>26 packages can be updated.
+12 updates are security updates.
+</code></pre>
+<p>So... I ran &quot;sudo apt-get update&quot; again....</p>
+<p>And this time when I exited and came back there were no more messages about packages to be updated.</p>
+<p>Also I found that whenever i used <code>sudo</code> I would get a messge:</p>
+<pre><code>    unable to resolve host LEONCOMPUTER
+</code></pre>
+<p>Turns out I had to edit <code>/etc/hosts</code> (i.e. <code>sudo nano /etc/hosts</code>) to tell it that this is the local machine name.</p>
+<p>previously it had</p>
+<pre><code>127.0.0.1 localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+</code></pre>
+<p>I had to add this line:</p>
+<pre><code>127.0.0.1 LEONCOMPUTER
+</code></pre>
+<p>after this line:</p>
+<pre><code>127.0.0.1 localhost
+</code></pre>
+<h2 id="another-error">Another error...</h2>
+<p>If you see this...</p>
+<pre><code>Windows Subsystem for Linux has no installed distributions.
+Distributions can be installed by visiting the Microsoft Store:
+https://aka.ms/wslstore
+</code></pre>
+<p>You go there and it takes to the windows store (on your machine) where you get a choice of Linux distros. Wow.</p>
+<p>I picked ubuntu. It's about 200 MB.</p>
+<p>When it was &quot;ready&quot; I launched it. THis opened a console, and the console said:</p>
+<pre><code>Installing, this may take a few minutes...
+</code></pre>
+<p>The home folder is now stored at:</p>
+<pre><code>C:\Users\leonb\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\leon
+</code></pre>
+<p>...which is an ad for using markjump.</p>
+<p>Note you can install all the different distributions side by side.</p>
+<ul>
+<li>Ubuntu</li>
+<li>openSUSE Leap 42</li>
+<li>SUSE Linux Enterprise Server 12</li>
+<li>Debian</li>
+<li>Kali Linux</li>
+</ul>
+<p>And they have star ratings in the windows store. Ubuntu and Kali are popular. Others not so much.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">How to Install and Use the Linux Bash Shell on Windows 10</a></li>
+<li><a href="https://blogs.msdn.microsoft.com/commandline/2016/11/17/do-not-change-linux-files-using-windows-apps-and-tools/">Warning! Do not change Linux files using Windows apps and tools</a></li>
+<li><a href="http://blog.robertelder.org/intro-to-linux-command-line-for-windows-users/">A Quick Intro to Linux Command Line for Windows Users</a></li>
+<li><a href="http://blog.robertelder.org/intro-to-linux-shell-scripting-for-windows-developers/">A Quick Intro to Linux Shell Scripting for Windows Developers</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="which_version.html">How can I tell which version of Windows is currently running?</a></li>
+<li><a href="../linux/bash.html">getting started on bash</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-create-a-literal-array-in-powershell">How to create a literal array in powershell</h1>
+<p>This works....</p>
+<pre><code>$MyArray = @(
+	&quot;Item0&quot;;
+	&quot;Item1&quot;;
+	&quot;Item2&quot;;
+)
+</code></pre>
+<p>Hell, even this works:</p>
+<pre><code>$MyArray = &quot;Item0&quot;, &quot;Item1&quot;, &quot;Item2&quot;;
+</code></pre>
+<p>Both have same type:</p>
+<pre><code>&gt; $MyArray.GetType()
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+</code></pre>
+<p>And both contain strings...</p>
+<pre><code>&gt; $MyArray | % { $_.GetType() }
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     String                                   System.Object
+True     True     String                                   System.Object
+True     True     String                                   System.Object
+</code></pre>
+<p>So I think the second one is simpler. Go with that.</p>
+
+</body>
+<script>
+</script>
+</html>

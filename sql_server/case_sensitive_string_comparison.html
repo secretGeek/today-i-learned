@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="case-sensitive-string-comparison">Case Sensitive String Comparison</h1>
+<p>Make a comparison behave in a case-sensitive manner by applying a case-sensitive collation</p>
+<pre><code>Select 'Hello'
+where 'A' = 'a' COLLATE Latin1_General_CS_AS 
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

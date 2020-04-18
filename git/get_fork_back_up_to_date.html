@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-get-a-fork-back-up-to-date-with-the-original-repo-it-is-forked-from">How to get a fork back up to date with the original repo it is forked from</h1>
+<ol>
+<li><p>From the local project directory:</p>
+<p>git remote add upstream <url-of-original-repository></p>
+</li>
+</ol>
+<p>e.g.</p>
+<pre><code>git remote add upstream git://github.com/aspnet/Docs.git
+</code></pre>
+<ol start="2">
+<li><p><code>git branch</code> (to verify you are on master branch)</p>
+</li>
+<li><p><code>git pull --rebase upstream master</code></p>
+</li>
+</ol>
+<p>Only need to do step 1 the first time. (It is how you add a named remote location called 'upstream')</p>
+<p>So <code>upstream</code> is not a keyword or a reserved word: it is just a convention. It's the usual name to give the remote from which the repo was forked.</p>
+<p>You can view your <code>remotes</code> (in detail) by using:</p>
+<pre><code>git remote -v
+
+origin      https://github.com/secretGeek/Docs.git (fetch)
+origin      https://github.com/secretGeek/Docs.git (push)
+upstream    git://github.com/aspnet/Docs.git (fetch)
+upstream    git://github.com/aspnet/Docs.git (push)
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/18824956/updating-forked-github-repo-to-match-originals-latest-code-and-commits">Stackoverflow: Updating forked GitHub repo to match original's latest code and commits</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="turtle-logo-in-python">Turtle logo in Python</h1>
+<p>Err... this was almost too easy.</p>
+<p>From powershell I typed:</p>
+<pre><code>python
+</code></pre>
+<p>I was then in an interactive python console.</p>
+<p>Then I just typed:</p>
+<pre><code>from turtle import *
+</code></pre>
+<p>Then I tried:</p>
+<pre><code>fd 100
+</code></pre>
+<p>But received...</p>
+<pre><code>  File &quot;&lt;stdin&gt;&quot;, line 1    
+    fd 100                  
+         ^                  
+SyntaxError: invalid syntax 
+</code></pre>
+<p>So I tried:</p>
+<pre><code>fd (100)
+</code></pre>
+<p>And a graphics window appeared, titled &quot;Python Turtle Graphics&quot; with a &quot;Tk&quot; logo.</p>
+<p>And on that window, a little turtle (represented by an arrow, in the center of the screen) moved forward 100 pixels.</p>
+<p>I used the Windows+Arrows keys to resize powershell and &quot;Python Turtle Graphics&quot; so they each took up half the screen. And I was away!</p>
+<p>Backing up a little... I could've gone like this:</p>
+<pre><code>import turtle
+</code></pre>
+<p>Then to call the <code>fd</code> function for example...</p>
+<pre><code>turtle.fd(100)
+</code></pre>
+<p>With my C# brain, I guess that <code>from turtle import *</code> means, grab all the <code>public static</code> methods of the <code>turtle</code> class and make them first-class functions that no longer need to be qualified. So 'turtle.fd' can be written as just 'fd'.</p>
+
+</body>
+<script>
+</script>
+</html>

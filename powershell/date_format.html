@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="date-format-in-powershell">date format in powershell</h1>
+<p>Simple!</p>
+<pre><code>get-date -f &quot;yyyy-MM-dd HH:mm:ss&quot;
+</code></pre>
+<p>or...</p>
+<pre><code>(get-date).ToString(&quot;yyyy-MM-dd&quot;)
+</code></pre>
+<p>or better (worse) yet</p>
+<pre><code>[system.string]::format(&quot;{0:yyyy-mm-dd}&quot;, (get-date))
+</code></pre>
+<p>Formatting a list of dates...</p>
+<pre><code>dir *.txt | % { $_.LastWriteTime.ToString(&quot;yyyy-MM-dd&quot;) }	
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

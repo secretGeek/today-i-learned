@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="saving-to-a-file">Saving to a file</h1>
+<pre><code>var win = ...;  // BrowserWindow in which to show the dialog
+const dialog = require('electron').dialog;
+console.log(dialog.showOpenDialog({ properties: [ 'openFile', 'openDirectory', 'multiSelections' ]}));
+
+dialog.showOpenDialog([browserWindow, ]options[, callback])    
+dialog.showSaveDialog([browserWindow, ]options[, callback])
+</code></pre>
+<p>For both of these methods, the info about their parameters is the same.</p>
+<p><code>options</code> is an object containing:</p>
+<ul>
+<li>title String</li>
+<li>defaultPath String</li>
+<li>filters Array</li>
+<li>properties Array - Contains which features the dialog should use, can contain:
+<ul>
+<li>openFile,</li>
+<li>openDirectory,</li>
+<li>multiSelections and</li>
+<li>createDirectory</li>
+</ul>
+</li>
+</ul>
+<p>The filters specifies an array of file types that can be displayed,</p>
+<p>for example:</p>
+<pre><code>{
+  filters: [
+    { name: 'Images', extensions: ['jpg', 'png', 'gif'] },
+    { name: 'Movies', extensions: ['mkv', 'avi', 'mp4'] },
+    { name: 'Custom File Type', extensions: ['as'] },
+    { name: 'All Files', extensions: ['*'] }
+  ]
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://github.com/atom/electron/blob/master/docs/api/dialog.md">https://github.com/atom/electron/blob/master/docs/api/dialog.md</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

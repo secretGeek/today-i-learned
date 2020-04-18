@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="r-services-on-sql-server-2016-and-regular-expressions">R Services on SQL Server 2016+ (and Regular Expressions)</h1>
+<p>One way to get regular expression support in SQL Server is to use the language &quot;R&quot;.</p>
+<p>R can be used if you have R Services installed. It's available in SQL Server 2016 onward. (And Python services are in SQL Server 2017 onward)</p>
+<p>if the services are installed, you also need to configure SQL Server it allow external scripts to be enabled.</p>
+<h2 id="check-if-currently-enabled">Check if currently enabled:</h2>
+<pre><code>EXEC sp_configure  'external scripts enabled'
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>minimum</th>
+<th>maximum</th>
+<th>config_value</th>
+<th>run_value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>external scripts enabled</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>The above means that it <em>is</em> enabled.</p>
+<p>However, because I didn't restart SQL Server after enabling it, it still doesn't work.</p>
+<h2 id="enable-it">Enable it....</h2>
+<pre><code>sp_configure 'external scripts enabled', 1;
+RECONFIGURE WITH OVERRIDE; 
+</code></pre>
+<h2 id="test-it">Test it</h2>
+<pre><code>EXEC sp_execute_external_script  @language =N'R',
+@script=N'
+ OutputDataSet &lt;- InputDataSet;
+ ',
+@input_data_1 =N'SELECT 1 AS hello'
+WITH RESULT SETS (([hello] int not null));
+GO
+</code></pre>
+<h2 id="section"></h2>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/external-scripts-enabled-server-configuration-option?view=sql-server-ver15">External Scripts Enabled server configuration option</a></li>
+<li><a href="https://www.mssqltips.com/sqlservertip/4748/sql-server-2016-regular-expressions-with-the-r-language/">SQL Server 2016 Regular Expressions with the R Language</a></li>
+<li><a href="https://docs.microsoft.com/en-us/sql/ssms/scripting/search-text-with-regular-expressions?view=sql-server-ver15">Search Text with Regular Expressions</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

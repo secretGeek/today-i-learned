@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="creating-a-record-of-all-your-powershell-commands">Creating a record of all your powershell commands</h1>
+<p>You can create a transcript of everything you do in powershell via &quot;Start-Transcript&quot;</p>
+<p>It will return output such as:</p>
+<pre><code>&gt; start-transcript
+Transcript started, output file is C:\Users\Jack\Documents\PowerShell_transcript.20160526143256.txt
+</code></pre>
+<p>The file will contain every command you type.</p>
+<p>And when you're done, stop recording with</p>
+<pre><code>&gt; stop-transcript    
+Transcript stopped, output file is C:\Users\Jack\Documents\PowerShell_transcript.20160526143256.txt
+</code></pre>
+<p>And if you try to Get-Content of that file, before stopping the recording, it will open a wormhole in space and time, and the output becomes the input.</p>
+<pre><code>Get-Content C:\Users\Jack\Documents\PowerShell_transcript.20160526143256.txt
+</code></pre>
+<p>...until your hard drive is full, or some other resources is exhausted.</p>
+<p>To do all of this in one line try the following:</p>
+<pre><code>stop-transcript; start-transcript | % { $tfile = $_.Replace(&quot;Transcript started, output file is &quot;,&quot;&quot;) }; cat $tfile; stop-transcript
+</code></pre>
+<p>To get the location of the current or most recent transcript file:</p>
+<pre><code>function Get-TranscriptFilePath {
+  try {
+    $externalHost = $host.gettype().getproperty(&quot;ExternalHost&quot;,[reflection.bindingflags]&quot;nonpublic,instance&quot;).getvalue($host, @())
+    $externalhost.gettype().getfield(&quot;transcriptFileName&quot;, &quot;nonpublic,instance&quot;).getvalue($externalhost)
+  } catch {
+    Write-Warning &quot;This host does not support transcription.&quot;
+  }
+}
+</code></pre>
+<p>...allegedly. Though so far that only works on half my machines.</p>
+<h2 id="external-links">External links</h2>
+<ul>
+<li><a href="http://www.spjeff.com/2014/10/02/colorize-powershell-transcript-with-css/">Colorize PowerShell Transcript with CSS</a></li>
+<li><a href="http://wiki.secretgeek.net/unbounded-recursion">Unbounded recursion</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

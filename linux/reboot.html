@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="reboot-linux">reboot linux...</h1>
+<h2 id="tldr">TL/DR:</h2>
+<pre><code>$ sudo reboot
+</code></pre>
+<h2 id="story">Story</h2>
+<p>When sshing onto my fave droplet (at digital ocean)...</p>
+<pre><code>27 packages can be updated.
+14 updates are security updates.
+
+
+*** System restart required ***
+</code></pre>
+<p>SOME people say...</p>
+<pre><code>sudo shutdown -r now
+</code></pre>
+<p>That ^^ is <em>allegedly</em> the preferred method, over the more obvious:</p>
+<pre><code>sudo reboot
+</code></pre>
+<blockquote>
+<p>Many Unix systems have reboot perform an <em>instant</em> reboot — no syncing, no umounting, nothing. It's just like hitting the reset button</p>
+</blockquote>
+<p>Though someone counters with....</p>
+<blockquote>
+<p>Judging from the manual pages of both reboot and shutdown, it looks like shutdown provides a bit more lower-level functionality, and reboot is a higher-level tool that uses shutdown.</p>
+</blockquote>
+<p>So I use:</p>
+<pre><code>sudo reboot
+</code></pre>
+<p>After a reboot I found I had to restart some of my systems.</p>
+<p>To restart supervisor manually I previously needed to use:</p>
+<pre><code>service supervisor start
+</code></pre>
+<p>But I now have my machines configured to restart the <code>supervisor</code> service automatically as described in <a href="cron.html">cron</a></p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/questions/how-to-reboot-droplet-through-the-command-line-restart-apache-server">How to reboot droplet through the command line</a></li>
+<li><a href="http://superuser.com/questions/175391/reboot-vs-shutdown-r-now-for-restarting-linux">reboot vs shutdown -r now for restarting Linux</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="supervisor.html">Supervisor (linux)</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-powershell-the-first-five-minutes">Getting started with Powershell -- the first five minutes.</h1>
+<p>The first five minutes with powershell are the hardest. After that it's all easy.</p>
+<h2 id="first-try-some-familiar-commands">First try some familiar commands</h2>
+<p>Classic commands from windows shell and from DOS, and from other environments appear to work just fine in PowerShell.</p>
+<p>For example you an type:</p>
+<pre><code>dir
+</code></pre>
+<p>And see a list of the files in the current directory.</p>
+<p>(If you're a linux user, you can also type <code>ls</code> and see the same result.)</p>
+<p>What's happening here? Is <code>dir</code> a command in powershell? No, it's an <code>alias</code>, provided for convenience.</p>
+<p>If you type <code>alias dir</code> you will see the real name of the command you are calling...</p>
+<pre><code>&gt; alias dir
+
+CommandType     Name                                                Definition
+-----------     ----                                                ----------
+Alias           dir                                                 Get-ChildItem
+</code></pre>
+<p>Ah-ha!, so <code>dir</code> is an alias for <code>Get-ChildItem</code>.</p>
+<p>Now, given an alias you can find the underlying command. And you've seen that commands are named like this: Get-ChildItem, i.e. Verb-Noun. So you can often make a good guess at the name of a command.</p>
+<h2 id="finding-commands-working-out-what-they-return">Finding commands, working out what they return</h2>
+<p>You can look for commands by name or alias, using 'Get-Command', e.g.</p>
+<pre><code>Get-Command Get-ChildItem
+</code></pre>
+<p>Or you can look at <em>ALL</em> the available commands by typing simply:</p>
+<pre><code>Get-Command
+</code></pre>
+<h2 id="what-can-i-do-with-this-object">What can I do with this object?</h2>
+<p>To find out what you can <em>do</em> with an object, any object, use <code>Get-Member</code></p>
+<pre><code>dir | Get-Member
+</code></pre>
+<p>This shows you all the members (properties and methods) of the objects return by <code>dir</code>.</p>
+<p>You can then look at the different members, and see which ones you are interested in.</p>
+<p>e.g. I look at the output of the command above and decide I want to see the &quot;FullName&quot; -- so I run:</p>
+<pre><code>dir | % FullName
+</code></pre>
+<p>This means: run the <code>dir</code> command, send the output to a foreach (%) and return the <code>FullName</code> property for each object.</p>
+<p>So <code>Get-Member</code> is one of the fundamental ways you teach yourself about powershell.</p>
+<h2 id="about_signing">About_Signing</h2>
+<p>set-executionpolicy</p>
+<p>powershell.exe -ExecutionPolicy bypass</p>
+<p>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</p>
+<p>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</p>
+<p>If you want more help on a command you can type:</p>
+<pre><code>Help dir
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

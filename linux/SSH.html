@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="ssh-to-a-linux-machine-from-windows">SSH to a linux machine from windows</h1>
+<p>On windows, you can use PuTTY to connect to your digital ocean droplet via SSH.</p>
+<p>(I've since found two better ways to do this:</p>
+<ol>
+<li>with <a href="../windows/bash_on_windows.html">bash.exe</a> or</li>
+<li>with <code>cmder</code> which I think is using OpenSSH by way of gitbash.</li>
+</ol>
+<p>Soon I think windows will have better ssh features built in. Powershell will get them for example.)</p>
+<h2 id="creating-privatepublic-key-pair-for-use-in-ssh-using-puttygen">Creating private/public key pair for use in SSH, using PuTTYgen.</h2>
+<p>First need to generate private/public key pair, using PuTTYgen.</p>
+<p>Guide I followed for this is: <a href="https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users">https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users</a></p>
+<p>Download complete PuTTY installer (msi) from this page: <a href="http://www.chiark.greenend.org.uk/%7Esgtatham/PuTTY/download.html">http://www.chiark.greenend.org.uk/~sgtatham/PuTTY/download.html</a></p>
+<p>Look for &quot;A Windows MSI installer package for everything except PuTTYtel&quot;</p>
+<p>Install that.</p>
+<p>Then run PuTTYgen, and generate a private/public key pair. Save the public key as a .txt file and the private key as a .ppk file.</p>
+<p>Store the passphrase in your password manager. Note that the passphrase is something you are expected to type, so make it an actual passphrase: easy to type but quite long.</p>
+<p>(Originally I created a long and complex password... but then it was too hard to type. I found I could change the passphrase, using PuTTYgen -- I just had to re-save the private key afterwards.)</p>
+<h2 id="add-your-public-key-to-digital-ocean">Add your public key to digital ocean...</h2>
+<p>Go to your profile: <a href="https://cloud.digitalocean.com/settings/profile">https://cloud.digitalocean.com/settings/profile</a></p>
+<p>Click &quot;Security&quot; on the left hand side...</p>
+<p>Click &quot;Add SSH Key&quot;</p>
+<p>When informing digital ocean of your public key, you need to paste it into a textbox. For this I did the wrong thing: I opened the public key text file, copied the contents and pasted it into the textbox. This resulted in an error that read:</p>
+<pre><code>Add SSH Key
+Key invalid type, we support 'ssh-rsa', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', or 'ssh-ed25519'.
+</code></pre>
+<p>What I should've done: look at the public key in PuTTYgen, where they provide a textbox with the public key formatted in the right way that you can copy and paste into various programs. Copy it from there. Not from the raw file.</p>
+<h1 id="warning-unprotected-private-key-file">WARNING: UNPROTECTED PRIVATE KEY FILE!</h1>
+<p>Got this error:</p>
+<pre><code>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0744 for '/home/geek/.ssh/id_rsa' are too open.
+It is recommended that your private key files are NOT accessible by others.
+This private key will be ignored.
+bad permissions: ignore key: /home/geek/.ssh/id_rs
+</code></pre>
+<p>To limit the permissiveness of those files I used these commands...</p>
+<pre><code>sudo chmod 600 ~/.ssh/id_dsa
+sudo chmod 600 ~/.ssh/id_dsa_com.pub
+</code></pre>
+<h2 id="export-puttygen-keys-to-be-usable-from-linux-subsystem-for-windows">Export PuTTYgen keys to be usable from linux subsystem for windows</h2>
+<p>Had I created my keys in a different way I would not have needed to do this. But because I used PuTTYgen, this is what I needed to do...</p>
+<p><a href="http://stackoverflow.com/a/2224204/49">http://stackoverflow.com/a/2224204/49</a></p>
+<ol>
+<li><p>Open PuTTYGen</p>
+</li>
+<li><p>Click Load</p>
+</li>
+<li><p>Load your private key</p>
+</li>
+<li><p>Go to Conversions-&gt;Export OpenSSH and export your private key</p>
+</li>
+<li><p>Copy your private key to ~/.ssh/id_dsa (or id_rsa).
+Create the RFC 4716 version of the public key using  ssh-keygen</p>
+<p>ssh-keygen -e -f ~/.ssh/id_dsa &gt; ~/.ssh/id_dsa_com.pub</p>
+</li>
+<li><p>Convert the RFC 4716 version of the public key to the OpenSSH format:</p>
+<p>ssh-keygen -i -f ~/.ssh/id_dsa_com.pub &gt; ~/.ssh/id_dsa.pub</p>
+</li>
+</ol>
+<p>Simple right!? No, not simple.</p>
+<h2 id="host-identification-has-changed">Host Identification has changed.</h2>
+<pre><code>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+7e:5e:42:31:34:82:c7:97:e3:3a:f2:e1:b4:4f:d4:56.
+Please contact your system administrator.
+Add correct host key in /home/user1/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in /home/user1/.ssh/known_hosts:2
+  remove with: ssh-keygen -f &quot;/home/user1/.ssh/known_hosts&quot; -R 555.55.55.555
+ECDSA host key for 555.55.55.555 has changed and you have requested strict checking.
+Host key verification failed.
+
+
+ssh-keygen -R [IP_ADDRESS]
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users">https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users</a> -- includes how to configure PuTTY itself.</li>
+<li><a href="http://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed">http://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

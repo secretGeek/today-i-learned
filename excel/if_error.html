@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="avoid-value-with-iferror">Avoid <code>#VALUE!</code> with IFERROR</h1>
+<p>Sick of you carefully crafted excel formula resulted in <code>#VALUE!</code> for all the edge cases you don't care about?</p>
+<p>Just wrap your formula in an IFERROR function.....</p>
+<p>e.g. here's a formula for grabbing everything before the first comma....</p>
+<pre><code>=LEFT(B3, FIND(&quot;,&quot;, B3)-1)
+</code></pre>
+<p>...but what happens when there is no comma!? A dirty great error that's what!</p>
+<p>So wrap it in an <code>IFERROR</code> instead my smooth friend:</p>
+<pre><code>=IFERROR(LEFT(B3, FIND(&quot;,&quot;, B3)-1),&quot;&quot;)	
+</code></pre>
+<p>Arh! That better!</p>
+<p>And for completeness, here's a sneaky formula to get everything after the first space...</p>
+<pre><code>=IFERROR(TRIM(MID(C2 &amp; REPT(&quot; &quot;, 100), FIND(&quot; &quot;, C2), 50)),&quot;&quot;)
+</code></pre>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://exceljet.net/formula/split-text-with-delimiter">Excel Formula: Split text with delimiter</a> — some nice examples here</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

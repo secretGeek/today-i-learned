@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="where-is-the-current-script-running-from">Where is the current script running from?</h1>
+<p>Scenario:</p>
+<p>We have a script, <code>HelloWorld.ps1</code> located in <code>C:\Scripts\</code></p>
+<p>We run this script, from the location &quot;C:\CurrentPath&quot; like so:</p>
+<pre><code>C:\CurrentPath\&gt; C:\Scripts\HelloWorld.ps1 
+</code></pre>
+<p>We want the script to output:</p>
+<pre><code>The script is located in C:\Scripts
+
+The script is called C:\Scripts\HelloWorld.ps1 
+
+You are running it from C:\CurrentPath
+</code></pre>
+<p>How do we do it??</p>
+<pre><code>write-host &quot;The script is located in $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)&quot; 
+# e.g. C:\Scripts
+	
+write-host &quot;The script is called $($MyInvocation.MyCommand.Path)&quot;
+# e.g. C:\Scripts\HelloWorld.ps1 
+	
+write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
+# e.g. C:\CurrentPath
+</code></pre>
+<p>And in Powershell 3.0 and above, the first two can be simplified to:</p>
+<pre><code>write-host &quot;The script is located in $PSScriptRoot&quot; 
+# e.g. C:\Scripts
+
+write-host &quot;The script is called $PSCommandPath	&quot;
+# e.g. C:\Scripts\HelloWorld.ps1 
+</code></pre>
+<h2 id="caveat">Caveat!</h2>
+<p>One caveat with these scripts... they are unlike most powershell scripts because they only work properly when they are inside a script. They don't behave the same if you just paste them into the commandline.</p>
+<h2 id="bonus-questions">Bonus questions...</h2>
+<p>What if one script is invoked from another? How do you indication that chain? Good question. I don't know the answer yet. Do you?</p>
+<p>(I think the -Scope in this old code might've been put there for that reason...)</p>
+<pre><code>$scriptpath = (split-path (Get-Variable MyInvocation -Scope Script).Value.MyCommand.Path)
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

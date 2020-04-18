@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="install-textfx-plugin-to-notepad">Install TextFX plugin to notepad++</h1>
+<p>Go onto SourceForge and tracked down the latest TextFX file to import manually:</p>
+<pre><code>https://sourceforge.net/projects/npp-plugins/files/TextFX/TextFX%20v0.26/
+</code></pre>
+<p>It's from</p>
+<pre><code>2009-08-02
+</code></pre>
+<p>So, how much longer will it work?</p>
+<p>I download and unzip</p>
+<pre><code>C:\Users\USERNAME\Downloads\TextFX.v0.26.unicode.bin
+</code></pre>
+<p>Stop notepad++, and <strong>Run Notepad++ as admin</strong></p>
+<p>within NotePad++ choose &quot;Settings&quot; | &quot;Import&quot; | &quot;Import plugin(s)...&quot; and import the .DLL from that location.</p>
+<p>Immediately I see a &quot;TextFX&quot; menu item.</p>
+<p>I then exit Notepad++ so I'm no longer running as administrator.</p>
+<p>When I restart Notepad++ as non admin I still have the &quot;TextFX&quot; menu, so the plugin has worked.</p>
+<h2 id="things-that-dont-work">Things that don't work....</h2>
+<p>Use the technique above, as the following leads nowhere:</p>
+<p>Trying to install TextFX through the plugin manager (Plugins | PLugin Manager | Find available... select TextFX, press Install)</p>
+<p>A dialog appears showing download progress from a url starting with: &quot;http://downloads.sourceforge.net/project/npp-plugins/TextFX/TextFX%20v&quot;</p>
+<p>But then it errors with:</p>
+<pre><code>---------------------------
+Installation Error
+---------------------------
+Installation of TextFX Characters failed.
+---------------------------
+OK
+---------------------------
+</code></pre>
+<p>On the &quot;Plugin Manager&quot; dialog when I press &quot;Settings&quot; I see this message:</p>
+<pre><code>Plugin Config path is:
+C:\Users\USERNAME\AppData\Roaming\Notepad++\plugins\Config
+Plugins in user's AppData directory are disabled - to enable in Notepad++ version 5.9.7 onwards place an empty file called allowAppDataPlugins.xml in the Notepad++ directory.
+</code></pre>
+<p>Anyway, to get around the error above, I used the technique above instead.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="todays_date.html">Need a shortcut that inserts the current date/time?</a></li>
+<li><a href="error_downloading_the_plugin_list.html">Resolved: There was an error downloading the plugin list</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

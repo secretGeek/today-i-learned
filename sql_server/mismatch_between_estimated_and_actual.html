@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="mismatch-between-estimated-and-actual-number-of-rows-returned-in-execution-plan">Mismatch between estimated and actual number of rows returned in Execution Plan.</h1>
+<p>If you have mismatch between estimated and actual number of rows returned in a SQL Server Execution Plan, the classic advice is that &quot;your statistics may be out of date.&quot;</p>
+<p>By default, statistics are configured to be updated automatically, and SQL Server's pretty smart about it.</p>
+<h1 id="actual-smaller-than-estimated">Actual smaller than estimated:</h1>
+<p>Kendra Little gives a counter example in the article <a href="https://www.brentozar.com/archive/2013/08/query-plans-what-happens-when-row-estimates-get-high/">Query Plans: Memory Grants and High Row Estimates</a> where she shows that using functions in your predicates can make SQL Server pessimistic about the expected number of matches, which in turn causes <code>estimated</code> to be much greater than <code>actual</code>, consuming unneccessary resources etc.</p>
+<h1 id="actual-larger-than-estimated">Actual LARGER than estimated:</h1>
+<p><a href="http://www.sqlservercentral.com/Forums/Topic513086-360-1.aspx">Grant Fritchey says</a> that when  a table valued function, particularly a multi-statement function, is used:</p>
+<blockquote>
+<p>the optimizer doesn't and can't know what to do with that when it's designing the execution plan, so it creates a plan for a one row table.</p>
+</blockquote>
+<p>GSquared, in that same thread, adds that <strong>Table variables</strong> and <strong>Recursive CTEs</strong> are both often estimated at 1 row, though the actual may be higher.</p>
+<h1 id="tools">Tools</h1>
+<p>I've been using SQL Sentry's free Plan Explorer from <a href="http://sqlsentry.net/plan-explorer/">http://sqlsentry.net/plan-explorer/</a>.</p>
+
+</body>
+<script>
+</script>
+</html>

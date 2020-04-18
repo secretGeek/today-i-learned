@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="clear-caches">Clear Caches</h1>
+<p>It's not as simple as:</p>
+<pre><code>MemoryCache.Default.Dispose();
+</code></pre>
+<p>Once you've done that, subsequently adding items to the cache will silently fail.</p>
+<p>A method that <em>does</em> work — but is reportedly too drastic as it is:</p>
+<ol>
+<li><p>slow and</p>
+</li>
+<li><p>blocks access to the cache during that slow operation is:</p>
+<p>public static void ClearCaches()
+{
+foreach (var element in MemoryCache.Default)
+{
+MemoryCache.Default.Remove(element.Key);
+}
+}</p>
+</li>
+</ol>
+<p>For the small-scale sites I'm used to, that is adequate.</p>
+<p>An actually correct method, from <a href="http://stackoverflow.com/a/22388943/49">http://stackoverflow.com/a/22388943/49</a></p>
+<pre><code>// By Thomas F. Abraham (http://www.tfabraham.com)
+namespace CacheTest
+{
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Runtime.Caching;
+
+    public class SignaledChangeEventArgs : EventArgs
+    {
+        public string Name { get; private set; }
+        public SignaledChangeEventArgs(string name = null) { this.Name = name; }
+    }
+
+    /// &lt;summary&gt;
+    /// Cache change monitor that allows an app to fire a change notification
+    /// to all associated cache items.
+    /// &lt;/summary&gt;
+    public class SignaledChangeMonitor : ChangeMonitor
+    {
+        // Shared across all SignaledChangeMonitors in the AppDomain
+        private static event EventHandler&lt;SignaledChangeEventArgs&gt; Signaled;
+
+        private string _name;
+        private string _uniqueId = Guid.NewGuid().ToString(&quot;N&quot;, CultureInfo.InvariantCulture);
+
+        public override string UniqueId
+        {
+            get { return _uniqueId; }
+        }
+
+        public SignaledChangeMonitor(string name = null)
+        {
+            _name = name;
+            // Register instance with the shared event
+            SignaledChangeMonitor.Signaled += OnSignalRaised;
+            base.InitializationComplete();
+        }
+
+        public static void Signal(string name = null)
+        {
+            if (Signaled != null)
+            {
+                // Raise shared event to notify all subscribers
+                Signaled(null, new SignaledChangeEventArgs(name));
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            SignaledChangeMonitor.Signaled -= OnSignalRaised;
+        }
+
+        private void OnSignalRaised(object sender, SignaledChangeEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Name) || string.Compare(e.Name, _name, true) == 0)
+            {
+                Debug.WriteLine(
+                    _uniqueId + &quot; notifying cache of change.&quot;, &quot;SignaledChangeMonitor&quot;);
+                // Cache objects are obligated to remove entry upon change notification.
+                base.OnChanged(null);
+            }
+        }
+    }
+
+    public static class CacheTester
+    {
+        public static void TestCache()
+        {
+            MemoryCache cache = MemoryCache.Default;
+
+            // Add data to cache
+            for (int idx = 0; idx &lt; 50; idx++)
+            {
+                cache.Add(&quot;Key&quot; + idx.ToString(), &quot;Value&quot; + idx.ToString(), GetPolicy(idx));
+            }
+
+            // Flush cached items associated with &quot;NamedData&quot; change monitors
+            SignaledChangeMonitor.Signal(&quot;NamedData&quot;);
+
+            // Flush all cached items
+            SignaledChangeMonitor.Signal();
+        }
+
+        private static CacheItemPolicy GetPolicy(int idx)
+        {
+            string name = (idx % 2 == 0) ? null : &quot;NamedData&quot;;
+
+            CacheItemPolicy cip = new CacheItemPolicy();
+            cip.AbsoluteExpiration = System.DateTimeOffset.UtcNow.AddHours(1);
+            cip.ChangeMonitors.Add(new SignaledChangeMonitor(name));
+            return cip;
+        }
+    }
+}
+</code></pre>
+<p>I hate this, but haven't found anything better.</p>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/4183270/how-to-clear-the-net-4-memorycache">http://stackoverflow.com/questions/4183270/how-to-clear-the-net-4-memorycache</a></li>
+<li><a href="http://stackoverflow.com/questions/8043381/how-do-i-clear-a-system-runtime-caching-memorycache/8043556#8043556">http://stackoverflow.com/questions/8043381/how-do-i-clear-a-system-runtime-caching-memorycache/8043556#8043556</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

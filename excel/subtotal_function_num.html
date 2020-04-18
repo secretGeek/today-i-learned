@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="subtotal-function-used-in-tables-what-is-the-function-num">Subtotal function (used in tables) what is the function num?</h1>
+<p>I frequently use little tables, particularly to format data in preparation for sending in an email.</p>
+<p>I just needed to add a subtotal row, and saw I could check &quot;subtotal&quot; as one of the options for the table.</p>
+<p>It added just one aggregate figure, and it had a formula like this:</p>
+<pre><code>=SUBTOTAL(103,[TotalSpaceMB])
+</code></pre>
+<p>It was doing a count of rows, not a SUM as I wanted. Looking into it,  <code>103</code> was described as a function number. (This is not peak-lambda).</p>
+<p>What is the function number for SUM ? Use this handy table!</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Include hidden</th>
+<th>Ignore hidden</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AVERAGE</td>
+<td>1</td>
+<td>101</td>
+</tr>
+<tr>
+<td>COUNT</td>
+<td>2</td>
+<td>102</td>
+</tr>
+<tr>
+<td>COUNTA</td>
+<td>3</td>
+<td>103</td>
+</tr>
+<tr>
+<td>MAX</td>
+<td>4</td>
+<td>104</td>
+</tr>
+<tr>
+<td>MIN</td>
+<td>5</td>
+<td>105</td>
+</tr>
+<tr>
+<td>PRODUCT</td>
+<td>6</td>
+<td>106</td>
+</tr>
+<tr>
+<td>STDEV</td>
+<td>7</td>
+<td>107</td>
+</tr>
+<tr>
+<td>STDEVP</td>
+<td>8</td>
+<td>108</td>
+</tr>
+<tr>
+<td>SUM</td>
+<td>9</td>
+<td>109</td>
+</tr>
+<tr>
+<td>VAR</td>
+<td>10</td>
+<td>110</td>
+</tr>
+<tr>
+<td>VARP</td>
+<td>11</td>
+<td>111</td>
+</tr>
+</tbody>
+</table>
+<p>Note that <code>COUNTA</code> is different from <code>COUNT</code>, because <code>COUNTA</code> only counts &quot;non-blank&quot; values.</p>
+<p>So for <code>SUM</code>, use <code>109</code>.</p>
+<p>e.g.</p>
+<pre><code>=SUBTOTAL(109,[TotalSpaceMB])
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

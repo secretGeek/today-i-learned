@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="bash-for-windows-user">Bash for Windows User</h1>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Similar to</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clear</code></td>
+<td><code>cls</code></td>
+<td>clears the screen. (not quite, see notes below)</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td><code>dir</code></td>
+<td>list contents of current folder. <code>ls -a</code> to see <code>all</code> (includes hidden)</td>
+</tr>
+<tr>
+<td><code>cd ..</code></td>
+<td><code>cd..</code></td>
+<td>moves up as expected</td>
+</tr>
+<tr>
+<td><code>cat</code></td>
+<td><code>type</code> or <code>get-content</code></td>
+<td>dump contents of a file to screen</td>
+</tr>
+<tr>
+<td><code>cd [foldername]</code></td>
+<td><code>cd [foldername]</code></td>
+<td>be aware that names are CASE-SENSITIVE in linux land.</td>
+</tr>
+<tr>
+<td><code>mkdir</code></td>
+<td><code>md</code></td>
+<td>make directory</td>
+</tr>
+<tr>
+<td><code>cp</code></td>
+<td><code>copy</code></td>
+<td>copy one or more files into the current location</td>
+</tr>
+<tr>
+<td><code>rm</code></td>
+<td><code>del</code></td>
+<td>remove one or more files (or directories, using -d or -r)</td>
+</tr>
+<tr>
+<td><code>rmdir</code></td>
+<td><code>rd</code></td>
+<td>remove directory</td>
+</tr>
+<tr>
+<td><code>more</code></td>
+<td><code>more</code></td>
+<td>show results one page at a time</td>
+</tr>
+</tbody>
+</table>
+<p>for &quot;help&quot; on any command:</p>
+<pre><code>ls --help
+</code></pre>
+<p>Or, to review the manual...</p>
+<pre><code>man ls
+</code></pre>
+<p>use up arrow to cycle through previous commands (same as dos)</p>
+<p>use Ctrl C (displayed as ^C) to break the current activity.  (same as dos)</p>
+<pre><code>echo hello | xclip -selection c   ...pipe to the clipboard (sort of)
+</code></pre>
+<h2 id="bash-extra-notes">Bash extra Notes....</h2>
+<p>clear: (same as cls) clears the screen, well....</p>
+<p>Note it doesn't really clear the screen as you scroll up and the text is still there.
+this command however <em>does</em> reset the terminal: printf &quot;\033c&quot;</p>
+<p>(when I get profiles working i'll define an alias for <code>cls</code>, like this: <code>alias cls='printf &quot;\033c&quot;'</code>)</p>
+<p>Clipboard -- the short answer is &quot;gfys&quot;</p>
+<pre><code>alias clipo=&quot;xclip -selection c&quot;
+alias pasto=&quot;xclip -selection clipboard -o&quot;
+</code></pre>
+<p>Files in linux are case senstive, furthermore, they generally don't have file extensions (.txt, .pdf etc). so ~/etc/profile is a file not a folder.</p>
+<p>Dot files (files beginning with a &quot;.&quot;) are &quot;hidden&quot;. (Hidden is not so much a security concept as a convenience feature... they're just tucked away) To view <strong>a</strong>ll files (including hidden) use <code>ls -a</code></p>
+<p>To go to your home folder, use simply:</p>
+<pre><code>cd
+</code></pre>
+<p>(That and <code>ls</code> are the only two things I remember from using Unix at university. Oh and pine.)</p>
+<h2 id="keyboard-shortcuts">keyboard shortcuts</h2>
+<ul>
+<li><code>ctrl-tab</code>  -- switch tab/document within an application</li>
+<li><code>alt-tab</code> -- switch applications</li>
+<li><code>ctrl-W</code> -- close document</li>
+<li><code>ctrl-Q</code> -- quit application</li>
+<li><code>shift-ctrl-C</code> -- copy to clipboard</li>
+<li><code>shift-ctrl-V</code> -- paste from clipboard</li>
+</ul>
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<ul>
+<li><a href="https://devhints.io/bash">https://devhints.io/bash</a> -- really nice cheat sheet</li>
+</ul>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos">https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file-on-ubuntu-and-centos</a></li>
+<li><a href="http://www.tldp.org/LDP/abs/html/io-redirection.html">http://www.tldp.org/LDP/abs/html/io-redirection.html</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

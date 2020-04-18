@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="reduce-flickering-on-custom-invalidatepaint">Reduce flickering on custom invalidate/paint</h1>
+<p>Say we are doing custom painting on a panel, and we want to reduce flickering as much as possible.
+There's a few ways to do it, but this is the greatest...</p>
+<p>Let's say your panel is called <code>this.splitContainerMain.Panel2</code>, then do this in your form constructor...</p>
+<pre><code>    typeof(Panel).InvokeMember(&quot;DoubleBuffered&quot;,
+    BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+    null, this.splitContainerMain.Panel2, new object[] { true });
+
+    
+</code></pre>
+<p>Background info on how this sort of thing is done...</p>
+<p>In a method, such as RefreshPanel() (which is also called very early in form's life)</p>
+<pre><code>    var bitMap = new Bitmap(splitContainerMain.Panel2.Width, splitContainerMain.Panel2.Height);
+        
+    using (var g = Graphics.FromImage(bitMap)) {
+        //Do your custom drawing... something more inspired than this hopefully
+        g.DrawRectangle(System.Drawing.Pens.Black, 10, 10, 10, 10);
+    }                
+    
+    //This causes the repaint!
+    this.splitContainerMain.Panel2.Invalidate();
+    
+</code></pre>
+<p>And then, in the paint method, just render the bitmap.</p>
+<pre><code>    private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+    {
+        if (bitMap == null) return;
+        e.Graphics.DrawImage(bitMap, new Point(0, 0));
+    }
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/8046560/how-to-stop-flickering-c-sharp-winforms">http://stackoverflow.com/questions/8046560/how-to-stop-flickering-c-sharp-winforms</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

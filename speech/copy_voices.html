@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="make-windows-mobile-text-to-speech-voices-available-for-system.speech.synthesis">Make Windows Mobile Text-to-Speech voices available for System.Speech.Synthesis</h1>
+<p>Okay, thanks to reddit comment from a 'Pessimist__Prime' (details below) I found a way to enable some more voices on my (Win 8+) machine, without installing anything else.</p>
+<p>Under text-to-speech settings I could see various voices (such as &quot;Microsoft James Mobile&quot;) but these voices were not visible when calling <code>synth.GetInstalledVoices</code> (where <code>synth = new System.Speech.Synthesis.SpeechSynthesizer()</code>).</p>
+<p>However, by copying some details from:</p>
+<pre><code>HKLM:\software\Microsoft\Speech_OneCore\Voices\Tokens
+</code></pre>
+<p>to both these locations:</p>
+<pre><code>HKLM:\SOFTWARE\Microsoft\Speech\Voices\Tokens
+HKLM:\SOFTWARE\WOW6432Node\Microsoft\SPEECH\Voices\Tokens
+</code></pre>
+<p>...all of the installed voices became available.</p>
+<p>Here's the script for performing the copy, provided by Pessimist__Prime at reddit:</p>
+<pre><code>$sourcePath = 'HKLM:\software\Microsoft\Speech_OneCore\Voices\Tokens'           # Where OneCore voices live
+$destinationPath = 'HKLM:\SOFTWARE\Microsoft\Speech\Voices\Tokens'              # For 64-bit apps
+$destinationPath2 = 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\SPEECH\Voices\Tokens' # For 32-bit apps
+cd $destinationPath
+$listVoices = Get-ChildItem $sourcePath
+foreach($voice in $listVoices)
+{
+    $source = $voice.PSPath #Get the path of this voices key
+    copy -Path $source -Destination $destinationPath -Recurse
+    copy -Path $source -Destination $destinationPath2 -Recurse
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.reddit.com/r/EliteDangerous/comments/5d02vv/if_you_use_voiceattack_eddi_or_any_other/">If you use VoiceAttack, EDDI or any other Text-To-Speech program - and you are on Windows 10, you can install the 'Microsoft Mobile Voices' for more variety</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

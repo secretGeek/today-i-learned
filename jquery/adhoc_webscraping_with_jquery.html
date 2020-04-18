@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="adhoc-web-scraping-with-jquery">Adhoc web scraping with jquery</h1>
+<p>Sometimes you need to grab and format some data from a web page, and regular copy/paste techniques are just not good enough.</p>
+<p>For example with a box.com page just now, I found I couldn't click and select text on the page. So this old console-based web scraping trick came in handy.</p>
+<p>(I've blogged about the technique previously here: <a href="http://www.secretgeek.net/trello_ws">Extracting a Trello board as markdown</a>)</p>
+<h2 id="step-1-check-if-jquery-is-present">Step 1: Check if jQuery is present</h2>
+<p>In Chrome, Fit F12 to open the developer tools. See if JQuery is loaded, by running a command such as:</p>
+<pre><code>$(&quot;body&quot;)
+</code></pre>
+<p>If you see output like:</p>
+<pre><code>body#site_body.platform-windows.r3, prevObject: he.fn.init(1), context: document, selector: &quot;body&quot;]	
+</code></pre>
+<p>...then you have jQuery. If you see output like this, then JQuery is not loaded;</p>
+<pre><code>Uncaught ReferenceError: $ is not defined
+</code></pre>
+<p>More often than not, JQuery will be already loaded.</p>
+<h2 id="step-2-load-jquery-if-necessary">Step 2: Load JQuery (if necessary)</h2>
+<p>If JQuery is not present, consider that perhaps <a href="http://youmightnotneedjquery.com/">You Might Not Need JQuery</a> -- or load it in yourself with this line of code:</p>
+<pre><code>var jq = document.createElement('script');
+jq.src = &quot;//code.jquery.com/jquery-latest.min.js&quot;;
+document.getElementsByTagName('head')[0].appendChild(jq);
+</code></pre>
+<p>Give time for jQuery to load, then type:</p>
+<pre><code>jQuery.noConflict();
+</code></pre>
+<h2 id="step-3-find-the-content-you-want-to-extract">Step 3: find the content you want to extract.</h2>
+<p>Now you need to explore the DOM to find the content you're after.</p>
+<p>Look for classes or element hierarchies that can be exploited to isolate the content you're trying to grab.</p>
+<p>Run ad-hoc jQuery commands, with various different selectors until you've pinpointed your target. e.g.</p>
+<pre><code>$(&quot;.list-item&quot;).children();
+</code></pre>
+<h2 id="step-4-put-it-all-together">Step 4: Put it all together</h2>
+<p>Now wrap it up in a one liner that does what you need. Here's my example from BOX just now:</p>
+<pre><code>var s=[];$(&quot;.file.item&quot;).each(function() { s.push($(this)[0].innerText)});copy(s.join(&quot;\n&quot;));
+</code></pre>
+<p>So -- I create an array, <code>s</code>.</p>
+<p>I iterate through all items that match the selector, and push info from each items into my array.</p>
+<p>And then I use the intrinsic console-only command, <code>copy</code> to put the result onto the clipboard.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="http://youmightnotneedjquery.com/">You Might Not Need JQuery</a></li>
+<li><a href="https://stackoverflow.com/questions/7474354/include-jquery-in-the-javascript-console">Include jQuery in the JavaScript Console</a></li>
+<li><a href="http://www.secretgeek.net/trello_ws">Extracting a Trello board as markdown</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="backup-restore-script">Backup restore script</h1>
+<p>If you need to move db's around via script, this is me trusty old script since 2000...</p>
+<pre><code>(on source server...)
+BACKUP DATABASE Northwind
+  TO DISK = 'c:\Northwind.bak'
+
+(target server...)
+RESTORE FILELISTONLY
+  FROM DISK = 'c:\Northwind.bak'
+
+(look at the device names... and determine where you want the mdf and
+ldf files to go on this target server)
+
+RESTORE DATABASE TestDB
+  FROM DISK = 'c:\Northwind.bak'
+  WITH MOVE 'Northwind' TO 'c:\test\testdb.mdf',
+  MOVE 'Northwind_log' TO 'c:\test\testdb.ldf'
+GO
+</code></pre>
+<p>To get the mdf/ldf file names you can also use: <code>sp_helpdb Northwin</code></p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/79669/how-best-to-copy-entire-databases-in-ms-sql-server/79691#79691">http://stackoverflow.com/questions/79669/how-best-to-copy-entire-databases-in-ms-sql-server/79691#79691</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="delete_backup_files.html">Need to delete backup files?</a></li>
+<li><a href="drive_sizes.html">How much space is left on the drives that my sql server can access?</a></li>
+<li><a href="how_much_space_does_my_db_use.html">How much space does my DB use?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

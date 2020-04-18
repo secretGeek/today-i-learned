@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-can-i-tell-which-version-of-powershell-i-have">How can I tell which version of powershell I have?</h1>
+<pre><code>$PSVersionTable.PSVersion
+</code></pre>
+<p>(Compared to this DOS classic: <code>ver</code>)</p>
+<p>So I've added this to my profile:</p>
+<pre><code>function ver() {
+     $PSVersionTable.PSVersion
+}
+</code></pre>
+<p>But you might also need to consider where the <a href="is_this_64_or_32_bit_powershell_today.html">currently running shell is 64 or 32 bit</a>, and <a href="is_current_user_admin.html">is powershell running as admin?</a>.</p>
+<p>Or if you want to know the <a href="../windows/which_version.html">windows version, I've covered that too</a>.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/1825585/determine-installed-powershell-version">http://stackoverflow.com/questions/1825585/determine-installed-powershell-version</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

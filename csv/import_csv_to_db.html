@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="import-csv-file-to-a-database-quickly">Import CSV file to a Database, quickly</h1>
+<blockquote>
+<p>Challenge: you have a csv file and you need to import it into a new table in a database. You have 5 mins to get it done. What tools do you use?</p>
+<p><a href="https://twitter.com/secretGeek/status/1179515031190306817">@secretgeek</a></p>
+</blockquote>
+<p>Below are many different solutions to this common problem, for a variety of databases and operating systems.</p>
+<h2 id="table-of-contents">Table of contents:</h2>
+<ul>
+<li><a href="#any-database-with-any-os">Any database with any OS</a></li>
+<li><a href="#any-database-with-windows">Any database with Windows</a></li>
+<li><a href="#any-database-with-macos">Any Database with MacOS</a></li>
+<li><a href="#ms-sql-server-specific">MS SQL Server Specific</a></li>
+<li><a href="#sqlite-specific">SQLite specific</a></li>
+<li><a href="#mysql-specific">MySQL specific</a></li>
+<li><a href="#postgresql-specific">Postgresql specific</a></li>
+<li><a href="#oracle-specific">Oracle specific</a></li>
+<li><a href="#hadoop-specific">Hadoop specific</a></li>
+<li><a href="#alternative-just-treat-the-csv-as-sql">Alternative: Just treat the CSV as SQL</a></li>
+</ul>
+<h2 id="any-database-with-any-os">Any database with any OS</h2>
+<ul>
+<li><p>Python with Pandas</p>
+<pre><code>  import pandas
+  from sqlalchemy import create_engine
+  engine = create_engine('connection string')
+  df = pandas.read_csv(&quot;path/to.csv&quot;)
+  df.to_sql(&quot;table_name&quot;, engine)
+</code></pre>
+</li>
+<li><p>&quot;R&quot;</p>
+<p>Via <a href="https://twitter.com/seesharp/status/1179569651119874048?s=20">Scott Stanfield:</a></p>
+<blockquote>
+<p>Load in R with data.table fread() method. It'll impute the data types...gets you 80% of the way there.
+<img src="R_datatable_fread.jpg" alt="R data.table fread()" /></p>
+</blockquote>
+</li>
+<li><p><a href="https://github.com/csv2db/csv2db">csv2db</a> — &quot;The CSV command line loader.&quot;</p>
+</li>
+<li><p><a href="https://csvkit.readthedocs.io/en/1.0.2/scripts/csvsql.html">csvsql from csvkit</a></p>
+<pre><code> csvsql --db postgresql:///test --tables dogideas --insert data/pets/dogideas.csv
+</code></pre>
+</li>
+<li><p><a href="https://nimbletext.com">NimbleText</a> — <a href="https://nimbletext.com/HowTo/GenerateInsert">Generate SQL Insert Statements with NimbleText (web version)</a></p>
+</li>
+<li><p><a href="https://dbeaver.io/">DBeaver</a> — <a href="https://justnumbersandthings.com/post/2018-06-12-dbeaver-import-csv/">Importing a CSV into a database using DBeaver</a></p>
+</li>
+<li><p><a href="https://www.jetbrains.com/datagrip/features/importexport.html">Datagrip: import/export</a> — &quot;There is a dedicated UI for importing DSV (CSV and TSV) files to the database.&quot;</p>
+</li>
+<li><p><a href="https://www.navicat.com/en/">Navicat</a> ($$$)</p>
+</li>
+</ul>
+<h4 id="some-brute-force-approaches-common">Some brute force approaches (common!)</h4>
+<ul>
+<li><p>Sublime (editor), use Multiple line edit to turn the data into SQL</p>
+</li>
+<li><p>vim, &quot;A combination of macros, regex, and standard commands that change each line to an insert statement.&quot; (via <a href="https://twitter.com/TheColonial/status/1180595464535601155?s=20">OJ</a>)</p>
+</li>
+<li><p>(Any editor), use search/replace (perhaps with regular expressions) to turn the data into SQL</p>
+</li>
+<li><p>(Any spreadsheet), write formulae that combine the data together to turn the data into SQL, &quot;<code>=&quot;('&quot; + A1 + &quot;','&quot; + A2...</code>&quot; etc.`</p>
+</li>
+<li><p><a href="https://nimbletext.com/Live/-63852033/">Automate the search/replace approach with NimbleText</a></p>
+<pre><code>  $ONCE
+  CREATE TABLE Contacts
+  (&quot;&lt;% $row.replace(/[ ]*,[ ]*/g,'&quot; varchar(50) NULL,\n&quot;') %&gt;&quot; varchar(50) NULL)
+  GO
+
+  Insert into Contacts
+  ('&lt;% $row.replace(/[ ]*,[ ]*/g,&quot;','&quot;) %&gt;')
+  Values
+  $EACH+
+  (&lt;% (&quot;'&quot; + $row + &quot;'&quot;).replace(/[ ]*,[ ]*/g,&quot;','&quot;).replace(/'NULL'/g,'NULL') %&gt;)&lt;% if ($rowNumOne != $numrows) { ',' } %&gt;
+  $ONCE
+  GO
+</code></pre>
+</li>
+</ul>
+<h2 id="any-database-with-windows">Any database with Windows</h2>
+<ul>
+<li><p><a href="https://www.linqpad.net/">LinqPad</a> — <a href="/linqpad/csv_to_array.html">CSV to IEnumerable (or Array) in Linqpad</a></p>
+</li>
+<li><p>Microsoft Log Parser</p>
+<pre><code> Logparser -o sql -server 127.0.0.1 -database -createtable on &quot;select * into newtable from C:\Apps\Logs\Logfile.log&quot; 
+</code></pre>
+</li>
+<li><p><a href="https://www.alteryx.com">Alteryx</a> ($$$)</p>
+<ul>
+<li>drag in an <code>Input data</code>, point it at the csv file.</li>
+<li>(optional) drag in a <code>Select</code>, use it to configure the column types</li>
+<li>drag in an <code>Output data</code>, point it at the database (and set the table name)</li>
+<li>Run!</li>
+</ul>
+</li>
+<li><p><a href="https://nimbletext.com/HowTo/GenerateInsert">Generate SQL Insert Statements with NimbleText (desktop version)</a></p>
+<blockquote>
+<p>The desktop version lets you use a &quot;real&quot; CSV parser that handles embedded delimiters/line breaks etc. Just switch on the <code>use qualifier</code> option under <code>tools</code> | <code>options</code>.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="any-database-with-macos">Any Database with MacOS</h2>
+<p>(No examples available, so use solutions for &quot;<a href="#any-database-with-any-os">Any database with any OS</a>&quot;)</p>
+<h2 id="ms-sql-server-specific">MS SQL Server Specific</h2>
+<ul>
+<li><p>Sql Server Management Studio (SSMS) — right click on Database, Tasks, &quot;Import Flat File...&quot;</p>
+</li>
+<li><p>BCP (Bulk Copy Program)</p>
+</li>
+<li><p>TSQL: <a href="https://docs.microsoft.com/en-us/sql/relational-databases/import-export/import-bulk-data-by-using-bulk-insert-or-openrowset-bulk-sql-server?view=sql-server-2017">BULK INSERT</a></p>
+<pre><code>  BULK INSERT Sales.Orders
+  FROM '\\SystemX\DiskZ\Sales\data\orders.csv'
+  WITH ( FIRSTROW = 2, FORMAT='CSV');
+</code></pre>
+</li>
+<li><p>Powershell: <a href="https://devblogs.microsoft.com/scripting/four-easy-ways-to-import-csv-files-to-sql-server-with-powershell/">Four Easy Ways to Import CSV Files to SQL Server with PowerShell</a></p>
+</li>
+<li><p>Powershell: <a href="https://docs.dbatools.io/#Import-DbaCsv">Import-DbaCsv</a> from <a href="https://twitter.com/cl">Chrissy LeMaire</a></p>
+<pre><code>  Import-DbaCsv -Path .\housing.csv -SqlInstance sql001 -Database markets -Table housing -Delimiter &quot;`t&quot; -NoHeaderRow
+</code></pre>
+</li>
+<li><p><a href="https://sqldownunder.com/pages/sdu-tools">SQL Down under tools</a> — see <a href="https://www.youtube.com/watch?v=ypuHanV2c6E&amp;feature=youtu.be">ReadCSV demo movie</a></p>
+</li>
+</ul>
+<h2 id="sqlite-specific">SQLite specific</h2>
+<ul>
+<li><p><a href="https://www.sqlitetutorial.net/sqlite-import-csv/">Tutorial: Import a CSV File Into an SQLite Table</a></p>
+<p>If there are no header names in the csv, then find the column names and run:</p>
+<pre><code>  create table mytable (header_a, header_b, header_c) 
+</code></pre>
+<p>Next step (do this whether you needed the previous step or not)</p>
+<pre><code>  .mode csv
+  .import data.csv mytable
+</code></pre>
+</li>
+</ul>
+<h2 id="mysql-specific">MySQL specific</h2>
+<ul>
+<li><p><a href="http://www.mysqltutorial.org/import-csv-file-mysql-table/">Load Data Infile</a></p>
+<pre><code>  LOAD DATA INFILE 'c:/tmp/discounts.csv' 
+  INTO TABLE discounts 
+  FIELDS TERMINATED BY ',' 
+  ENCLOSED BY '&quot;'
+  LINES TERMINATED BY '\n'
+  IGNORE 1 ROWS;
+</code></pre>
+</li>
+<li><p>PhpMyAdmin</p>
+</li>
+</ul>
+<h2 id="postgresql-specific">Postgresql specific</h2>
+<p>Two techniques: <code>Copy</code> command in sql itself, and <code>\copy</code> command in <code>psql</code> (interactive commandline).</p>
+<ul>
+<li><p><a href="https://www.postgresql.org/docs/current/sql-copy.html">Sql-copy</a> — requires root access</p>
+<pre><code> COPY dog_habits FROM '/home/user521/pets/dog_habits.csv' DELIMITER ',' CSV HEADER;
+</code></pre>
+</li>
+<li><p><a href="https://www.postgresql.org/docs/current/app-psql.html">psql \copy</a> — use interactive psql commandline where file permissions are an issue</p>
+<pre><code> psql -c &quot;\copy sample FROM '/home/user521/pets/dog_habits.csv' WITH (FORMAT CSV)&quot;
+</code></pre>
+</li>
+</ul>
+<h2 id="oracle-specific">Oracle specific</h2>
+<ul>
+<li><p><a href="https://www.foxinfotech.in/2018/07/9-simple-steps-to-import-csv-into-oracle-table-using-toad.html">9 Simple Steps to Import CSV into Oracle Table Using Toad</a></p>
+</li>
+<li><p><a href="https://apex.oracle.com/en/">Oracle APEX</a></p>
+<blockquote>
+<p>&quot;a couple of clicks and we're done&quot;</p>
+<p><a href="https://twitter.com/jeffreykemp/status/1179990364259663872">@APEX/JeffreyKemp.sql</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="hadoop-specific">Hadoop specific</h2>
+<ul>
+<li><p><a href="https://twitter.com/ben_brandwood/status/1179689026930036736">@BenBrandwood</a> gives this Hadoop example...</p>
+<pre><code>  hive&gt; CREATE EXTERNAL TABLE IF NOT EXISTS test_ext
+  &gt; (ID int,
+  &gt; DEPT int,
+  &gt; NAME string
+  &gt; )
+  &gt; ROW FORMAT DELIMITED
+  &gt; FIELDS TERMINATED BY ','
+  &gt; STORED AS TEXTFILE
+  &gt; LOCATION '/test';
+  OK
+  Time taken: 0.395 seconds
+</code></pre>
+</li>
+</ul>
+<h2 id="alternative-just-treat-the-csv-as-sql">Alternative: Just treat the CSV as SQL</h2>
+<ul>
+<li><a href="http://dinedal.github.io/textql/">TextQL</a> — Execute SQL against CSV or TSV.</li>
+<li><a href="https://harelba.github.io/q/">q</a> — Run SQL directly on CSV Files</li>
+<li><a href="https://rbql.org">RBQL</a> — Rainbow Query Language, a SQL-like language with JavaScript or Python backend.</li>
+<li><a href="https://github.com/dfinke/PSKit#sql-query">PSKit Query</a> — Powershell module lets you run simple queries over objects, including imported with csv.</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

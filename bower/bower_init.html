@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="bower-init">bower init</h1>
+<p>When running a <code>bower</code> command (ok, if you must know it was....</p>
+<pre><code>bower install markdown-it --save
+</code></pre>
+<p>)...</p>
+<p>the final part of the output said:</p>
+<pre><code>bower    no-json No bower.json file to save to, use bower init to create one
+</code></pre>
+<p>So...</p>
+<p>Creating a <code>bower.json</code> file with <code>bower init</code> is very fun, and reminiscent of <code>npm init</code></p>
+<p>After going through the questionnaire I ended up with something like this:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;A great name&quot;,
+  &quot;authors&quot;: [
+    &quot;secretGeek &lt;leon....@gmail.com&gt;&quot;
+  ],
+  &quot;description&quot;: &quot;a messy thing&quot;,
+  &quot;main&quot;: &quot;index.html&quot;,
+  &quot;keywords&quot;: [
+    &quot;markdown&quot;
+  ],
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;homepage&quot;: &quot;&quot;,
+  &quot;private&quot;: true,
+  &quot;ignore&quot;: [
+    &quot;**/.*&quot;,
+    &quot;node_modules&quot;,
+    &quot;bower_components&quot;,
+    &quot;test&quot;,
+    &quot;tests&quot;
+  ],
+  &quot;dependencies&quot;: {
+    &quot;markdown-it&quot;: &quot;^8.2.2&quot;
+  }
+}
+</code></pre>
+<p>Note it was smart enough to add what i'd added already as a dependency.</p>
+<p>var MarkdownIt = require('markdown-it'),
+md = new MarkdownIt();
+var result = md.render('# markdown-it rulezz!');</p>
+
+</body>
+<script>
+</script>
+</html>

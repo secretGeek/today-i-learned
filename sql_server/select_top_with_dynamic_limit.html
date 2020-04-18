@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="select-top-n-where-n-is-a-variable">Select top N where N is a variable</h1>
+<p>A lot of kids don't know this so it's worth writing down.</p>
+<p>Let's imagine you start with a query that shows the top 50, such as:</p>
+<pre><code>Select TOP 50 * from Leaderboard order by Score desc
+</code></pre>
+<p>Later, you want to make '50' a variable, so you try:</p>
+<pre><code>DECLARE @limit int = 50
+Select TOP @limit * from Leaderboard order by Score desc
+</code></pre>
+<p>And you're met with an error, to wit:</p>
+<pre><code>Msg 102, Level 15, State 1, Line 2
+Incorrect syntax near '@limit'.
+</code></pre>
+<p>So you give up, and decide it's impossible.</p>
+<p>What you don't realise is just how close to victory you were!</p>
+<p>Put parentheses around the @limit and you're done!</p>
+<pre><code>DECLARE @limit int = 50
+Select TOP(@limit) * from Leaderboard order by Score desc
+</code></pre>
+<p>Presto!</p>
+<p>(In other news, Access DB won't let you use '<code>Select top 0 * from TableName</code>' ...pesky Access)</p>
+
+</body>
+<script>
+</script>
+</html>

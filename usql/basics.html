@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="what-is-u-sql">What is U-SQL</h1>
+<p>U-SQL is a language that Unifies SQL and C# (using Roslyn compiler).</p>
+<p>Queries can be executed  against a Local Execution context or a Cloud Execution Context.</p>
+<p>The language combines SQL keywords (strictly in UPPER case) with C# keywords (in C#'s case-sensitive manner)</p>
+<p>Queries are automatically run in parallel (where possible) with ability to control the max degree of parallelism.</p>
+<h2 id="why-though">Why though?</h2>
+<p>Instead of bringing the data to your code, you can <strong>send your code to the data!</strong> Much more efficient for huge datasets.</p>
+<p>Simple example:</p>
+<p>Open Visual Studio 2017, new project, under Azure Data Lake, select &quot;U-SQL&quot; project</p>
+<p><img src="new_project_u_sql.png" alt="new_project_u_sql.png" /></p>
+<p>Create a new query and run it against a local execution context.</p>
+<p>Any paths mentioned in the query will be relevant to the local <code>USQLDataRoot</code>, i.e.</p>
+<pre><code>~\AppData\Local\USQLDataRoot
+</code></pre>
+<p>Example query:</p>
+<pre><code>@t = EXTRACT 
+        name string, age int
+     FROM &quot;fred.csv&quot;
+     USING Extractors.Csv(skipFirstNRows:1);
+
+@g =
+    SELECT 
+           name.ToLower().ToUpper().ToLower() AS name_lower, 
+           USQLApplication1.Udfs.Transformo(name) AS name_transformed, 
+           *
+    FROM @t;
+
+OUTPUT @g TO
+          &quot;fred3.tsv&quot;
+         USING Outputters.Tsv();
+</code></pre>
+<p>Things to note... &quot;EXTRACT&quot; command is a lot like a <code>SELECT</code> but specifies an 'extractor'. The extractor here is one of the <a href="https://docs.microsoft.com/en-us/u-sql/functions/operators/built-in-extractors">built-in extractors</a>. You can also build your own if you have a custom file to read.</p>
+<p>The <a href="https://docs.microsoft.com/en-us/u-sql/functions/operators/extractors/extractors-csv"><code>Extractors.Csv</code></a> class accepts optional parameters (see <a href="https://docs.microsoft.com/en-us/u-sql/functions/operators/extractors/extractor-parameters">all parameters</a>). I don't have intellisense working on that currently.</p>
+<p>Gotcha: by default it expects there to be no header row. So you need to tell it to skip the header if there is a header row. (i.e. <code>skipFirstNRows: 1</code>)</p>
+<p>Gotcha: even if they are quoted, you cannot have literal carriage returns/line feeds inside csv file, if you hope to use the <code>Extractors.Csv()</code>. They must instead be escaped by being replaced with '\r' and '\n'. This is to allow for parallelization, so that rows can be processed in any order (without processing prior rows). see <a href="https://github.com/Azure/usql/issues/84">issue 84</a></p>
+<p>There is no schema information about the csv file. You define the schema (the type details) in the extract command. This is called <strong>&quot;Schema on load&quot;</strong>. Note the use of .net types, e.g. <code>string</code> not <code>nvarchar</code>.</p>
+<p>Each of those variables, <code>@t</code>, <code>@g</code>, is a data row set.</p>
+<p>It is an error to not use all the data row sets. If you create one but doing nothing with it, you get the error: &quot;This statement is dead code&quot;.</p>
+<p>After extracting it from the file we do some transformations. Note the use of .net functions such as <code>.ToLower()</code>.</p>
+<p>We can use custom methods defined in a 'code behind' file. The example above is: &quot;USQLApplication1.Udfs.Transformo(name) &quot; where the usql file is 'Script.usql' and it's code behind file is thus <code>Script.usql.cs</code> and contains this C# class:</p>
+<pre><code>namespace USQLApplication1
+{
+    public class Udfs {
+        public static string Transformo(string name)
+        {
+            return name.ToUpper();
+        }
+    }
+}
+</code></pre>
+<p>Other than code-behind files, We can also load assemblies into a database in SQL Azure Data Lake, and reference those assemblies, thus sharing more complex logic.</p>
+
+</body>
+<script>
+</script>
+</html>

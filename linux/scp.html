@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="secure-copy-scp">Secure Copy (scp)</h1>
+<p>From <a href="http://www.hypexr.org/linux_scp_help.php">http://www.hypexr.org/linux_scp_help.php</a></p>
+<p>Copy the file &quot;foobar.txt&quot; from a remote host to the local host</p>
+<pre><code>$ scp your_username@remotehost.edu:foobar.txt /some/local/directory
+</code></pre>
+<p>Copy the file &quot;foobar.txt&quot; from the local host to a remote host</p>
+<pre><code>$ scp foobar.txt your_username@remotehost.edu:/some/remote/directory
+</code></pre>
+<p>Copy the directory &quot;foo&quot; from the local host to a remote host's directory &quot;bar&quot;</p>
+<pre><code>$ scp -r foo your_username@remotehost.edu:/some/remote/directory/bar
+</code></pre>
+<p>Copy the file &quot;foobar.txt&quot; from remote host &quot;rh1.edu&quot; to remote host &quot;rh2.edu&quot;</p>
+<pre><code>$ scp your_username@rh1.edu:/some/remote/directory/foobar.txt \
+your_username@rh2.edu:/some/remote/directory/
+</code></pre>
+<p>Copying the files &quot;foo.txt&quot; and &quot;bar.txt&quot; from the local host to your home directory on the remote host</p>
+<pre><code>$ scp foo.txt bar.txt your_username@remotehost.edu:~
+</code></pre>
+<p>Copy the file &quot;foobar.txt&quot; from the local host to a remote host using port 2264</p>
+<pre><code>$ scp -P 2264 foobar.txt your_username@remotehost.edu:/some/remote/directory
+</code></pre>
+<p>Copy multiple files from the remote host to your current directory on the local host</p>
+<pre><code>$ scp your_username@remotehost.edu:/some/remote/directory/\{a,b,c\} .
+$ scp your_username@remotehost.edu:~/\{foo.txt,bar.txt\} .
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.hypexr.org/linux_scp_help.php">Example syntax for Secure Copy (scp)</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="inline-min">Inline MIN</h1>
+<p>In SQL, MIN is an aggregate, not a function to be used inline.</p>
+<p>So here's a function similar to Math.Min from javascript and C#.</p>
+<p>For float:</p>
+<pre><code>CREATE function dbo.MinFloat(@val1 float(8), @val2 float(8))
+returns float(8)
+as
+begin
+  if @val1 &lt; @val2
+    return @val1
+  return isnull(@val2, @val1)
+end
+</code></pre>
+<p>For date time:</p>
+<pre><code>CREATE function dbo.MinDateTime(@val1 DateTime, @val2 DateTime)
+returns DateTime
+as
+begin
+    if @val1 &lt; @val2
+        return @val1
+    return isnull(@val2, @val1)
+end
+</code></pre>
+<p>etc.</p>
+<p>Or using SQL Generics you can simply say:</p>
+<pre><code>CREATE function dbo.InlineMin&lt;T&gt;(@val1 T, @val2 T)
+returns T
+as
+begin
+    if @val1 &lt; @val2
+        return @val1
+    return isnull(@val2, @val1)
+end
+</code></pre>
+<p>You will of course need to write your own compiler to use SQL Generics.</p>
+<p>Similarly if you want to use PARAMS, such as:</p>
+<pre><code>CREATE function dbo.InlineMin&lt;T&gt;(PARAMS @val1 Array&lt;T&gt;)
+</code></pre>
+<p>But &quot;First-class&quot; array handling is strangely absent from SQL even though it could fit so naturally with set-based processing.</p>
+
+</body>
+<script>
+</script>
+</html>

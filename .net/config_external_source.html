@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="config-from-an-external-source">Config from an external source</h1>
+<p>Say you want your connectionStrings to be pulled in from an external file, you can do that like this:</p>
+<pre><code>&lt;connectionStrings configSource=&quot;ConnectionStringsProduction.xml&quot; /&gt; 
+</code></pre>
+<p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique.</p>
+<p>Or if you have 3 different web applications that all want the same config for just part of their config file, you can use this trick.</p>
+
+</body>
+<script>
+</script>
+</html>

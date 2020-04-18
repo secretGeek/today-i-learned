@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-angular-deborah-kurata">Getting Started with Angular (Deborah Kurata)</h1>
+<p>These are my study notes for the coure <a href="https://app.pluralsight.com/library/courses/angular-2-getting-started-update/table-of-contents">Angular: Getting Started</a> from Deborah Kurata, on pluralsight.</p>
+<p>The course duration is 5h43m.</p>
+<p>Get source code from here:</p>
+<ul>
+<li><a href="https://github.com/DeborahK/Angular-GettingStarted">https://github.com/DeborahK/Angular-GettingStarted</a></li>
+</ul>
+<p>A blog post from Deborah to support the course is here:</p>
+<ul>
+<li><p><a href="https://blogs.msmvps.com/deborahk/angular-2-getting-started-problem-solver/">https://blogs.msmvps.com/deborahk/angular-2-getting-started-problem-solver/</a></p>
+<p>git clone <a href="https://github.com/DeborahK/Angular-GettingStarted.git">https://github.com/DeborahK/Angular-GettingStarted.git</a>
+cd .\Angular-GettingStarted\</p>
+</li>
+</ul>
+<p>The main demo app is &quot;APM&quot; which stands for &quot;Acme Product Management&quot;</p>
+<p>Under the <code>APM-Start</code> folder, here's the initial structure</p>
+<pre><code>├───e2e
+│   └───src
+└───src
+    ├───api
+    │   └───products
+    ├───app
+    │   ├───home
+    │   └───shared
+    ├───assets
+    │   └───images
+    └───environments
+</code></pre>
+<p>The web application itself is under the <code>APM-Start\src</code> folder. All the files in the <code>APM-Start</code> folder itself are there to support the tooling and the language and the frameworks etc. Go into the <code>src</code> folder for the real stuff.</p>
+<h2 id="lessons">Lessons</h2>
+<h3 id="introduction">Introduction</h3>
+<ul>
+<li>Angular is a javascript framework for building client side applications.</li>
+<li>Composed of &quot;Components&quot;. Components are put together into modules.</li>
+<li>There is always at least 1 module, the Root Angular Module.</li>
+<li>A component has: a class (with properties and methods), some metadata, a template.</li>
+<li>Code is generally written in typescript, in es2015, and transpiled down to es5 (hint: use vs code)</li>
+<li>Create &quot;services&quot; for getting data in/out. Probably for other things too.</li>
+</ul>
+<h2 id="first-things-first">First things first</h2>
+<ul>
+<li>Some javascript background. Javascript is &quot;ecmascript&quot; in the standards. All browsers support at least es5. es2015 is nicer, has arrow functions etc (and was formerly known as es6). May need to transpile it back down to es5.</li>
+<li>typescript definition files -- those are the ones that end with *.d.ts</li>
+</ul>
+<p>setup environment:</p>
+<ul>
+<li>need npm</li>
+<li>use npm to get angular</li>
+<li>get npm from <a href="https://nodejs.org/en/download">https://nodejs.org/en/download</a></li>
+</ul>
+<p>Already have it? check you have version at least <code>6.9.0</code> (from 2019)</p>
+<pre><code>npm --version
+6.14.1
+</code></pre>
+<p>Fiiiine.</p>
+<p><strong>But how do we get the angular cli?</strong></p>
+<pre><code>npm install -g @angular/cli
+</code></pre>
+<p>That's how you get the super dooper useful angular cli.</p>
+<p>Basic angular application has:</p>
+<ul>
+<li>package definition and configuration files</li>
+<li>packages</li>
+<li>root app angular module</li>
+<li>main.ts file</li>
+<li>host web page (index.html)</li>
+</ul>
+<p>Can use angular cli to do all this...</p>
+<p>In:</p>
+<pre><code>~\learning\Angular\Angular-GettingStarted\APM-Start\
+</code></pre>
+<p>Run:</p>
+<pre><code>npm install
+</code></pre>
+<p>There will be some warnings and a bunch of mess, but it will hopefully succeed at installing all the packages required by your little app.</p>
+<p>Hmmm.</p>
+<p>Warning near the start....</p>
+<pre><code>core-js@2.6.11: core-js@&lt;3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+</code></pre>
+<p>...and eventually a bunch of fatal errors.</p>
+<p>Ok, i'll run it a second time. This time it ran quicker but failed because of a locked file called something <code>pinkie</code>.</p>
+<p>OK I restarted my console and ran it a 3rd time.</p>
+<p>This time it &quot;succeeded&quot; What a mess.</p>
+<p>We know it succeeded because it had this line in the output...</p>
+<pre><code>added 1074 packages from 1046 contributors, removed 1 package, updated 2 packages, moved 1 package and audited 17156 packages in 104.591s
+</code></pre>
+<p>But also this line...</p>
+<pre><code>21 packages are looking for funding
+	run `npm fund` for details
+</code></pre>
+<p>..okay. And this:</p>
+<pre><code>found 7 vulnerabilities (2 low, 3 moderate, 2 high)
+	run `npm audit fix` to fix them, or `npm audit` for details
+</code></pre>
+<p>(OK -- I ran <code>npm audit fix</code> and that stopped me from being able to use anything. Then I checked at the course discussion group and a lot of people did that and Deborah told each of them &quot;no please don't run npm audit fix, that will stop it from working. So just ignore those errors. As a result of running <code>npm audit fix</code> I had to delete the repo and re-clone it. So don't do that.)</p>
+<p>NOW when I run:</p>
+<pre><code>npm start
+</code></pre>
+<p>...it starts and I get to the welcome screen:</p>
+<p>When we run <code>npm start</code> we are <code>run</code>ning an npm <code>script</code> like this:</p>
+<p>if you look inside the file <code>package.json</code> you will find a node like this:</p>
+<pre><code>	&quot;scripts&quot;: {
+		&quot;ng&quot;: &quot;ng&quot;,
+		&quot;start&quot;: &quot;ng serve -o&quot;,
+		&quot;build&quot;: &quot;ng build&quot;,
+		&quot;test&quot;: &quot;ng test&quot;,
+		&quot;lint&quot;: &quot;ng lint&quot;,
+		&quot;e2e&quot;: &quot;ng e2e&quot;
+	},
+</code></pre>
+<p>Those scripts are a map of friendly little names on the left to 'complex' commands on the right.</p>
+<p>So when we run <code>npm start</code> it is a shortcut to running:  <code>npm run ng serve -o</code></p>
+<p><img src="welcome.png" alt="welcome" /></p>
+<h2 id="other-supporting-files">Other supporting files</h2>
+<p>Can download the exercise files from:</p>
+<p><a href="https://app.pluralsight.com/library/courses/angular-2-getting-started-update/exercise-files">https://app.pluralsight.com/library/courses/angular-2-getting-started-update/exercise-files</a></p>
+<p>(I've put them in my <code>~learning/angular/</code> folder)</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://app.pluralsight.com/library/courses/angular-2-getting-started-update/discussion">Discussion group for the course here</a> with 6404 comments</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

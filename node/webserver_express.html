@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="use-express-webserver-to-serve-local-files-over-http">Use express webserver to serve local files over http</h1>
+<pre><code>npm install express
+</code></pre>
+<p>Then create a file, <code>server.js</code>, with contents much-like:</p>
+<pre><code>var express = require('express');
+var app = express();
+var path = require('path');
+
+// __dirname will use the current path from where you run this file 
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'C:\\SOME\\Path\\Here')));
+
+app.listen(8000);
+console.log('Listening on port 8000');
+</code></pre>
+<p>(Replacing '<code>C:\\SOME\\Path\\Here</code>' with the path that will serve as the root of the 'site', noting double backslashies. In *nix land of course it's all forward slashies.)</p>
+<p>Then start the web server using:</p>
+<pre><code>node server.js
+</code></pre>
+<p>And browse to:</p>
+<pre><code>http://localhost:8000/{fileName}
+</code></pre>
+<p fileName="">(Replacing  with the path to the file you want to see, relative to the root path)</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/a/26845720/49">http://stackoverflow.com/a/26845720/49</a> -- user 'thehme'</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

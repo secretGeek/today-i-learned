@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="to-have-your-gitbook-updated-whenever-you-push-to-a-github-repo">To have your gitbook updated whenever you push to a github repo</h1>
+<p>in gitbook, tell it which repository to use:</p>
+<p>e.g. in</p>
+<blockquote>
+<p><a href="https://www.gitbook.com/book/%7ByourUsername%7D/%7ByourBookName%7D/settings/github">https://www.gitbook.com/book/{yourUsername}/{yourBookName}/settings/github</a></p>
+</blockquote>
+<p>Tell it your github repository:</p>
+<pre><code>{yourUserName}/{YourRepo}
+</code></pre>
+<p>And to get the webhooks set up....</p>
+<ul>
+<li>Under &quot;Integration&quot; heading
+<ul>
+<li>Next to the &quot;Webhook URL&quot; is a &quot;copy to clipboard&quot; button. Click it, to copy your webhook url.</li>
+</ul>
+</li>
+</ul>
+<p>Then click &quot;Check Webhooks&quot; -- this takes you to Github. Specifically it takes you to &quot;Webhooks and Services&quot; for your repo, i.e.</p>
+<pre><code>https://github.com/{yourUserName}/{YourRepo}/settings/hooks    
+</code></pre>
+<ul>
+<li>Under &quot;Webhooks&quot; click &quot;Add webhook&quot;</li>
+<li>In &quot;Payload URL&quot; paste the &quot;Webhook URL&quot; from above.</li>
+<li>Content type -- leave as default (application/json)</li>
+<li>Secret -- leave .</li>
+<li>Which events -- leave as default (just the push event)</li>
+</ul>
+<p>And click &quot;Add Webhook&quot;</p>
+<p>Once that is working... when you push your repo... your book will update.</p>
+<p>It might take a minute. If you go to your book while it is building, they show you a &quot;building&quot; message.</p>
+<blockquote>
+<p>Your book is currently being updated, this can take up to a few minutes.</p>
+</blockquote>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="getting_started_with_gitbook.html">Getting started with gitbook</a></li>
+<li><a href="use_gitbook_locally.html">Use gitbook locally</a></li>
+<li><a href="host_on_custom_subdomain.html">Host a gitbook on a custom subdomain</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

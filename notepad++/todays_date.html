@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="need-a-shortcut-that-inserts-the-current-datetime">Need a shortcut that inserts the current date/time?</h1>
+<p>(If you keep a journal -- recommended! -- or a todo file -- also recommended! -- then you'll need this.)</p>
+<p>The command is found here:</p>
+<pre><code>TextFX | TextFX Insert | Date &amp; Time Long Format
+</code></pre>
+<p>(You may need to <a href="install_textfx_plugin.html">install the TextFX characters plugin</a>) (or update it!)</p>
+<p>Next you need to map a key-combination to it.</p>
+<p>I'm going to use Ctrl -D</p>
+<p>Currently Ctrl-D copies the current line.</p>
+<p>I've often hit that combo and i've never needed it.</p>
+<p>So Ctrl-D for Date.</p>
+<p>Under:</p>
+<pre><code>Settings | Shortcut Mapper | Scintilla Commands
+
+Name:  16 SCI_SELECTIONDUPLICATE
+ShortCut: CTRL+D
+</code></pre>
+<p>You can't delete the command, you need to modify it to have no hotkey combo.</p>
+<p>Use &quot;Modify&quot; -- then on the modify dialog, select a key combination of &quot;None&quot; and press &quot;Apply&quot;.</p>
+<p>(i.e. select &quot;none&quot; from the drop down of key combos, and de-select the 'Ctrl' checkbox)</p>
+<p>A warning message will appear at the foot of the dialog saying &quot;This will remove shortcut from this command&quot;  Great! Don't forget to press &quot;Apply&quot;. Just pressing OK is not enough. Strangely.</p>
+<p>Removed that one? Great.</p>
+<p>Now ADD the one you want. Under:</p>
+<pre><code>Settings | Shortcut Mapper | Plugin Commands:
+
+Name:       I:Date &amp; Time - long format
+ShortCut:   Ctrl+D
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="plugins.html">Plugins for Notepad++</a></li>
+<li><a href="install_textfx_plugin.html">Install TextFX plugin to notepad++</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

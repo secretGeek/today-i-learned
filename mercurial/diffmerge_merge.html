@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="configure-mercurial-to-use-sourcegear-diffmerge-for-merging">Configure mercurial to use sourcegear diffmerge for merging</h1>
+<p>In your <a href="./mercurial_ini.html">mercurial.ini file</a>(i.e. $env:userprofile\mercurial.ini) specify...</p>
+<pre><code>[ui]
+merge = vdiff
+
+[extensions]
+hgext.extdiff =
+
+[extdiff]
+cmd.vdiff = C:\Program Files\SourceGear\Common\DiffMerge\sgdm.exe
+
+[merge-tools]
+vdiff.executable = C:\Program Files\SourceGear\Common\DiffMerge\sgdm.exe
+# vdiff.args = -merge -result=$output  $local $base $other
+vdiff.args = -merge -result=$output -t1=&quot;Local Version&quot; -t2=$output -t3=&quot;Other Version&quot; -caption=$output $local $base $other
+vdiff.binary = False
+vdiff.symlinks = False
+vdiff.gui = True
+vdiff.premerge = True
+</code></pre>
+<p>If you first want to verify that path...</p>
+<pre><code>test-path &quot;C:\Program Files\SourceGear\Common\DiffMerge\sgdm.exe&quot;    
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://sourcegear.com/diffmerge/webhelp/sec__mercurial__windows__native.html">https://sourcegear.com/diffmerge/webhelp/sec__mercurial__windows__native.html</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

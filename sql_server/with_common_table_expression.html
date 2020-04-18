@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="with-common-table-expressions">WITH (common table expressions)</h1>
+<p>Common table expressions are a good way to reuse a piece of SQL.</p>
+<pre><code>;WITH Sales_CTE 
+AS
+-- Define the CTE query.
+(
+    SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear
+    FROM Sales.SalesOrderHeader
+    WHERE SalesPersonID IS NOT NULL
+)
+-- Define the outer query referencing the CTE name.
+SELECT SalesPersonID, COUNT(SalesOrderID) AS TotalSales, SalesYear
+FROM Sales_CTE
+GROUP BY SalesYear, SalesPersonID
+ORDER BY SalesPersonID, SalesYear;
+GO
+</code></pre>
+<h2 id="bonus-points-recursive-ctes">Bonus points: <strong>recursive</strong> CTEs.</h2>
+<p>The general form is:</p>
+<pre><code>Define a base case.
+UNION ALL
+Define a recursive case.
+</code></pre>
+<p>Example:</p>
+<pre><code>;WITH cte AS
+(
+    -- Define a base case
+    SELECT CAST('/' + Name AS VARCHAR(50)) as 'CteName', ID
+    FROM dbo.YourTable
+    WHERE parent_id IS NULL
+
+    -- UNION ALL
+    UNION ALL
+
+    -- Define a recursive case
+    SELECT CAST(cte.CteName + '/' + Name AS VARCHAR(50)), t.ID
+    FROM dbo.YourTable t
+    INNER JOIN cte ON t.parent_id = cte.id
+)
+SELECT cteName FROM cte
+ORDER BY ID
+</code></pre>
+<h2 id="multiple-ctes">Multiple CTE's...</h2>
+<p>To define multiple....</p>
+<pre><code>;WITH Sales_CTE 
+AS
+-- Define the First CTE query.
+(
+    SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear
+    FROM Sales.SalesOrderHeader
+    WHERE SalesPersonID IS NOT NULL
+),
+-- ^ Comma, followed by the Next CTE
+Miles_Driven_CTE AS
+(
+	Select SalesPersonID, YEAR(TripDate) as Year, SUM(Distance) as Miles
+	FROM Vehicle.Usage
+	GROUP BY SalesPersonID, YEAR(TripDate)
+)
+-- Define the outer query referencing ANY/ALL OF the CTE name.
+SELECT s.SalesPersonID, COUNT(s.SalesOrderID) AS TotalSales, m.Miles, m.Year
+FROM Sales_CTE s
+INNER JOIN Miles_Driven_CTE m on s.SalesPersonID = m.SalesPersonID AND m.Year = s.SalesYear
+GROUP BY m.Year, s.SalesPersonID
+ORDER BY s.SalesPersonID, m.Year desc;
+GO
+</code></pre>
+<p>Note that a CTE <em>can</em> refer to any of the preceeding CTEs.</p>
+<p>And that we often write a ';' before the 'WITH' so that the compiler is happy. Compilers have inflexible wishes.</p>
+
+</body>
+<script>
+</script>
+</html>

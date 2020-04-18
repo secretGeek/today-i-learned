@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-rename-photos-using-exif-data-with-powershell">How to rename photos, using EXIF data (with powershell)</h1>
+<p>You can inspect the EXIF data of a photo by uploading it to here: <a href="http://exif.regex.info/exif.cgi">http://exif.regex.info/exif.cgi</a></p>
+<p>You can rename a photo, such that its name is based on the <em>second</em> at which it was taken, in a <strong>sortable</strong> manner, with this snippet:</p>
+<pre><code>$null = [reflection.assembly]::LoadWithPartialName(&quot;System.Drawing&quot;)
+$pic = New-Object System.Drawing.Bitmap($fileName)
+
+# via http://stackoverflow.com/questions/6834259/how-can-i-get-programmatic-access-to-the-date-taken-field-of-an-image-or-video
+$bytearr = $pic.GetPropertyItem(36867).Value # Date Taken
+$pic.Dispose() # note... must dispose of the pic, if you wish to be able to rename the file! Otherwise get a fil in use error.
+
+$string = [System.Text.Encoding]::ASCII.GetString($bytearr) 
+$exactDate = [datetime]::ParseExact($string,&quot;yyyy:MM:dd HH:mm:ss`0&quot;,$Null)
+$length = (dir $fileName | % length )
+$extensionWithDot = [io.path]::GetExtension($FileName)
+$newName = (&quot;{0:yyyy-MM-dd-HH-mm-ss}_{1}_{2}_{3}{4}&quot; -f $exactDate, $device, $location, $length, $extensionWithDot)
+
+write-host &quot;Creating: $newName&quot;
+rename-item $fileName $newName
+</code></pre>
+<p>...all of which is wrapped up in function called 'RenamePhoto' which is dotted by my <code>$profile</code></p>
+<p>Note that you can still have problems caused by timezones!</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://exif.regex.info/exif.cgi">http://exif.regex.info/exif.cgi</a></li>
+<li><a href="http://stackoverflow.com/questions/6834259/how-can-i-get-programmatic-access-to-the-date-taken-field-of-an-image-or-video">StackOverflow: How can I get programmatic access to the “Date taken” field of an image or video using powershell?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

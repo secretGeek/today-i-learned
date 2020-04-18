@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="outer-apply-can-be-very-useful">Outer Apply can be very useful</h1>
+<p>First, assume we have a query that shows us the value of sales and the number of sales in each state....</p>
+<pre><code>Select
+	s.State
+	Sum(s.Amount) as Amount,
+	Count(*) as Number_of_Sales
+from 
+	Sales s
+Group by s.State
+</code></pre>
+<p>Now the boss asks you to include the name of the salesperson with the most sales in each state....</p>
+<p>You decide to use a subquery in the select. It looks a bit wonky but it gets the job done:</p>
+<pre><code>Select
+	s.State,
+	Sum(s.Amount) as Amount,
+	Count(*) as s.Number_of_Sales,
+	BestSalesperson = (Select top(1) Salesperson from Sales where State = s.State group by Salesperson order by Sum(Amount) desc) 
+from 
+	Sales s
+Group by s.State
+</code></pre>
+<p>Great -- now the boss asks you to throw in the amount of sales that the lead salesperson had.</p>
+<p>You scratch your head and decide to repeat the same subquery you'd already used....</p>
+<pre><code>Select
+	s.State,
+	Sum(s.Amount) as Amount,
+	Count(*) as s.Number_of_Sales,
+	BestSalesperson = (Select top(1) Salesperson from Sales where State = s.State group by Salesperson order by Sum(Amount) desc),
+    BestSalesperson_Sales = (Select top(1) Sum(Amount) from Sales where State = s.State group by Salesperson order by Sum(Amount) desc) 
+from 
+	Sales s
+Group by s.State
+</code></pre>
+<p>But is there a better way?</p>
+<p>Yes there is!</p>
+<p>You could've used an OUTER APPLY.... watch</p>
+<pre><code>Select
+	s.State,
+	Sum(s.Amount) as Amount,
+	Count(*) as s.Number_of_Sales,
+	so.SalesPerson as BestSalesperson,
+    so.SalesAmount as BestSalesperson_Sales
+from 
+	Sales s
+outer apply (Select top (1) 
+		Salesperson, 
+		Sum(Amount) as SalesAmount 
+	from 
+		Sales 
+	where 
+		State = s.State 
+	Group by 
+		SalesPerson 
+	order by 
+		Sum(Amount) desc) so
+Group by State, so.SalesPerson, so.SalesAmount
+</code></pre>
+<p>Outer apply is just the trick.</p>
+<p>It lets you create a table that refers to any other table in the query, without having to perform a regular join.</p>
+<p>I suppose there are better examples to be created, but I haven't thought of one just yet.</p>
+
+</body>
+<script>
+</script>
+</html>

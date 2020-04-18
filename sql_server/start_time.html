@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="when-was-sql-server-restarted">When was SQL Server restarted?</h1>
+<p>Mohammad Nizamuddin provides 4 different queries to find when the server was started, the first login occurred, the <code>tempdbs</code> were created.</p>
+<pre><code>--SELECT sqlserver_start_time FROM sys.dm_os_sys_info;  --I didn't have permissions for this one
+SELECT login_time FROM sys.dm_exec_sessions WHERE session_id = 1; --this returned nothing for session_id = 1, for me
+SELECT crdate FROM master..sysdatabases WHERE name='tempdb' ;
+SELECT create_date FROM sys.databases WHERE name = 'tempdb' ;
+--select start_time from sys.traces where is_default = 1 ; --I didn't have permissions for this one
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://gallery.technet.microsoft.com/scriptcenter/Script-to-check-when-was-5d0fe4e8">Script to check when was SQL Server restarted</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

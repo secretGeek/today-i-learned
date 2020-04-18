@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="remove-trailing-whitespace">Remove trailing whitespace</h1>
+<p>This is the biggie.</p>
+<p>Any text editor can run custom tasks and do powerful things with regular expressions or have a rich plugin ecosystem and beautiful themes and integrated debugging experience....</p>
+<p>But does it trim trailing whitespace!? By default!?</p>
+<p>From <a href="http://stackoverflow.com/questions/30884131/remove-trailing-spaces-automatically-or-with-a-shortcut">SO: Remove trailing spaces automatically or with a shortcut</a></p>
+<ol>
+<li><p>Open VS User Settings (<code>File &gt; Preferences &gt; User Settings</code>).
+This will open two side-by-side documents.</p>
+</li>
+<li><p>Add a new setting:</p>
+</li>
+</ol>
+<p><code>&quot;files.trimTrailingWhitespace&quot;: true</code></p>
+<p>...to the User Settings document <strong>on the right</strong>: <code>settings.json</code>. (This is so you aren't editing the Default Setting directly, but instead adding to it and thus over-riding it.)</p>
+<ol start="3">
+<li>Save the User Settings file.</li>
+</ol>
+<p>Note the user settings files is stored here:</p>
+<pre><code>$env:APPDATA\Code\User\settings.json
+</code></pre>
+<p>aka</p>
+<pre><code>%APPDATA%\Code\User\settings.json
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/30884131/remove-trailing-spaces-automatically-or-with-a-shortcut">http://stackoverflow.com/questions/30884131/remove-trailing-spaces-automatically-or-with-a-shortcut</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

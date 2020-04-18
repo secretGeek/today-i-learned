@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="to-set-an-alias">To Set An Alias:</h1>
+<pre><code>set-alias -name gito -value git_off
+</code></pre>
+<h1 id="aliases-cant-have-parameters">Aliases can't have parameters</h1>
+<p>in bash, an alias can include parameters. Not so in PowerShell. It's just an abbreviation.</p>
+<p>to create an alias with parameters you're advised to create a function in your <code>$PROFILE</code>.</p>
+<p>e.g.</p>
+<pre><code>function tf() {
+    tree /f
+}
+</code></pre>
+<h1 id="see-if-theres-any-alias-for-a-command">See if there's any alias for a command...</h1>
+<p>Often you know the alias and not the command.</p>
+<p>e.g.
+get-alias &quot;dir&quot;</p>
+<p>... teaches you that <code>dir</code> is an alias for <code>get-childitem</code></p>
+<p>Sometimes the opposite is true.</p>
+<p>e.g. I wasn't sure what alias to use instead of the cumbersome <code>push-location</code></p>
+<pre><code>get-alias -definition &quot;push-location&quot;
+</code></pre>
+<p>or, shorter:</p>
+<pre><code>get-alias -def &quot;push-location&quot;
+</code></pre>
+<p>shortest:</p>
+<pre><code>gal -def push-loc*
+</code></pre>
+<p>...aha! <code>pushd</code></p>
+<p>Btw, Here's what my first, most cumbersome attempt looked like:</p>
+<pre><code>alias | % { if($_.definition -eq &quot;push-location&quot;) {$_} }
+</code></pre>
+<p>This could be better written as:</p>
+<pre><code>alias  | ? Definition -like 'push-location'    
+</code></pre>
+<p>In bash you'd use something like</p>
+<pre><code>alias | grep push-location
+</code></pre>
+<p>The nearest equivalent of this is:</p>
+<pre><code>alias  | select-string 'push-location'
+</code></pre>
+<p>And it doesn't work. (Because the select-string works by performing a .toString on the object it receives, and to-string of this object only returns the name, not the definition.)</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="pivot-reports-with-dynamic-pivoted-columns-by-day">Pivot reports with dynamic pivoted columns (by day)</h1>
+<p>This is similar to the troller pattern documented elsewhere. It's a pattern for bulk display of pivotted data.</p>
+<p>You need a view which returns all of the unpivoted data, but with all the metrics &quot;Packaged&quot; into a single fields.</p>
+<p>There's two basic types of columns:</p>
+<ol>
+<li><p>Those that you want to group/filter by (e.g. Country, postcode, customerid) and</p>
+</li>
+<li><p>All the metrics, the finest granular details. (These are packed into a single column called 'Details')</p>
+<p>CREATE View dbo.[CustomerPerformance_NumberedDays]
+as</p>
+<p>with Days as (
+select
+num,
+DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date] from nums
+where num &lt;= 31 and num &gt; 1
+)
+Select --top 1000
+cj.Country,
+cj.Region,
+cj.PostCode,
+cj.Name as Customer,
+cj.Id as CustomerId
+d.[Date],
+d.num,
+p.SalesTotal + '|' +
+NumberComplaints + '|' +
+NumberCallsOutbound + '|' +
+TargetSalesTotal + '|' +
+s.supportPerson + '|' +
+s.supportComment
+as Details
+from
+CustomerJourney cj
+cross join [Days] d
+left outer join
+... e.g.SalesHistory p
+on p.id = cp.CustomerID and DATEADD(DAY, DATEDIFF(DAY, 0, p.Time), -1) = d.[Date]
+outer apply
+(Select top 1
+i.Value as supportComment,
+i.CreatedUser as supportPerson,
+i.CallDateTime as CallTime
+from CustomerCalls i
+where callType = 'Support'
+and i.CustomerID = cj.id
+and DATEADD(DAY, DATEDIFF(DAY, 0, i.CallDateTime), 0) = d.[Date]) as s</p>
+<p>outer apply (select top 1 -- or aggregate...
+... other metrics on that date for that customer, e.g. Complaints, expenses, time spent, refunds... anything...
+) as Intervention</p>
+<p>GO</p>
+</li>
+</ol>
+<p>That view is, in turn, used by a dynamic pivotting stored procedure</p>
+<pre><code>CREATE PROC dbo.CustomerPerformance_NumberedDays_Pivoted
+as
+BEGIN
+	DECLARE @cols AS NVARCHAR(MAX),
+		@query  AS NVARCHAR(MAX)
+		
+	
+	  IF EXISTS (SELECT * 
+				 FROM   dbo.sysobjects o 
+				 WHERE  o.xtype IN ( 'U' ) 
+						AND o.id = Object_id(N'dbo.CustomerPerformanceResult')) 
+		DROP TABLE dbo.CustomerPerformanceResult 
+
+
+
+	select @cols = STUFF((SELECT ',' + QUOTENAME([num]) 
+						from dbo.CustomerPerformance_NumberedDays as w
+						group by [num]
+						order by [num] desc
+				FOR XML PATH(''), TYPE
+				).value('.', 'NVARCHAR(MAX)') 
+			,1,1,'')
+
+	set @query = 'SELECT url_Country, url_Region, url_Postcode, url_Customer, Country, Region, Postcode, Customer, ' + @cols + ' 
+				into dbo.CustomerPerformanceResult
+				from 
+				 (
+					select 
+					''/Pivotted/CustomerPerformance?countryFilter='' + Replace(country,'' '',''%20'') as url_Country, 
+					''/Pivotted/CustomerPerformance?regionFilter='' + Replace(region,'' '',''%20'') as url_Region, 
+					''/Pivotted/CustomerPerformance?postcodeFilter='' + Replace(postcode,'' '',''%20'') as url_Postcode, 
+					''/Pivotted/CustomerPerformance?customerFilter='' + Replace(customerId,'' '',''%20'') as url_Customer, 
+					Conuntry, 
+					Region, 
+					Postcode, 
+					Customer, 
+					[details] 
+					from dbo.CustomerPerformance_NumberedDays
+				) x
+				pivot 
+				(
+					min([details])
+					for [num] in (' + @cols + ')
+				) p '
+
+	execute(@query)
+end	
+</code></pre>
+<p>Column names are looked up from a little dictionary. So the <code>num</code> of &quot;3&quot; will be given a display label based on the date returned from this view:</p>
+<pre><code>CREATE View dbo.CustomerPerformance_DayHeadings
+as
+select 
+	num,
+	DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date] 
+from 
+	nums 
+where 
+	num &lt;= 31 and num &gt; 1 --@NumDays
+
+	
+</code></pre>
+<p>Assuming the website receives this as a DataTable, it can be displayed via a View like this....</p>
+<p>(Not show: you'll always need a custom class for unpacking the Detail column. And you need to load</p>
+<pre><code>class PivottedReport {
+	public Dictionary&lt;int, ColumnInfo&gt; ColumnInfo { get; set; }
+    public DataSet data { get; set; }
+	public IEnumerable&lt;Filter&gt; filters { get; set; }
+}
+
+	
+@using System.Data
+@model PivottedReport
+
+@{
+	ViewBag.Title = Model.Name;
+	int i = -1;
+	int colName = 0;
+	var urlColumnNames = new HashSet&lt;string&gt;();
+}
+
+&lt;style&gt;
+	@@media (min-width: 1200px) {
+		.container {
+			max-width: calc(100% - 30px);
+		}
+	}
+&lt;/style&gt;
+
+&lt;div class=&quot;breadcrumb&quot;&gt;
+	@Html.ActionLink(&quot;Projects&quot;, &quot;Index&quot;, &quot;Home&quot;) &amp;rsaquo;
+	@Html.ActionLink(Model.Project.Name, &quot;Index&quot;, &quot;Project&quot;, new { project = Model.Project.Slug }, null)  &amp;rsaquo;
+	@Html.ActionLink(&quot;Pivotted&quot;, &quot;Index&quot;, &quot;Pivotted&quot;, new { project = Model.Project.Slug, filter = (string)null }, null)
+	&lt;text&gt;&amp;rsaquo;&lt;/text&gt;
+	@Model.Name
+&lt;/div&gt;
+
+@Html.ActionLink(&quot; &quot;, &quot;Export&quot;, &quot;PivottedReport&quot;, new { project = Model.Project.Slug, PivottedReport = Model.Slug }, new { @Class = &quot;glyphicon glyphicon-cloud-download btn pull-right&quot;, title = &quot;Export CSV&quot; })
+
+
+
+&lt;h1&gt;
+	@Model.Name
+&lt;/h1&gt;
+@if (Model.yyFilter != null)
+{ 
+	&lt;div class=&quot;display-label&quot;&gt;
+		Filter:
+		&lt;a class=&quot;&quot; href=&quot;/Pivotted/CustomerPerformance&quot; title=&quot;Remove yy filter&quot;&gt; @Model.yyFilter &amp;times;&lt;/a&gt;
+		@if (Model.xxFilter != null)
+		{ 
+			&lt;text&gt; &amp;rarr; &lt;/text&gt;
+			&lt;a class=&quot;&quot; href=&quot;/Pivotted/CustomerPerformance?yyFilter=@Model.yyFilter&quot; title=&quot;Remove xx filter&quot;&gt;@Model.xxFilter &amp;times;&lt;/a&gt;
+		}
+	&lt;/div&gt;
+}
+else { 
+	&lt;p&gt;Select a xx or a yy below.&lt;/p&gt;
+}
+
+@foreach (DataTable dataTable in Model.data.Tables)
+{
+	int r = 0;
+	&lt;table class=&quot;display PivottedReport&quot;&gt;
+		&lt;thead&gt;
+			&lt;tr&gt;
+				@foreach (DataColumn column in dataTable.Columns)
+				{
+					colName = -1;
+
+					if (column.ColumnName.StartsWith(&quot;url_&quot;)) {
+
+						urlColumnNames.Add(column.ColumnName.Substring(4));
+						continue;
+					}
+					if (int.TryParse(column.ColumnName, out colName)) {
+						&lt;th data-type=&quot;@column.DataType.ToString().Replace('.', '_')&quot;
+							data-orderable=&quot;false&quot;
+							class=&quot;nosort&quot; title=&quot;@Model.ColumnInfo[colName].Title&quot;&gt;
+						@Model.ColumnInfo[colName].Display
+						&lt;/th&gt;
+					} else {
+						&lt;th data-type=&quot;@column.DataType.ToString().Replace('.', '_')&quot;&gt;
+							@column.ColumnName
+						&lt;/th&gt; 
+					}
+				}
+			&lt;/tr&gt;
+		&lt;/thead&gt;
+		&lt;tbody&gt;
+			@foreach (DataRow row in dataTable.Rows)
+			{
+				r++;
+				i = -1;
+
+				&lt;tr&gt;
+					@foreach (var cell in row.ItemArray)
+					{
+						i++;
+						
+						if (dataTable.Columns[i].ColumnName.StartsWith(&quot;Key_&quot;)
+							|| dataTable.Columns[i].ColumnName.StartsWith(&quot;url_&quot;)) { 
+							continue; 
+						}
+						
+						if (cell != null &amp;&amp; cell is string &amp;&amp; cell.ToString().StartsWith(&quot;http&quot;))
+						{
+							&lt;td&gt;
+								&lt;a href=&quot;@cell.ToString().Split(&quot;|&quot;.ToCharArray()).First()&quot; target=&quot;_blank&quot; title=&quot;click to view in new tab&quot;&gt;@cell.ToString().Split(&quot;|&quot;.ToCharArray()).Last()&lt;/a&gt;
+							&lt;/td&gt;
+						}
+						else if (int.TryParse(dataTable.Columns[i].ColumnName, out colName))
+						{
+							// Column name is numeric? then it is part of the pivot section, and is given a nicer name and decoded here.
+							var detailCell = new DetailCell(cell.ToString());
+
+							
+
+							if (detailCell.SalesTotal == 0.0)
+							{
+								&lt;td class=&quot;zero @detailCell.Class&quot; title=&quot;@detailCell.Title&quot;&gt;
+								&lt;/td&gt;
+							}
+							else {
+								&lt;td  class=&quot;@detailCell.Class&quot; title=&quot;@detailCell.Title&quot; style=&quot;position:relative&quot;&gt;
+									&lt;div 
+										class='dataBar' 
+										style=&quot;height:@(detailCell.Height)px;&quot;&gt;
+									&lt;/div&gt;
+								&lt;/td&gt;
+							}
+						} else 
+						{
+							&lt;td class=&quot;plain&quot;&gt;
+								@if (urlColumnNames.Contains(dataTable.Columns[i].ColumnName)) {
+									&lt;a href=&quot;@row[dataTable.Columns[&quot;url_&quot;+dataTable.Columns[i].ColumnName]].ToString()&quot;&gt;@cell.ToString(cell.GetType())&lt;/a&gt;
+								} else {
+									@cell.ToString(cell.GetType())
+								}
+							&lt;/td&gt;
+						}
+					}
+				&lt;/tr&gt;
+			}
+		&lt;/tbody&gt;
+		&lt;tfoot&gt;
+		&lt;/tfoot&gt;
+	&lt;/table&gt;
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

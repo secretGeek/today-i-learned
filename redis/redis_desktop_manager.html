@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="redis-gui-redis-desktop-manager">Redis GUI - redis desktop manager</h1>
+<p>Connection dialog asks you for:</p>
+<pre><code>Name
+Host 
+Port 
+Auth (optional)
+</code></pre>
+<p>The connection string from rediscloud looked like this:</p>
+<pre><code>redis://rediscloud:dBWHDNWJHECBJEBCW@pub-redis-12345.us-east-2-5.2.ec2.garantiadata.com:12345
+</code></pre>
+<p>(details changed for security reasons :) )</p>
+<p>And that gets broken apart and entered into the connection dialog like this:</p>
+<blockquote>
+<p>Name: whatever you want<br />
+Host: everything after the @ and before the colon, i.e. pub-redis-12345.us-east-2-5.2.ec2.garantiadata.com<br />
+Port: 12345<br />
+Auth (optional) : everything before the @ and after the colon, i.e. dBWHDNWJHECBJEBCW</p>
+</blockquote>
+<p>After setting up my connection successfully I still found that the app did not work for my redis store containing 120,000 records.</p>
+<p>I instead used <a href="https://www.redsmin.com/">redsmin</a> to connect to it, and verify that my store was still ok, if a little large.</p>
+<p>Then I found that:</p>
+<pre><code>redis.DeleteById&lt;Session&gt;(&quot;Guess.Models.Session::08ec9f99-eaf9-42b1-879b-755b216422a1&quot;);
+</code></pre>
+<p>Did <em>not</em> work. I don't know why.</p>
+<p>However:</p>
+<pre><code>redis.Del(&quot;Guess.Models.Session::08ec9f99-eaf9-42b1-879b-755b216422a1&quot;)
+</code></pre>
+<p>Worked fine. Yay.</p>
+<p>Even better, I could pass in a whole array of sessions to delete.</p>
+<pre><code>redis.Del(victims.ToArray());
+</code></pre>
+<p>And now that the store is down to 187 entries (instead of 120,000) redis desktop manager works very nicely.</p>
+
+</body>
+<script>
+</script>
+</html>

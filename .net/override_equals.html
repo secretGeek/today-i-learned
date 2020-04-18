@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="override-equals-to-compare-objects">override equals to compare objects</h1>
+<p>If A and B are two different objects in memory, but they are of the same type and have all the same values... are they equal?</p>
+<p>It's a deep question, but if, for your problem domain, the answer is &quot;YES&quot; then you can embed this answer in your code as follows:</p>
+<pre><code>public class MyThing
+{
+	public string ID { get; set; }
+	public decimal? Hats { get; set; }
+	public decimal? Noses { get; set; }
+
+	public override bool Equals(object obj)
+	{
+		Mything test = obj as Mything;
+		if (obj == null)
+		{
+			return false;
+		}
+		return ID == test.ID &amp;&amp;
+			Hats == test.Hats &amp;&amp;
+			Noses == test.Noses;
+	}
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

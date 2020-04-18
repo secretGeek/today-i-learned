@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="load-datatable-from-a-sql-query">Load DataTable from a SQL query</h1>
+<pre><code>private DataTable LoadTable(string connectionString, string sql)
+{
+	DataTable dt = null;
+	using (var connection = new SqlConnection(connectionString))
+	{
+		connection.Open();
+		using (var sqlCommand = new SqlCommand(sql, connection))
+		{
+			var data = new DataSet();
+			using (var da = new SqlDataAdapter(sqlCommand))
+			{
+				da.Fill(data);
+			}
+
+			dt = data.Tables[0];
+		}
+	}
+	
+	return dt;
+}
+</code></pre>
+<p>The nearest equivalent using Dapper would be something like this:</p>
+<pre><code>private IEnumerable&lt;T&gt; Load&lt;T&gt;(string connectionString, string sql)
+{
+	using (var connection = new SqlConnection(connectionString))
+	{
+		connection.Open();
+		return connection.Query&lt;T&gt;(sql);
+	}
+}
+</code></pre>
+<p>Also with Dapper, here's a tiny little wrapper for performing inserts/updates:</p>
+<pre><code>private int Execute&lt;T&gt;(string connectionString, string sql, T parameters)
+{
+	using (var connection = new SqlConnection(connectionString))
+	{
+		connection.Open();
+		return connection.Execute(sql, parameters);
+	}
+}
+</code></pre>
+<p>...which could be used like this:</p>
+<pre><code>var updateSql = &quot;update [Person] SET LastName = @LastName, FirstName = @FirstName, DOB=@DOB WHERE ID = @ID&quot;;
+var insertSql = &quot;INSERT INTO [Person] ([DOB],[LastName],[FirstName]) VALUES (@DOB,@LastName,@FirstName)&quot;;
+if (person.ID == null)
+	Execute(connectionString, insertSql, person);
+else
+	Execute(connectionString, updateSql, person);
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

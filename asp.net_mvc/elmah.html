@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="elmah-error-handling">Elmah - error handling</h1>
+<p>Add nuget packages, elmah and elmah.mvc</p>
+<p>Now you have to make it secure. Otherwise google will index your logs, and hackers will forever find your secrets.</p>
+<p>One technique is:</p>
+<pre><code>&lt;elmah&gt;
+    &lt;security allowRemoteAccess=&quot;0&quot; /&gt;
+</code></pre>
+<p>But if you need to see the logs remotely, you have to set that to &quot;1&quot; — and then limit the access via standard location settings.</p>
+<p>e.g. Here I'm only allowing access to a user called leon. It's also important to make sure the handlers are under the secured location.</p>
+<pre><code>&lt;location path=&quot;elmah.axd&quot;&gt;
+    &lt;system.web&gt;
+      &lt;httpHandlers&gt;
+        &lt;add verb=&quot;POST,GET,HEAD&quot; path=&quot;elmah.axd&quot; type=&quot;Elmah.ErrorLogPageFactory, Elmah&quot;/&gt;
+      &lt;/httpHandlers&gt;
+      &lt;authorization&gt;
+        &lt;allow users=&quot;leon&quot;/&gt;
+        &lt;deny users=&quot;*&quot;/&gt;
+      &lt;/authorization&gt;
+    &lt;/system.web&gt;
+    &lt;system.webServer&gt;
+      &lt;handlers&gt;
+        &lt;add name=&quot;Elmah&quot; path=&quot;elmah.axd&quot; verb=&quot;POST,GET,HEAD&quot; type=&quot;Elmah.ErrorLogPageFactory, Elmah&quot; preCondition=&quot;integratedMode&quot;/&gt;
+      &lt;/handlers&gt;
+    &lt;/system.webServer&gt;
+  &lt;/location&gt;
+</code></pre>
+<p>Also, in <code>RegisterRoutes</code></p>
+<pre><code>routes.IgnoreRoute(&quot;admin/elmah.axd/{*pathInfo}&quot;);
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://code.google.com/p/elmah/wiki/SecuringErrorLogPages">https://code.google.com/p/elmah/wiki/SecuringErrorLogPages</a></li>
+<li><a href="http://haacked.com/archive/2007/07/24/securely-implement-elmah-for-plug-and-play-error-logging.aspx/">http://haacked.com/archive/2007/07/24/securely-implement-elmah-for-plug-and-play-error-logging.aspx/</a></li>
+<li><a href="https://www.stormconsultancy.co.uk/blog/development/tools-plugins/allowing-secure-remote-access-to-your-elmah-error-log/">https://www.stormconsultancy.co.uk/blog/development/tools-plugins/allowing-secure-remote-access-to-your-elmah-error-log/</a></li>
+<li><a href="http://www.troyhunt.com/2012/01/aspnet-session-hijacking-with-google.html">http://www.troyhunt.com/2012/01/aspnet-session-hijacking-with-google.html</a></li>
+<li><a href="http://stackoverflow.com/questions/1245364/securing-elmah-in-asp-net-website">http://stackoverflow.com/questions/1245364/securing-elmah-in-asp-net-website</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

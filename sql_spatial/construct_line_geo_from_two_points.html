@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="construct-line-geography-from-two-points">Construct line geography from two points</h1>
+<p>Got two points and want to draw a straight line between them?</p>
+<pre><code>geography::STGeomFromText(
+    'LINESTRING(' 
+        + str(w1.Geo.Long,18,15) 
+        + ' ' 
+        + str(w1.Geo.Lat,18,15) 
+        + ', ' 
+        + str(w2.Geo.Long,18,15) 
+        + ' ' 
+        + str(w2.Geo.Lat,18,15) + ')', 
+     w1.Geo.STSrid) AS NewGeo
+
+
+ 
+</code></pre>
+<p>Here it is again in a single easy to copy line....</p>
+<pre><code>geography::STGeomFromText('LINESTRING(' + str(w1.Geo.Long,18,15) + ' ' + str(w1.Geo.Lat,18,15) + ', ' + str(w2.Geo.Long,18,15) + ' ' + str(w2.Geo.Lat,18,15) + ')', w1.Geo.STSrid) AS NewGeo
+</code></pre>
+<p>Remember though that the Earth is curved, and you'd better <code>densify</code> that if you want to use it for long lines.</p>
+<p>And, if you want it to output the text, then add</p>
+<pre><code>.AsTextZM()
+</code></pre>
+<p>...to the resulting geo.</p>
+
+</body>
+<script>
+</script>
+</html>

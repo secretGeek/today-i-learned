@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="prevent-saving-changes-that-require-the-table-to-be-re-created">Prevent saving changes that require the table to be re-created.</h1>
+<p>You are modifying a table, using <code>Design table</code> in SSMS, and want to generate a change script (or maybe you want to save your change)</p>
+<pre><code>Table Designer &amp;rarr; Generate Change Script
+</code></pre>
+<p>Sql Server Management Studio (SSMS) produces this error:</p>
+<blockquote>
+<p>Saving changes is not permitted. The changes you have made require the following changes to be dropped and re-created. You have either made changes to a table that can't be re-created or enabled te option Prevent saving changes that require the table to be re-created.</p>
+</blockquote>
+<p>Oh no!</p>
+<p>To enable this option, go to:</p>
+<pre><code>Tools &amp;rarr; Options &amp;rarr; Designers &amp;rarr; Table and Database Designers &amp;rarr; Table Options
+
+Prevent saving changes that require table re-creation
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

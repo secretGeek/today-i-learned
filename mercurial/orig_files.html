@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="got-a-bunch-of.orig-files-you-dont-want">Got a bunch of .orig files you don't want?</h1>
+<p>use powershell to recursively delete all the .orig files created by mercurial after reverting (i.e. abandoning) a change.</p>
+<pre><code>dir . *.orig -recurse | del
+</code></pre>
+<p>i.e. after a &quot;hg revert --all&quot; or a merge gone horribly right.</p>
+
+</body>
+<script>
+</script>
+</html>

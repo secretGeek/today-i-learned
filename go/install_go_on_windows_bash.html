@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="install-go-on-windows-bash">Install go on windows bash</h1>
+<p>I wanted to run some go tools in bash -- so i needed to install go.</p>
+<p>I used this tutorial:</p>
+<h2 id="go-installer-for-bash-on-windows"><a href="https://stefanprodan.com/2016/golang-bash-on-windows-installer/">Go installer for Bash on Windows</a></h2>
+<p>Wherein you basically do this:</p>
+<pre><code>cd $HOME
+curl -s -L https://gist.githubusercontent.com/stefanprodan/29d738c3049a8714297a9bdd8353f31c/raw/1f3ae2cf97cb2faff52a8a3d98f0b6415d86c810/win10-bash-go-install.sh | sudo bash
+</code></pre>
+<p>(I actually downloaded it into a file and ran the file with <code>sudo bash installgo.sh</code>)</p>
+<p>Then I had to <strong>restart bash</strong> before <code>which go</code> would admit that go was installed.</p>
+<h2 id="external-references">External references</h2>
+<ul>
+<li><a href="https://stefanprodan.com/2016/golang-bash-on-windows-installer/">Go installer for Bash on Windows</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

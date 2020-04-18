@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="rename-with-force">Rename with Force</h1>
+<p>You want to rename a file, but the new file already exists.</p>
+<pre><code>ren file.old file.new
+ren : Cannot create a file when that file already exists.
+</code></pre>
+<p>(ren is an alias for <code>Rename-Item</code>)</p>
+<p>You think &quot;I know, I'll use (the) force!&quot;</p>
+<pre><code>ren file.old file.new -Force
+ren : Cannot create a file when that file already exists.
+</code></pre>
+<p>But that doesn't work either....</p>
+<p>You google and feel like a fool, but eventually determine you need to use <code>Move-Item</code></p>
+<pre><code>mv file.old file.new -Force
+</code></pre>
+<p>Q.E.D.</p>
+
+</body>
+<script>
+</script>
+</html>

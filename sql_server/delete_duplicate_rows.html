@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="delete-duplicate-rows">Delete duplicate rows</h1>
+<p>It can be hard to delete true duplicate rows.</p>
+<p>First, this only happens with adhoc tables that have no primary key and no uniqueness constraints. But such tables do exist at times... and it can be the devil to correct it.</p>
+<p>How do you construct a query that will delete one of the duplicates and not the other?</p>
+<p>If you try to delete the rows by right-clicking on the table and choosing &quot;Edit top 200 rows&quot; ... it will look like it's about to work:</p>
+<pre><code>Click Yes to permanently delete these rows. You won't be able to undo those changes.
+</code></pre>
+<p>But will fail with this message:</p>
+<pre><code>No rows were deleted.
+
+A problem occurred attempting to delete row 101.
+Error Source: Microsoft.SqlServer.Management.DataTools.
+Error Message: The row value(s) updated or deleted either do not make the row unique or they alter multiple rows(2 rows).
+
+Correct the errors and attempt to delete the row again or press ESC to cancel the change(s).
+</code></pre>
+<p>Here's the trick...</p>
+<p>Write a select row_number() over partition that shows the repetition: (you'll need to adjust the <code>partition by</code> clause)</p>
+<pre><code>WITH cte
+	 AS (SELECT Category, Unit, FullPath, [Date], ROW_NUMBER() OVER (PARTITION BY Category, Unit, FullPath, [Date]
+									   ORDER BY ( SELECT 0)) RN
+		 FROM   QAPortal.TechMetric
+		 where category = 'SSRS' and Unit = 'Reports' )
+SELECT * FROM CTE
+--DELETE FROM cte
+WHERE  RN &gt; 1;         
+</code></pre>
+<p>Once you're looking at just the right rows to obliterate,</p>
+<p>Comment out the 'SELECT * FROM CTE' and uncomment the <code>DELETE FROM CTE</code></p>
+<p>Boya!</p>
+<pre><code>(8 row(s) affected)
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/18932/how-can-i-remove-duplicate-rows">stack overflow: how can i remove duplicate rows</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="window_functions.html">Window Functions in SQL Server</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

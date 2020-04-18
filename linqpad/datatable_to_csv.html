@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="data-table-to-csv">Data Table to CSV</h1>
+<p>Convert an array of objects to CSV is one of the classic activities.</p>
+<p>Here's a workable method for converting a <code>System.Data.DataTable</code> to CSV.</p>
+<pre><code>public static string ToCsv(this DataTable table, string fieldSeparator = &quot;,&quot;, string recordSeparator = &quot;\r\n&quot;, string fieldQualifier = &quot;\&quot;&quot;)
+{
+	var result = new StringBuilder();
+	for (int i = 0; i &lt; table.Columns.Count; i++)
+	{
+		var tableName = table.Columns[i].ColumnName;
+		result.Append(EscapeAndQualifyAsNeeded(tableName, fieldSeparator, recordSeparator, fieldQualifier));
+		result.Append(i == table.Columns.Count - 1 ? recordSeparator : fieldSeparator);
+	}
+
+	foreach (DataRow row in table.Rows)
+	{
+		for (int i = 0; i &lt; table.Columns.Count; i++)
+		{
+			string value;
+			if (row[i] is System.DateTime)
+			{
+				value = string.Format(&quot;{0:yyyy-MM-dd HH:mm:ss}&quot;, row[i]);
+			}
+			else
+			{
+				value = row[i].ToString();
+			}
+
+			result.Append(EscapeAndQualifyAsNeeded(value, fieldSeparator, recordSeparator, fieldQualifier));
+			result.Append(i == table.Columns.Count - 1 ? recordSeparator : fieldSeparator);
+		}
+	}
+
+	return result.ToString();
+}
+
+public static string EscapeAndQualifyAsNeeded(string value, string fieldSeparator = &quot;,&quot;, string recordSeparator = &quot;\r\n&quot;, string fieldQualifier = &quot;\&quot;&quot;) 
+{
+	if (value.Contains(fieldSeparator) || value.Contains(recordSeparator) || value.Contains(fieldQualifier) || value.StartsWith(&quot; &quot;) || value.EndsWith(&quot; &quot;))
+	{
+		value = fieldQualifier + value.Replace(fieldQualifier, fieldQualifier + fieldQualifier) + fieldQualifier;
+	}
+
+	return value;
+}
+</code></pre>
+<p>...The bit I care about is the <code>EscapeAndQualifyAsNeeded</code> method.</p>
+<p>Common mistakes people make are:</p>
+<ol>
+<li>Don't do any escaping or qualifying and end up with unparseable CSV.</li>
+<li>Qualify <em>every</em> field, whether it needs to be qualified or not.</li>
+<li>Trim fields before qualifying. That's changing the data, and should only be done if its explicitly needed. (Some people hide steganographic codes in trailing whitespace... this would eradicate the message.)</li>
+<li>Only check for embedded fieldSeparators, don't check for embedded record separators, etc.</li>
+</ol>
+<h3 id="sponsor">Sponsor</h3>
+<p>Love CSV? Hate CSV? Try <a href="http://NimbleText.com/">NimbleText</a> for your CSV transforming needs.</p>
+<h2 id="external-link">External link:</h2>
+<ul>
+<li><a href="https://donatstudios.com/Falsehoods-Programmers-Believe-About-CSVs">Falsehoods programmers believe about CSVs</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

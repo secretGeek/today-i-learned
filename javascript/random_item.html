@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="retrieve-a-random-item-from-an-array">Retrieve a random item from an array</h1>
+<p>Since <code>Math.random()</code> returns a random number from <code>0</code> to <code>1</code>, returning a random item from an array is as easy as:</p>
+<pre><code>var items = ['hat', 'puzzle', 'cobra', 'window', 'tooth', 'zebra'];
+
+var  randomItem = items[Math.floor(Math.random() * items.length)];
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

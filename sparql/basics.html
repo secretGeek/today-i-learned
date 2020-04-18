@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="sparql-basics">sparql -- basics</h1>
+<pre><code>SELECT ?a ?b ?c
+WHERE
+{
+  x y ?a.
+  m n ?b.
+  ?b f ?c.
+}
+LIMIT 10
+</code></pre>
+<p>Note that <code>x y ?a.</code></p>
+<p>..means &quot;x relates in way y to value ?a&quot;</p>
+<p>..e.g. <code>y</code> could be... &quot;hasColor&quot; ... or some other arbitrary relationship indicator.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial">https://www.wikidata.org/wiki/Wikidata:SPARQL_tutorial</a></li>
+<li><a href="https://www.youtube.com/watch?v=FvGndkpa4K0">Video: SPARQL in 11 minutes</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

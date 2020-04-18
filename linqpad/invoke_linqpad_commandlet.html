@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="invoke-a-linqpad-script-with-invoke-linqpadscript-commandlet">Invoke a LinqPad Script with Invoke-LinqPadScript CommandLet</h1>
+<p>Since you can <a href="run_linqpad_scripts_from_commandline.html">Run Linqpad scripts from the command-line</a> I made a short wrapper that lets you invoke scripts in a dedicated LinqPad script folder. (Assuming it is a directory caled <code>linqPad</code> under your <code>utils</code> folder.</p>
+<pre><code>function Invoke-LinqPadScript
+{
+    [CmdletBinding()]
+    Param
+    (
+        [parameter(mandatory=$true, position=0)][string]$ScriptName,
+        [parameter(mandatory=$false, position=1, ValueFromRemainingArguments=$true)]$AllArgs
+    )
+
+    if (!(Get-Command &quot;lprun&quot; -errorAction SilentlyContinue)) {
+        write-host &quot;You need lprun.exe, on the PATH, to be able to use this module.&quot; -foregroundcolor &quot;red&quot;
+        return;
+    }
+
+    $fullScriptPath = (&quot;{0}\linqpad\{1}.linq&quot; -f $env:util, $ScriptName);
+
+    if (!(test-path $fullScriptPath)) {
+        write-host  (&quot;No script found &quot; + $fullScriptPath) -foregroundcolor &quot;red&quot;
+        return;
+    }
+
+    &amp; lprun $fullScriptPath $AllArgs
+}
+</code></pre>
+<p>And the recommended alias for that is <code>linq</code>. So, you can invoke a LinqPad script called <code>Calendar.linq</code> by typing:</p>
+<pre><code>linq calendar
+</code></pre>
+<p>Also, I've got a Get-LinqPadScript commandlet for quickly listing the available scripts.</p>
+<pre><code>function Get-LinqPadScript
+{
+    [CmdletBinding()]
+    Param
+    (
+        [parameter(mandatory=$false, position=0)][string]$ScriptName
+    )
+
+    $linqPadScriptPath = (&quot;{0}\linqpad&quot; -f $env:util);
+
+    if ($scriptName -ne $null) {
+        Get-ChildItem $linqPadScriptPath  *.linq |
+            ? { $_.BaseName -match $scriptName } |
+            Format-Table -property  @{Expression={$_.BaseName};Label=&quot;Script&quot;} -auto
+    } else {
+        Get-ChildItem $linqPadScriptPath  *.linq |
+            Format-Table -property  @{Expression={$_.BaseName};Label=&quot;Script&quot;} -auto
+    }
+}
+</code></pre>
+<p>The recommended alias for that is <code>linqs</code>, so if you try, <code>linqs sql</code> you'll see any script with 'sql' in the <a href="../powershell/parts_of_a_fileSystemInfo_object.html">BaseName</a>.</p>
+<p>Putting better support for this into linqPad is a uservoice suggestion <a href="https://linqpad.uservoice.com/forums/18302-linqpad-feature-suggestions/suggestions/7408081-create-invoke-linqpad-cmdlet-for-powershell">Create Invoke-LinqPad Cmdlet for powershell</a> where a commenter has included a basic example <a href="http://pastebin.com/tNGQgBEe">http://pastebin.com/tNGQgBEe</a></p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="run_linqpad_scripts_from_commandline.html">Run Linqpad scripts from the command-line</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

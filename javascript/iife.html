@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="immediately-invoked-function-expression">immediately-invoked function expression</h1>
+<blockquote>
+<p>An immediately-invoked function expression (or IIFE, pronounced &quot;iffy&quot;) is a JavaScript design pattern which produces a lexical scope using JavaScript's function scoping.</p>
+</blockquote>
+<pre><code>(function(){
+    // all your code here
+    var foo = function() {};
+    window.onload = foo;
+    // ...
+})();
+// foo is unreachable here (it's undefined)
+</code></pre>
+<blockquote>
+<p>This pattern is often used when trying to avoid polluting the global namespace, because all the variables used inside the IIFE (like in any other normal function) are not visible outside its scope.</p>
+</blockquote>
+<blockquote>
+<p>In ES6, the above IIFE can be rewritten using the arrow function</p>
+</blockquote>
+<pre><code>((foo) =&gt; foo)('foo value')
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Immediately-invoked_function_expression">https://en.wikipedia.org/wiki/Immediately-invoked_function_expression</a></li>
+<li><a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">http://benalman.com/news/2010/11/immediately-invoked-function-expression/</a></li>
+<li><a href="http://stackoverflow.com/questions/8228281/what-is-the-function-construct-in-javascript">http://stackoverflow.com/questions/8228281/what-is-the-function-construct-in-javascript</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

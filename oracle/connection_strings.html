@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="connection-strings-in-oracle">Connection Strings in Oracle</h1>
+<p>Example:
+User Id=scott;Password=tiger;Data Source=bbSales12</p>
+<p>In this case <code>bbSales12</code> is an alias.</p>
+<p>To resolve this alias, Oracle first looks in &quot;the connection pool&quot; to see if it has already &quot;Resolved&quot; that alias.</p>
+<p>Next it looks in <code>tnsnames.ora.</code></p>
+<p><code>tnsnames.ora</code> is a file that contains enough configuration detail that your machine should be able to connect to the remote machine.</p>
+<p>How does Oracle find the <code>tnsnames.ora</code> file?</p>
+<p>Oracle relies on an environment variable, TNS_ADMIN, which contains the folder name in which <code>tnsnames.ora</code> is stored.</p>
+<p>If you don't have this environment variable set, then Oracle will not be able to find the tnsnames.ora file (or the sqlnet.ora file, which will be described later)</p>
+<p>In <code>tnsnames.ora</code> you should find the alias defined via a piece of configuration language like this:</p>
+<p>bbSales12=
+(DESCRIPTION=
+(ADDRESS= (PROTOCOL=tcp)(HOST=bb12Sales-server3)(PORT=1521))
+(CONNECT_DATA=
+(SERVICE_NAME=sales.us.acme.com)))</p>
+<p>You can also use &quot;Easy Connect Naming Method&quot;</p>
+<p>Instead of an alias, you specify a datasource in this form:</p>
+<pre><code>//host:[port]/[service_name]
+</code></pre>
+<p>example:</p>
+<pre><code>&quot;user id=scott;password=tiger;data source=//bb12Sales-server3:1521/sales.us.acme.com&quot;     
+</code></pre>
+<p>But note that:</p>
+<pre><code>Prior to using the easy connect naming method, make sure that EZCONNECT is specified by the NAMES.DIRECTORY_PATH parameter in the sqlnet.ora file.
+</code></pre>
+<p>&quot;sqlnet.ora&quot; is a file which is also searched for in the TNS_ADMIN folder</p>
+<p>Inside that file, if you specify</p>
+<pre><code>NAMES.DIRECTORY_PATH= (TNSNAMES, EZCONNECT)
+</code></pre>
+<p>...then you'll be able to use &quot;the Easy Connect Naming Method&quot;.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.secretgeek.net/tnsnames">http://www.secretgeek.net/tnsnames</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

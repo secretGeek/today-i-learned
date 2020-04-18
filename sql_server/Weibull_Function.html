@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="weibull-function">Weibull function</h1>
+<p>This is a handy function for modeling statistical likelihood of failure (or survival).</p>
+<p>There are four parameters:</p>
+<pre><code>WEIBULL(x,alpha,beta,Cumulative) gives a number between 0 and 1.
+
+X is the value at which to evaluate the function.
+Alpha is a parameter to the distribution.
+Beta is a parameter to the distribution.
+Cumulative (true or false) determines the form of the function.
+</code></pre>
+<p>Here is Weibull function for the cumulative and non-cumulative case.</p>
+<pre><code>WEIBULL(x,a,b,TRUE) = 1 - e^(-(x/b)^a)
+WEIBULL(x,a,b,FALSE) = (a/b^a)(x^(a-1))(e^(-x/b)^a) 
+</code></pre>
+<p>In Excel, there is a function WEIBULL, which you can use directly.</p>
+<p>If you need to re-implement it in SQL Server, here it is for the cumulative case...</p>
+<pre><code>ALTER function dbo.WeibullCumulative(@x float, @alpha float, @beta float)
+returns float
+as 
+BEGIN
+ return 1 - exp(-1 * POWER((@x / @beta), @alpha))
+END
+</code></pre>
+<p>And I haven't bothered with the non-cumulative, but it is similar, I think...</p>
+<pre><code>(@alpha/Power(@beta,@alpha))* Power(@x, @alpha-1) * exp(POWER((-1 * @x / @beta), @alpha))
+</code></pre>
+<p>Though I haven't tested it. So be careful with that and tell me if you do implement it.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.sqlservercentral.com/Forums/Topic796251-145-1.aspx">http://www.sqlservercentral.com/Forums/Topic796251-145-1.aspx</a> (but note the respondent has gotten a and b mixed up)</li>
+<li><a href="https://msdn.microsoft.com/en-us/library/cc723032.aspx?f=255&amp;MSPPError=-2147217396">https://msdn.microsoft.com/en-us/library/cc723032.aspx?f=255&amp;MSPPError=-2147217396</a> some deprecated msdn article</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

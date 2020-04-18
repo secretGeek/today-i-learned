@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="serving-some-images-from-mvc-but-not-all">Serving some images from MVC but not all</h1>
+<p>I want <em>some</em> <code>.png</code> requests to be served by asp.net MVC, and most of them to just be served as  static images.</p>
+<p>I got it working with the IIS express, but it returned IIS level 404's when shipped to production (which uses real IIS).</p>
+<p>In other words, the request never made it to the application. IIS looked at the url, assumed it referred to a static file, checked for the existence of the static file on disk, didn't find it, and thus quit.</p>
+<p>If you want <em>ALL</em> static files to be served from MVC (rather than IIS) you add this to your <code>web.config</code></p>
+<pre><code>&lt;modules runAllManagedModulesForAllRequests=&quot;true&quot;&gt;
+</code></pre>
+<p>...under &lt;system.WebServer&gt;</p>
+<p>aka — <a href="http://www.hanselman.com/blog/BackToBasicsDynamicImageGenerationASPNETControllersRoutingIHttpHandlersAndRunAllManagedModulesForAllRequests.aspx">THE  DREADED RAMMFAR!!</a></p>
+<p>But that means <em>every</em> request will be sent to Asp.net, which could create a whole bunch of work for you.</p>
+<p>If you only want a subset — a folder for example — to be routed through Asp.net (and MVC), then you can use this approach:</p>
+<p>Under this node:</p>
+<pre><code>&lt;system.webServer&gt;
+    &lt;handlers&gt;
+</code></pre>
+<p>Add, for example:</p>
+<pre><code>&lt;add name=&quot;MyImageHandler&quot; path=&quot;HelpImg/*&quot; verb=&quot;GET&quot; type=&quot;System.Web.Handlers.TransferRequestHandler&quot; preCondition=&quot;integratedMode,runtimeVersionv4.0&quot;/&gt;
+</code></pre>
+<p><code>name</code> is unimportant, just a name.
+<code>verb</code> is <code>GET</code>, because we're only interested in getting the images.
+<code>path</code> is important... it's the folder which we are allowing. For me it was <code>HelpImg/*</code></p>
+<p>The rest of the rule is the same as this existing rule, which you should find in that handlers section already:</p>
+<pre><code>&lt;add name=&quot;ExtensionlessUrlHandler-Integrated-4.0&quot; path=&quot;*.&quot; verb=&quot;GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS&quot; type=&quot;System.Web.Handlers.TransferRequestHandler&quot; preCondition=&quot;integratedMode,runtimeVersionv4.0&quot;/&gt;
+</code></pre>
+<p>...and by the time you're reusing this technique, that other rule may have moved on a bit... so make it match with it.</p>
+<p>Thanks to Darin Dimitrov's answers here.</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/14327476/prevent-static-file-handler-from-intercepting-filename-like-url">http://stackoverflow.com/questions/14327476/prevent-static-file-handler-from-intercepting-filename-like-url</a></li>
+<li><a href="http://stackoverflow.com/questions/16997963/asp-net-mvc-4-filepathresult-and-staticfile-handlers">http://stackoverflow.com/questions/16997963/asp-net-mvc-4-filepathresult-and-staticfile-handlers</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

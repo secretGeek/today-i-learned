@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="environment-variables-viewedit-them-on-windows">Environment variables -- view/edit them on windows</h1>
+<ul>
+<li><p>From cmd.exe, type <code>SET</code> and you'll see the value of all environment variables</p>
+</li>
+<li><p>From Powershell, <code>Set-Location Env:</code></p>
+</li>
+<li><p>From <strong>Windows</strong>, method 1</p>
+<ul>
+<li>Press <code>[Windows</code>]<code>[Break</code>] -- this brings up <code>Control Panel\All Control Panel Items\System</code></li>
+<li>Click &quot;Advanced System settings&quot; (you'll need to enter Admin password or elevate) and you'll get to &quot;System Properties&quot;
+<ul>
+<li>Advanced tab: click &quot;Environment Variables...&quot;
+<ul>
+<li>There you have &quot;user variables for current user&quot; and &quot;System variables&quot;</li>
+<li>Note that those in the &quot;user variables&quot; section also exist in the System variables -- so think carefully about which one you mean.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>From Windows, method 2
+ex</p>
+<ul>
+<li><code>[Windows</code>]<code>[R</code>] to bring up the run dialog and type <code>sysdm.cpl</code></li>
+</ul>
+</li>
+<li><p>From Windows, method 3</p>
+<ul>
+<li><code>[Windows</code>]<code>[R</code>] to bring up the run dialog and type <code>rundll32 sysdm.cpl,EditEnvironmentVariables</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../powershell/PATH.html">PATH: getting it, adding to it and managing it (from powershell)</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

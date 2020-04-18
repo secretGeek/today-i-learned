@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="links-containing-parens-in-markdown">Links containing parens, in Markdown</h1>
+<p>I'm writing <a href="http://YourFirstProduct.com">Your First Product</a> (the book, not the website) in markdown. (Okay - the site is mostly written in markdown too, but I digress)... there was a url that ends with a closing parenthesis.</p>
+<p>The markdown parser in gitbook did not understand this (although the one in pandoc did). To make it work everywhere I had to encode the parens as %20 and %29 respectively.</p>
+<p>So:</p>
+<pre><code>'[reciprocity](http://en.wikipedia.org/wiki/Reciprocity_(social_psychology))'
+</code></pre>
+<p>...linked to:</p>
+<pre><code>http://en.wikipedia.org/wiki/Reciprocity_(social_psychology
+</code></pre>
+<p>...and displayed as:</p>
+<pre><code>'reciprocity)'
+</code></pre>
+<p>Whereas:</p>
+<pre><code>'[reciprocity](http://en.wikipedia.org/wiki/Reciprocity_%28social_psychology%29)'
+</code></pre>
+<p>...worked correctly <em>and</em> displayed correctly.</p>
+<p>Compare '<a href="http://en.wikipedia.org/wiki/Reciprocity_(social_psychology)">reciprocity</a>' to '<a href="http://en.wikipedia.org/wiki/Reciprocity_%28social_psychology%29">reciprocity</a>'</p>
+<p><strong>Lesson:</strong> consider encoding ( and ) as %28 and %29 in urls.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://meta.stackexchange.com/questions/13501/links-to-urls-containing-parentheses">http://meta.stackexchange.com/questions/13501/links-to-urls-containing-parentheses</a></li>
+<li><a href="http://blog.codinghorror.com/the-problem-with-urls/">http://blog.codinghorror.com/the-problem-with-urls/</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

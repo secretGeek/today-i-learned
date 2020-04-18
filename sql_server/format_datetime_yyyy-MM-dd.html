@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="format-datetime-as-yyyy-mm-dd">Format DateTime as yyyy-MM-dd</h1>
+<p>You want ISO8601 formats in SQL Server, here you go.</p>
+<p>For <code>yyyy-MM-dd</code> :</p>
+<pre><code>CONVERT(VARCHAR(10), GetDate(), 120)
+</code></pre>
+<p>e.g.</p>
+<pre><code>select CONVERT(VARCHAR(10), GetDate(), 120)
+2017-02-02
+</code></pre>
+<p>Format &quot;120&quot; is 24-hour time, down to the second. But we limit the size of the result to remove the time component.</p>
+<p>To include the time component just use a varchar that is 19 or more characters long, e.g. 50</p>
+<pre><code>select CONVERT(VARCHAR(50), GetDate(), 120)
+2017-02-02 11:09:53
+</code></pre>
+<p>Or for the ever useful sortable reporting month: yyyy-MM</p>
+<pre><code>Select CONVERT(VARCHAR(7), GetDate(), 120)
+2017-02
+</code></pre>
+<p>To get milliseconds (and 24 hour time) use format &quot;121&quot; -- it extends 120 by including the milliseconds.</p>
+<pre><code>Select CONVERT(VARCHAR(23), GetDate(), 121)
+2017-02-02 11:52:33.980
+</code></pre>
+<p>(Any length 23 or larger will suffice)</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="datetime_trim_hours_milliseconds.html">SQL: just the date portion of a datetime</a></li>
+<li><a href="../excel/extract_year_and_month_from_date_for_grouping_purposes.html">Excel: Extract Year/Month (for grouping/reporting)</a></li>
+<li><a href="parse_varchar_into_datetime.html">Parse varchar into DateTime</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

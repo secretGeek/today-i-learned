@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="histogram">Histogram</h1>
+<p>You can use the group-object to do standard grouping.</p>
+<p>This shows all of the files in the current folder, grouped into buckets according to their size.
+Each bucket is 1000 bytes.</p>
+<pre><code>dir |
+    group-object -property { [int]($_.length / 1000) } | sort @{e={$_.Name -as [int]}} |
+        format-table @{Expression={[string]([int]($_.Name) * 1000) + &quot;-&quot; + [string](-1+([int]($_.Name)+1) * 1000)};Label=&quot;Bucket&quot;;width=10},
+            @{Expression={$_.Count};Label=&quot;Count&quot;;width=10},
+            @{Expression={$_.Group};Label=&quot;Members&quot;;width=50} -autosize
+</code></pre>
+<p><em>Consider</em> running the initial <code>dir</code> recursively with <code>-rec</code></p>
+<p>Group by file type:</p>
+<pre><code>dir -rec | group-object -property { ($_.extension) } | sort @{e={$_.Name -as [int]}} 
+</code></pre>
+<p>Exclude directories (but include their files)</p>
+<pre><code>dir -rec | ?{ $_.PSIsContainer -ne $true } | group-object -property { ($_.extension) } | sort
+</code></pre>
+<p>...for looking at all markdown files in TIL...</p>
+<pre><code>dir . *.md -rec | ?{ $_.PSIsContainer -ne $true } |
+     group-object -property { [int]($_.length / 300) } | sort @{e={$_.Name -as [int]}} |
+         format-table @{Expression={[string]([int]($_.Name) * 300) + &quot;-&quot; + [string](-1+([int]($_.Name)+1) * 300)};Label=&quot;Bucket&quot;;width=10},
+             @{Expression={$_.Count};Label=&quot;Count&quot;;width=10},
+             @{Expression={$_.Group};Label=&quot;Members&quot;;width=50} -autosize
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

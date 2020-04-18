@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="convert-a-mercurial-repo-to-git">Convert a mercurial repo to git</h1>
+<p>The following is based on the technique from here: <a href="https://stackoverflow.com/a/39906349">https://stackoverflow.com/a/39906349</a> and it is relevant because it retains more than 1 branch.</p>
+<p>The process (for us) is:</p>
+<h2 id="pre-requisites">pre-requisites</h2>
+<ol class="contains-task-list">
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Make sure you have git installed.  <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a> - click on windows</p>
+<p>Use the default options. But you may want a different editor for commit message than vim.</p>
+</li>
+</ol>
+<h2 id="steps">Steps</h2>
+<p>In the repo you wish to migrate:</p>
+<ol class="contains-task-list">
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Add these to your <code>mercurial.ini</code>:</p>
+<pre><code>[git]  
+branch_bookmark_suffix=_bookmark
+
+[extensions]
+hggit = 
+</code></pre>
+</li>
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> check that <code>hggit</code> is recognised by running <code>hg help</code>; expect to see this under &quot;enabled extensions&quot;:</p>
+<blockquote>
+<p>hggit         push and pull from a Git server</p>
+</blockquote>
+</li>
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" />  create a bookmark called &quot;master&quot; to represent the &quot;default&quot; branch</p>
+<pre><code>hg bookmarks -r default master
+</code></pre>
+<p>...we do that because</p>
+<blockquote>
+<p>hg-git does not convert between Mercurial named branches and git branches as the two are conceptually different; instead, it uses Mercurial bookmarks to represent the concept of a git branch<br />
+—<a href="https://github.com/schacon/hg-git#gitbranch_bookmark_suffix">Hg-Git Mercurial Plugin readme</a></p>
+</blockquote>
+</li>
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> for each branch (found via <code>hg branches</code>) run this command:</p>
+<pre><code>hg bookmarks -r my_branch my_branch_bookmark  
+</code></pre>
+<p>(... but replacing <code>my_branch</code> with the name of <strong>your</strong> branch.)</p>
+</li>
+</ol>
+<p>Those mercurial bookmarks will be turned into branches in git.</p>
+<p>You're now ready to create the git repo. 😄</p>
+<ol start="5" class="contains-task-list">
+<li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Create it like so:</p>
+<pre><code>hg gexport
+</code></pre>
+</li>
+</ol>
+<p>There will now be a folder called <code>git</code> under the <code>.hg</code> folder.</p>
+<p>This is a &quot;bare&quot; repo.</p>
+<p>You can <code>clone</code> it in git, or can follow a few steps to turn it into a &quot;non-bare&quot; repo.</p>
+<h2 id="to-convert-a-bare-repository-to-a-non-bare">To convert a <code>--bare</code> repository to a non-bare:</h2>
+<p>Make a <code>.git</code> folder in the top-level of your intended new repository location.</p>
+<p>Copy the contents of the <code>git</code> bare repository into the <code>.git</code> folder you just created. i.e. copy the repository management things (HEAD branches config description hooks info objects refs etc.) into your new folder.</p>
+<p>Run:</p>
+<pre><code>git config --local --bool core.bare false 
+</code></pre>
+<p>...to convert the local git-repository to non-bare.</p>
+<p>Stare and compare that the new git repo matches the old hg repo, until you are completely satisfied.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/a/39906349">Matthias's Answer to &quot;Convert Mercurial project to Git&quot;</a></li>
+<li><a href="https://stackoverflow.com/a/10637882">Stackoverflow: How do I convert a bare git repository into a normal one (in-place)?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

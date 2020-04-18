@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="server.mappath">Server.MapPath</h1>
+<p>Well well well. This was certainly a fun thing to do back in the good old days wasn't it now:</p>
+<pre><code>HttpContext.Current.Server.MapPath(&quot;~/&quot;)
+</code></pre>
+<p>But we don't does that no more, does we now.</p>
+<p>Instead we injects a hosting environment...</p>
+<pre><code>private readonly IHostingEnvironment _hostingEnvironment;
+
+public MyController(IHostingEnvironment hostingEnvironment)
+{
+    _hostingEnvironment = hostingEnvironment;
+}
+</code></pre>
+<p>...which uses:</p>
+<pre><code>using Microsoft.AspNetCore.Hosting;
+</code></pre>
+<p>Then in our method we can very simply say:</p>
+<pre><code>var rootPath = _hostingEnvironment.WebRootPath;
+var parentPath = Directory.GetParent(rootPath).FullName;
+
+          
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

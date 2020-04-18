@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="wkhtmltopdf-on-ubuntu-headless">wkhtmltopdf on ubuntu headless</h1>
+<p>Install <code>wkhtmltopdf</code> with</p>
+<pre><code>sudo apt-get update
+sudo apt-get install wkhtmltopdf
+</code></pre>
+<p>Then try to run it, as per the example at <a href="http://wkhtmltopdf.org">http://wkhtmltopdf.org</a></p>
+<pre><code>wkhtmltopdf http://google.com google.pdf
+</code></pre>
+<p>Receive this error:</p>
+<pre><code>QXcbConnection: Could not connect to display
+Aborted (core dumped)
+</code></pre>
+<p>Or -- as happened on a different day on a different machine, with a problem that had the exact same solution -- I got this error:</p>
+<pre><code>$ wkhtmltopdf http://google.com google.pdf
+
+wkhtmltopdf: cannot connect to X server
+</code></pre>
+<p>The problem in both cases is that there's no desktop environment, no display, no X server.</p>
+<p>The solution, according to <a href="http://unix.stackexchange.com/questions/192642/wkhtmltopdf-qxcbconnection-could-not-connect-to-display">http://unix.stackexchange.com/questions/192642/wkhtmltopdf-qxcbconnection-could-not-connect-to-display</a></p>
+<blockquote>
+<p>There is a more easy way to make John WH Smith solution.</p>
+<p>Just install xvfb from apt and then, you can run:</p>
+</blockquote>
+<pre><code>xvfb-run wkhtmltopdf
+</code></pre>
+<p>i.e., just put xvfb-run before any wkhtmltopdf command.)</p>
+<p>Okay so I ran:</p>
+<pre><code>sudo apt-get update
+sudo apt-get install xvfb
+</code></pre>
+<p>Then the command worked:</p>
+<pre><code>$ xvfb-run wkhtmltopdf http://google.com google.pdf
+Loading page (1/2)
+Printing pages (2/2)
+Done
+</code></pre>
+<p>(meanwhile i have a similar blocking issue with wkhtmltopdf on windows... it hangs the process... but do not yet have a solution.)</p>
+
+</body>
+<script>
+</script>
+</html>

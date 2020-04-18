@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="use-gitbook-locally">use gitbook locally</h1>
+<p>You can also generate a gitbook and preview it locally.</p>
+<p>First install gitbook (via <a href="../npm/01_summary.html">npm</a>).</p>
+<pre><code>npm install -g gitbook
+</code></pre>
+<p>Wait... you now need the <code>cli</code> package:</p>
+<pre><code>npm install -g gitbook-cli
+</code></pre>
+<p>Infact....</p>
+<pre><code>You need to install &quot;gitbook-cli&quot; to have access to the gitbook command anywhere on your system.
+If you've installed this package globally, you need to uninstall it.
+&gt;&gt; Run &quot;npm uninstall -g gitbook&quot; then &quot;npm install -g gitbook-cli&quot;
+</code></pre>
+<p>Once <code>gitbook-cli</code> is installed, thereafter, from the root of the repo you're working on, you run...</p>
+<pre><code>gitbook build .
+</code></pre>
+<p>And it will generate a subfolder called &quot;_book&quot; which contains &quot;index.html&quot; and all the other html of the finished book.</p>
+<p>(You may want to add _book to your .gitignore)</p>
+<p>You can view that _book\index.html file directly in a browser, or serve the content locally from a mini webserver by running:</p>
+<pre><code>gitbook serve .
+</code></pre>
+<p>And then browse to (probably)</p>
+<pre><code>http://localhost:4000/
+</code></pre>
+<p>(you can serve on a different &quot;--port&quot; e.g. <code>gitbook serve . --port 4003</code>)</p>
+<p>You can output as <code>html</code>, <code>pdf</code>, <code>epub</code> or <code>mobi</code>.</p>
+<pre><code>gitbook help
+</code></pre>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="getting_started_with_gitbook.html">Getting started with gitbook</a></li>
+<li><a href="web_hooks.html">To have your gitbook updated whenever you push to a github repo</a></li>
+<li><a href="host_on_custom_subdomain.html">Host a gitbook on a custom subdomain</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

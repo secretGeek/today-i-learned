@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="create-sequence-diagrams-online">Create sequence diagrams online</h1>
+<p>Example from <a href="https://blog.asmartbear.com/selling-to-large-companies.html">A Smart Bear: How to sell to large companies</a></p>
+<p><img src="sequence_diagram.png" alt="sequence diagram" /></p>
+<p><a href="http://www.websequencediagrams.com/?lz=QnVzaW5lc3MtPlN1cHBsaWVyOiBQdXJjaGFzZSBPcmRlclxuKEl0ZW1zLCBQcmljZSwgYW5kIFBPIE51bWJlcikKbm90ZSBvdmVyIABECApUaGUABAkgaXMgbm93IGxlZ2FsbHkgYm91bmQgdG8gCnBheSB0aGUgcwByByBhY2NvcmRpbmcgdG8AFQV0ZXJtcwpvbgAiBQCBCA4gKHVzdQBMBTMwIGRheXMuKQplbmQgbm90ZQoAgUMILT4AgVcIOiBzaGlwIHByb2R1Y3RzAA0VSW52b2ljZQCBPjI6IFdhaXRzIGV4YWN0bHkgMjkAgQ0FCgCCSBRIZXJlJ3MgYSBjaGVjay4KCg&amp;s=napkin">See link</a></p>
+<blockquote>
+<p>That's nice, but check out the PlantUML extension to @code
+Similar syntax but supports more and no service dependency.</p>
+</blockquote>
+<p>I've installed PlantUML. The docs for it are here:</p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml">https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml</a></p>
+<p>I created this file:</p>
+<pre><code>@startuml
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+@enduml
+</code></pre>
+<p>And then used Alt-D to preview the current file.
+(This relied on having restarted VS Code after installing the PlantUML extension.</p>
+<p>Looks like you can style the diagrams with a wsd file (which stands for 'websequencediagram':</p>
+<pre><code>@startuml
+	!include ../includes/defines.wsd
+	!include ../includes/myStyles.wsd
+	'contents goes here...
+@enduml
+Now, you can just replace them with a placehold 'autoinclude,
+
+@startuml
+	'autoinclude
+	'contents goes here...
+@enduml
+</code></pre>
+<p>More details about sequence-diagram syntax here: <a href="http://plantuml.com/sequence-diagram">http://plantuml.com/sequence-diagram</a></p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://blog.asmartbear.com/selling-to-large-companies.html">A Smart Bear: How to sell to large companies</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

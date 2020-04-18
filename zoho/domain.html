@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="register-a-domain-with-zoho-aka-dns-text-records-at-digitalocean-such-as-dkim">Register a domain with zoho (aka DNS Text records at digitalocean such as DKIM)</h1>
+<p>I signed up to Zoho, following this guide:</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-zoho-mail-with-a-custom-domain-managed-by-digitalocean-dns">How To Set Up Zoho Mail with a Custom Domain Managed by DigitalOcean DNS</a></p>
+<h2 id="verify-upon-sign-up">Verify upon sign up</h2>
+<p>You need to verify with a phone number. (They don't want people using their systems to send spam. Good for them!)</p>
+<p>You can host 1 domain you own, and 25 email addresses for free. That's very generous.</p>
+<h2 id="verify-domain">Verify domain</h2>
+<p>To verify that I own the domain I went with the html technique. At your website you create a folder called zohoverify and put a file they give you, verifyforzoho.html which contains a big number.</p>
+<h2 id="dns-records">DNS Records</h2>
+<p>There were a lot of DNS records to configure.</p>
+<h3 id="mx-records">MX Records</h3>
+<p>Two MX records. Each with a different priority.</p>
+<p>It says</p>
+<blockquote>
+<p>You must remove (delete) any other MX records other than the above 2 records. In case you have previous providers MX records, then you may not receive emails in Zoho.</p>
+</blockquote>
+<p>So for NimbleText.com where previously the email was managed by Arvixe, I will have to delete the old MX records. Hmmm, bit reluctant. For now I edited the old ones to have lower priority (30 and 40) than the new ones. That could turn out to be a ridiculous idea.</p>
+<h3 id="txt-records-spf">TXT Records: SPF</h3>
+<p>Configuring SPF is easy -- but you also have to get Zoho to confirm it. And you can't confirm it from the wizard. Maybe because it takes times to propagate I don't know.</p>
+<p>After you've finished the setup wizard you need to go to the control panel: <a href="https://mailadmin.zoho.com/cpanel/index.do#spf">https://mailadmin.zoho.com/cpanel/index.do#spf</a></p>
+<pre><code>Control Panel &gt; Mail Administration &gt; Email authentication &gt; SPF
+</code></pre>
+<p>And click verify.</p>
+<h3 id="txt-records-dkim">TXT Records: DKIM</h3>
+<p>For DKIM you click into a configure DKIM screen. It's not covered at all in the tutorial I was following.</p>
+<p>You have to pick your domain, then click &quot;Add selector&quot;</p>
+<p>You now have to &quot;choose&quot; a selector. I'm not sure why it's up to you. Just type in &quot;zoho&quot;. Hit save, and now it will give you a TXT name and value.</p>
+<p>For example;</p>
+<pre><code>TXT - Host/Name
+zoho._domainkey.nimbletext.com
+
+TXT Value	
+v=DKIM1; k=rsa; p=nwjcnevnevnckjNskjdnckJNA...(snip)...cjsnkNEWJWEKJNCkewmckwenc
+</code></pre>
+<p>Main thing I want to show is that when adding a TXT record to DNS at Digital Ocean (such as the DKIM text record) you don't need to include the domain name, because digital ocean automatically adds it for you.</p>
+<p>(And it doesn't matter if you do or don't include the trailing dot -- digital ocean does that for you automatically)</p>
+<p>Hopefully this picture can demonstrate what I'm talking about:</p>
+<p><img src="dkim_dns_digital_ocean.png" alt="dkim_dns_digital_ocean" /></p>
+<p>If you do put in the domain, it goes bad... look at this stinking hot mess:</p>
+<p><img src="dkim_dns_digital_ocean_BAD.png" alt="don't put in domain" /></p>
+<p>Of course, I never made that mistake and wasted half my damn night. I'm just showing this in case someone else is less clever than me.</p>
+<p>When doing this same DKIM configuration at Arvixe, I pasted in the whole TXT Host/Name, e.g. zoho._domainkey.nimbletext.com</p>
+<p>...and then when I saved it, it was displayed as: &quot;zoho._domainkey&quot; which seemed promising when considered alongside their other TXT records on display: they never show the domain in the value of the DNS records, nor do they show &quot;@&quot;. They just show no value in places where you'd expect to see the domain.</p>
+<p>I clicked &quot;verify&quot; (over in zoho) and it verified successfully.</p>
+<p>...so they have done the opposite of digitalocean.</p>
+<p>After finishing with the DKIM bit, hit &quot;Return to Domain setup&quot; and continue.</p>
+
+</body>
+<script>
+</script>
+</html>

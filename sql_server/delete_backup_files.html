@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="need-to-delete-backup-files">Need to delete backup files?</h1>
+<p>I did -- i had some adhoc .bak files taking up many gig. I remoted onto the server to delete them but I lacked the permission to perform the delete.</p>
+<p>For one horrible moment I thought I might need to contact the IT department.</p>
+<p>Foruntately I found out about <code>xp_delete_file</code> just in time.</p>
+<p>This procedure only deletes certain types of files. You tell it which folder to look in, which file extension to look for, and the maximum age of the file (so it won't accidentally delete new files or non back up files.</p>
+<pre><code>EXEC master.sys.xp_delete_file 0,'E:\Temp\','BAK','2017-08-15',0
+</code></pre>
+<p>The five parameters are:</p>
+<ol>
+<li><code>File Type</code>: **0 for backup files(( or 1 for report files.</li>
+<li><code>Folder Path</code>: The folder to delete files. The path must end with a backslash &quot;&quot;.</li>
+<li><code>File Extension</code>: This could be 'BAK' or 'TRN' or an empty string ('') if the files have no extension, etc.</li>
+<li><code>Date</code>: The maximum date for files to be deleted.</li>
+<li><code>Subfolder</code>: <strong>0 to ignore subfolders</strong>, 1 to recursively delete files in subfolders.</li>
+</ol>
+<p>To see available space use:</p>
+<pre><code>EXEC master..xp_fixeddrives
+</code></pre>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/24582996/sql-server-xp-delete-file-parameters">Stackoverflow: SQL Server xp_delete_file parameters</a>)</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="backup_restore_script.html">Backup restore script</a></li>
+<li><a href="drive_sizes.html">How much space is left on the drives that my sql server can access?</a></li>
+<li><a href="how_much_space_does_my_db_use.html">How much space does my DB use?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

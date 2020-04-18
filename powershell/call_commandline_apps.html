@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-call-command-line-apps-like-a-powershell-pro">How to call command line apps like a powershell pro....</h1>
+<p>Call command line apps via powershell like this:</p>
+<pre><code>$arguments = @(&quot;/i&quot;, $msiInstallPath, &quot;/L* $msiInstallPath.log&quot;, &quot;/qn&quot;, &quot;/norestart&quot;)
+$process = Start-Process -FilePath &quot;msiexec.exe&quot; -ArgumentList $arguments -Wait -PassThru
+</code></pre>
+<p>That's how the professional do it. And so should you. Allegedly.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-do-i-convert-a-hex-varchar-to-a-bigint-in-sql-server-solved">How do I Convert a Hex varchar to a Bigint in SQL Server? (solved)</h1>
+<p>Given a string such as</p>
+<blockquote>
+<p>0x00000000007240EE</p>
+</blockquote>
+<p>How do I turn it into an integer? (a bigint in fact)?</p>
+<p>Answer:</p>
+<pre><code>select convert(bigint, convert (varbinary(8), '0x00000000007240EE', 1))
+</code></pre>
+<p>Result:</p>
+<pre><code>7487726
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

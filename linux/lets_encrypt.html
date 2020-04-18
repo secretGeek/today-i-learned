@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-secure-nginx-with-lets-encrypt-on-ubuntu-16.04">How To Secure Nginx with Let's Encrypt on Ubuntu 16.04</h1>
+<p>Pre-requisite: Nginx is installed and websites are already configured and running as non-https sites.</p>
+<h2 id="step-1-get-certbot">Step 1: Get certbot</h2>
+<p>Let's Encrypt provide a tool called <code>certbot</code> which you need to get.</p>
+<p>(Some older instructions call this the letsencrypt tool, and other even older instructions say you need to get the source code of the tool)</p>
+<pre><code>sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+</code></pre>
+<p>The <code>certbot</code> client is now ready to use.</p>
+<h2 id="step-1-see-if-you-need-to-update-certbot">Step 1: See if you need to update certbot</h2>
+<p>If you're returning to a server that already has certbot you need to check the version and maybe update certbot.</p>
+<p>Check version, e.g.</p>
+<pre><code>$ certbot --version
+certbot 0.31.0
+</code></pre>
+<p>These commands apparently...</p>
+<pre><code>sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+# sudo apt install certbot
+</code></pre>
+<p>Okay... i didn't run that last command I used this one instead (results below)</p>
+<pre><code>sudo apt-get install --only-upgrade certbot
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+certbot is already the newest version (0.31.0-1+ubuntu18.10.1+certbot+1).
+0 upgraded, 0 newly installed, 0 to remove and 39 not upgraded.
+</code></pre>
+<h2 id="step-2-let-https-through-your-ufw">Step 2: Let HTTPs through your ufw</h2>
+<p>Assume you're using <a href="uncomplicated_firewall.html">ufw</a></p>
+<p>Let https through, using the 'Nginx Full' profile</p>
+<pre><code>sudo ufw allow 'Nginx Full'
+</code></pre>
+<h2 id="step-3-install-certificates">Step 3: Install certificates</h2>
+<p>--before doing this you must ensure nginx is correctly configured for your domain. For example:</p>
+<ul>
+<li>there is a file  /etc/nginx/sites-available/example.com</li>
+<li>it has a line like this: <code>server_name example.com www.example.com;</code></li>
+<li>and you've used <code>sudo nginx -t</code> to check your config, and have reloaded nginx config if necessary.</li>
+</ul>
+<p>NOW we're ready to create and install certificates...</p>
+<p>If you have a domain called 'example.com' then run:</p>
+<pre><code>sudo certbot --nginx -d example.com -d www.example.com
+</code></pre>
+<p>Or for a subdomain:</p>
+<pre><code>sudo certbot --nginx -d blog.example.com
+</code></pre>
+<p>To do a dry run (i.e. to see what would happen without making any changes) you can use the <code>dry-run</code> parameter like so:</p>
+<p>(for the domain)</p>
+<pre><code>sudo certbot --dry-run --nginx -d example.com -d www.example.com
+</code></pre>
+<p>(for the subdomain)</p>
+<pre><code>sudo certbot --dry-run --nginx -d blog.example.com
+</code></pre>
+<p>(Hmmm, Actually -- that returns:</p>
+<pre><code>--dry-run currently only works with the 'certonly' or 'renew' subcommands ('run')	
+</code></pre>
+<p>)</p>
+<p>If you have 3 different domains on the same server, example1, example2 and example3 then run the command 3 times, i.e.:</p>
+<pre><code>sudo certbot --nginx -d example1.com -d www.example1.com
+sudo certbot --nginx -d example2.com -d www.example2.com
+sudo certbot --nginx -d example3.com -d www.example3.com
+</code></pre>
+<p>Here's what happens when you run the command (once)</p>
+<pre><code>$ sudo certbot --nginx -d example.com -d www.example.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices) (Enter 'c' to
+cancel): example@googlemail.com
+
+-------------------------------------------------------------------------------
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf. You must agree
+in order to register with the ACME server at
+https://acme-v01.api.letsencrypt.org/directory
+-------------------------------------------------------------------------------
+(A)gree/(C)ancel: A
+
+-------------------------------------------------------------------------------
+Would you be willing to share your email address with the Electronic Frontier
+Foundation, a founding partner of the Let's Encrypt project and the non-profit
+organization that develops Certbot? We'd like to send you email about EFF and
+our work to encrypt the web, protect its users and defend digital rights.
+-------------------------------------------------------------------------------
+(Y)es/(N)o: n
+Obtaining a new certificate
+Performing the following challenges:
+tls-sni-01 challenge for example.com
+tls-sni-01 challenge for www.example.com
+Waiting for verification...
+Cleaning up challenges
+Deployed Certificate to VirtualHost /etc/nginx/sites-enabled/example.com for set(['example.com', 'www.example.com'])
+Deployed Certificate to VirtualHost /etc/nginx/sites-enabled/example.com for set(['example.com', 'www.example.com'])
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+-------------------------------------------------------------------------------
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+-------------------------------------------------------------------------------
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+
+-------------------------------------------------------------------------------
+Congratulations! You have successfully enabled https://example.com and
+https://www.example.com
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=example.com
+https://www.ssllabs.com/ssltest/analyze.html?d=www.example.com
+-------------------------------------------------------------------------------
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/example.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/example.com/privkey.pem
+   Your cert will expire on 2017-12-03. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the &quot;certonly&quot; option. To non-interactively renew *all* of
+   your certificates, run &quot;certbot renew&quot;
+ - Your account credentials have been saved in your Certbot
+   configuration directory at /etc/letsencrypt. You should make a
+   secure backup of this folder now. This configuration directory will
+   also contain certificates and private keys obtained by Certbot so
+   making regular backups of this folder is ideal.
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre>
+<p>In words:</p>
+<ol>
+<li>First you have to enter a contact email address.</li>
+<li>Next you have to agree to <a href="https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf">these terms (pdf)</a></li>
+<li>Answer yes or no to sharing your email address with EFF</li>
+<li>Choose whether to redirect all non-https traffic to https (more details below)</li>
+</ol>
+<h2 id="step-3-part-2-about-redirecting-non-https-to-https">Step 3, part 2: About redirecting non-https to https</h2>
+<p>Regarding this question:</p>
+<pre><code>Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+-------------------------------------------------------------------------------
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+-------------------------------------------------------------------------------
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+</code></pre>
+<p>Whether you say no or yes (option 1 or 2) to this question, you can change it later by altering the <code>nginx</code> configuration file.</p>
+<p>First let's look at what is added to the site's nginx file if you answer NO (option 1)</p>
+<p>It adds this <em>AFTER</em> everything else INSIDE the server block....</p>
+<pre><code>listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
+include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+</code></pre>
+<p>If you want to allow redirect of non-https to https, just add this next (still inside the server block) <em>no... see <a href="redirect_www_https.html">better nginx config ideas here</a></em></p>
+<pre><code>if ($scheme != &quot;https&quot;) {
+   return 301 https://$host$request_uri;
+} # managed by Certbot
+</code></pre>
+<p>(<em>See <a href="redirect_www_https.html">Use nginx to redirect www and non https to bare https</a> for a better final example of nginx config with https and redirecting www to bare url)</em>)</p>
+<p>After changing nginx config -- test it is ok with:</p>
+<pre><code>sudo nginx -t
+</code></pre>
+<p>And reload it with:</p>
+<pre><code>sudo nginx -s reload
+</code></pre>
+<p>Two more steps -- auto-renew of your license and improving your score at SSL labs....</p>
+<h2 id="step-4-auto-renew">Step 4: Auto Renew</h2>
+<p>If you run this command manually it will renew your certificate (if it is less than 1 month before expiry)</p>
+<pre><code>certbot renew --quiet
+</code></pre>
+<p>But <em>don't</em> renew them manually. They expire every 3 months, so you absolutely must automate their renewal.</p>
+<p>So you can use <code>cron</code> to run it automatically.</p>
+<p>Your <code>crontab</code> file stores all of the jobs you run periodically. You can edit this file with:</p>
+<pre><code>sudo crontab -e
+</code></pre>
+<p>If you've never used crontab before, then the first time you run it it will ask which editor to use:</p>
+<pre><code>$ sudo crontab -e
+no crontab for root - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        &lt;---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 2
+</code></pre>
+<p>If you're a BASIC like me then choose <code>nano</code></p>
+<p>Next it will open <code>nano</code> with your empty crontab file (empty apart from explanatory comments)...</p>
+<p>Add this line:</p>
+<pre><code>45 2 * * * /usr/bin/certbot renew --quiet
+</code></pre>
+<p>The command will be run 45 minutes after 2am on every day of every month.</p>
+<p>So -- we will check daily that all certificates are up to date.</p>
+<h2 id="step-5-improve-score-at-ssl-labs">Step 5: Improve score at SSL Labs</h2>
+<p>Create a new Diffie Hellman parameter file with a larger key (2048 bits)</p>
+<pre><code>sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+</code></pre>
+<p>The output will be like this (people said it would take a while but it was done in seconds):</p>
+<pre><code>Generating DH parameters, 2048 bit long safe prime, generator 2
+This is going to take a long time
+..........................................+.........................................................................................................................................................................+..........+..++*++*
+</code></pre>
+<p>In each of your nginx config files that contain a server block, add this line:</p>
+<pre><code>ssl_dhparam /etc/ssl/certs/dhparam.pem;
+</code></pre>
+<p>(example by editing the file with <code>sudo nano /etc/nginx/sites-available/examplecodesmackdown.com</code>)</p>
+<p>Test and reload the config once more with:</p>
+<pre><code>sudo nginx -t
+sudo nginx -s reload
+</code></pre>
+<p>Test your score at (using your own domain name instead of example.com....) :</p>
+<pre><code>https://www.ssllabs.com/ssltest/analyze.html?d=yourfirstproduct.com&amp;latest
+</code></pre>
+<p>(Maybe need to hit 'clear cache')</p>
+<p>Should now score an &quot;A&quot;.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04">How To Secure Nginx with Let's Encrypt on Ubuntu 16.04</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04">How To Secure Nginx with Let's Encrypt on Ubuntu 18.04</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="uncomplicated_firewall.html">uncomplicated firewall</a></li>
+<li><a href="nginx.html">nginx</a></li>
+<li><a href="cron.html">cron</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

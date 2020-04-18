@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="create-a-role-that-gives-a-user-permissions-on-a-specific-schema">Create a role that gives a user permissions on a specific schema.</h1>
+<p>Creates a role named 'SpecificSchemaSuperPowers'</p>
+<p>That gives specific permissions (ALTER, DELETE, EXECUTE, INSERT, REFERENCES, SELECT, UPDATE, VIEW DEFINITION) on a specific schema 'SpecificSchema'</p>
+<p>(And adds a particular user (AD\BambrickL) to that role)</p>
+<p>as follows:</p>
+<pre><code>CREATE ROLE SpecificSchemaSuperPowers AUTHORIZATION dbo;
+
+GRANT ALTER, DELETE, EXECUTE, INSERT, REFERENCES, SELECT,
+          UPDATE, VIEW DEFINITION ON SCHEMA::SpecificSchema TO SpecificSchemaSuperPowers;
+
+EXEC sp_addrolemember 'SpecificSchemaSuperPowers', 'AD\BambrickL';
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="create-profile">Create profile</h1>
+<p>To test if your profile exists, use this command...</p>
+<pre><code>test-path $PROFILE
+</code></pre>
+<p>To create your profile file (and create a folder to stick it in), use this command:</p>
+<pre><code>New-Item -path $profile -type file -force
+</code></pre>
+<ul>
+<li><code>-path $profile</code> -- We pass in the full path of the item we want to create, (from the <code>$profile</code> variable).</li>
+<li><code>-type file</code> -- We tell New-Item that we want to create a file.</li>
+<li><code>-force</code> -- We tell New-Item to 'just do it' (and in this case it might mean creating the directory to put the file in!)</li>
+</ul>
+<p>Now you can edit your profile and start putting all the good things in.</p>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="profile_4_different_ones.html">In powershell you don't have 1 profile, you have 4 different ones.</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

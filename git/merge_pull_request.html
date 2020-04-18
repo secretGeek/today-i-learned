@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="merge-pull-request-via-command-line">Merge pull request via command line</h1>
+<p>If you do not want to use the merge button (or an automatic merge cannot be performed) you can perform a manual merge on the command line.</p>
+<p>Step 1: From your project repository, check out a new branch and test the changes.</p>
+<pre><code>git checkout -b doekman-master master
+git pull https://github.com/doekman/console-adventure.git master
+</code></pre>
+<p>Step 2: Merge the changes and update on GitHub.</p>
+<pre><code>git checkout master
+git merge --no-ff doekman-master
+git push origin master
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

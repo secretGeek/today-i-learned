@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-headings-in-markdown">Find headings in markdown...</h1>
+<p>To list the headings from a markdown document</p>
+<pre><code>cat .\20_Find_Your_Product.md | select-string -pattern &quot;^( )*#.*&quot;
+</code></pre>
+<p>(Assuming it's pure markdown, no mixed in html)</p>
+<pre><code>And the common alias for `select-string` is `sls`, so for brevity:
+
+cat .\20_Find_Your_Product.md | sls &quot;^( )*#.*&quot;
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

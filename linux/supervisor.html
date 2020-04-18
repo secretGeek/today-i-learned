@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="supervisor.it-keeps-your-app-running">Supervisor... it keeps your app running!</h1>
+<p>supervisor is a nice thing. It supervises your app to keep it running.</p>
+<pre><code>sudo apt-get update
+sudo apt-get install supervisor
+</code></pre>
+<p>Config goes in...</p>
+<pre><code>/etc/supervisor/conf.d/ directory
+</code></pre>
+<p>To create a new service for supervisor to supervise, add a file, e.g. <code>helloworld.conf</code> in the directory mentioned above, with content such as</p>
+<pre><code>$ cat helloworld.conf
+[program:helloworld]
+command=/usr/bin/dotnet /home/leon/publish/MvcMovie.dll
+#var/aspnetcore/HelloMVC/HelloMVC.dll
+#directory=/var/aspnetcore/HelloMVC/
+directory=/home/leon/publish/
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/helloworld.err.log
+stdout_logfile=/var/log/helloworld.out.log
+environment=ASPNETCORE_ENVIRONMENT=Production
+user=www-data
+stopsignal=INT
+</code></pre>
+<h2 id="view-supervisor-logs">View supervisor logs...</h2>
+<p>Here's how to view the last 20 lines of the supervisor log, using <code>tail</code></p>
+<pre><code>$ sudo tail -n 20 -f /var/log/supervisor/supervisord.log
+</code></pre>
+<p>...in which you might see it struggle to keep your app running...</p>
+<p>Or the last 20 lines of your app's error output...</p>
+<pre><code>$ sudo tail -n 20 -f /var/log/helloworld.err.log
+</code></pre>
+<p>Or the last 20 lines of your app's standard (non error) output...</p>
+<pre><code>$ sudo tail -n 20 -f /var/log/helloworld.out.log
+</code></pre>
+<h2 id="restart-supervisor">Restart supervisor</h2>
+<p>To restart supervisor after you've given it some new configuration:</p>
+<pre><code>    service supervisor stop
+    service supervisor start
+</code></pre>
+<p>I noticed that supervisor did not successfully restart when I <a href="reboot.html">rebooted my linux</a> box.</p>
+<p>I restarted it with <code>service supervisor start</code> (which required me to type my password)</p>
+<p>First though, I checked the status with <code>service supervisor status</code>, and saw:</p>
+<pre><code>user1@machine1:~$ service supervisor status
+? supervisor.service - Supervisor process control system for UNIX
+   Loaded: loaded (/lib/systemd/system/supervisor.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: http://supervisord.org
+</code></pre>
+<p>Starting it went like this...</p>
+<pre><code>user1@machine1:~$ service supervisor start
+==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+Authentication is required to start 'supervisor.service'.
+Authenticating as: user1,,, (user1)
+Password:
+==== AUTHENTICATION COMPLETE ===
+</code></pre>
+<h2 id="check-status-of-supervisor">Check status of supervisor</h2>
+<p>And now I get this result from <code>status</code> --</p>
+<pre><code>user1@machine1:~$ service supervisor status
+? supervisor.service - Supervisor process control system for UNIX
+   Loaded: loaded (/lib/systemd/system/supervisor.service; disabled; vendor preset: enabled)
+   Active: active (running) since Thu 2017-04-06 07:19:51 EDT; 4min 19s ago
+     Docs: http://supervisord.org
+ Main PID: 2795 (supervisord)
+    Tasks: 41
+   Memory: 275.4M
+      CPU: 24.093s
+   CGroup: /system.slice/supervisor.service
+           +-2795 /usr/bin/python /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+           +-2800 /usr/bin/dotnet /opt/webapps/webapp1/app/app1.dll
+           +-2801 /usr/bin/dotnet /opt/webapps/webapp2/app/app2.dll
+           +-2802 /usr/bin/dotnet /opt/webapps/webapp3/app/app3.dll
+</code></pre>
+<p>Another way to inspect the status of supervisor:</p>
+<pre><code>systemctl status supervisor.service
+</code></pre>
+<p>Exactly same output as <code>service supervisor status</code>...e.g.:</p>
+<pre><code>? supervisor.service - Supervisor process control system for UNIX
+   Loaded: loaded (/lib/systemd/system/supervisor.service; disabled; vendor preset: enabled)
+   Active: active (running) since Mon 2017-09-11 02:00:44 UTC; 1min 27s ago
+	 Docs: http://supervisord.org
+ Main PID: 6654 (supervisord)
+	Tasks: 41
+   Memory: 207.6M
+	  CPU: 14.514s
+   CGroup: /system.slice/supervisor.service
+		   +-6654 /usr/bin/python /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+		   +-6659 /usr/bin/dotnet /opt/webapps/yourfirstproduct.com/app/YourFirstProduct.dll
+		   +-6660 /usr/bin/dotnet /opt/webapps/codesmackdown.com/codesmackdown.com.dll
+		   +-6661 /usr/bin/dotnet /opt/webapps/joy.nimbletext.com/app/Joy.dll
+</code></pre>
+<h2 id="make-supervisor-restart-automatically">Make supervisor restart automatically</h2>
+<p>To restart supervisor on reboot, add something like this to your <a href="cron.html">crontab</a>:</p>
+<pre><code>@reboot	/my/path/to/supervisord -c /my/path/to/supervisord.conf 2&gt;&amp;1
+</code></pre>
+<p>i.e.</p>
+<pre><code>@reboot /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 2&gt;&amp;1
+</code></pre>
+<p>Add that to your cron jobs using crontab (described in <a href="cron.html">cron</a>).</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="http://www.onurguzel.com/supervisord-restarting-and-reloading/">Supervisord: Restarting and Reloading</a></li>
+<li><a href="https://lincolnloop.com/blog/automatically-running-supervisord-startup/">Protip: Automatically Running Supervisord on Startup</a></li>
+</ul>
+<h2 id="see-also">see also</h2>
+<ul>
+<li><a href="cron.html">cron &amp; crontab</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

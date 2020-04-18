@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="need-to-add-selectsdropdowns-to-a-basic-asp.net-mvc-site">Need to add selects/dropdowns to a basic asp.net MVC site?</h1>
+<p>The classic jquery plugin for this is <a href="https://harvesthq.github.io/chosen/"><code>Chosen</code></a> and its more up to date descendant, <a href="https://select2.github.io/"><code>Select2</code></a>  (<a href="http://stackoverflow.com/questions/13575531/what-are-the-differences-between-chosen-and-select2">What are the differences?</a>)</p>
+<p>I'd forgotten all about these until I needed them today.</p>
+<p>To use <code>Select2</code>:</p>
+<p>Add the nuget package for <code>select2</code> (and <code>jquery</code> if you haven't already)</p>
+<p>If it hasn't automatically added the <code>select2.css</code> and <code>select2.js</code> to your <code>_layout.cshtml</code> then do that manually. Like a primitive cave dweller.</p>
+<p>For implementation patterns see:</p>
+<ul>
+<li><a href="select_dynamic_dropdowns.html">How to add dynamically populated selects/dropdowns to a basic asp.net MVC site?</a></li>
+<li><a href="select_multi_dropdowns.html">How to add multi-select dropdowns to a basic asp.net MVC site?</a></li>
+</ul>
+<p>Here's some rough CSS I added to <code>site.css</code>, to make these fit in with Twitter Bootstrap a little better:</p>
+<pre><code>.select2-container {
+    font-size: 1.2em;
+}
+.select2-container--default .select2-selection--single {
+    border-radius: 0;
+}
+
+/* Select 2 styling hacks...*/
+.select2-container--default .select2-selection--multiple {
+	border: 1px solid #CCC;
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075);
+	width: 280px;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+/* end select2 */
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-deleted-files-in-mercurial">Find Deleted Files in Mercurial</h1>
+<p>To find which revision a file was deleted in, use</p>
+<pre><code>hg log --template &quot;{rev}: {file_dels}\n&quot;
+</code></pre>
+<p>...which outputs file deletion info from every revision. i.e. a list of every revision, and the names of any files that were deleted during that revision (if any)</p>
+<p>It looks like this:</p>
+<pre><code>388:
+387:
+386: TIL/.net-core-MVC/UrlEncode.md TIL/.net-core-MVC/UrlParameter-Optional.md TIL/.net-core-MVC/ip_address.md
+385:
+384:
+383:
+</code></pre>
+<p>Then you can grep those details to find the deleted file you're interested in, and see when it was deleted.</p>
+<p>You can then browse to the specific revision, via tortoise hg, <code>thg.exe</code>.</p>
+
+</body>
+<script>
+</script>
+</html>

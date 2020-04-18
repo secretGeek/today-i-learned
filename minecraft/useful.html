@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="useful-minecraft-scripts-in-python">Useful minecraft scripts (in python)</h1>
+<h2 id="aircube3">Aircube3:</h2>
+<p>Purpose: carve out a 3 dimensional box of air, centered on your current location. For example if you are underground, run:</p>
+<pre><code>/py aircube3 50 3 50
+</code></pre>
+<p>...to create a long, wide basement. (Parameters are X Y and Z dimensions.</p>
+<p>Or 	<code>/py aircube3 50 3 3</code> to create a long tunnel in the X direction,
+and: <code>/py aircube3 3 3 50</code> to create a long tunnel in the Z direction,
+and:  <code>/py aircube3 3 50 3</code> to create a tall tube of air Y direction,</p>
+<p>Here's the file <code>aircube3.py</code>:</p>
+<pre><code>from mine import * 
+from sys import argv
+mc = Minecraft()
+mc.postToChat (&quot;Placing a cube of air just for you...&quot;)
+playerPos = mc.player.getPos()
+xsize = int (argv[1]);
+ysize = int (argv[2]);
+zsize = int (argv[3]);
+xhsize = int(xsize/2);
+yhsize = int(ysize/2);
+zhsize = int(zsize/2);
+
+for i in range(xsize):
+	for j in range (ysize):
+		for k in range (zsize):
+			mc.setBlock(playerPos.x +i - xhsize, playerPos.y +j - yhsize , playerPos.z +k - zhsize, block.AIR)
+</code></pre>
+<h2 id="lightup">Lightup:</h2>
+<p>Put lights all over the place, so you can see what's going on. Useful in caves.</p>
+<p>(Alternative technique is to use a <code>night vision</code> potion, but I still prefer this little script)</p>
+<p>Use it like this:
+/py lightup</p>
+<p>Here's the script <code>lightup.py</code></p>
+<pre><code>from mine import *
+mc = Minecraft()
+mc.postToChat(&quot;Placing lights...&quot;)
+playerPos = mc.player.getPos()
+
+s = 10
+space = 4
+x0 = playerPos.x - (s*space/2)
+y0 = playerPos.y - (s*space/2)
+z0 = playerPos.z - (s*space/2)
+for x in range(s):
+	for y in range(s):
+		for z in range(s):
+			h = mc.getBlock(x*space+x0, y*space+y0, z*space + z0)
+			if (h != block.AIR.id):
+				mc.setBlock(x*space+x0, y*space+y0, z*space + z0, block.GLOWSTONE_BLOCK)
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="cron-and-crontab">cron and crontab</h1>
+<p>cron runs commands periodically.</p>
+<h2 id="cron-expressions">cron expressions</h2>
+<p>A cron expression has five parts....</p>
+<pre><code>*     *     *   *    *        command to be executed
+-     -     -   -    -
+|     |     |   |    |
+|     |     |   |    +----- day of week (0 - 6) (Sunday=0)
+|     |     |   +------- month (1 - 12)
+|     |     +--------- day of        month (1 - 31)
+|     +----------- hour (0 - 23)
++------------- min (0 - 59)
+</code></pre>
+<h3 id="minutes">MINUTES</h3>
+<pre><code>* * * * * ls         # Every  minute
+*/2 * * * * ls       # Even minutes
+1-59/2 * * * * ls    # Odd minutes
+*/5 * * * * ls       # Every 5 minutes
+*/15 * * * * ls      # Every 15 minutes
+22 * * * * ls        # 22 minutes past the hour every hour...
+
+0 * * * * ls         # Every hour On the hour
+0 */2 * * * ls       # Even hours, on the hour
+0 1-23/2 * * * ls    # Odd hours on the hour
+0 */6 * * * ls       # Every 6 hours
+0 3 * * * ls         # At 3 AM (every day)...
+0 0 * * * ls         # Every day at midnight
+0 0 */2 * * ls       # EVEN days at midnight
+0 0 */5 * * ls       # Every 5 days
+</code></pre>
+<h2 id="crontab">crontab</h2>
+<p>Your <code>crontab</code> file stores all of the jobs you run periodically. You can edit this file with:</p>
+<pre><code>sudo crontab -e
+</code></pre>
+<p>If you've never used crontab before, then the first time you run it it will ask which editor to use:</p>
+<pre><code>$ sudo crontab -e
+no crontab for root - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        &lt;---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 2
+</code></pre>
+<p>If you're a BASIC like me then choose <code>nano</code></p>
+<p>Next it will open <code>nano</code> with your empty crontab file (empty apart from explanatory comments)...</p>
+<p>Add your cronexpressions at the bottom of the file.</p>
+<p>e.g.</p>
+<pre><code>15 3 * * * /usr/bin/certbot renew --quiet
+@reboot /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 2&gt;&amp;1
+</code></pre>
+<h2 id="check-cron-logs">check cron logs....</h2>
+<pre><code>sudo grep CRON /var/log/syslog
+</code></pre>
+<p>If you see this in your cron logs:</p>
+<pre><code>(CRON) info (No MTA installed, discarding output)
+</code></pre>
+<p>It's because one of the cron commands is producing output, and cron thinks it should email you, but it can't find a Mail-Transfer-Agent.</p>
+<p>You can just pipe the output to nowhere by adding this to the command:</p>
+<pre><code>&gt;/dev/null 2&gt;&amp;1
+</code></pre>
+<p>e.g.</p>
+<pre><code>*/10 * * * * curl http://example.com &gt;/dev/null 2&gt;&amp;1
+</code></pre>
+<h2 id="etcron.hourly-etc">/et/cron.hourly etc</h2>
+<p>On Ubuntu, you can put a shell script in one of these folders: /etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly or /etc/cron.weekly.</p>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://crontab-generator.org/">crontab-generator</a></li>
+</ul>
+<h2 id="see-also">see also</h2>
+<ul>
+<li><a href="lets_encrypt.html">How To Secure Nginx with Let's Encrypt on Ubuntu 16.04</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

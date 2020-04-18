@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<p>#NDesk Options</p>
+<p>Writing a console app?</p>
+<p>I don't know if it's deprecated now or what but I still love ndesk options.</p>
+<p>It's a single file that you drop in your console application, and then you can parse options joyfully.</p>
+<p>Example from an early version of NimbleText.</p>
+<pre><code>using Mono.Options; // Beautiful Console argument parsing!
+...
+var p = new OptionSet() {
+    { &quot;d|rawdata=&quot;,         &quot;the raw input data&quot;, v =&gt; settings.InputData = v},
+    { &quot;p|pattern=&quot;,         &quot;the pattern&quot;, v =&gt; settings.InputPattern = v},
+    { &quot;i|inputdatafile=&quot;,   &quot;a filename for loading the input data&quot;, v =&gt; settings.InputDataFile = v},
+    { &quot;s|pipeline&quot;,         &quot;Stream input data via the pipeline&quot;, v =&gt; settings.Pipeline = v != null},
+    { &quot;f|patternfile=&quot;,     &quot;a filename for loading a pattern&quot;, v =&gt; settings.InputPatternFile = v},
+    { &quot;r|rowdelim=&quot;,        &quot;the row delimiter&quot;, v =&gt; settings.RowDelimiter = v},
+    { &quot;c|coldelim=&quot;,        &quot;the column delimiter&quot;, v =&gt; settings.ColumnDelimiter = v},
+    { &quot;o|outputfile=&quot;,      &quot;a filename to store the results&quot;, v =&gt; settings.ResultsFile = v},
+    { &quot;g|gui&quot;,              &quot;show the Graphical User Interface&quot;, v =&gt; show_gui = v != null}, 
+    { &quot;?|h|help&quot;,           &quot;show this message and exit&quot;, v =&gt; show_help = v != null },
+};
+
+try
+{
+    unprocessedArgs = p.Parse(args);
+}
+</code></pre>
+<p>And to show help (display all options) -- it's as easy as:</p>
+<pre><code>Console.WriteLine(&quot;Options:&quot;);
+p.WriteOptionDescriptions(Console.Out);
+</code></pre>
+<p>But in the common case that you're trying to detect that an invalid option was received, you might do this first.</p>
+<pre><code>if (p.UnrecognizedOptions != null &amp;&amp; p.UnrecognizedOptions.Count &gt; 0)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(&quot;\r\nError. Unrecognized commandline option&quot; + (p.UnrecognizedOptions.Count &gt; 1 ? &quot;s&quot; : &quot;&quot;) + &quot;.&quot;);
+    Console.ResetColor();
+    foreach (var s in p.UnrecognizedOptions)
+    {
+        Console.Write(&quot;Unrecognized: &quot;);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(s);
+        Console.ResetColor();
+    }
+    Console.WriteLine(&quot;Please see below for all valid options.&quot;);
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

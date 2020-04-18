@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="want-to-return-404-from-a-method">Want to return 404 from a method...</h1>
+<p>It's as easy as</p>
+<pre><code>return HttpNotFound();
+</code></pre>
+<p>Can also put a message in</p>
+<pre><code>return HttpNotFound(&quot;No such puppy&quot;);
+</code></pre>
+<p>For other errors, you can throw an exception, e.g.</p>
+<pre><code>throw new HttpException(403, &quot;Disallowed file extension. Only image files are permitted.&quot;);
+</code></pre>
+<p>Or for 403 — try this:</p>
+<pre><code>return new HttpUnauthorizedResult(message);
+</code></pre>
+<p>And there's this as well...</p>
+<pre><code>return new HttpStatusCodeResult((int)HttpStatusCode.OK);
+</code></pre>
+<h1 id="breaking-news">Breaking news...</h1>
+<p>In .net core you do this:</p>
+<pre><code>return NotFound();
+</code></pre>
+<p>Or even:</p>
+<pre><code>return NotFound(&quot;No such kitten&quot;);
+</code></pre>
+<p>The comment on this is funny (the comment you see in a tooltip in visual studio)</p>
+<pre><code>    // Summary:
+    //     Creates an Microsoft.AspNetCore.Mvc.NotFoundResult that produces a Not Found
+    //     (404) response.
+</code></pre>
+<p>So on the one hand we're trying to be transport-agnostic, removing 'Http' from the name... on the other hand we still need to let the developer know that this is really 404. So we embed it in the comment. Wink wink.</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="in-powershell-you-dont-have-1-profile-you-have-4-different-ones">In powershell you don't have 1 profile, you have 4 different ones.</h1>
+<p>List all four like this:</p>
+<pre><code>$profile | get-member -type noteproperty | ft -prop Name, Definition
+</code></pre>
+<p>For example:</p>
+<pre><code>Name                   Definition
+----                   ----------
+AllUsersAllHosts       string AllUsersAllHosts=C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1
+AllUsersCurrentHost    string AllUsersCurrentHost=C:\Windows\System32\WindowsPowerShell\v1.0\Microsoft.PowerShell_profile.ps1
+CurrentUserAllHosts    string CurrentUserAllHosts=C:\Users\Agatha\Documents\WindowsPowerShell\profile.ps1
+CurrentUserCurrentHost string CurrentUserCurrentHost=C:\Users\Agatha\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+</code></pre>
+<p>And they are listed in the order in which they are loaded (if they are present that is)</p>
+<ul>
+<li>AllUsersAllHosts      This profile applies to all users and all shells. (i.e. in Powershell, in ISE, in third party consoles.)</li>
+<li>AllUsersCurrentHost   This profile applies to all users, but only in the WindowsPowerShell host. (i.e. not loaded if you are in ISE or in a third party host, unless they've gone to extra effort.)</li>
+<li>CurrentUserAllHosts   This profile applies to the current user, regardless of what shell you are using.</li>
+<li>CurrentUserCurrentHost   This profile applies to the current user and the current host (WindowsPowerShell) only. (i.e. not loaded if you are in ISE or in a third party host, unless they've gone to extra effort.)</li>
+</ul>
+<p>As mentioned -- the file (and even its containing folder) may not exist for you.</p>
+<p>So to create it, use:</p>
+<pre><code>New-Item -path {filename} -type file -force
+</code></pre>
+<p>for example:</p>
+<pre><code>New-Item -path $profile -type file -force
+</code></pre>
+<p>To see example profiles on the internet google for either:</p>
+<pre><code>inurl:Microsoft.PowerShell_profile.ps1
+</code></pre>
+<p>Or:</p>
+<pre><code>inurl:profile.ps1
+</code></pre>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="create_profile.html">Create profile</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

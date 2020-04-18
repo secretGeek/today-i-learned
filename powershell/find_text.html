@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-text-from-powershell">Find text (from powershell)</h1>
+<p>Use <code>Select-String</code> (alias <code>sls</code>) and -Pattern (patt)</p>
+<pre><code>sls *.md -patt &quot;hack:&quot;
+</code></pre>
+<p>Need to look recursively, then pipe in the locations from <code>dir</code> (<code>Get-ChildItem</code>)...</p>
+<pre><code>dir -Path . *.md -Recurse | sls -patt &quot;hack:&quot;
+</code></pre>
+<p>Need to look at multiple file types, use include:</p>
+<pre><code>dir -Path . -Include *.md,*.txt,*.cs,*.cshtml,*.css,*.js -Recurse | sls -patt &quot;hack:&quot;
+</code></pre>
+<p>Some custom formatting out of the output, example</p>
+<pre><code>sls *.md -patt &quot;hack:&quot; | ft -property FileName, Line -autosize | more
+</code></pre>
+<p>If the pattern is not a regex, and just a simple string, use &quot;-SimpleMatch&quot;  (also useful if you want a simple match for some weird text that looks like a malformed regex, as in this example)</p>
+<pre><code>sls *.md -patt &quot;](&quot; -SimpleMatch
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

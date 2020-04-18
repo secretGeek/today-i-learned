@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="overcoming-no-authentication-handler-is-configured-to-handle-the-scheme-identity.application">Overcoming &quot;No authentication handler is configured to handle the scheme: Identity.Application&quot;</h1>
+<p>This error:</p>
+<pre><code>InvalidOperationException: No authentication handler is configured to handle the scheme: Identity.Application
+</code></pre>
+<p>For me, it was because in:</p>
+<pre><code>public void Configure
+    
+    
+</code></pre>
+<p>I had simply left out:</p>
+<pre><code>app.UseIdentity();
+</code></pre>
+<p>(Which goes just before <code>app.UseMvc(routes =&gt;</code> )</p>
+<h2 id="further-reading">Further reading</h2>
+<ul>
+<li><a href="http://stackoverflow.com/a/33989656/49">One of the answers at: &quot;No authentication handler is configured to handle the scheme: Automatic&quot;</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

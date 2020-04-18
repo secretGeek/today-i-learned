@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="git-equivalent-of-hg-outgoing">git equivalent of hg outgoing</h1>
+<p>Well this took a while to find.</p>
+<p>In mercurial you can see what work you've committed locally that hasn't been pushed by running:</p>
+<pre><code>hg outgoing
+</code></pre>
+<p>In git, the nearest equivalent is:</p>
+<pre><code>git log --branches --not --remotes=origin
+</code></pre>
+<p>If you want to allow this command to be run as <code>git outgoing</code> then add it to your <code>~\.gitconfig</code> file in the <code>[alias]</code> section like so:</p>
+<pre><code>[alias]
+	outgoing = !git log --branches --not --remotes=origin
+	out = !git log --branches --not --remotes=origin
+	
+</code></pre>
+<footer>I added an alias of <code>out</code> as well since that's what I normally use. (git doesn't try to coerce your abbreviated commands into real commands the way mercurial does.)</footer>
+<p>Others says that this is the nearest equivalent to a 'hg outgoing' --</p>
+<pre><code>git fetch &amp;&amp; git log FETCH_HEAD..		
+</code></pre>
+<p>...But that performs a <code>fetch</code> (same as a <code>hg pull</code>) and thus alters your local repo.</p>
+
+</body>
+<script>
+</script>
+</html>

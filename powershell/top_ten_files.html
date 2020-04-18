@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="top-10-files-by-size-in-all-subfolders">Top 10 files by size, in all subfolders</h1>
+<pre><code>gci . -r | sort Length -d | select -f 10 | ft FullName, Length
+</code></pre>
+<footer>This relies on a trick: directories have no length. And it abbreviates things somewhat.</footer>
+<p>A longer version....</p>
+<pre><code>gci -re -in * |
+  ?{ -not $_.PSIsContainer } |
+  sort Length -descending |
+  select -first 10
+</code></pre>
+<p>As a one liner</p>
+<pre><code>gci -re -in * | ?{ -not $_.PSIsContainer } | sort Length -descending | select -first 10
+</code></pre>
+<p>or if you want to exclude contents of <code>.hg</code> folder (as we do sometimes...)</p>
+<pre><code>dir -rec -in * | ?{ -not $_.PSIsContainer -and $_.DirectoryName -notmatch &quot;.hg&quot; } | sort Length -descending | select -first 10 | % { $_.FullName + &quot;, &quot; + $_.Length }
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/798040/find-the-10-largest-files-within-a-directory-structure">http://stackoverflow.com/questions/798040/find-the-10-largest-files-within-a-directory-structure</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

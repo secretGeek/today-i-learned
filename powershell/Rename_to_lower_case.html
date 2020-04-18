@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="rename-all-files-and-folders-to-lower-case">Rename all files and folders to lower case</h1>
+<p>For the files....</p>
+<pre><code>Get-ChildItem -recurse |
+    Where {-Not $_.PSIsContainer} |
+    Rename-Item -NewName {
+        $_.FullName.ToLowerInvariant()
+    }
+</code></pre>
+<p>For the folders....</p>
+<pre><code>#Get the directories / sub directories and rename to lowercase
+Get-ChildItem -recurse | 
+    ?{ $_.PSIsContainer -And $_.Name -CMatch &quot;[A-Z]&quot; } | 
+    %{
+        $NName = $_.Name.ToLowerInvariant()
+
+        # Set temporary name to enable rename to the same name; Windows is not case sensitive
+        $TempItem = Rename-Item -Path $_.FullName -NewName &quot;x$NName&quot; -PassThru
+        
+        Rename-Item -Path $TempItem.FullName -NewName $NName
+    }
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://social.technet.microsoft.com/Forums/office/en-US/7241cee3-779b-4741-ba16-dbbaefb52d69/powershell-script-to-rename-all-files-and-folders-to-lowercase-in-a-directory?forum=winserverpowershell">script from  stuartfromnz</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

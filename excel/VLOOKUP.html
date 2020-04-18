@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="vlookup">VLOOKUP</h1>
+<p>Sick of looking up the syntax to VLOOKUP. (Glad I use it rarely enough that it's not committed to memory)</p>
+<pre><code>VLOOKUP (lookup_value, table_array, col_index_num, [range_lookup])
+</code></pre>
+<p>Example:</p>
+<pre><code>=VLOOKUP(&quot;Puppy&quot;,B3:F2000,2,FALSE)
+</code></pre>
+<p>Translation:</p>
+<blockquote>
+<p>Look in the array <code>B3:F2000</code>, for the value 'Puppy' in the first column. Return the value from the 2nd column. (The first column contained 'Puppy')</p>
+</blockquote>
+<p>And the <code>false</code> means &quot;Do not use fuzzy match&quot;. I don't know what fuzzy match means I just know I don't want it. Always go 'false'.</p>
+<p>However -- that's rarely enough!</p>
+<p>If a simple vlookup fails to find any results it will output a big ugly N/A#!!</p>
+<p>So -- wrap it in an iferror...</p>
+<pre><code>=IFERROR(VLOOKUP(D4,B1:B418,2,FALSE),&quot;&quot;)
+</code></pre>
+<p>And also -- I am usually referencing something on a different sheet... so to do that, you address the other sheet, followed by a bang</p>
+<pre><code>=IFERROR(VLOOKUP(D4,Sheet1!$B$3:$F$2000,2,FALSE),&quot;&quot;)
+=IFERROR(VLOOKUP(C2,Sheet2!$A1:$C$52,2,FALSE),&quot;&quot;)
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

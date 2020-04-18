@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="ssrs-reports-are-blank-in-google-chrome">SSRS reports are blank in Google Chrome</h1>
+<p>Applies to: <code>SSRS 2008 r2</code> and <code>SSRS 2012</code> on Google Chrome</p>
+<p>Find <code>ReportingServices.css</code> on the server, it may be here for example:</p>
+<pre><code>C:\Program Files\Microsoft SQL Server\MSRS10_50.MSSQLSERVER\Reporting Services\ReportManager\Styles\ReportingServices.css
+</code></pre>
+<p>Append this line:</p>
+<pre><code>div#ctl31_ctl09,div#ctl31_ctl10{ overflow: visible !important;}
+</code></pre>
+<p>The exact div id's may change over time, because The Struggle Is Real.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/5428017/cannot-view-ssrs-2008-r2-ssrs-2012-reports-in-safari-chrome-but-works-fine-in">http://stackoverflow.com/questions/5428017/cannot-view-ssrs-2008-r2-ssrs-2012-reports-in-safari-chrome-but-works-fine-in</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

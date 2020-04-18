@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="bgfg-background-and-foreground">bg,fg: background and foreground!</h1>
+<p>You're in <code>nano</code> and you hit Ctrl-z thinking it will undo what you just did... but no, suddenly you slip through a crack in the matrix and learn all all about &quot;bg,fg: background and foreground&quot; -- multi-tasking in linux.</p>
+<pre><code>Ctrl Z - go to background. 
+
+fg -- go back to nano in foreground
+</code></pre>
+<p>You may be wondering what the heck I am talking about there?</p>
+<p>It's multi-tasking!</p>
+<p>You can temporarily jump out of <code>nano</code>, run a command, see something... and then jump back in.</p>
+<p>If, while in the background, you run a new instance of nano (or some other program) and then use <code>Ctrl Z</code> to go to the background... how do you jump back to the original nano?</p>
+<p>When you exit with <code>Ctrl Z</code> you see text like:</p>
+<pre><code>Use &quot;fg&quot; to return to nano.
+
+[1]+  Stopped                 sudo nano default
+</code></pre>
+<p>That &quot;1&quot; is the job you will jump back to with <code>fg</code></p>
+<p>To see all backgrounded jobs, use the <code>jobs</code> command,</p>
+<p>For example, here I've got two <code>nano</code> instances stopped...</p>
+<pre><code>[1]-  Stopped                 sudo nano default
+[2]+  Stopped                 nano default.backup
+</code></pre>
+<p>To jump to the one I prefer I can use '<code>fg 1</code>' or '<code>fg 2</code>'</p>
+<p>Magical stuff, and easy to remember for some reason. It became natural pretty quick. I guess because I press Ctrl Z so often anyway.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="nano.html">nano</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

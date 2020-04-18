@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="temporal-table-feature-in-sql-server">Temporal Table feature in SQL Server</h1>
+<p>Introduced in SQL Server 2016. Improved in SQL Server 2017.</p>
+<p><strong>History tables</strong>  Traditionally these are manually implemented....</p>
+<p>e.g. when updating a row, you insert the old row into a history table you've invented, following your own frail local standard technique.</p>
+<p>Problems with manually implemented:</p>
+<ul>
+<li>Semantics are hard to work out because it can be inconsistent each time.</li>
+<li>a bulk update to a manually implemented one will fail to update the history. (e.g. you want all inserts to go through a special sproc... well there's no way to enforce that, and it doesn't allow bulk updates either)</li>
+<li>no enforcement of consistency -- are all time ranges covered? is a given time covered twice? etc.</li>
+<li>how do you handle deletes?</li>
+</ul>
+<p>If you use the temporal table feature in sql server, all of that will be handled for you -- a history table created for you, in a consistent manner.</p>
+<pre><code>,	[sysStart]	datetime2(7)	generated always as row start hidden not null
+,	[sysEnd]	datetime2(7)	generated always as row end  hidden not null
+,	period for system_time ([sysStart],[sysEnd])
+</code></pre>
+<p>Note the generated <code>datetime2</code> columns are always <code>UTC</code>. This can be annoying for users. To get around that, one solution is you could add:</p>
+<pre><code>[UpdatedDate] as dateadd(hour, 10, [sysStart])
+</code></pre>
+<p>...this adds a calculated column equivalent to Brisbane time... (we don't have daylight savings so it works for us.)</p>
+<p>In SSMS, object explorer, table list, there is a &quot;(System-Versioned)&quot; text next to temporal tables. You expand that table to see the history table &quot;under it&quot;. It's wild.</p>
+<p>Adding a column is tricky -- because you want it to be inserted as null into the history tables.</p>
+<h2 id="bulk-loading">Bulk loading...</h2>
+<p>before:</p>
+<pre><code>alter table ... set (system_versioning = off)
+alter table ... drop period for system time
+go
+</code></pre>
+<p>...then perform the bulk...</p>
+<p>after:</p>
+<pre><code>alter table ... add period for system_time ([sysStart],[sysEnd]);
+alter table ... add period for system_time set (system_versioning - on (history_table = ... history table name... ;
+go
+alter table ... alter column [SysStart] add hidden;
+alter table ... alter column [SysEnd] add hidden;
+go
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

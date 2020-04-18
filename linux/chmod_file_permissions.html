@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h2 id="chmod-and-the-magic-of-file-permissions">chmod - and the magic of file permissions</h2>
+<pre><code>$ chmod 777 /opt/webapps
+</code></pre>
+<p>Causes these permissions:</p>
+<pre><code>drwxrwxrwx
+</code></pre>
+<p>How is this true? What does this mean?</p>
+<p>777 -- three digits, each digit is the value of 3 flags, 3 bits.</p>
+<p>7, in binary, is 111.</p>
+<p>Each digit refers to three different groups:</p>
+<p>This</p>
+<pre><code>drwxrwxrwx
+</code></pre>
+<p>...can be broken out into 4 categories:</p>
+<pre><code>d  rwx   rwx   rwx
+</code></pre>
+<p>Concentrate on those last three, the repeated 'rwx's...</p>
+<pre><code> +---------------  Permissions of the owner of the file,
+ |     +---------  The group associated with the file, and
+ |     |     +---  Everybody else.
+ |     |     |
+rwx   rwx   rwx
+|||   |||   |||
+|||   |||   ||+-- execute permission for everybody else
+|||   |||   |+--- write permission for everybody else
+|||   |||   +---- read permission for everybody else
+|||   |||
+|||   ||+-- execute permission for the group associated with the file
+|||   |+--- write permission for the group associated with the file
+|||   +---- read permission for the group associated with the file
+|||   
+||+-- execute permission for the owner of the file
+|+--- write permission for the owner of the file
++---- read permission for the owner of the file
+   
+</code></pre>
+<p>r = read permission
+w = write permission
+x = execute permission</p>
+<p>If a permission was missing it would be represented by a dash '-'.</p>
+<ul>
+<li><code>chmod</code> - modify permissions</li>
+<li><code>chown</code> - change the owner of the file</li>
+<li><code>chgrp</code> - change the group</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="the-internet-archive-download-tool">The Internet Archive Download Tool</h1>
+<p>I don't know where else to write about this... the internet archive has a nifty download tool</p>
+<p>Read more here: <a href="https://archive.org/services/docs/api/internetarchive/cli.html">https://archive.org/services/docs/api/internetarchive/cli.html</a></p>
+<pre><code>$ chmod +x ia
+$ ./ia help
+A command line interface to archive.org.
+
+usage:
+		ia [--help | --version]
+		ia [--config-file FILE] [--log | --debug] [--insecure] &lt;command&gt; [&lt;args&gt;]...
+
+options:
+		-h, --help
+		-v, --version
+		-c, --config-file FILE  Use FILE as config file.
+		-l, --log               Turn on logging [default: False].
+		-d, --debug             Turn on verbose logging [default: False].
+		-i, --insecure          Use HTTP for all requests instead of HTTPS [default: false]
+
+commands:
+		help      Retrieve help for subcommands.
+		configure Configure `ia`.
+		metadata  Retrieve and modify metadata for items on archive.org.
+		upload    Upload items to archive.org.
+		download  Download files from archive.org.
+		delete    Delete files from archive.org.
+		search    Search archive.org.
+		tasks     Retrieve information about your archive.org catalog tasks.
+		list      List files in a given item.
+
+See 'ia help &lt;command&gt;' for more information on a specific command.
+</code></pre>
+<p>Info about <a href="https://archive.org/services/docs/api/internetarchive/cli.html#download">downloading</a></p>
+<p>But see also this twitter thread from Jason Scott:</p>
+<p><a href="https://twitter.com/textfiles/status/1224011624933134336">https://twitter.com/textfiles/status/1224011624933134336</a></p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">THE BANDWIDTH BUSTER TOOLKIT: The best way to interact with <a href="https://twitter.com/internetarchive?ref_src=twsrc%5Etfw">@internetarchive</a> en masse is the Internet Archive Client, a command-line program that will use our API and allow you to do mass actions and downloads with incredible ease. <a href="https://t.co/puAw9l0sJ6">https://t.co/puAw9l0sJ6</a> <a href="https://t.co/RMDclczWnW">https://t.co/RMDclczWnW</a></p>&mdash; Jason Scott (@textfiles) <a href="https://twitter.com/textfiles/status/1224011624933134336?ref_src=twsrc%5Etfw">February 2, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://archive.org/services/docs/api/internetarchive/cli.html"></a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

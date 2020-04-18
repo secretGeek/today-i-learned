@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="turn-off-bing-search-results-from-start-menu-in-windows">Turn off Bing Search Results from Start Menu in Windows</h1>
+<p>When you do a search in the start menu in Windows 10, it shows Bing Search results.</p>
+<p>I don't want this. I never wanted this. I never will want this.</p>
+<p>Disable it with:</p>
+<pre><code>Set-ItemProperty -Path &quot;HKCU:\Software\Microsoft\Windows\CurrentVersion\Search&quot; -Name &quot;BingSearchEnabled&quot; -Type DWord -Value 0
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://twitter.com/Nick_Craver/status/1138231377055363074">Nick Craver on twitter</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

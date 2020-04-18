@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="backup-remote-folders-with-rsync">Backup remote folders with rsync</h1>
+<p>rsync option source-directory destination-directory</p>
+<p>Or, a better example:</p>
+<pre><code>rsync -chavzP --stats user@remote.host:/path/to/copy /path/to/local/storage  
+</code></pre>
+<p>And here's the full <a href="https://explainshell.com/explain?cmd=rsync+-chavzP+--stats+user%40remote.host%3A%2Fpath%2Fto%2Fcopy+%2Fpath%2Fto%2Flocal%2Fstorage">explain shell explanation</a></p>
+<p><code>chavzP</code> is, respectively:</p>
+<ul>
+<li><code>--checksum</code></li>
+<li><code>--human-readable</code></li>
+<li><code>--archive</code> (i.e. get everything, and be recursive)</li>
+<li><code>--verbose</code></li>
+<li><code>-P</code> equivalent to <code>--partial --progress</code> ...good for a long transfer that may be interrupted</li>
+</ul>
+<p>And</p>
+<ul>
+<li><code>--stats</code> tells  rsync to print a verbose set of statistics on the file transfer</li>
+</ul>
+<p>...Can backup multiple files/folders by specifying them with, for example:</p>
+<pre><code>rsync -e ssh root@remote.com:/path/to/file :/path/to/second/file/ /local/directory/
+</code></pre>
+<p>Can use:</p>
+<pre><code>--dry-run  
+</code></pre>
+<p>...to see what will be done, before executing.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.linux.com/learn/how-backup-files-linux-rsync-command-line">How to Backup Files in Linux With Rsync on the Command Line</a></li>
+<li><a href="https://stackoverflow.com/questions/9090817/copying-files-using-rsync-from-remote-server-to-local-machine">Stackoverflow: Copying files using rsync from remote server to local machine</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="backup_multiple_remote_folders_with_rsync.html">Backup multiple remote folders with rsync</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="calculate-sha256-filehash-of-a-file">Calculate sha256 filehash of a file</h1>
+<p>PowerShell 4+ includes a built-in <code>Get-FileHash</code> commandlet that does this for you:</p>
+<pre><code>get-filehash &quot;c:\temp\nimbleset.exe&quot;
+</code></pre>
+<p>But if you're stuck on PowerShell 2 because your corporate IT department take the &quot;if it ain't broke don't fix it&quot; approach to life, then this snippet will help you out</p>
+<p>Powershell 2 code to calculate the sha256 hash of a file</p>
+<pre><code>$someFilePath = &quot;c:\temp\nimbleset.exe&quot;
+$sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider
+$hash = [System.BitConverter]::ToString($sha256.ComputeHash([System.IO.File]::ReadAllBytes($someFilePath))).Replace('-','')
+$hash
+</code></pre>
+<p>Or to calculate the md5 hash (often used as a checksum)</p>
+<pre><code>$someFilePath = &quot;c:\temp\nimbleset.exe&quot;
+$md5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
+$hash = [System.BitConverter]::ToString($md5.ComputeHash([System.IO.File]::ReadAllBytes($someFilePath))).Replace('-','')
+$hash
+</code></pre>
+<p>Here's the Powershell 4+ equivalent (defaults to sha256)</p>
+<pre><code>$hash = (get-filehash &quot;c:\temp\nimbleset.exe&quot; | % hash)
+</code></pre>
+<p>Or for MD5...</p>
+<pre><code>$hash = (get-filehash &quot;c:\temp\nimbleset.exe&quot; -algo md5 | % hash)
+</code></pre>
+<h2 id="large-files">Large files?</h2>
+<p>Although the above worked fine for my use case, comments from stackoverflow show how it can be done without loading the whole file at once, with the use of streams (and they also point out you need to close the stream)</p>
+<pre><code>$someFilePath = &quot;c:\temp\nimbleset.exe&quot;
+$sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider;
+$stream = [System.IO.File]::Open($someFilePath, [System.IO.Filemode]::Open, [System.IO.FileAccess]::Read);
+$hash2 = [System.BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-','');
+$stream.Close();
+$hash2;
+</code></pre>
+<h2 id="another-way-certutil">Another way: Certutil</h2>
+<pre><code>$(CertUtil -hashfile &quot;c:\temp\nimbleset.exe&quot; SHA256)[1] -replace &quot; &quot;,&quot;&quot;
+</code></pre>
+<h2 id="use-the-hash-to-check-virustotal">Use the hash to check VirusTotal</h2>
+<p>And why are we doing this? To check VirusTotal for example:</p>
+<pre><code>$url = &quot;https://www.virustotal.com/en/file/$hash/analysis&quot;
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/10521061/how-to-get-an-md5-checksum-in-powershell">How to get an MD5 checksum in PowerShell</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

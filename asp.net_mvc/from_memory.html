@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="handy-cache-helper-method">Handy Cache helper method</h1>
+<p>I love this little thing.</p>
+<pre><code>public static T FromMemory&lt;T&gt;(string Key, Func&lt;T&gt; func, double days = 7) where T : class
+{
+    var value = MemoryCache.Default.Get(Key) as T;
+    if (value == null)
+    {
+        value = func();
+        if (value != null)
+        {
+            MemoryCache.Default.Add(Key, value, DateTime.Now.AddDays(days));
+        }
+    }
+
+    return value;
+}
+</code></pre>
+<p>Then, instead of simply retrieving something from storage, e.g.</p>
+<pre><code>var items = LoadSiteMap();
+</code></pre>
+<p>You do this slightly awkward, but fairly clean alternative:</p>
+<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, () =&gt; LoadSiteMap());
+</code></pre>
+<p>You do have to tell it the cache_key to use.</p>
+<p>You can override the default duration to hold it in memory...</p>
+<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, () =&gt; LoadSiteMap(), 0.1);
+</code></pre>
+<p>And if things go really pear shaped, and it can't infer the types, you might need to specify them, for example here:</p>
+<pre><code>var items = Latest.FromMemory&lt;List&lt;ISitemapItem&gt;&gt;(&quot;SiteMap&quot;, () =&gt; LoadSiteMap(), 0.1);
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

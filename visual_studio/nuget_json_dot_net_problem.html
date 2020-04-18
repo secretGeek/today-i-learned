@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="adding-nuget-reference-to-json.net-errored-with-newtonsoft.json-already-has-a-dependency-defined-for-microsoft.csharp-in-visual-studio-2010">Adding Nuget reference to Json.net errored with &quot;'Newtonsoft.Json' already has a dependency defined for 'Microsoft.CSharp' in Visual Studio 2010</h1>
+<p>Solution was to run this...</p>
+<pre><code>Install-Package Newtonsoft.Json -Version 8.0.3
+</code></pre>
+<p>No online help was very helpful.</p>
+
+</body>
+<script>
+</script>
+</html>

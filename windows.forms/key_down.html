@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="form-wide-hotkeys">Form Wide Hotkeys...</h1>
+<p>For the form, make sure to set <code>this.KeyPreview = true;</code></p>
+<p>Then you can define form-wide hotkeys like so...</p>
+<pre><code>private void frmMain_KeyDown(object sender, KeyEventArgs e)
+{
+    e.Handled = false;
+    e.SuppressKeyPress = false;
+    //F5,  Ctrl+E, Alt+X  .... all Execute! (just like query analyzer)
+    if ((e.KeyCode == Keys.F5 &amp;&amp; !e.Shift)
+        || (e.KeyCode == Keys.E &amp;&amp; e.Control)
+        || (e.KeyCode == Keys.X &amp;&amp; e.Alt))
+    {
+        e.Handled = true;
+        e.SuppressKeyPress = true;
+        Execute();
+        return;
+    }
+
+    if (e.KeyCode == Keys.F5 &amp;&amp; e.Shift)
+    {
+        e.Handled = true;
+        e.SuppressKeyPress = true;
+        Cancel();
+        return;
+    }
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="c-version-7">C# version 7</h1>
+<ul>
+<li><a href="#out-variables">out variables</a></li>
+<li><a href="#tuples">Tuples</a></li>
+<li><a href="#discards">Discards</a></li>
+<li><a href="#pattern-matching">Pattern matching</a></li>
+<li><a href="#ref-local-and-return">ref local and return</a></li>
+<li><a href="#local-functions">Local functions</a></li>
+<li><a href="#more-expression-bodied-members">more expression-bodied members</a></li>
+<li><a href="#throw-expressions">throw expressions</a></li>
+<li><a href="#generalized-async-return-types">Generalized async return types</a></li>
+<li><a href="#numeric-literal-syntax-improvements">Numeric literal syntax improvements</a></li>
+</ul>
+<h2 id="out-variables">out variables</h2>
+<p>There is a tiny change that you will use every time you need an <code>out</code> variable in C#7 onward.</p>
+<p>Previously, to use an <code>out</code> variable (when calling a method you used an <code>out</code> parameter) you would end up writing code like this:</p>
+<pre><code>int result; //variable name and type are declared here, but not initialized...
+
+if (int.TryParse(input, out result)) // &quot;result&quot; is initialized here...
+	Console.WriteLine(result);
+else
+	Console.WriteLine(&quot;Could not parse input&quot;);
+</code></pre>
+<p>Which is ugly and terrible. Generally you want to have the habit of initializing a variable when it is set, but not so for <code>out</code> variables (in the old world...). And generally I declare local variables with <code>var</code> -- but not so here.</p>
+<p>Hence, they've come up with this syntax...</p>
+<pre><code>if (int.TryParse(input, out int result)) // variable &quot;result&quot; has name, type and value set right there.
+	Console.WriteLine(result);
+else
+	Console.WriteLine(&quot;Could not parse input&quot;);
+</code></pre>
+<p>It's still a bit awkward, being different from every other variable declaration, as well as not taking advantage of type inferencing. But there are other mitigating points we'll get to in subsequent features.</p>
+<h2 id="tuples">Tuples</h2>
+<p>There's a new type of Tuple. And we are no longer stuck with the ghastly <code>Item1</code> etc.</p>
+<p>You can declare the new type like so:</p>
+<pre><code>var myTuple = (&quot;a&quot;,&quot;b&quot;);
+Console.WriteLine(myTuple.Item1); //a
+Console.WriteLine(myTuple.Item2); //b
+</code></pre>
+<p>Or if you want to be more explicit about the types...</p>
+<pre><code>(string, string) myTuple = (&quot;a&quot;, &quot;b&quot;);
+Console.WriteLine(myTuple.Item1); //a
+Console.WriteLine(myTuple.Item2); //b
+</code></pre>
+<p>And here's the nice thing... if you want to name the members (<code>a</code> and <code>b</code> in this example)...</p>
+<pre><code>(string a, string b) myTuple2 = (&quot;a&quot;, &quot;b&quot;);
+Console.WriteLine(myTuple2.a); //a
+Console.WriteLine(myTuple2.b); //b
+</code></pre>
+<p>And it's optional... you can name just some, or name them all, or name none....</p>
+<pre><code>(string, string b) myTuple3 = (&quot;a&quot;, &quot;b&quot;);
+Console.WriteLine(myTuple2.Item1); //a
+Console.WriteLine(myTuple2.b); //b
+</code></pre>
+<p>Or, if you prefer <code>var</code>....</p>
+<pre><code>var t = (a: &quot;a&quot;, b: &quot;b&quot;);
+Console.WriteLine(t.a); //a
+Console.WriteLine(t.b); //b
+</code></pre>
+<p>Note that the member names (used in place of <code>Item1</code>, <code>Item2</code> etc) <strong>only exist at compile time</strong>. They are not preserved... if you use reflection to inspect them at runtime they will have turned back into Item1 etc.</p>
+<p>e.g. in LinqPad if you dump a Tuple you'll see its members are named <code>Item1</code> etc.</p>
+<pre><code>(string a, string b) myTuple2 = (&quot;a&quot;, &quot;b&quot;);
+myTuple2.Dump();
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Item 1</td>
+<td>a</td>
+</tr>
+<tr>
+<td>Item 2</td>
+<td>b</td>
+</tr>
+</tbody>
+</table>
+<p>...but if you use 'nameOf' -- because it runs at compile time, it will return the names you used.</p>
+<pre><code>(string a, string b) myTuple2 = (&quot;a&quot;, &quot;b&quot;);
+nameof(myTuple2.a).Dump(); //returns a, *not* Item1.
+</code></pre>
+<p>What type is this thing??</p>
+<pre><code>myTuple2.GetType().ToString().Dump();
+System.ValueTuple`2[System.String,System.String]
+</code></pre>
+<p>Ah, see that? <code>ValueTuple</code>... this is a completely new type. The old tuples, <code>System.Tuple</code>, were <em>reference</em> types (objects, that needed to be allocated... the sort of thing that makes hardcore performance engineers spit &quot;Keep your damn allocations off my hotpath!&quot;)</p>
+<p>Tuples in F# are structs... so I'm guessing these play nicer with F# than <code>System.Tuple</code>... but i haven't looked.</p>
+<p>Further reading on <a href="https://docs.microsoft.com/en-us/dotnet/csharp/tuples">tuples in c#7</a></p>
+<h2 id="discards">Discards</h2>
+<p>Sometimes when you call a function you don't care about the result. That's easy -- just don't assign it to anything.</p>
+<p>But sometimes there is an <code>out</code> parameter and you're forced to declare a variable you don't want or need.
+Or it might return a tuple and you only want some of the items. What to do, what to do! If you've seen F# any time in the past 10 years you know this is a common feature of functional programming. In F# (and I'm assuming in other ML variants?) they use <code>_</code> as the name of a variable they intend to ignore. The compiler ensures you don't try to do anything with that variable, and you can have as many <code>_</code>'s as you like.</p>
+<p>Well C# has YOINKED this feature now too.</p>
+<p>Imagine there is a <code>Delete</code> method, like this:</p>
+<pre><code>void Delete(string fileName, out bool found)
+{
+	found = false;
+	if (File.Exists(fileName))
+	{
+		found = true;
+		File.Delete(fileName);
+	}
+}
+</code></pre>
+<p>...it returns true or false in that <code>out</code> parameter, depending on if it found a file to delete or not.</p>
+<p>But as a caller you don't care if it found a file. You can ignore that parameter like this:</p>
+<pre><code>Delete(&quot;MyFile.txt&quot;, out _);
+</code></pre>
+<p>I guess they used <code>_</code> because it is less typing than the semantically equivalent <code>¯\_(ツ)_/¯</code></p>
+<p>Say we call a method and it returns a <code>ValueTuple&lt;string,string,string&gt;</code> .... here's an example of declaring it....</p>
+<pre><code>(string,string,string) MedalWinners(string eventName)
+{
+	// It's not a very sophisticared method...
+	// returning the same value for every event...
+
+	return (&quot;Jill&quot;,&quot;Sally&quot;,&quot;Jack&quot;);
+}
+</code></pre>
+<p>As the caller of this method, imagine that we only care about the second item. How do we discard the other two items? <strong>EASY.</strong></p>
+<pre><code>var (_, silverMedalist,_) = MedalWinners(&quot;300 meter bunny hop while balancing an egg&quot;);
+silverMedalist.Dump(); // result: &quot;Sally&quot;
+</code></pre>
+<p>Sorry Jack and Jill.</p>
+<p>There are two other places you can use this. One is in <a href="#pattern-matching">pattern matching</a> which I'll describe in the next section.</p>
+<p>The other is like this... but I don't see it as a big win, it's just <em>consistent</em>....</p>
+<p>Imagine some method that returns a value:</p>
+<pre><code>string WhosOnFirst()
+{
+	return &quot;Who&quot;;
+}
+</code></pre>
+<p>Let's call that method but <em>ignore</em> the return value....</p>
+<pre><code>_ = WhosOnFirst();
+</code></pre>
+<p>I guess it's more explicit than simply saying:</p>
+<pre><code>WhosOnFirst(); // ... not assigning it at all.
+</code></pre>
+<h2 id="pattern-matching">Pattern matching</h2>
+<p>Here is a common pattern that is crying out for some pattern matching....</p>
+<p>The old &quot;is/as&quot;</p>
+<pre><code>if (foo is string)
+{
+	var bar = foo as string;
+	bar.Dump(&quot;here is the value&quot;);
+}
+else
+{
+	foo.Dump(&quot;it's not a string&quot;);
+}
+</code></pre>
+<p>The sort of place where you commonly see this is when parsing, or traversing tokens in a directed graph.</p>
+<pre><code>if (token is Comment)
+{
+	var comment = token as comment;
+	EmitComment(comment);
+}
+else if (token is Terminator)
+{
+	var term = token as Terminator;
+	EmitTerminator(term);
+} ... etc...
+</code></pre>
+<p>And the first thing to see with pattern matching is that the &quot;is-as&quot; pattern is greatly simplified....</p>
+<p>THIS:</p>
+<pre><code>if (foo is string)
+{
+	var bar = foo as string;
+	bar.Dump(&quot;here is the value&quot;);
+}
+</code></pre>
+<p>...BECOMETH:</p>
+<pre><code>if (foo is string bar)
+{
+	bar.Dump(&quot;here is the value&quot;);
+}
+...
+</code></pre>
+<p>...note the syntax here is as we saw in <code>out</code> variables -- straight after the type, give it a name, and hey presto, the thing being discussed of the type being considered is assigned to the name provided. Pow!</p>
+<p>Having cleaned up that little pattern, the syntax gets a lot niftier, and really earns the name pattern matching.</p>
+<p>The type of code discussed above is a chain of &quot;if&quot; statements that resembles a switch statement, only you're switching on logic and types instead of simple values.</p>
+<p>So switches &quot;switch it up&quot; a little and allow you to perform a whole slew of possibilities...</p>
+<h2 id="ref-local-and-return">ref local and return</h2>
+<h2 id="local-functions">Local functions</h2>
+<h2 id="more-expression-bodied-members">more expression-bodied members</h2>
+<h2 id="throw-expressions">throw expressions</h2>
+<h2 id="generalized-async-return-types">Generalized async return types</h2>
+<h2 id="numeric-literal-syntax-improvements">Numeric literal syntax improvements</h2>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7">what's new in C#7</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

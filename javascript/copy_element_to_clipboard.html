@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="copy-element-to-clipboard">Copy element to clipboard</h1>
+<p>Here's a general 'vanilla js' solution:</p>
+<pre><code>&lt;pre id=&quot;mypre&quot;&gt;Hello world2!&lt;/pre&gt;
+&lt;button onclick=&quot;copytext(document.querySelectorAll('#mypre')[0].textContent)&quot;&gt;hello&lt;/button&gt;
+
+&lt;script&gt;
+function copytext(copyText) {
+	const textArea = document.createElement('textarea');
+	textArea.style.position = &quot;absolute&quot;;
+	textArea.style.left = &quot;-100%&quot;;
+	textArea.textContent = copyText;
+	document.body.appendChild(textArea);
+	textArea.select();
+	document.execCommand(&quot;copy&quot;);
+	//Consider: visually indicate success...
+	//alert(copyText);
+}
+&lt;/script&gt;
+</code></pre>
+<p>When you want just a single word/term that is copyable....</p>
+<pre><code>&lt;code onclick=&quot;copytext('%name%');&quot; class=&quot;copyable&quot; title=&quot;click to copy&quot;&gt;%name%&lt;/code&gt;
+&lt;code onclick=&quot;copytext('%email%');&quot; class=&quot;copyable&quot; title=&quot;click to copy&quot;&gt;%email%&lt;/code&gt;
+&lt;code onclick=&quot;copytext('%unsub%');&quot; class=&quot;copyable&quot; title=&quot;click to copy&quot;&gt;%unsub%&lt;/code&gt;
+</code></pre>
+<p>And this styling works for me:</p>
+<pre><code>code.copyable {
+
+	background-color:white;
+	border:1px solid #CCC;
+	border-radius:5px;
+	padding:2px 4px;
+}
+	code.copyable:hover {
+	cursor: pointer;
+	}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

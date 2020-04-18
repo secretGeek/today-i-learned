@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h2 id="branching-with-mercurial">Branching with Mercurial</h2>
+<p>I've got a <a href="http://www.secretgeek.net/branching">detailed tutorial on branching with mercurial</a> but here's just the cheatsheet for branching with mercurial:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hg branch</td>
+<td>Check which branch you're working on</td>
+</tr>
+<tr>
+<td>hg branch WEAPONISE_SPACE</td>
+<td>Create a branch</td>
+</tr>
+<tr>
+<td>hg push -b . --new-branch</td>
+<td>Push only the current branch (which happens to be new</td>
+</tr>
+<tr>
+<td>hg push -b .</td>
+<td>Push only the current branch</td>
+</tr>
+<tr>
+<td>hg heads</td>
+<td>See if there are any open &quot;heads&quot; (e.g. open branches)</td>
+</tr>
+<tr>
+<td>hg pull -b . --rebase</td>
+<td>Pull just the current branch</td>
+</tr>
+<tr>
+<td>hg pull -b WEAPONISE_SPACE --rebase</td>
+<td>Pull only the contents of a named branch (and merge any local commits you've already made)</td>
+</tr>
+<tr>
+<td>hg up WEAPONISE_SPACE</td>
+<td>Switch to a named branch. So this will update the current working folder to contain the work from the named branch.</td>
+</tr>
+<tr>
+<td>hg commit -Am &quot;committing here!&quot;</td>
+<td>Commit to the current branch, while addremoving files</td>
+</tr>
+<tr>
+<td>hg commit -m 'Finished Weaponising Space!' --close-branch</td>
+<td>Close the current branch (good hygiene)</td>
+</tr>
+<tr>
+<td>hg up default</td>
+<td>Update so that the current branch is now the default branch</td>
+</tr>
+<tr>
+<td>hg merge WEAPONISE_SPACE</td>
+<td>Merge a named branch into the current branch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://www.secretgeek.net/branching">Mercurial Workflow with Branching</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

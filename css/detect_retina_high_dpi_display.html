@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="detect-retina-display-or-high-dpi-display-and-send-specific-image">Detect retina display or high DPI display and send specific image</h1>
+<pre><code>@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+	.hero {
+			background:url(&quot;background@2x.png&quot;);
+		}
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/37504520/retina-display-image-resolution-using-media-queries">Stackoverflow: Retina display image resolution using media queries</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

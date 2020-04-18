@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="npm-run-scripts">npm run scripts</h1>
+<blockquote>
+<p>npm looks at a field called scripts in the package.json of a project in order to make things like npm test from the scripts.test field and npm start from the scripts.start field work.</p>
+</blockquote>
+<pre><code>{
+    &quot;name&quot;: &quot;my-silly-app&quot;,
+    &quot;version&quot;: &quot;1.2.3&quot;,
+    &quot;private&quot;: true,
+    &quot;dependencies&quot;: {
+        &quot;browserify&quot;: &quot;~2.35.2&quot;,
+        &quot;uglifyjs&quot;: &quot;~2.3.6&quot;
+    },
+    &quot;devDependencies&quot;: {
+        &quot;watchify&quot;: &quot;~0.1.0&quot;,
+        &quot;catw&quot;: &quot;~0.0.1&quot;,
+        &quot;tap&quot;: &quot;~0.4.4&quot;
+    },
+    &quot;scripts&quot;: {
+        &quot;build-js&quot;: &quot;browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js&quot;,
+        &quot;build-css&quot;: &quot;cat static/pages/*.css tabs/*/*.css&quot;,
+        &quot;build&quot;: &quot;npm run build-js &amp;&amp; npm run build-css&quot;,
+        &quot;watch-js&quot;: &quot;watchify browser/main.js -o static/bundle.js -dv&quot;,
+        &quot;watch-css&quot;: &quot;catw static/pages/*.css tabs/*/*.css -o static/bundle.css -v&quot;,
+        &quot;watch&quot;: &quot;npm run watch-js &amp; npm run watch-css&quot;,
+        &quot;start&quot;: &quot;node server.js&quot;,
+        &quot;test&quot;: &quot;tap test/*.js&quot;
+    }
+}
+</code></pre>
+<p>typing:</p>
+<pre><code>npm build-js
+</code></pre>
+<p>...in that project would be the same as typing:</p>
+<pre><code>npm run browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js
+</code></pre>
+<p>(because of the line under scripts that says: <code>&quot;build-js&quot;: &quot;browserify browser/main.js | uglifyjs -mc &gt; static/bundle.js&quot;,</code>)</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://substack.net/task_automation_with_npm_run">http://substack.net/task_automation_with_npm_run</a></li>
+<li><a href="https://medium.com/@maybekatz/kat-s-short-guide-to-js-devops-ecosystem-9ffef67fdb8e#.jd4ha6udn">https://medium.com/@maybekatz/kat-s-short-guide-to-js-devops-ecosystem-9ffef67fdb8e#.jd4ha6udn</a></li>
+<li><a href="http://nodeschool.io/">http://nodeschool.io/</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

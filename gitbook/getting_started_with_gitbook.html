@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-gitbook">Getting started with gitbook</h1>
+<p>Create a new repo at github. It will need at least 2 files: <code>Summary.md</code> and <code>readme.md</code>. (The rest of the content of your book will be markdown files, and images, in that same repo)</p>
+<p><code>Readme.md</code> is treated as the cover-page/introduction to the book</p>
+<p><code>Summary.md</code> is used to build the table of contents. It starts with the line &quot;# Summary&quot; and has a link to everything you want to include.</p>
+<p>So it looks like this (for example)</p>
+<pre><code># Summary
+
+* asp.net mvc
+    * [clear caches](/asp.net_mvc/clear_caches.html)
+    * [elmah](/asp.net_mvc/elmah.html)
+    * [from memory](/asp.net_mvc/from_memory.html)
+    * [helpful error page](/asp.net_mvc/helpful_error_page.html)
+    * [return 404](/asp.net_mvc/return_404.html)
+    * [serve some static files from mvc but not all](/asp.net_mvc/serve_some_static_files_from_mvc_but_not_all.html)
+* git 
+     * [how to git](/git/how_to_git.html)
+</code></pre>
+<p>I generate that file using <a href="https://github.com/secretGeek/pre">pre</a> though it's easy enough to generate with a bit of powershell.</p>
+<p>In <a href="https://www.gitbook.com">gitbook</a> you sign up, and create a &quot;New Book&quot;.</p>
+<p>Tell it the location of your github repo and also set up a webhook so that when the repo is updated gitbook is notified. I documented that bit already: <a href="web_hooks.html">To have your gitbook updated whenever you push to a github repo</a></p>
+<p>Thereafter, any time you push to your github repo it will be immediately updated on gitbook!</p>
+<p>You can also generate a gitbook and preview it locally -- see <a href="use_gitbook_locally.html">use gitbook locally</a></p>
+<p>(Not recommended: writing/editing the content directly at gitbook.com:  that won't work out over time. Better to use a full repo from the start)</p>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="web_hooks.html">To have your gitbook updated whenever you push to a github repo</a></li>
+<li><a href="use_gitbook_locally.html">Use gitbook locally</a></li>
+<li><a href="host_on_custom_subdomain.html">Host a gitbook on a custom subdomain</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

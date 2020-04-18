@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="press-ctrl-a-to-select-all-in-a-textbox">Press Ctrl-A to select all in a textbox</h1>
+<p><strong>NOTE</strong> textbox must be multiline.</p>
+<pre><code>private void txtSQL_KeyDown(object sender, KeyEventArgs e)
+{
+    KeyPressSelectAll(txtSQL, e);
+}
+
+private void txtResult_KeyDown(object sender, KeyEventArgs e)
+{
+    KeyPressSelectAll(txtResult, e);
+}
+
+private void KeyPressSelectAll(TextBoxBase t, KeyEventArgs e)
+{
+    if (e.Control &amp;&amp; !e.Alt &amp;&amp; e.Modifiers != Keys.RMenu)
+    {
+        if (e.KeyCode == Keys.A)
+        {
+            //Select all text
+            t.SelectAll();
+            //t.Focus(); &lt;-- Optional. See note below.
+            e.Handled = true;
+        }
+    }
+}
+</code></pre>
+<p>regarding 't.Focus()'</p>
+<p>If the KeyPressSelectAll method can be triggerd by a different control, e.g. a button or menu, then you might also want to set focus to the textbox, so that the selection is made visible.</p>
+
+</body>
+<script>
+</script>
+</html>

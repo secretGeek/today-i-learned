@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="aliases-in-git">Aliases in git</h1>
+<p>This is one of my favorite things about git, the alias system. I could play with this all day.</p>
+<p>Aliases from my <code>~\.gitconfig</code> file:</p>
+<pre><code>[alias]
+	# mercurial compatability, more see https://github.com/sympy/sympy/wiki/Git-hg-rosetta-stone#Rosetta_Stone
+	outgoing = log --branches --not --remotes=origin
+	out = !&quot;git outgoing&quot;
+	st = status
+	stat = status
+	outy = !&quot;git l4 --branches --not --remotes=origin&quot;
+	paths = remote -v
+	path = !&quot;git paths&quot;
+	heads = show-ref
+	#lg = !git log --all --decorate --oneline --graph
+	l1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	l2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	l3 = log --graph --abbrev-commit --decorate --format=format:'%C(magenta)%h%C(reset) - %C(bold cyan)%ad%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cd)%C(reset) %C(auto)%d%C(reset)%n''        %C(white)%s%C(reset)%n''        %C(cyan) %an %C(reset)' --date=short
+	l4 = log --graph --pretty=format:'%C(magenta)%h%Creset %C(blue)%ad%Creset %C(bold cyan)%an%Creset %s%C(yellow)%d%Creset' --date=short
+	l5 = log --graph --pretty=format:'%C(magenta)%h%Creset %C(blue)%ad%Creset %C(bold cyan)%an%Creset %s%C(yellow)%d%Creset' --date=short --full-history --all
+	l6 = log --graph --decorate --pretty=oneline --abbrev-commit #LOL
+	lg = !&quot;git l4&quot; # points at my current favorite out of those
+
+	# Phil Haack's aliases, see http://haacked.com/archive/2014/07/28/github-flow-aliases/
+	co = checkout
+	ec = config --global -e
+	up = !git pull --rebase --prune $@ &amp;&amp; git submodule update --init --recursive
+	cob = checkout -b
+	cm = !git add -A &amp;&amp; git commit -m
+	save = !git add -A &amp;&amp; git commit -m 'SAVEPOINT'
+	wip = !git add -u &amp;&amp; git commit -m 'WIP'
+	undo = reset HEAD~1 --mixed
+	amend = commit -a --amend
+	wipe = !git add -A &amp;&amp; git commit -qm 'WIPE SAVEPOINT' &amp;&amp; git reset HEAD~1 --hard
+	bclean = &quot;!f() { git branch --merged ${1-master} | grep -v &quot; ${1-master}$&quot; | xargs -r git branch -d; }; f&quot;
+	bdone = &quot;!f() { git checkout ${1-master} &amp;&amp; git up &amp;&amp; git bclean ${1-master}; }; f&quot;
+	cheat = !cat C:/wip/nimble/util/powershell/scriptlets/git_cheat.txt
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://gist.github.com/mwhite/6887990">The Ultimate Git Alias Setup</a></li>
+<li><a href="http://haacked.com/archive/2014/07/28/github-flow-aliases/">Phil Haack's aliases</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

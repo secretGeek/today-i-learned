@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="to-pass-an-argument-to-a-powershell-script">To pass an argument to a powershell script</h1>
+<p>For named parameters, first line in the script has to be a <code>param</code> declaration:</p>
+<pre><code>param([string]$comment)
+</code></pre>
+<p>or to declare multiple named parameters</p>
+<pre><code>param(
+    [string]$comment,
+    [int32]$LicenseID
+)
+</code></pre>
+<p>Then you can do validation and handle gracefully, for example</p>
+<pre><code>if ($comment -eq &quot;&quot;) {
+    write-host &quot;you must give a comment&quot;
+    exit
+}
+</code></pre>
+<p>A simple if brutal way to bail if a required argument was not specified</p>
+<pre><code>param ( [string]$comment = $(throw &quot;Please specify a comment&quot; ))
+</code></pre>
+<p>Can also use a type of boolean parameter called a <code>switch</code></p>
+<pre><code>Param([switch]$IsGood)
+</code></pre>
+<p>Then $IsGood will be $false, unless the parameter was specified</p>
+<pre><code>&quot;.\script1.ps1&quot;                 #  $IsGood = $false
+&quot;.\script1.ps1 -IsGood&quot;         #  $IsGood = $true
+&quot;.\script1.ps1 -isGood:$true&quot;   #  $IsGood = $true
+&quot;.\script1.ps1 -isGood:$false&quot;  #  $IsGood = $false
+</code></pre>
+<h2 id="dont-like-named-parameters-fine-use-positional">Don't like named parameters? Fine! Use positional...</h2>
+<pre><code>$name=$args[0]    
+$height=$args[1]    
+</code></pre>
+<p>...like it's 1999.</p>
+<h2 id="validate-the-parameters">Validate the parameters...</h2>
+<p>But if you do use real <code>params</code> you can also enforce simple validation:</p>
+<p>For example -- string, length from 1 to 10...</p>
+<pre><code>Param(
+    [ValidateLength(1,10)][string]$string
+)
+</code></pre>
+<p>Or how about a number that must be within a range...</p>
+<p>Param(
+[ValidateRange(0,10)][int]$integer
+)</p>
+<p>What about -- a filename that must be an existing file...</p>
+<pre><code>Param(
+    [ValidateScript({Test-Path $_})][string]$smolibrary
+)    
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/5592531/how-to-pass-an-argument-to-a-powershell-script">http://stackoverflow.com/questions/5592531/how-to-pass-an-argument-to-a-powershell-script</a></li>
+<li><a href="http://powershell.org/wp/forums/topic/understanding-switch-parameters/">http://powershell.org/wp/forums/topic/understanding-switch-parameters/</a></li>
+<li><a href="https://www.mssqltips.com/sqlservertip/4198/validating-powershell-parameters--part-i/">https://www.mssqltips.com/sqlservertip/4198/validating-powershell-parameters--part-i/</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../console/ndesk_options.html">console: ndesk options</a> -- for doing the same in a C# console app.</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-remove-a-package-provider">How to remove a package provider</h1>
+<p>Somehow I ended up with two conflicting nuget package providers.
+I had to remove them both before it would use the correct one.</p>
+<pre><code>    nuget                    2.8.5.202
+    NuGet                    2.8.5.127        Destination, SkipDependencies, Con
+    
+    
+</code></pre>
+<p>To remove a package provider:</p>
+<p>Find the path of the provider, for example:</p>
+<p>(Get-packageProvider -name nuget).ProviderPath</p>
+<p>Gave this file name:</p>
+<pre><code>$env:localappdata\PackageManagement\ProviderAssembles\nuget-anycpu.exe
+</code></pre>
+<p>So -- close Powershell (so that the file is not locked).</p>
+<p>Then <strong>delete</strong> that exe (or move it somewhere else if you're more comfortable with that)</p>
+<p>Once I'd removed the first one, this command</p>
+<pre><code>(Get-packageProvider -name nuget).ProviderPath
+</code></pre>
+<p>now returned:</p>
+<pre><code>C:\Program Files (x86)\PackageManagement\ProviderAssemblies\nuget\2.8.5.202\Microsoft.PackageManagement.NuGetProvider.dll
+</code></pre>
+<p>There are several places where PackageProviders can live, see <a href="https://github.com/OneGet/oneget/wiki/Provider-assembly-search-locations">https://github.com/OneGet/oneget/wiki/Provider-assembly-search-locations</a></p>
+<p>Either nuget package provider switched from one location to another some time between 2.8.5.127 and 2.8.5.202 or the commands I used when attempting to installed the provider forced the use of specific location.</p>
+<p>These are the two different commands I used for installing it</p>
+<pre><code>Install-PackageProvider -Name NuGet -Force    
+(installed 2.8.5.127)
+
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force    
+(installed 2.8.5.201)
+</code></pre>
+<p>I may have used a -ForceBootstrap parameter in there too, just for fun.</p>
+<h2 id="source">Source:</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/32508133/powershell-packagemanagement-how-to-uninstall-a-package-provider">http://stackoverflow.com/questions/32508133/powershell-packagemanagement-how-to-uninstall-a-package-provider</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li>More about <a href="../powershell/module_commands.html">package/module commands</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

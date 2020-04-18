@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="c-version-4">C# Version 4</h1>
+<p>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-40">what's new in C#4</a></p>
+<h2 id="dynamic-binding">Dynamic binding</h2>
+<p>A variable with Dynamic type can be assigned any type.</p>
+<pre><code>dynamic f = 1;
+((object)f).Dump(&quot;F is an integer?&quot;);
+
+f = &quot;F is a string&quot;;
+((object)f).Dump(&quot;F is a string NOW?&quot;);
+</code></pre>
+<p>Note that in Linqpad to dump a dynamic you can cast it to object.</p>
+<p>A handy type in the <code>System.Dynamic</code> namespace is <code>ExpandoObject</code></p>
+<pre><code>dynamic idea = new ExpandoObject();
+idea.Who = &quot;Me&quot;;
+idea.When = DateTime.Now;
+((object)idea).Dump();
+</code></pre>
+<p>(Again, cast to object to be able to dump in linqpad)</p>
+<h2 id="namedoptional-arguments">Named/optional arguments</h2>
+<p>This is a bit of a contrived example, don't do this in production.</p>
+<p>Given this method... note the default value supplied to some arguments... that makes those arguments optional:</p>
+<pre><code>public void LogDetails(string message, ConsoleColor color = ConsoleColor.Gray, ConsoleColor bgColor = ConsoleColor.Black) {
+	Console.ForegroundColor = color;
+	Console.BackgroundColor = bgColor;
+	Console.WriteLine(message);
+	Console.ResetColor();
+}
+</code></pre>
+<p>We can specify just the first argument, omitting all the optional arguments:</p>
+<pre><code>LogDetails(&quot;Hey&quot;);
+</code></pre>
+<p>We can omit just the last argument...</p>
+<pre><code>LogDetails(&quot;Oh no!&quot;, ConsoleColor.Red);
+</code></pre>
+<p>To omit an argument in the middle, we need to use the naming feature:</p>
+<pre><code>LogDetails(&quot;Exciting&quot;, bgColor: ConsoleColor.Magenta);
+</code></pre>
+<p>We can use naming to specify the arguments in whatever order we feel like specifying them....</p>
+<pre><code>LogDetails(bgColor: ConsoleColor.DarkBlue, color: ConsoleColor.Yellow, message: &quot;This is a message&quot;);
+</code></pre>
+<p>...but I would generally avoid that.</p>
+<h2 id="generic-covariant-and-contravariant">Generic covariant and contravariant</h2>
+<p>See <a href="https://stackoverflow.com/questions/2662369/covariance-and-contravariance-real-world-example">https://stackoverflow.com/questions/2662369/covariance-and-contravariance-real-world-example</a></p>
+<p>...my favored answer there is a lengthy one, but it provides a rationale as well: <a href="https://stackoverflow.com/a/42660356">https://stackoverflow.com/a/42660356</a></p>
+<p>Examples:</p>
+<ul>
+<li><code>IList&lt;T&gt;</code> is invariant.</li>
+</ul>
+<p>This means a method that accepts a parameter <code>IList&lt;Feline&gt;</code> will only accept exactly that. It won't accept <code>IList&lt;Tiger&gt;</code> (more derived) and it won't accept <code>IList&lt;Object&gt;</code> less derived.</p>
+<p>Meanwhile:</p>
+<ul>
+<li><code>IEnumerable&lt;T&gt;</code> is covariant because it is defined as <code>IEnumerable&lt;out T&gt;</code></li>
+</ul>
+<p>This means a method that expects <code>IEnumerable&lt;Feline&gt;</code> will accept <code>IEnumerable&lt;Feline&gt;</code> or <code>IEnumerable&lt;Tiger&gt;</code> or <code>IEnumerable&lt;HouseCat&gt;</code> because these are more derived. It won't accept <code>IEnumerable&lt;Object&gt;</code> (less derived)</p>
+<p>And conversely....</p>
+<ul>
+<li><code>Action&lt;T&gt;</code> is contravariant because it is defined as <code>Action&lt;in T&gt;</code></li>
+</ul>
+<p>This means a method with a parameter that is <code>Action&lt;Feline&gt;</code> will accept <code>Action&lt;Feline&gt;</code> or <code>Action&lt;Mammal&gt;</code> (assuming Felines inherits from Mammal, inherits from Animal, inherits from Object) -- and will ALSO accept <code>Action&lt;Animal&gt;</code> and even <code>Action&lt;Object&gt;</code> but it will not accept a parameters of type <code>Action&lt;HouseCat&gt;</code> or a parameter of type <code>Action&lt;Tiger&gt;</code> because these are MORE derived.</p>
+<h2 id="embedded-interop-types">Embedded interop types</h2>
+<p><a href="https://docs.microsoft.com/en-us/dotnet/framework/interop/type-equivalence-and-embedded-interop-types">Type equivalence and embedded interop types</a></p>
+<p>If you publish a COM component, you no longer need to publish a primary interop assembly to be accessible from .net (unless you want it to be accessed from earlier versions)</p>
+<p>Hard to summarise, and unless your publishing or using a lot of COM components, the nuances here are likely to escape you. I'm gonna skip going in great depth on this one.</p>
+
+</body>
+<script>
+</script>
+</html>

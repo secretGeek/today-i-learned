@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h2 id="which-w3wp.exe-process-is-which">Which w3wp.exe process is which?</h2>
+<p>You have multiple w3wp.exe processes in Task Manager, and <em>one</em> of them is pegging the CPU. Which application pool is it?</p>
+<p>In Task manager, processes tab, select columns and show:</p>
+<ul>
+<li>&quot;command line&quot; and</li>
+<li>&quot;pid&quot;</li>
+</ul>
+<p>&quot;Command Line&quot; will reveal the application pool, e.g.</p>
+<pre><code>c:\windows\system32\inetsrv\w3wp.exe -ap &quot;MyWebApp&quot; -v &quot;v4.0&quot; -l &quot;webengine4.dll&quot; -a \\, \pipe\iisipmdguid -h &quot;c:\inetpub\temp\apppools\MyWebApp\MyWebApp.config&quot; -w &quot;&quot; -m 0 -t 60
+</code></pre>
+<p>The <code>-ap</code> parameter is the app pool, in the example above: &quot;MyWebApp&quot;</p>
+<p>A more &quot;IIS&quot; specific way to get this same information...</p>
+<p>Run this command to see a map from Process ID to application pools:</p>
+<pre><code>%systemroot%\system32\inetsrv\appcmd list wp
+</code></pre>
+<p>If that doesn't work, try:</p>
+<pre><code>c:\windows\system32\cscript c:\windows\system32\iisapp.vbs
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li>Original research</li>
+<li><a href="http://stackoverflow.com/questions/658749/how-can-i-determine-which-w3wp-exe-process-belongs-to-which-web-site">How can I determine which w3wp.exe process belongs to which web site?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

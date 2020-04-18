@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="getting-started-with-awk">Getting started with awk.</h1>
+<pre><code>$ awk 'BEGIN { print 42 }'
+42
+
+$ awk 'BEGIN { print &quot;Hello World&quot; }'
+Hello World	
+</code></pre>
+<p>Okay - a nice start.</p>
+<p>Bah, lemme push it a bit....</p>
+<pre><code>$ awk ''
+$ awk 'BEGIN {}'
+$ awk 'BEGIN { print;}'
+
+$ awk 'BEGIN { print}'
+
+$ awk 'BEGIN { print &quot;Hello&quot;}'
+Hello
+$ awk 'BEGIN { print &quot;Hello&quot; + 42}'
+42
+$ awk 'BEGIN { print &quot;Hello&quot;42}'
+Hello42
+$ awk 'BEGIN { print &quot;Hello&quot; 42}'
+Hello42
+$ awk 'BEGIN { print &quot;Hello&quot; 42 &quot;Hello&quot;}'
+Hello42Hello
+$ awk 'BEGIN { print; print ;print}'
+</code></pre>
+<p>(3 empty lines).</p>
+<p>Ok, ready to move on now.</p>
+<p>In the following examples i'll be working with a file, called <code>data.txt</code>, that contains:</p>
+<pre><code>Beth    4.00    0
+Dan     3.75    0
+Kathy   4.00    10
+Mark    5.00    20
+Mary    5.50    22
+Susie   4.25    18
+</code></pre>
+<p>...where there is a <code>tab</code> character between each field.</p>
+<p>From there, we can pipe the input to <code>awk</code>...</p>
+<pre><code>~$ cat data.txt | awk '{print $1}'
+Beth
+Dan
+Kathy
+Mark
+Mary
+Susie	
+</code></pre>
+<p>Or can have <code>awk</code> load the file, for example:</p>
+<pre><code>$ awk '{print $1}' data.txt
+Beth
+Dan
+Kathy
+Mark
+Mary
+Susie
+</code></pre>
+<h2 id="references">References</h2>
+<pre><code>* [A Scripter's Notes: awk](https://scripter.co/notes/awk)
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

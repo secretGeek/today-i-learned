@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="c-version-5">C# version 5</h1>
+<p>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history#c-version-50">what's new in C#5</a></p>
+<h2 id="asynchronous-members">Asynchronous members</h2>
+<p>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/async">Asynchronous programming</a> with the <a href="https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap">Task Based Asynchronous Pattern</a></p>
+<p>You will come to know and love definitely not fear:</p>
+<ul>
+<li>The concepts of &quot;I/O bound&quot; versus &quot;CPU-bound code&quot;</li>
+<li>The classes <code>Task</code> and <code>Task&lt;T&gt;</code>.</li>
+<li>The keywords <code>await</code> and <code>async</code>.</li>
+</ul>
+<blockquote>
+<p>For I/O-bound code, you <code>await</code> an operation which returns a <code>Task</code> or <code>Task&lt;T&gt;</code> inside of an async method</p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p>For CPU-bound code, you <code>await</code> an operation which is started on a background thread with the <code>Task.Run</code> method.</p>
+</blockquote>
+<h3 id="cpu-bound-example">CPU-Bound example:</h3>
+<p>Imagine we have a very expensive CPU-bound calculation, such as:</p>
+<pre><code>private int CalculateFoo()
+{
+	Thread.Sleep(3000);
+	return 1;
+}
+</code></pre>
+<p>(Ideally it would be doing something intensely cool and mathematical instead of just sleeping. This is just a tribute to such code...)</p>
+<p>How can we ensure our code stays responsive, even while we do such am <em>instense</em> calculation?</p>
+<p>This is an example designed for linqPad...</p>
+<pre><code>void Main()
+{
+	var downloadButton = new Button() { Text = &quot;Think Hard&quot;, Dock = DockStyle.Fill};
+
+	downloadButton.Click += async (o, e) =&gt;
+	{
+		((Control)o).Text = &quot;About to Think:&quot;;
+		((Control)o).Enabled = false;
+
+		var t = Task.Run(() =&gt; CalculateFoo());
+
+		((Control)o).Text = &quot;Thinking.....&quot;;
+		var i = await t;
+		
+		((Control)o).Text = &quot;The answer is &quot; + i;
+		((Control)o).Enabled = true;
+	};
+	
+	using(var f = new Form()) {
+		f.Controls.Add(downloadButton);
+		f.ShowDialog();
+	}
+}
+</code></pre>
+<h2 id="io-bound-code">I/O Bound code</h2>
+<p>Instead of doing something on our local CPU, perhaps we need to do something on someone else's machine (e.g. &quot;in the cloud&quot;) or in a database, or on a disk, or by giving a printer some instructions to ignore.</p>
+<p>In such cases we are no longer CPU bound but I/O bound.</p>
+<p>How would that be done?</p>
+<pre><code>void Main()
+{
+	var downloadButton = new Button() { Text = &quot;Think Hard&quot;, Dock = DockStyle.Fill};
+
+	downloadButton.Click += async (o, e) =&gt;
+	{
+		((Control)o).Text = &quot;About to Think:&quot;;
+		((Control)o).Enabled = false;
+
+		var stringData = await _httpClient.GetStringAsync(url);
+
+		// Do something with our data...
+		Console.WriteLine(stringData);
+
+		((Control)o).Text = &quot;Downloaded.&quot;;
+		((Control)o).Enabled = true;
+	};
+	
+	using(var f = new Form())
+	{
+		f.Controls.Add(downloadButton);
+		f.ShowDialog();
+	}
+}
+</code></pre>
+<p>If the 'Do something with our data' was going to be a CPU-intensive operation... then we'd use the technique in the first example to handle it.</p>
+<h2 id="caller-info-attributes">Caller info attributes</h2>
+<p>Well look at this!</p>
+<p>By applying these attributes to some members you can have them magically populated with some info from the compiler....</p>
+<p>This is a strange magic!</p>
+<pre><code>void Main()
+{
+	DoThing(&quot;Thing&quot;);
+}
+
+void DoThing(string message,
+		[System.Runtime.CompilerServices.CallerMemberName] string memberName = &quot;&quot;,
+		[System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = &quot;&quot;,
+		[System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
+{
+	message.Dump(&quot;Message&quot;);
+	memberName.Dump(&quot;MemberName&quot;);
+	sourceFilePath.Dump(&quot;SourceFilePath&quot;);
+	sourceLineNumber.Dump(&quot;SourceLineNumber&quot;);
+}
+</code></pre>
+<p>(<a href="http://share.linqpad.net/dul59u.linq">Shared online with linqpad query sharing....</a>)</p>
+<p>This would've avoided a few NT1 errors back in T-S days.</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/caller-information">Further Reading</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

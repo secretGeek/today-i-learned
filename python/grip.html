@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="the-easy-way-to-serve-a-markdown-file-in-the-browser">The easy way to serve a markdown file in the browser</h1>
+<pre><code>pip install grip
+grip markdown.md
+</code></pre>
+<p>Will serve your file at <code>localhost:xxx</code> (some port number)</p>
+<p>And if/when you modify the file, the page will automatically refresh!</p>
+<p>Wonderful stuff.</p>
+<p>This problem comes up a lot for me though:</p>
+<pre><code>LookupError: unknown encoding: cp65001
+Logged from file _internal.py, line 87
+</code></pre>
+<p>And this solution from stackoverflow seems to help:</p>
+<pre><code>set PYTHONIOENCODING=utf-8
+</code></pre>
+<p>Or in powershell-ese...</p>
+<pre><code>$env:PYTHONIOENCODING = &quot;utf-8&quot;
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/10321611/python-emit-some-utf-8-string-to-windows-console">Python: Emit some Utf-8 string to windows console</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

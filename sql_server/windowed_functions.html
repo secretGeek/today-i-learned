@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="windowed-functions-in-sql-server">Windowed Functions in SQL Server</h1>
+<p><strong>Pre-requisite: you are expected to be familiar with SQL, including GROUP BY and Aggregates. There is a CTE.</strong></p>
+<h2 id="part-1-over-and-over">Part 1: Over and Over</h2>
+<p>We all know that this will fail, and why...</p>
+<pre><code>Select top 3
+	VehicleCode, 
+	COUNT(*) as [COUNT]
+from Reporting.Vehicles
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> Column 'Reporting.Vehicles.VehicleCode' is invalid in the select list because it is not contained in either an aggregate function or the GROUP BY clause.</p>
+</blockquote>
+<p>You can't mix aggregates and non aggregates, unless you use GROUP BY. Or can you!?</p>
+<p>Watch what happens when we include an <code>OVER()</code> clause...</p>
+<pre><code>Select top 3
+       VehicleCode, 
+       COUNT(*) OVER() as [COUNT]
+from Reporting.Vehicles
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>COUNT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABC_VH011</td>
+<td>8214</td>
+</tr>
+<tr>
+<td>ABC_VH012</td>
+<td>8214</td>
+</tr>
+<tr>
+<td>ABC_VH013</td>
+<td>8214</td>
+</tr>
+</tbody>
+</table>
+<p>Often the only place we're familiar with <code>OVER()</code> from is with the <code>ROW_NUMBER()</code> function. Honestly, most of us treat <code>ROW_NUMBER()</code> as a little bit of magic text that we copy and paste from stackoverflow each time we want to use it.</p>
+<p>Let's follow the same process, but instead of the count function we'll start with a <code>ROW_NUMBER()</code>...</p>
+<pre><code>Select top 3
+       VehicleCode, 
+       ROW_NUMBER() as ROW_NUMBER
+from Reporting.Vehicles
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> The function 'ROW_NUMBER' must have an OVER clause.</p>
+</blockquote>
+<p>Now we're told that <code>The function 'ROW_NUMBER' must have an OVER clause.</code></p>
+<p>So let's include an OVER clause...</p>
+<pre><code>Select top 3
+       VehicleCode, 
+       ROW_NUMBER() OVER() as ROW_NUMBER
+from Reporting.Vehicles
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> The function 'ROW_NUMBER' must have an OVER clause with ORDER BY.</p>
+</blockquote>
+<p>Now we're heckled with &quot;The function 'ROW_NUMBER' must have an OVER clause with ORDER BY&quot; and I don't know they didn't say that in the first place?</p>
+<p>(And you noticed that the <code>COUNT</code> function above did not require an <code>ORDER BY</code> clause. That's because ROW_NUMBER and COUNT operate under different rules.)</p>
+<p>So we'll add that in...</p>
+<pre><code>Select top 3
+	   VehicleCode, 
+	   ROW_NUMBER() OVER(order by VehicleCode) as ROW_NUMBER 
+from Reporting.Vehicles
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ROW_NUMBER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABC_VH011</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ABC_VH012</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ABC_VH013</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>And voila! We have our <code>ROW_NUMBER</code>... but let's learn more about what's happening here.</p>
+<p>First we need to see exactly what the rules are.</p>
+<p>Can you guess what will happen if we order by <code>DESC</code> ?</p>
+<pre><code>Select top 3
+	   VehicleCode, 
+	   ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER 
+from Reporting.Vehicles
+</code></pre>
+<p>Will we now get 3,2,1 ?</p>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ROW_NUMBER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YAX_VH011</td>
+<td>1</td>
+</tr>
+<tr>
+<td>WYX_VH012</td>
+<td>2</td>
+</tr>
+<tr>
+<td>WNX_VH013</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>No, we still got 1,2,3 -- but the <code>top 3</code> Vehicles we were shown were from the <em>end</em> of the list of Vehicles, in descending order.</p>
+<p>This takes a little bit of thinking. Since there's no sort order on the outer query, the ordering created by the rest of the query is apparent. And it shows us a little bit about the way in which the ROW_NUMBER was applied. They started applying from the back of the list, i.e. starting at 1.</p>
+<p>What if we order the outer query by VehicleCode ascending... will we <em>now</em> get 3,2,1 ?</p>
+<pre><code>Select top 3
+	   VehicleCode
+	   ,ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER 
+from Reporting.Vehicles
+order by VehicleCode asc
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ROW_NUMBER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABC_VH011</td>
+<td>8214</td>
+</tr>
+<tr>
+<td>ABC_VH012</td>
+<td>8213</td>
+</tr>
+<tr>
+<td>ABC_VH013</td>
+<td>8212</td>
+</tr>
+</tbody>
+</table>
+<p>Can we order by an integer?</p>
+<pre><code>Select top 3 
+	   VehicleCode
+	   ,ROW_NUMBER() OVER(ORDER BY 1 asc) as ROW_NUMBER
+from Reporting.Vehicles
+order by 1 asc
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> Windowed functions and NEXT VALUE FOR functions do not support integer indices as ORDER BY clause expressions.</p>
+</blockquote>
+<p>Can we order by a Windowed Function?</p>
+<pre><code>Select top 3 
+	   VehicleCode, 
+	   ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROW_NUMBER
+from Reporting.Vehicles
+order by ROW_NUMBER() OVER(ORDER BY VehicleCode desc) asc
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ROW_NUMBER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YAX_VH001</td>
+<td>8214</td>
+</tr>
+<tr>
+<td>WYX_VH001</td>
+<td>8213</td>
+</tr>
+<tr>
+<td>WNX_VH001</td>
+<td>8212</td>
+</tr>
+</tbody>
+</table>
+<p>Can we put a windowed function into the OVER clause???</p>
+<pre><code>Select top 3 
+	VehicleCode, 
+	ROW_NUMBER() OVER(ORDER BY 
+		ROW_NUMBER() OVER(ORDER BY VehicleCode desc) asc
+		) as ROW_NUMBER
+from Reporting.Vehicles
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> Windowed functions cannot be used in the context of another windowed function or aggregate.</p>
+</blockquote>
+<p>Can we put a windowed function in a WHERE clause?</p>
+<pre><code>Select top 3 
+	   VehicleCode, 
+	   ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROW_NUMBER
+from Reporting.Vehicles
+where ROW_NUMBER() OVER(ORDER BY VehicleCode asc) &gt; 4
+</code></pre>
+<blockquote>
+<p><strong>Error</strong> Windowed functions can only appear in the SELECT or ORDER BY clauses.</p>
+</blockquote>
+<p>At this stage we've learnt all the rules.</p>
+<p>We can follow this old skating maxim:</p>
+<blockquote>
+<p>FIRST: Learn all the rules<br />
+NEXT: Break all the rules</p>
+</blockquote>
+<p>Here's how we <strong>CAN</strong> put a windowed-function into a WHERE clause...</p>
+<pre><code>;with TopVehicles AS
+(Select 
+	  VehicleCode, 
+	  ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROWNUM
+from Reporting.Vehicles)
+select top 3 * from TopVehicles
+where ROWNUM &gt; 4
+</code></pre>
+<p>We use a Common-Table-Expression (CTE) to get one extra level of indirection... now we can filter by our windowed-function.</p>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ROWNUM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABC_VH001</td>
+<td>5</td>
+</tr>
+<tr>
+<td>ABC_VH002</td>
+<td>6</td>
+</tr>
+<tr>
+<td>ABC_VH002R</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><strong>In fact this is a handy general technique.</strong></p>
+<p>You can also apply a windowed function column to a windowed function, if you <strong>first wrap it in a CTE</strong>.</p>
+<p>This technique creates a kind of CTE game of Pass-the-Parcel. You may need to wrap up many levels of CTE to get the result you need.</p>
+<p><img src="cte_pass_the_parcel.png" alt="cte pass the parcel" /></p>
+<h2 id="part-2-other-functions">PART 2: Other Functions</h2>
+<p>We've finished exploring <code>COUNT</code> and <code>Row_Number</code> functions for now.</p>
+<p>A quick look at other functions.</p>
+<p>I said above that &quot;ROW_NUMBER and COUNT operate under different rules&quot; -- that's because they are different types of functions.</p>
+<p>Y'see, with <code>over()</code> there are <strong>two types of functions</strong> you can use:</p>
+<ol>
+<li>ALL of the aggregates (e.g. COUNT, SUM, AVG) which you know from GROUPing</li>
+<li>&quot;Ranking functions&quot;</li>
+</ol>
+<h3 id="whats-an-example-of-a-ranking-function">What's an example of a Ranking function?</h3>
+<p>An obvious example would be the <code>RANK</code> function itself, which we'll get to in a moment.</p>
+<p>But <code>ROW_NUMBER</code> is also a ranking function. It's just a very <em>unfair</em> ranking</p>
+<pre><code>Select top 5
+	   VehicleCode,
+	   ReliabilityFactor,
+	   RANK() OVER(ORDER BY ReliabilityFactor desc) as RANK_ReliabilityFactor,
+	   ROW_NUMBER() OVER(ORDER BY ReliabilityFactor desc) as ROW_NUM
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>RANK_ReliabilityFactor</th>
+<th>ROW_NUM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>4</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>The different ranking functions each use a different 'strategy' for numbering.</p>
+<p>In the plain old <code>RANK</code> strategy, if two rows are &quot;tied&quot; then they get the same number. And a subsequent number is skipped.</p>
+<p>Rank is like the olympics: two people can share a gold medal, but then no one gets the silver.</p>
+<p>A different strategy is <code>DENSE_RANK</code>:</p>
+<pre><code>Select top 5
+	   VehicleCode,
+	   ReliabilityFactor,
+	   COUNT(*) over () as [Count],
+	   RANK() OVER(ORDER BY ReliabilityFactor desc) as RANK_ReliabilityFactor,
+	DENSE_RANK() OVER(ORDER BY ReliabilityFactor desc) as DENSE_RANK_ReliabilityFactor,
+	   ROW_NUMBER() OVER(ORDER BY ReliabilityFactor desc) as ROW_NUMBER_ReliabilityFactor
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>Count</th>
+<th>RANK_ReliabilityFactor</th>
+<th>DENSE_RANK_ReliabilityFactor</th>
+<th>ROW_NUMBER_ReliabilityFactor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>3085</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>3085</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3085</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>4</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>4</td>
+<td>3</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>With dense rank, if two people tie for first they both get a gold medal. And the next person gets a silver.</p>
+<p>This way you know every type of number will be handed out, at least once, even though ties are allowed.</p>
+<p>So it's more fair than 'row number' but has different numeric properties. So it can be useful depending on <em>how</em> you want to join it to other things.</p>
+<h2 id="part-3-aggregates">PART 3: Aggregates</h2>
+<p>The famous <code>MAX</code> and <code>MIN</code></p>
+<pre><code>Select top 5
+	   VehicleCode,
+	   ReliabilityFactor,
+	   ROW_NUMBER() OVER(ORDER BY ReliabilityFactor desc) as ROW_NUMBER_ReliabilityFactor,
+	   MAX(ReliabilityFactor) OVER() as MAX_RF,
+	   MIN(ReliabilityFactor) OVER() as MIN_RF
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>ROW_NUMBER_ReliabilityFactor</th>
+<th>MAX_RF</th>
+<th>MIN_RF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>1</td>
+<td>3.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>2</td>
+<td>3.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3</td>
+<td>3.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>4</td>
+<td>3.5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>5</td>
+<td>3.5</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>What if we specify an order by!?</p>
+<pre><code>Select top 5
+	VehicleCode,
+	ReliabilityFactor,
+	ROW_NUMBER() OVER(ORDER BY ReliabilityFactor desc) as ROW_NUMBER_ReliabilityFactor,
+	--MAX(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc) as MAX_RF,
+	MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc) as MIN_RF
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>ROW_NUMBER_ReliabilityFactor</th>
+<th>MIN_RF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>1</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>2</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3</td>
+<td>3.43525004386902</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>4</td>
+<td>3.40000009536743</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>5</td>
+<td>3.40000009536743</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-4-rangesprecedingfollowing">PART 4: RANGES/PRECEDING/FOLLOWING</h2>
+<pre><code>Select top 7
+	   VehicleCode,
+	   ReliabilityFactor,
+	   -- A:
+	   COUNT(*) OVER() as [COUNT_OVER],
+	   -- B:
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc  ) as [COUNT_ORDER_BY_RF],
+	   -- C:
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE 
+					 UNBOUNDED PRECEDING) as [COUNT_RF_RANGE],
+	   -- D:
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE 
+					 BETWEEN UNBOUNDED PRECEDING
+						   AND CURRENT ROW) as [COUNT_RF_RANGE_BETWEEN],
+	   -- E:
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc ROWS 
+					 BETWEEN UNBOUNDED PRECEDING
+						   AND CURRENT ROW) as [COUNT_RF_ROWS]
+
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>COUNT_OVER</th>
+<th>COUNT_ORDER_BY_RF</th>
+<th>COUNT_RF_RANGE</th>
+<th>COUNT_RF_RANGE_BETWEEN</th>
+<th>COUNT_RF_ROWS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>3085</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>3085</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3085</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>4</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>5</td>
+</tr>
+<tr>
+<td>MJQ_VH174</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>6</td>
+</tr>
+<tr>
+<td>MJQ_VH204</td>
+<td>3.40000009536743</td>
+<td>3085</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Here is a fairly exhaustive set of clauses...</p>
+<pre><code>Select top 7
+	   VehicleCode,
+	   ReliabilityFactor,
+	   --A:
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc) as MIN_RF,
+	   --B:
+			  MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE 
+					 UNBOUNDED PRECEDING) as MIN_RF,
+	   --B1:
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE 
+					 BETWEEN UNBOUNDED PRECEDING
+						   AND CURRENT ROW) as MIN_RF,
+	   --C:
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  ROWS 
+					 BETWEEN UNBOUNDED PRECEDING
+						   AND UNBOUNDED FOLLOWING) as MIN_RF_UNBOUNDED,
+	   --D:
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE 
+					 BETWEEN UNBOUNDED PRECEDING
+						   AND UNBOUNDED FOLLOWING) as MIN_RF_RANGE_UNBOUNDED,
+	   --E:
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE 
+					 UNBOUNDED PRECEDING) as MIN_RF_RANGE_UNBOUNDED_PREC,
+	   --F:
+	   Max(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc
+	   rows BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) as Max_RF_rows_AHEAD,
+	   --G:
+	   Max(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc
+	   rows BETWEEN 2 PRECEDING AND 2 FOLLOWING) as Max_RF_rows_neighbours
+
+from Reporting.Vehicles
+where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
+order by ReliabilityFactor desc
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>ReliabilityFactor</th>
+<th>MIN_RF</th>
+<th>MIN_RF1</th>
+<th>MIN_RF2</th>
+<th>MIN_RF_UNBOUNDED</th>
+<th>MIN_RF_RANGE_UNBOUNDED</th>
+<th>MIN_RF_RANGE_UNBOUNDED_PREC</th>
+<th>Max_RF_rows_AHEAD</th>
+<th>Max_RF_rows_neighbours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARQ_VH129</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>0</td>
+<td>0</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>MJQ_VH166</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>0</td>
+<td>0</td>
+<td>3.5</td>
+<td>3.5</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>IBV_VH167</td>
+<td>3.43525004386902</td>
+<td>3.43525004386902</td>
+<td>3.43525004386902</td>
+<td>3.43525004386902</td>
+<td>0</td>
+<td>0</td>
+<td>3.43525004386902</td>
+<td>3.43525004386902</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>JMX_VH149</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>0</td>
+<td>0</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>MJQ_VH006</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>0</td>
+<td>0</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.43525004386902</td>
+</tr>
+<tr>
+<td>MJQ_VH174</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>0</td>
+<td>0</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+</tr>
+<tr>
+<td>MJQ_VH204</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>0</td>
+<td>0</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+<td>3.40000009536743</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-5-partitions">PART 5: PARTITIONS</h2>
+<p>We will use <code>COUNT</code> to demonstrate partitions.</p>
+<p>First, a <code>COUNT</code> with no partition...</p>
+<p>The <code>COUNT</code> is the total count...</p>
+<pre><code>Select top 9
+	   VehicleCode, 
+	   Fleet,
+	   COUNT(*) OVER() as [COUNT]
+from Reporting.Vehicles
+where not Fleet is null
+order by Fleet, Vehiclecode
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>Fleet</th>
+<th>COUNT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLF_VH112</td>
+<td>096FQ389</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>CHP_VH151</td>
+<td>0H3A82P2</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>CHP_VH159</td>
+<td>0H3A82P2</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>PEF_VH007</td>
+<td>0C1FT1H2</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>BXR_VH188</td>
+<td>1Y0PY47X</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>BXR_VH190</td>
+<td>1Y0PY47X</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>BXR_VH199</td>
+<td>1Y0PY47X</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>BXR_VH200</td>
+<td>1Y0PY47X</td>
+<td>8191</td>
+</tr>
+<tr>
+<td>BXR_VH201</td>
+<td>1Y0PY47X</td>
+<td>8191</td>
+</tr>
+</tbody>
+</table>
+<p>Let's add some partition... This time count will show us how many rows in each Fleet:</p>
+<pre><code>Select top 9
+	   VehicleCode, 
+	   Fleet,
+	   ROW_NUMBER() OVER(PARTITION BY Fleet order by VehicleCode) as [ROW_IN_Fleet],
+	   COUNT(*) OVER(PARTITION BY Fleet) as [COUNT_IN_Fleet],
+	   -- Friendly Name...
+	   'Vehicle ' + Cast(ROW_NUMBER() OVER(PARTITION BY Fleet order by VehicleCode) as Varchar(10))  + ' of ' + Cast(COUNT(*) OVER(PARTITION BY Fleet) as Varchar(10)) + ' on ' + Fleet as [Friendly_Name]
+from Reporting.Vehicles
+where not Fleet is null
+order by Fleet, Vehiclecode
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>Fleet</th>
+<th>ROW_IN_Fleet</th>
+<th>COUNT_IN_Fleet</th>
+<th>Friendly_Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLF_VH112</td>
+<td>096FQ389</td>
+<td>1</td>
+<td>1</td>
+<td>Vehicle 1 of 1 on 096FQ389</td>
+</tr>
+<tr>
+<td>CHP_VH151</td>
+<td>0H3A82P2</td>
+<td>1</td>
+<td>2</td>
+<td>Vehicle 1 of 2 on 0H3A82P2</td>
+</tr>
+<tr>
+<td>CHP_VH159</td>
+<td>0H3A82P2</td>
+<td>2</td>
+<td>2</td>
+<td>Vehicle 2 of 2 on 0H3A82P2</td>
+</tr>
+<tr>
+<td>PEF_VH007</td>
+<td>0C1FT1H2</td>
+<td>1</td>
+<td>1</td>
+<td>Vehicle 1 of 1 on 0C1FT1H2</td>
+</tr>
+<tr>
+<td>BXR_VH188</td>
+<td>1Y0PY47X</td>
+<td>1</td>
+<td>5</td>
+<td>Vehicle 1 of 5 on 1Y0PY47X</td>
+</tr>
+<tr>
+<td>BXR_VH190</td>
+<td>1Y0PY47X</td>
+<td>2</td>
+<td>5</td>
+<td>Vehicle 2 of 5 on 1Y0PY47X</td>
+</tr>
+<tr>
+<td>BXR_VH199</td>
+<td>1Y0PY47X</td>
+<td>3</td>
+<td>5</td>
+<td>Vehicle 3 of 5 on 1Y0PY47X</td>
+</tr>
+<tr>
+<td>BXR_VH200</td>
+<td>1Y0PY47X</td>
+<td>4</td>
+<td>5</td>
+<td>Vehicle 4 of 5 on 1Y0PY47X</td>
+</tr>
+<tr>
+<td>BXR_VH201</td>
+<td>1Y0PY47X</td>
+<td>5</td>
+<td>5</td>
+<td>Vehicle 5 of 5 on 1Y0PY47X</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-6-leadlag">PART 6: LEAD/LAG</h2>
+<pre><code>Select top 9
+	   VehicleCode, 
+	   COUNT(*) OVER(PARTITION BY Fleet) as [COUNT_IN_Fleet],
+	   Fleet,
+	   LEAD(Fleet) OVER(order by Fleet, VehicleCode) as [NEXT_Fleet],
+	   LAG(Fleet) OVER(order by Fleet, VehicleCode) as [PREVIOUS_Fleet],
+	   LEAD(Fleet,2) OVER(order by Fleet, VehicleCode) as [NEXT_NEXT_Fleet],
+	   LAG(Fleet,2) OVER(order by Fleet, VehicleCode) as [PREVIOUS_PREVIOUS_Fleet],
+	   LEAD(Fleet,8172) OVER(order by Fleet, VehicleCode) as [NEXT_Fleet_8172],
+	   FIRST_VALUE(VehicleCode) OVER(partition by Fleet order by Vehiclecode) as First_Vehicle_in_Fleet,
+	   LAST_VALUE(VehicleCode) OVER(partition by Fleet order by Vehiclecode 
+		   RANGE BETWEEN 
+		   CURRENT ROW AND UNBOUNDED FOLLOWING) as Last_Vehicle_in_Fleet
+from Reporting.Vehicles
+where not Fleet is null
+order by Fleet, Vehiclecode
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>VehicleCode</th>
+<th>COUNT_IN_Fleet</th>
+<th>Fleet</th>
+<th>NEXT_Fleet</th>
+<th>PREVIOUS_Fleet</th>
+<th>NEXT_NEXT_Fleet</th>
+<th>PREVIOUS_PREVIOUS_Fleet</th>
+<th>NEXT_Fleet_8172</th>
+<th>First_Vehicle_in_Fleet</th>
+<th>Last_Vehicle_in_Fleet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLF_VH112</td>
+<td>1</td>
+<td>096FQ389</td>
+<td>0H3A82P2</td>
+<td></td>
+<td>0H3A82P2</td>
+<td></td>
+<td>APYX07</td>
+<td>PLF_VH112</td>
+<td>PLF_VH112</td>
+</tr>
+<tr>
+<td>CHP_VH151</td>
+<td>2</td>
+<td>0H3A82P2</td>
+<td>0H3A82P2</td>
+<td>096FQ389</td>
+<td>0C1FT1H2</td>
+<td></td>
+<td>APYX07</td>
+<td>CHP_VH151</td>
+<td>CHP_VH159</td>
+</tr>
+<tr>
+<td>CHP_VH159</td>
+<td>2</td>
+<td>0H3A82P2</td>
+<td>0C1FT1H2</td>
+<td>0H3A82P2</td>
+<td>1Y0PY47X</td>
+<td>096FQ389</td>
+<td>APYX07</td>
+<td>CHP_VH151</td>
+<td>CHP_VH159</td>
+</tr>
+<tr>
+<td>PEF_VH007</td>
+<td>1</td>
+<td>0C1FT1H2</td>
+<td>1Y0PY47X</td>
+<td>0H3A82P2</td>
+<td>1Y0PY47X</td>
+<td>0H3A82P2</td>
+<td>APYX07</td>
+<td>PEF_VH007</td>
+<td>PEF_VH007</td>
+</tr>
+<tr>
+<td>BXR_VH188</td>
+<td>5</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>0C1FT1H2</td>
+<td>1Y0PY47X</td>
+<td>0H3A82P2</td>
+<td>APYX07</td>
+<td>BXR_VH188</td>
+<td>BXR_VH201</td>
+</tr>
+<tr>
+<td>BXR_VH190</td>
+<td>5</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>0C1FT1H2</td>
+<td>APYX07</td>
+<td>BXR_VH188</td>
+<td>BXR_VH201</td>
+</tr>
+<tr>
+<td>BXR_VH199</td>
+<td>5</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>APYX07</td>
+<td>BXR_VH188</td>
+<td>BXR_VH201</td>
+</tr>
+<tr>
+<td>BXR_VH200</td>
+<td>5</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>1Y0PY47X</td>
+<td>101DY473</td>
+<td>1Y0PY47X</td>
+<td>ARG447</td>
+<td>BXR_VH188</td>
+<td>BXR_VH201</td>
+</tr>
+<tr>
+<td>BXR_VH201</td>
+<td>5</td>
+<td>1Y0PY47X</td>
+<td>101DY473</td>
+<td>1Y0PY47X</td>
+<td>101DY473</td>
+<td>1Y0PY47X</td>
+<td>ARG447</td>
+<td>BXR_VH188</td>
+<td>BXR_VH201</td>
+</tr>
+</tbody>
+</table>
+<h2 id="background-reading">Background reading:</h2>
+<ul>
+<li><a href="https://www.red-gate.com/simple-talk/sql/learn-sql-server/window-functions-in-sql-server/">Window Functions, Part 1</a></li>
+<li><a href="https://www.red-gate.com/simple-talk/sql/learn-sql-server/window-functions-in-sql-server-part-2-the-frame/">Window Functions, Part 2</a></li>
+<li><a href="https://www.red-gate.com/simple-talk/sql/learn-sql-server/window-functions-in-sql-server-part-3-questions-of-performance/">Window Functions, Part 3</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="delete_duplicate_rows.html">Delete duplicate rows</a> (uses <code>ROW_NUMBER()</code> and <code>PARTITION</code>)</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

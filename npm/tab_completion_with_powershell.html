@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="npm-tab-completion-with-powershell">npm tab completion with powershell</h1>
+<p>Want intellisense for <code>npm</code> from within powershell? <a href="http://dougfinke.com/blog/3-ways-to-speed-up-visual-studio-code-extension-development/">Doug Finke</a> has it covered.</p>
+<p>In <a href="../powershell/01_summary.html">powershell</a> <a href="../powershell/version.html">version</a> 5 from an elevated prompt:</p>
+<pre><code>Find-Module TabExpansionPlusPlus -repository PsGallery | Install-Module -Scope AllUsers
+Find-Module NPMTabCompletion -repository PsGallery | Install-Module -Scope AllUsers
+</code></pre>
+<p>From a freshly opened prompt (that does not need to be elevated)</p>
+<pre><code>Import-Module TabExpansionPlusPlus
+Import-Module NPMTabCompletion    
+</code></pre>
+<p>You will also need to either add those commands to your <a href="../powershell/create_profile.html">profile</a>, or run them in every powershell session where you want <code>npm</code> tab completion to work.</p>
+<p>This not only gives you intellisense-style completion for <code>npm</code> commands, it also looks in a local package.json file to see if there are any commands you've specified locally.</p>
+<p><img src="NPMTabRun2.gif" alt="npm tab completion" title="npm tab completion" /></p>
+<h2 id="trouble-shooting">Trouble-shooting....</h2>
+<ol>
+<li>Did you get this error from Install-Module ?</li>
+</ol>
+<blockquote>
+<p>Install-Module : A parameter cannot be found that matches parameter name 'Name'.</p>
+</blockquote>
+<p>It may be that you have <a href="../powershell/psget_conflicts_with_PowerShellGet.html">the wrong Install-Module</a>!</p>
+<ol start="2">
+<li>Did you get this error from Find-Module ?</li>
+</ol>
+<blockquote>
+<p>NuGet provider is required to continue</p>
+</blockquote>
+<p>You need to install the NuGet Package Provider.</p>
+<pre><code>Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+</code></pre>
+<h2 id="external-sources">External Sources</h2>
+<ul>
+<li>Doug blog post on it: <a href="http://dougfinke.com/blog/3-ways-to-speed-up-visual-studio-code-extension-development/">3 Ways to Speed up Visual Studio Code Extension Development</a></li>
+<li><a href="https://github.com/dfinke/NPMTabCompletion">Github dfinke/NPMTabCompletion</a></li>
+<li><a href="http://www.secretgeek.net/npm_tab">npm is not just for node... npm is for EVERYTHING</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li>More about <a href="../powershell/module_commands.html">package/module commands</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

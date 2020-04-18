@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="trim-or-zero-out-a-portion-of-a-datetime">Trim or zero-out a portion of a datetime....</h1>
+<p>To trim off the milliseconds.... (this was necessary when sending to XML for consumption by Excel...)</p>
+<pre><code>DATEADD(ms, -DATEPART(ms, YourDate), YourDate)
+</code></pre>
+<p>To trim off the entire time portion....
+i.e. want just the date portion of a datetime? (dateonly)</p>
+<pre><code>DATEADD(dd, 0, DATEDIFF(dd, 0, YourDate))
+</code></pre>
+<p>A function to do it for you....</p>
+<pre><code>CREATE FUNCTION dbo.JustDate(@date DATETIME)
+RETURNS DATETIME
+AS
+BEGIN
+      RETURN DATEADD(dd, 0, DATEDIFF(dd, 0, @date))
+END
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="first_day_of_month.html">First (and last) day of the month.</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

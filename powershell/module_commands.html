@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="module-and-package-commands">Module and Package Commands</h1>
+<p>(A module is one type of &quot;package&quot; — a package which exports a bunch of cmdlets.)</p>
+<ol>
+<li><code>Get-PackageProvider</code><br />
+Lists all package providers. Currently: Chocolatey, msi, msu, NuGet, PowerShellGet, Programs</li>
+<li><code>Install-PackageProvider -Name Chocolatey</code><br />
+Installs the named package provider.</li>
+<li><code>Find-Package</code><br />
+Use <code>PackageManagement</code> to search all package providers for a package.</li>
+<li><code>Find-Module</code><br />
+Use the <code>PowershellGet</code> package provider to search for a module (includes looking at the <a href="https://www.powershellgallery.com/">PsGallery</a>.</li>
+<li><code>Find-Script</code><br />
+Use the <code>PowershellGet</code> package provider to search for a script (includes looking at the <a href="https://www.powershellgallery.com/">PsGallery</a>.</li>
+<li><code>Install-Module</code><br />
+Installs a module but does not load it. <strong>Requires elevation.</strong></li>
+<li><code>Import-Module</code><br />
+Loads a module that is already installed or available on your machine.</li>
+<li><code>get-module -listAvailable</code><br />
+lists installed (i.e. available) modules. They <strong>may not</strong> have been imported (i.e. loaded)</li>
+<li><code>get-module</code><br />
+lists installed (i.e. available) and imported (i.e. loaded) modules.</li>
+</ol>
+<p>TODO: How to add a path such that it shows up in $env:PSModulePath</p>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="Get_All_Available_Modules.html">Use Get-Module to list all available modules (packages)</a></li>
+<li><a href="how_to_completely_remove_a_module.html">How To Completely Remove a Module</a></li>
+<li><a href="remove_package_provider.html">How to remove a package provider</a></li>
+<li><a href="psget_conflicts_with_PowerShellGet.html">PsGet Conflicts with PowershellGet</a></li>
+<li><a href="../npm/tab_completion_with_powershell.html">npm tab completion with powershell (module example)</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

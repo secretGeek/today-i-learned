@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="making-a-custom-error-page-helpful-for-developers">Making a custom error page helpful for developers</h1>
+<p>Sometimes (for apps on an intranet), on the custom error page I put something like this:</p>
+<pre><code>@model System.Web.Mvc.HandleErrorInfo
+
+@if (Model != null)
+{
+    &lt;p&gt;@Model.Exception.GetType().Name&lt;br /&gt;
+    thrown in @Model.ControllerName @Model.ActionName&lt;/p&gt;
+    &lt;p&gt;Error Details:&lt;/p&gt;
+    &lt;p&gt;@Model.Exception.Message&lt;/p&gt;
+}
+</code></pre>
+<p>Since you're leaking details to the outside world I don't recommend it for all sites. Can also make sure it's only shown to some users.</p>
+<pre><code>&lt;customErrors defaultRedirect=&quot;~/Error/HttpError&quot; mode=&quot;On&quot;&gt;
+  &lt;error statusCode=&quot;404&quot; redirect=&quot;~/Error/NotFound&quot;/&gt;
+&lt;/customErrors&gt;
+</code></pre>
+<p>I use Elmah.axd to log errors. See <a href="/elmah.html">elmah</a> — make sure it's secure!</p>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="base64-encode-and-decode-string">Base64 Encode and Decode string</h1>
+<p>First, from <a href="https://adsecurity.org/?p=478">https://adsecurity.org/?p=478</a></p>
+<p>Encode:</p>
+<pre><code>$Text = 'This is a secret and should be hidden'
+$Bytes = [System.Text.Encoding]::Unicode.GetBytes($Text)
+$EncodedText =[Convert]::ToBase64String($Bytes)
+$EncodedText
+</code></pre>
+<p>Decode:</p>
+<pre><code>$EncodedText = &quot;VABoAGkAcwAgAGkAcwAgAGEAIABzAGUAYwByAGUAdAAgAGEAbgBkACAAcwBoAG8AdQBsAGQAIABiAGUAIABoAGkAZABlAG4A&quot;
+$DecodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($EncodedText))
+$DecodedText
+</code></pre>
+<p>And a different format from <a href="https://twitter.com/Lee_Holmes/status/743112454616403968">Lee Holmes (via twitter)</a></p>
+<pre><code>Format-Hex -Input ([Convert]::FromBase64String(&quot;VQBzAGUAIABQAG8AdwBlAHIAUwBoAGUAbABsACEA&quot;))
+</code></pre>
+<h1 id="source">Source</h1>
+<ul>
+<li><a href="https://adsecurity.org/?p=478">PowerShell Encoding &amp; Decoding (Base64)</a></li>
+<li><a href="https://twitter.com/Lee_Holmes/status/743112454616403968">https://twitter.com/Lee_Holmes/status/743112454616403968</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

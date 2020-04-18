@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="datareader.getfieldtype-returned-null-for-geography">DataReader.GetFieldType returned null (for Geography)</h1>
+<p>Given a SQL query such as:</p>
+<pre><code>Select ObjectID, GEO from Rivers
+</code></pre>
+<p>...where <code>GEO</code> is a <code>Geography</code>, any piece of C# code such as:</p>
+<pre><code>var data = new DataSet();
+using (var da = new SqlDataAdapter(sqlCommand))
+{
+	numRows = da.Fill(data);
+}
+</code></pre>
+<p>...can <em>fail</em> with this error:</p>
+<pre><code>DataReader.GetFieldType(2) returned null.
+</code></pre>
+<p>The trick is to reference <code>Microsoft.SqlServer.Types</code> of a sufficiently high version.</p>
+<p>I added a reference to the nuget package <code>Microsoft.SqlServer.Types</code> (version 14.0)</p>
+<p>When the package is added, it displays a helper piece of html like this:</p>
+<blockquote>
+<p>Action required to load native assemblies</p>
+<p>To deploy an application that uses spatial data types to a machine that does not have 'System CLR Types for SQL Server' installed you also need to deploy the native assembly SqlServerSpatial140.dll. Both x86 (32 bit) and x64 (64 bit) versions of this assembly have been added to your project under the SqlServerTypes\x86 and SqlServerTypes\x64 subdirectories. The native assembly msvcr120.dll is also included in case the C++ runtime is not installed.</p>
+<p>You need to add code to load the correct one of these assemblies at runtime (depending on the current architecture).</p>
+<p>ASP.NET Web Sites</p>
+<p>For ASP.NET Web Sites, add the following block of code to the code behind file of the Web Form where you have added Report Viewer Control:</p>
+</blockquote>
+<pre><code>Default.aspx.cs:
+    
+public partial class _Default : System.Web.UI.Page
+{
+    static bool _isSqlTypesLoaded = false;
+
+    public _Default()
+    {
+        if (!_isSqlTypesLoaded)
+        {
+            SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath(&quot;~&quot;));
+            _isSqlTypesLoaded = true;
+        }
+        
+    }
+}
+</code></pre>
+<blockquote>
+<p>ASP.NET Web Applications</p>
+<p>For ASP.NET Web Applications, add the following line of code to the Application_Start method in Global.asax.cs:</p>
+</blockquote>
+<pre><code>SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath(&quot;~/bin&quot;));
+</code></pre>
+<blockquote>
+<p>Desktop Applications</p>
+<p>For desktop applications, add the following line of code to run before any spatial operations are performed:</p>
+</blockquote>
+<pre><code>SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+</code></pre>
+<p>As instructed I added:</p>
+<pre><code>SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath(&quot;~/bin&quot;));
+</code></pre>
+<p>To <code>application_start</code> in Global.asax.cs</p>
+<p>But here's the trick....</p>
+<p>It didn't work! That is, it didn't work until I added this to <code>Web.Config</code>'s <code>runtime/assemblyBinding</code> element:</p>
+<pre><code>&lt;dependentAssembly&gt;
+	&lt;assemblyIdentity name=&quot;Microsoft.SqlServer.Types&quot; publicKeyToken=&quot;89845dcd8080cc91&quot; culture=&quot;neutral&quot; /&gt;
+	&lt;bindingRedirect oldVersion=&quot;10.0.0.0&quot; newVersion=&quot;14.0.0.0&quot; /&gt;
+&lt;/dependentAssembly&gt;
+</code></pre>
+<p>Also, once it did work, it would <em>fail</em> if I added this to the connection string:</p>
+<pre><code>;Type System Version=SQL Server 2012;
+</code></pre>
+<p>(Which is one of the random pieces of advice out there)</p>
+<p>Enjoy!</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6569624/datareader-getfieldtype-returned-null">Stackoverflow: DataReader.GetFieldType returned null</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

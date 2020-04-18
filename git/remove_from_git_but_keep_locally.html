@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="remove-a-file-from-git-but-keep-the-local-file">Remove a file from git but keep the local file</h1>
+<p>First: to make sure you don't add it, commit it or push it in future -- <strong>add it to your .gitignore file</strong>.</p>
+<p>if you haven't added it, committed it or pushed it... do nothing (you added it to .gitignore above right?)</p>
+<p>if you've added it, but haven't committed it or pushed it... (you've since added it to .gitignore above right?)</p>
+<pre><code>git reset {someFile}
+</code></pre>
+<p>if you added it, committed it, maybe even pushed it... (you've since added it to .gitignore above right?)</p>
+<ul>
+<li><p>for a file:</p>
+<p someFile="">git rm --cached </p>
+</li>
+<li><p>for a directory</p>
+<p someDir="">git rm --cached -r </p>
+</li>
+</ul>
+<p>This assumes the file doesn't contain sensitive stuff.</p>
+<p>If it contains sensitive stuff, and you've already committed it, then research the right approach, polish your resume etc.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/3469741/remove-file-from-the-repository-but-keep-it-locally">http://stackoverflow.com/questions/3469741/remove-file-from-the-repository-but-keep-it-locally</a></li>
+<li><a href="http://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste">http://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

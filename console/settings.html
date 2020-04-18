@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="non-default-settings-for-consolez-or-console2">Non-default settings for ConsoleZ (or Console2)</h1>
+<p>Stored in console.xml</p>
+<pre><code>$env:appdata\console\console.xml
+%appdata%\console\console.xml
+</code></pre>
+<p>Settings dialog is under the edit menu. (Or hit Ctrl S) (As opposed to Tools -&gt; Options)</p>
+<p>Okay I'm just going to record all of the non-standard settings I use.</p>
+<p>In theory I could use <a href="https://bitbucket.org/rhysparry/cogs">cogs</a> to manage all my settings for all my apps, but currently I don't.</p>
+<ul>
+<li>Appearance -&gt; Styles
+<ul>
+<li>Controls -&gt; Windowed
+<ul>
+<li>Uncheck:
+<ul>
+<li>Show menu</li>
+<li>Show toolbar</li>
+<li>Show search</li>
+<li>Show statu bar</li>
+</ul>
+</li>
+<li>Check
+<ul>
+<li>Tabs on bottom</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Appearance -&gt; Font
+<ul>
+<li>Name: Consolas  Size:15</li>
+</ul>
+</li>
+<li>Appearance -&gt; Transparency
+<ul>
+<li>Alpha
+<ul>
+<li>Active:   40/250</li>
+<li>Inactive: 80/250</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Behavior
+<ul>
+<li>Check: Copy on select</li>
+</ul>
+</li>
+<li>Hotkeys -&gt;
+<ul>
+<li>Paste -&gt; Ctrl+V</li>
+</ul>
+</li>
+<li>Hotkeys -&gt; Mouse
+<ul>
+<li>Copy/Clear Selection    -&gt;  None</li>
+<li>Select text           -&gt;  Left</li>
+</ul>
+</li>
+<li>Tabs
+<ul>
+<li>PowerShell
+<ul>
+<li>Title   PowerShell</li>
+<li>Icon    C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</li>
+<li>Shell   C:\WINDOWS\system32\windowspowershell\v1.0\powershell.exe -ExecutionPolicy RemoteSigned</li>
+</ul>
+</li>
+<li>Git Bash
+<ul>
+<li>Title       Git Bash</li>
+<li>Icon        C:\Program Files\Git\etc\git.ico</li>
+<li>Shell       C:\WINDOWS\system32\cmd.exe /c &quot;&quot;C:\Program Files\Git\bin\sh.exe&quot; --login -i&quot;</li>
+<li>Startup dir %HOMEDRIVE%%HOMEPATH%</li>
+</ul>
+</li>
+<li>VS Shell
+<ul>
+<li>Title       VS Shell</li>
+<li>Shell       cmd %comspec% /k <cite>C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\VsDevCmd.bat</cite></li>
+<li>Startup dir &quot;C:\Program Files (x86)\Microsoft Visual Studio 11.0&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

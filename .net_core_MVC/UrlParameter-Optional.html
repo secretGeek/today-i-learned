@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="what-happened-to-urlparameter.optional">What happened to UrlParameter.Optional ?</h1>
+<p>instead of UrlParameter.Optional, you use the ? in the template to indicate an optional parameter</p>
+<p>e.g. instead of:</p>
+<pre><code>routes.MapRoute(
+    name: &quot;Items&quot;,
+    url: &quot;items/{resource}&quot;,
+    defaults: new { controller = &quot;Root&quot;, action = &quot;Items&quot;, resource = UrlParameter.Optional }
+);
+</code></pre>
+<p>simply....</p>
+<pre><code>routes.MapRoute(
+    name: &quot;Items&quot;, 
+    template: &quot;items/{resource?}&quot;, 
+    defaults: new { controller = &quot;Root&quot;, action = &quot;Items&quot; }
+);
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/27799533/migrating-asp-net-mvc-routes-to-asp-net-vnext">http://stackoverflow.com/questions/27799533/migrating-asp-net-mvc-routes-to-asp-net-vnext</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

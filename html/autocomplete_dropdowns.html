@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="html-supports-autocomplete-style-dropdowns">HTML supports autocomplete-style dropdowns</h1>
+<blockquote>
+<p>HTML has native support for autocomplete-style dropdowns attached to inputs via the <code>&lt;datalist&gt;</code> element.</p>
+<p>This input behaves like a <code>&lt;select&gt;</code> but you can type text in it and choose a specific value.</p>
+</blockquote>
+<p>Source: <a href="https://twitter.com/tejaskumar_/status/1194689434656088065?s=21">@tejaskumar_</a></p>
+<pre><code>&lt;input list=&quot;beatles&quot; placeholder=&quot;Start typing...&quot;&gt;
+&lt;datalist id=&quot;beatles&quot;&gt;
+	&lt;option value=&quot;John&quot;&gt;
+	&lt;option value=&quot;Yoko&quot;&gt;
+	&lt;option value=&quot;Paul&quot;&gt;
+	&lt;option value=&quot;George&quot;&gt;
+	&lt;option value=&quot;Ringo&quot;&gt;
+	&lt;option value=&quot;Pete&quot;&gt;
+&lt;/datalist&gt;
+</code></pre>
+<p>See <code>list</code> points to id of <code>datalist</code>.</p>
+
+</body>
+<script>
+</script>
+</html>

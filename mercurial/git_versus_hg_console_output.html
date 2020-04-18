@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="git-messes-up-hg-colors-and-vice-versa">git messes up hg colors? and vice versa?</h1>
+<p>if you use the &quot;colors&quot; extension in mercurial, you may find that the output of git is all messed up.</p>
+<p>i have these two functions: <code>git_on</code> and <code>git_off</code>.</p>
+<p>Run <code>git_on</code> when u want <code>git log</code> to work, <code>git_off</code> when you want <code>hg colors</code> to work.</p>
+<p>git_on    -- stop git log from being bad, but ruin hg colors</p>
+<pre><code>function git_on {
+    $env:TERM=&quot;msys&quot; # note that this is bad for hg colors, but good for git log!
+}
+</code></pre>
+<p>git_off    -- ruin git log, but stop hg colors from being bad</p>
+<pre><code>function git_off {
+    $env:TERM=&quot;&quot; # note that this is bad for git log, but good for hg colors!
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

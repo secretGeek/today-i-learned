@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="form-value-count-limit-1024-exceeded">Form value count limit 1024 exceeded</h1>
+<p>I've got a form with 2500 elements. (Why not!?) (It's for doing bulk updates if you must know)</p>
+<p>In line with the suggested code <a href="http://stackoverflow.com/questions/38357108/form-submit-resulting-in-invaliddataexception-form-value-count-limit-1024-exce">here</a> I implemented a <code>RequestFormSizeLimit</code> attribute like so</p>
+<pre><code>using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System;
+
+namespace YourApp.Models
+{
+    /// &lt;summary&gt;
+    /// Filter to set size limits for request form data
+    /// &lt;/summary&gt;
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public class RequestFormSizeLimitAttribute : Attribute, IAuthorizationFilter, IOrderedFilter
+    {
+        private readonly FormOptions _formOptions;
+
+        public RequestFormSizeLimitAttribute(int valueCountLimit)
+        {
+            _formOptions = new FormOptions()
+            {
+                ValueCountLimit = valueCountLimit
+            };
+        }
+
+        public int Order { get; set; }
+
+        public void OnAuthorization(AuthorizationFilterContext context)
+        {
+            var features = context.HttpContext.Features;
+            var formFeature = features.Get&lt;IFormFeature&gt;();
+
+            if (formFeature == null || formFeature.Form == null)
+            {
+                // Request form has not been read yet, so set the limits
+                features.Set&lt;IFormFeature&gt;(new FormFeature(context.HttpContext.Request, _formOptions));
+            }
+        }
+    }
+}
+</code></pre>
+<p>Then, on the relevant POST action, I can:</p>
+<pre><code>[HttpPost]
+[RequestFormSizeLimit(valueCountLimit: 4000)]
+public ActionResult BulkUpdate(UpdateDetails updateDetails)
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/38357108/form-submit-resulting-in-invaliddataexception-form-value-count-limit-1024-exce">Form submit resulting in 'InvalidDataException: Form value count limit 1024 exceeded.'</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

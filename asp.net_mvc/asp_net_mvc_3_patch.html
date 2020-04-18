@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="asp.net-mvc-3.0.0.0-upgrade-to-asp.net-mvc-3.0.0.1">Asp.net MVC 3.0.0.0 upgrade to Asp.net MVC 3.0.0.1</h1>
+<p>At some point ASP.Net MVC 3 was silently upgraded to 3.0.0.1</p>
+<p>Hence when I open up some of my older projects from the glory days of MVC 3, I get this warning:</p>
+<blockquote>
+<p>Warning Could not resolve this reference. Could not locate the assembly &quot;System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL&quot;. Check to make sure the assembly exists on disk. If this reference is required by your code, you may get compilation errors.</p>
+</blockquote>
+<p>And a lot of errors such as :</p>
+<blockquote>
+<p>Error The name 'View' does not exist in the current context<br />
+Error The name 'ViewBag' does not exist in the current context<br />
+Error The type or namespace name 'ActionResult' could not be found (are you missing a using directive or an assembly reference?)<br />
+Error The type or namespace name 'AuthorizeAttribute' could not be found (are you missing a using directive or an assembly reference?)<br /></p>
+</blockquote>
+<p>The solution is to edit the project file, and replace this line:</p>
+<pre><code>&lt;Reference Include=&quot;System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL&quot; /&gt;
+</code></pre>
+<p>With something like this:</p>
+<pre><code>&lt;Reference Include=&quot;System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL&quot; /&gt;
+</code></pre>
+<p>And in the Web.Config there is a <code>bindingRedirect</code> that redirects MVCs 1 &amp; 2 to MVC 3.... now you need to update it so that it redirects MVC 1, 2 and 3 to 3.0.0.1</p>
+<pre><code>&lt;runtime&gt;
+    &lt;assemblyBinding xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+        &lt;dependentAssembly&gt;
+            &lt;assemblyIdentity name=&quot;System.Web.Mvc&quot; publicKeyToken=&quot;31bf3856ad364e35&quot; /&gt;
+            &lt;bindingRedirect oldVersion=&quot;0.0.0.0-3.0.0.0&quot; newVersion=&quot;3.0.0.1&quot; /&gt;
+        &lt;/dependentAssembly&gt;
+    &lt;/assemblyBinding&gt;
+&lt;/runtime&gt;
+</code></pre>
+<p>Also (depending on where you're deploying to) change the Reference to Asp.net MVC such that &quot;Copy Local&quot;  is true.</p>
+<p>That results in adding this <code>Private</code> tag to the <code>proj</code> file.</p>
+<pre><code>&lt;Reference Include=&quot;System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL&quot;&gt;
+    &lt;Private&gt;True&lt;/Private&gt;
+&lt;/Reference&gt;
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

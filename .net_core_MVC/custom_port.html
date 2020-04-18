@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="hosting-an.net-core-asp.net-mvc-web-application-from-a-custom-port-number">Hosting an .net core asp.net mvc web application from a custom port number</h1>
+<p>Create a file, <code>hosting.json</code> in the root of your project that contains:</p>
+<pre><code>{
+  &quot;server.urls&quot;: &quot;http://localhost:8500&quot;
+}
+</code></pre>
+<p>(But substitute the port number you wish to use in place of 8500)</p>
+<p>In <code>Program.cs</code> add a config item that uses that file, and add it as a configuration item to the <code>WebHostBuilder</code>, like so:</p>
+<pre><code>public class Program
+{
+    public static void Main(string[] args)
+    {
+        var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(&quot;hosting.json&quot;, optional: true)
+            .Build();
+
+        var host = new WebHostBuilder()
+            .UseKestrel()
+            .UseConfiguration(config)
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .UseIISIntegration()
+            .UseStartup&lt;Startup&gt;()
+            .Build();
+
+        host.Run();
+    }
+}
+</code></pre>
+<p>In <code>project.json</code> ensure <code>hosting.json</code> gets included when the file is published, by adding it.</p>
+<pre><code>&quot;publishOptions&quot;: {
+    &quot;include&quot;: [
+      &quot;wwwroot&quot;,
+      &quot;Views&quot;,
+      &quot;Areas/**/Views&quot;,
+      &quot;appsettings.json&quot;,
+      &quot;hosting.json&quot;,
+      &quot;web.config&quot;
+    ]
+  },
+  
+</code></pre>
+<p>Then <code>dotnet publish</code> as usual.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://benfoster.io/blog/how-to-configure-kestrel-urls-in-aspnet-core-rc2">How to configure Kestrel URLs in ASP.NET Core RC2</a> (comments are important there too)</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

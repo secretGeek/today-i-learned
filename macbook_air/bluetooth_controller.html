@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="no-bluetooth-in-settings-devices">No bluetooth in Settings -&gt; Devices</h1>
+<p>And bluetooth generally not present anywhere on the machine.</p>
+<p>In device manager:</p>
+<p>Other devices -&gt; &quot;Bluetooth USB Host Controller&quot; has a warning icon. And there was no info about the device.
+No manufacturer etc.</p>
+<p>Trick was to update the drivers and then point it at the &quot;AppleBluetoothBroadcom64&quot; folder -- which I already had from previous times I faced this issue.</p>
+<p>Previously I have downloaded all of the BootCamp drivers, and unzipped them to here:</p>
+<pre><code>C:\Users\Leon\Downloads\BootCamp5.1.5640\$WinPEDriver$\AppleBluetoothBroadcom64
+</code></pre>
+<p>So I updated the drivers and browsed to that location.</p>
+<p>Then it believed that bluetooth was A-OK again.</p>
+
+</body>
+<script>
+</script>
+</html>

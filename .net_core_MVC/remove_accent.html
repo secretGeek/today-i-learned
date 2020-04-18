@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="remove-accent">Remove accent</h1>
+<p>When 'slugifying' a string (and when 'canonicalizing' a username) i like to remove accents, and this was sufficient in classic .net:</p>
+<pre><code>//using System.Text
+
+public static string RemoveAccent(this string txt)
+{
+    byte[] bytes = Encoding.GetEncoding(&quot;Cyrillic&quot;).GetBytes(txt);
+    return Encoding.ASCII.GetString(bytes);
+}
+</code></pre>
+<p>But in .net core it crashed with:</p>
+<blockquote>
+<p>'Cyrillic' is not a supported encoding name.</p>
+</blockquote>
+<p>The magic incantation was to add:</p>
+<pre><code>Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+</code></pre>
+<p>To wit:</p>
+<pre><code>//using System.Text
+
+public static string RemoveAccent(this string txt)
+{
+    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+    byte[] bytes = Encoding.GetEncoding(&quot;Cyrillic&quot;).GetBytes(txt);
+    return Encoding.ASCII.GetString(bytes);
+}
+</code></pre>
+<p>And thus we end up with our slugify extension method working again:</p>
+<pre><code>public static string ToSlug(this string self, int maxLength = 45)
+{
+    string str = self.RemoveAccent().ToLower();
+    // remove invalid chars
+    str = Regex.Replace(str, @&quot;[^a-z0-9\s-]&quot;, &quot;&quot;);
+    // multiple spaces into one space
+    str = Regex.Replace(str, @&quot;\s+&quot;, &quot; &quot;).Trim();
+    // max length
+    str = str.Substring(0, Math.Min(maxLength, str.Length));
+    // space to hyphens
+    str = str.Replace(&quot; &quot;, &quot;-&quot;); 
+    return str;
+}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-convert-between-kilobytes-megabytes-gigabytes-etc">How to convert between kilobytes megabytes gigabytes etc?</h1>
+<p>It's easy!</p>
+<pre><code>(763392)/ 1KB
+745.5
+
+(763392)/ 1MB
+0.72802734375
+</code></pre>
+<p>How bout gigabytes, terrabytes or petabytes?</p>
+<pre><code>(763392)/ 1GB
+0.000710964202880859
+
+(763392)/ 1TB
+6.94300979375839E-07
+
+(763392)/ 1PB
+6.78028300171718E-10
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>unit</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1KB</td>
+<td>1024</td>
+</tr>
+<tr>
+<td>1MB</td>
+<td>1048576</td>
+</tr>
+<tr>
+<td>1GB</td>
+<td>1073741824</td>
+</tr>
+<tr>
+<td>1TB</td>
+<td>1099511627776</td>
+</tr>
+<tr>
+<td>1PB</td>
+<td>1125899906842624</td>
+</tr>
+</tbody>
+</table>
+<p>And you can round them, as follows:</p>
+<pre><code>(763392/1MB).ToString(&quot;0.00&quot;)
+0.73
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="bind-json-post-to-mvc-action">Bind JSON POST to MVC Action</h1>
+<p>You already put a <code>[method: HttpPost]</code> attribute on the action.</p>
+<p>But when you look at the received parameter, it is null.</p>
+<p>Hint: try the <code>[FromBody]</code> attribute on the parameters.</p>
+<p>And ensure the POST is given a <code>Content-type</code> of <code>application/json</code></p>
+<pre><code>x.setRequestHeader('Content-type', 'application/json')
+</code></pre>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://andrewlock.net/model-binding-json-posts-in-asp-net-core/">Andrew Lock: Model binding JSON POSTs in ASP.NET Core</a></li>
+<li><a href="https://stackoverflow.com/questions/45086480/net-core-model-binding-json-post-to-web-api">.Net Core Model Binding JSON Post To Web API</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

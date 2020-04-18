@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="count-distinct-rows-in-powershell">Count distinct rows (in powershell)</h1>
+<p>By far my most commonly run query is this:</p>
+<pre><code>Select Column, Count(*)
+from SomeTable
+Group by Column
+order by 2 desc
+</code></pre>
+<p>When I have plain text and I want to perform that same check, I usually use a little tool I wrote called Grouply (or NimbleGroup)</p>
+<p>But to do it in plain powershell you use a command like this:</p>
+<pre><code>cat .\22889_.txt | group | % { ($_.Name + ',' + $_.Count) }
+</code></pre>
+<p>(Assuming 22889_.txt is a file containing the rows you wish to group.)</p>
+<p>Note: If all you want to do is <strong>count</strong> the number of lines, use <code>Measure-Object</code> (alias <code>measure</code>) instead.</p>
+<p>e.g. to count all the date entries (Date &amp; Time Long Format) in a file called <code>journal.md</code> you can do this</p>
+<pre><code>cat journal.md | ? { $_ -match '^[0-9]+:[0-9]+ (A|P)M [A-Z]+day, [0-9]+ [A-Z]+ [0-9]+' } | measure | % count
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

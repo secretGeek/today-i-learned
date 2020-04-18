@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="systemd-the-basics">SystemD: the basics</h1>
+<p>Create a .service file here:</p>
+<pre><code>/etc/systemd/system/*.service
+</code></pre>
+<p>Enable the service (you need to give it the user's password)</p>
+<pre><code>systemctl enable kestrel-hellomvc.service
+</code></pre>
+<p>Start the service (you need to give it the user's password, again) wtf.</p>
+<pre><code>systemctl start kestrel-hellomvc.service
+</code></pre>
+<p>Check the status of the service...</p>
+<pre><code>systemctl status kestrel-hellomvc.service    
+</code></pre>
+<p>To view logs:</p>
+<pre><code>sudo journalctl -fu kestrel-hellomvc.service
+</code></pre>
+<blockquote>
+<p>For further filtering, time options such as --since today, --until 1 hour ago or a combination of these can reduce the amount of entries returned.</p>
+</blockquote>
+<pre><code>sudo journalctl -fu kestrel-hellomvc.service --since &quot;2016-10-18&quot; --until &quot;2016-10-18 04:00&quot;    
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/publishing/linuxproduction">Publish to a Linux Production Environment</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

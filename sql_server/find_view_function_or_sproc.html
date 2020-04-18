@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="search-all-views-functions-or-sprocs-for-a-piece-of-text">Search all views functions or sprocs for a piece of text</h1>
+<p>This is my most used snippet in &quot;<a href="http://www.secretgeek.net/kv">kv</a>&quot; (key value snippet storer). &quot;kv sysc&quot;</p>
+<pre><code>Select distinct 'sp_helptext ''' + Schema_Name(UID) + '.' + so.Name + '''
+go' from sysobjects so inner join syscomments sc on so.id = sc.id where sc.text like
+'%%'
+</code></pre>
+<p>Similarly, here's a query to find objects by name (so) —</p>
+<pre><code>Select Schema_Name(UID) + '.' + Name , Xtype
+from sysobjects
+where
+xtype = 'U' AND Schema_Name(UID) + '.' + Name like
+'%%'
+</code></pre>
+<p>And one to find columns (sc) —</p>
+<pre><code>Select sc.Name as [Column], Schema_Name(so.UID) + '.' + so.Name as [Table], so.Xtype
+from sysobjects so
+inner join syscolumns sc on so.id = sc.id
+where so.xtype in ('U','V') AND Schema_Name(so.UID) + '.' + so.Name  like
+'%%'
+--and sc.Name like '%%'
+</code></pre>
+<p>And here's commands to add them to <code>kv</code> —</p>
+<pre><code>kv sysc &quot;Select distinct 'sp_helptext ''' + Schema_Name(UID) + '.' + so.Name + '''
+go' from sysobjects so inner join syscomments sc on so.id = sc.id where sc.text like
+'%%'&quot;
+
+
+kv so &quot;Select Schema_Name(UID) + '.' + Name , Xtype
+from sysobjects
+where
+xtype in ('U','V','P') AND Schema_Name(UID) + '.' + Name like
+'%%'&quot;
+
+
+kv sc &quot;Select sc.Name as [Column], Schema_Name(so.UID) + '.' + so.Name as [Table], so.Xtype
+from sysobjects so
+inner join syscolumns sc on so.id = sc.id
+where
+--so.xtype in ('U','V') AND Schema_Name(so.UID) + '.' + so.Name like '%%'
+--and
+--sc.Name like '%%'&quot;
+</code></pre>
+<p>Here's a command to list all objects that have definitions, along with their definition:</p>
+<pre><code>Select
+	schema_name(so.uid) + '.' + so.[name]  AS [Schema.Object],
+	so.xtype,
+	Definitions.Definition,
+	len(Definitions.Definition) as [Length of definition],
+	master.dbo.fn_varbintohexstr(hashbytes('MD5', Definitions.Definition)) as Hasho
+from
+sysobjects so
+outer apply (Select stuff((select '' + sc.text
+					from syscomments  sc
+				where sc.id = so.id
+				order by colid
+				for xml path , TYPE).value('.[1]','nvarchar(max)'
+			), 1, 1, '') as Definition) as Definitions
+where Definitions.Definition is not null
+</code></pre>
+<p>Notice I've combined it with hashbytes for easy difference checking/comparison of objects.</p>
+
+</body>
+<script>
+</script>
+</html>

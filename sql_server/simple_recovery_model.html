@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="set-a-database-to-simple-recovery-model">Set a database to simple recovery model</h1>
+<p>This is how you turn off needing to log everything.</p>
+<p>Simple recovery model is ok for dev, not for prod.</p>
+<pre><code>ALTER DATABASE MyDatabase SET RECOVERY SIMPLE;
+</code></pre>
+<p>To find the current recover model:</p>
+<pre><code>SELECT name, recovery_model_desc  
+   FROM sys.databases  
+	  WHERE name = 'MyDatabase' ;  
+GO 	
+</code></pre>
+<p>example:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>recovery_model_desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MyDatabase</td>
+<td>FULL</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+<script>
+</script>
+</html>

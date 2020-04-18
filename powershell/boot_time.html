@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="find-last-boot-time">Find last boot time</h1>
+<p>When did we last reboot this machine? What's the current uptime? How long since boot, since reboot, since last boot, since last reboot?</p>
+<p>In powershell 2:</p>
+<pre><code>Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+</code></pre>
+<p>In Powershell 3+</p>
+<pre><code>Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime    
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://blogs.technet.microsoft.com/heyscriptingguy/2013/03/27/powertip-get-the-last-boot-time-with-powershell/">PowerTip: Get the Last Boot Time with PowerShell</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

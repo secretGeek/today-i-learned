@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="custom-search-for-images">Custom Search for Images</h1>
+<p>Here's a simple example of running an image search against google's 'customsearch' api... Getting their API to work, however, is NOT simple.</p>
+<pre><code>&lt;input id=&quot;searchterm&quot; /&gt;
+&lt;button id=&quot;search&quot;&gt;search&lt;/button&gt;
+&lt;div id=&quot;results&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;http://code.jquery.com/jquery-latest.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    $(&quot;#search&quot;).click(function(){
+        $.getJSON(&quot;https://www.googleapis.com/customsearch/v1&quot;, {
+            q: $(&quot;#searchterm&quot;).val(),
+            alt: &quot;json&quot;,
+            searchType: &quot;image&quot;,
+            cx: &quot;0001100:ei392xnwj-ee&quot;,
+            key: &quot;Your_Very_Long_CustomSearch_API_Key&quot;,
+            filter: &quot;1&quot;,
+            num: &quot;10&quot;,
+            fileType: &quot;jpg&quot;,
+            imgType: &quot;photo&quot;
+        },
+        function (data) {
+            $.each(data.items, function(i,item){    
+                $(&quot;#results&quot;).append('&lt;img class=&quot;img-responsive&quot; src=&quot;' + item.link + '&quot;&gt;');
+            });
+        });        
+    });
+&lt;/script&gt;
+</code></pre>
+<p>There are three tricks:</p>
+<ol>
+<li><p>Obtain an API key (for the <code>key</code> parameter)</p>
+</li>
+<li><p>Create a custom search engine (for the <code>cx</code> parameter)</p>
+</li>
+<li><p>Tell your custom search engine to allow image search.</p>
+</li>
+</ol>
+<p>More detail:</p>
+<h2 id="obtain-an-api-key">1. Obtain an API key.</h2>
+<p>To do this you need to &quot;enable&quot; the API.</p>
+<p>Steps:</p>
+<ol>
+<li><p>Go to <a href="https://console.developers.google.com/">https://console.developers.google.com/</a> and sign up as a developer if you haven't already.</p>
+</li>
+<li><p>Then create a new project, and give it a name. Then wait for it to be 'created'.</p>
+</li>
+<li><p>On the 'dashboard' for the project you just created, click <code>+ Enable API</code> and find the 'Custom Search' API.</p>
+</li>
+</ol>
+<p>4 Click the <code>Enable</code> button which is up near the top of the screen where you easily overlook it.</p>
+<ol start="5">
+<li><p>Click on 'Create Credentials' then click on 'What credentials do I need?'</p>
+</li>
+<li><p>It will then create an API key for you.</p>
+</li>
+</ol>
+<p>This is so ridiculously convoluted.</p>
+<p>At this point you can easily add 'restrictions' to the API key to prevent 'quota theft'. So yeh, do that if you want.</p>
+<h2 id="create-a-custom-search-engine">2. Create a custom search engine.</h2>
+<p>You can see your custom search engines here: <a href="https://cse.google.com/cse/all">https://cse.google.com/cse/all</a></p>
+<p>I wanted one that lets me search the entire internet. There's a trick to doing this.</p>
+<p>You need to first create one that searches a specific site. (You have not choice here... you must specify a site)</p>
+<p>Then edit it so that it searches the entire internet but favors the site you added.</p>
+<p>Then remove the site you added.</p>
+<p>Steps are:</p>
+<ol>
+<li><p>go to: <a href="https://cse.google.com/cse/all">https://cse.google.com/cse/all</a>  and click <code>Add</code></p>
+</li>
+<li><p>Put some url in the <code>Sites to Search</code> box.</p>
+</li>
+<li><p>Click 'Create'.</p>
+</li>
+<li><p>go to <a href="https://cse.google.com/cse/all">https://cse.google.com/cse/all</a>  and click the custom search engine you just added.</p>
+</li>
+<li><p>Changes 'Sites to Search' from 'Search only included sites' to 'Search the entire web but emphasize included sites'</p>
+</li>
+<li><p>Delete the site from underneath 'Sites to Search'.</p>
+</li>
+<li><p>Click update. (or follow the next few steps before clicking update...)</p>
+</li>
+</ol>
+<p>Now you also need to get the value to put in <code>cx</code>.</p>
+<p>In the Details section click on <code>Search Engine ID</code> and you will see a small modal popup that says something like:</p>
+<blockquote>
+<p>Your search engine ID:</p>
+<p>001100:ei392xnwj-ee</p>
+</blockquote>
+<p>Copy that and use it for the <code>cx</code> parameter in your search, above.</p>
+<h2 id="tell-your-custom-search-engine-to-allow-image-search">3. Tell your custom search engine to allow image search.</h2>
+<p>By default a customer search engine does not allow image search.</p>
+<p>If you don't do step 3 you will get a result of &quot;0 records found&quot;.</p>
+<p>Just below the details section for your custom search engine, there is an 'image search' setting which defaults to <code>Off</code>.</p>
+<p>Turn it <code>On</code>.</p>
+<p>Then click the <code>Update</code> button at the bottom of the form.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><p><a href="https://developers.google.com/apis-explorer/?hl=en_GB#p/customsearch/v1/search.cse.list">Custom Search Parameters</a></p>
+</li>
+<li><p><a href="http://stackoverflow.com/questions/7489862/direct-link-to-obtain-a-google-custom-search-api-key">Stackoverflow: Direct link to obtain a google custom search API key?</a></p>
+</li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

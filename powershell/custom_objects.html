@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="create-custom-objects">Create custom objects.</h1>
+<p>Say you have two variables, <code>$name</code> and <code>$count</code> -- and you want to create a custom object that contains just those two properies....</p>
+<pre><code>$myObject = New-Object psobject -property  @{name = $name; count = $count}
+</code></pre>
+<p>Or say you are in a pipeline, within which <code>$name</code> and <code>$count</code> become available... you want to pipe out a custom object with those two properties...</p>
+<pre><code>| % {
+   $name = $_.FullPath
+   $count = $_.Length 
+   # ^^ just for example
+   
+   New-Object psobject -property  @{name = $name; count = $count}
+   
+   # ^^ Return our custom object... for the next actor in the pipeline to deal with...
+  
+} | ConvertTo-CSV  -NoTypeInformation | out-file &quot;Name_And_Count.csv&quot;  
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

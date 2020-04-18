@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="get-aduser-is-useful-to-set-info-about-a-user-account">get-aduser is useful to set info about a user account</h1>
+<p>TO see all of the properties of a user account (example account called &quot;User1&quot;)</p>
+<pre><code>get-aduser user1 -properties *
+</code></pre>
+<p>Or to view specific properties:</p>
+<pre><code>get-user user1 -propeties  LockedOut, AccountLockoutTime
+</code></pre>
+<p>Or to output it to CSV (perhaps to append to a log file...)</p>
+<pre><code>get-aduser user1 -properties LockedOut, AccountLockoutTime | convertto-csv -notypeinformation
+</code></pre>
+<p>If you <em>do</em> want to append it to a file then you'll want to skip the header row, e.g.</p>
+<pre><code>get-aduser user1 -properties LockedOut, AccountLockoutTime | convertto-csv -notypeinformation | select -Skip 1 | Out-File $filenamestring -append
+</code></pre>
+<p>But I digress.</p>
+
+</body>
+<script>
+</script>
+</html>

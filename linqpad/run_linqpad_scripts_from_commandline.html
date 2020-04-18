@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="run-linqpad-scripts-from-the-command-line">Run Linqpad scripts from the command-line</h1>
+<blockquote>
+<p>LINQPad now ships with lprun.exe which offers a full command-line experience.</p>
+</blockquote>
+<blockquote>
+<p>Note: if you've automatically upgraded from an older version of LINQPad, lprun.exe may not be present in your LINQPad folder. To get lprun.exe, download the latest LINQPad from <a href="http://www.linqpad.net">www.linqpad.net</a>. You can either re-install LINQPad, or download the standalone executable which includes lprun.exe.</p>
+</blockquote>
+<p>Sounds promising. When reinstalling I saw the option (which was not selected by default... so be sure to select it)</p>
+<blockquote>
+<p>Add lprun.exe to system PATH (for command-line support)</p>
+</blockquote>
+<p>And indeed after installing and restarting powershell:</p>
+<pre><code>&gt; (Get-Command lprun).Source
+C:\Program Files (x86)\LINQPad4\LPRun.exe
+</code></pre>
+<p>And...</p>
+<pre><code>&gt; $env:PATH.split(&quot;;&quot;)
+...
+C:\Program Files (x86)\LINQPad4
+...
+</code></pre>
+<p>Thereafter if i run:</p>
+<pre><code>lprun .\calendar.linq
+</code></pre>
+<p>...it works as expected.</p>
+<p>I've now wrapped this behavior up into the powershell commandlet <a href="invoke_linqpad_commandlet.html">Invoke-LinqPadScript</a></p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.linqpad.net/lprun.aspx">https://www.linqpad.net/lprun.aspx</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="invoke_linqpad_commandlet.html">Invoke-PowershellScript</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

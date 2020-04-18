@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="split-string-in-sql-server">Split string in SQL Server</h1>
+<p>Super handy helper function.</p>
+<p>Given a delimited string (for example, a comma delimited string), split it into a table, with one row per item.</p>
+<p>Used like this:</p>
+<pre><code>Select * from dbo.SplitString('a,b,c,d')
+</code></pre>
+<p>Returns</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+</tr>
+<tr>
+<td>b</td>
+</tr>
+<tr>
+<td>c</td>
+</tr>
+<tr>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+<p>The function:</p>
+<pre><code>CREATE FUNCTION [dbo].[SplitString]
+	(
+	  @values AS NVARCHAR(MAX) ,
+	  @delimiter AS NVARCHAR(20)
+	)
+RETURNS @tValues TABLE ( Value NVARCHAR(MAX) )
+AS 
+BEGIN
+	IF @values IS NULL
+		OR @delimiter IS NULL 
+		RETURN
+
+	DECLARE @pattern AS NVARCHAR(22)
+	DECLARE @index AS BIGINT
+
+	SET @pattern = '%' + @delimiter + '%'
+	
+	SET @index = PATINDEX(@pattern, @values)
+	WHILE @index &gt; 0 
+		BEGIN
+			INSERT  INTO @tValues
+					( Value 
+					)
+					SELECT  SUBSTRING(@values, 1, @index - 1) AS [Value]
+					
+			SET @values = dbo.Substring2(@values,
+										 @index + dbo.Len2(@delimiter))
+			SET @index = PATINDEX(@pattern, @values)
+		END
+	
+	INSERT  INTO @tValues
+			( Value )
+	VALUES  ( @values )
+	RETURN
+END
+</code></pre>
+<p>This CTE version is faster.... (though it doesn't allow you to specify a delimiter)</p>
+<pre><code>CREATE FUNCTION [dbo].[SplitList](@list  nvarchar(MAX)) RETURNS TABLE AS
+RETURN
+	WITH csvtbl(start, stop) AS
+	(
+		SELECT start = convert(bigint, 1),
+			stop = charindex(',', @list + ',')
+		UNION ALL
+		SELECT start = stop + 1,
+			stop = charindex(',', @list + ',', stop + 1)
+		FROM   csvtbl
+		WHERE  stop &gt; 0
+	)
+	SELECT substring(@list, start,
+					CASE WHEN stop &gt; 0 THEN stop - start ELSE 0 END)
+			AS Value
+	FROM   csvtbl
+	WHERE  stop &gt; 0
+</code></pre>
+<p>This one,</p>
+<ol>
+<li><p>Does allow you to specify a delimiter, and</p>
+</li>
+<li><p>Tells you where in the source string each element starts and stops</p>
+</li>
+<li><p>Numbers each element</p>
+<p>CREATE FUNCTION [dbo].[SplitListChar](@list  nvarchar(MAX), @delim nchar) RETURNS TABLE AS
+RETURN
+WITH csvtbl(start, stop, rownum) AS
+(
+SELECT start = convert(bigint, 1),
+stop = charindex(@delim, @list + @delim),
+rownum = convert(bigint, 0)
+UNION ALL
+SELECT start = stop + 1,
+stop = charindex(@delim, @list + @delim, stop + 1),
+rownum = rownum + 1
+FROM   csvtbl
+WHERE  stop &gt; 0
+)
+SELECT substring(@list, start,
+CASE WHEN stop &gt; 0 THEN stop - start ELSE 0 END)
+AS Value, stop, start, rownum
+FROM   csvtbl
+WHERE  stop &gt; 0</p>
+</li>
+</ol>
+
+</body>
+<script>
+</script>
+</html>

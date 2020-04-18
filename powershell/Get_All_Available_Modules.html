@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="use-get-module-to-list-all-available-modules-packages">Use Get-Module to list all available modules (packages)</h1>
+<p>You might think that</p>
+<pre><code>get-module
+</code></pre>
+<p>...lists all of the available modules. But it only lists the ones that are loaded.</p>
+<p>This command lists all that are installed (i.e. available)</p>
+<pre><code>get-module -ListAvailable
+</code></pre>
+<p>To search outside your machine, use <code>Find-Module</code> (see <a href="module_commands.html">more package/module commands</a>)</p>
+<p>To see the location of a module (for example, where is that emoji module....?)</p>
+<pre><code>get-module -listavailable emoji* | % Path
+</code></pre>
+<p>To turn that string into a <a href="parts_of_a_fileInfo_object.html">FileInfo</a> and get its directory...</p>
+<pre><code>get-module -listavailable emoji* | % Path | Get-Item | % DirectoryName    
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li>More about <a href="module_commands.html">package/module commands</a></li>
+<li><a href="parts_of_a_fileInfo_object.html">Get Parts of a FileInfo object</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

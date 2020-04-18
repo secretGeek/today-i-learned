@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-show-a-little-arrow-glyph-after-target_blank-anchors">How to show a little arrow glyph after 'target=&quot;_blank&quot;' anchors</h1>
+<p>What I wanted was a visual indication of which urls would open in a new window.</p>
+<p>I found a pure css solution, that didn't require altering the html at all.</p>
+<pre><code>a[target=&quot;_blank&quot;]:after {
+	content: &quot; \2197&quot;;
+	font-size:0.9em;
+}
+</code></pre>
+<p>This means:</p>
+<pre><code>any a element with 'target=&quot;_blank&quot;' 
+should have a small North East arrow after it.
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="remove-unreachable-recycle-bin-crap">Remove unreachable recycle bin crap</h1>
+<p>On a networked (work) computer that has been used by a lot of other users, I was running low on hard drive space.</p>
+<p>Running spacesniffer (as admin) I saw that there were 26+ GB of files under <code>C:\$Recycle.Bin</code> -- even though I had already emptied the hard drive.</p>
+<p>I reasoned that these were things the other users had put in the recycle bin. Or the recycle bin was in some way corrupted.</p>
+<p>I don't care why -- I just need lots of space in a hurry to complete a task with a tight deadline.</p>
+<p>The solution</p>
+<p>from an <strong>elevated</strong> command prompt and then</p>
+<pre><code>rd /s/q c:\$Recycle.Bin
+</code></pre>
+<p>Output:</p>
+<pre><code>C:\&gt;rd /s/q c:\$Recycle.Bin
+The directory is not empty.
+
+C:\&gt;rd /s/q c:\$Recycle.Bin
+</code></pre>
+<p>(I had to run it twice.)</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.vistax64.com/tutorials/131294-recycle-bin-corrupted-cannot-delete-file-folder.html">Recycle Bin Corrupted - Cannot Delete File or Folder</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../powershell/runas.html">runas</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="rebasing-in-mercurial-for-dimwits">rebasing in mercurial for dimwits.</h1>
+<h2 id="step-1.get-rebase">Step 1. Get rebase</h2>
+<p>First, enable the rebase extension by editing:</p>
+<pre><code>$env:userprofile\mercurial.ini
+</code></pre>
+<p>And in the <code>[extensions]</code> section, write:</p>
+<pre><code>rebase =
+</code></pre>
+<p>If you <em>don't</em> have the extension, then running a rebase, e.g. <code>hg rebase -s 745 -d 775</code>, will result in:</p>
+<pre><code>hg: unknown command 'rebase'
+(did you mean one of qrename, rename, resolve?)
+</code></pre>
+<p>Once you've enabled it, confirm you have the rebase extension installed by typing:</p>
+<pre><code>hg help extensions
+</code></pre>
+<p>In the bottom of that output you should see something like:</p>
+<pre><code>enabled extensions:
+
+ color         colorize output from some commands
+ extdiff       command to allow external programs to compare revisions
+ fetch         pull, update and merge in one command (DEPRECATED)
+ mq            manage a stack of patches
+ rebase        command to move sets of revisions to a different ancestor **********
+</code></pre>
+<h2 id="using-rebase">Using rebase</h2>
+<p>The simplest way to use it is that when you wish to pull and update the repo, instead of using:</p>
+<pre><code>hg pull --update   # &lt;-- don't do this!
+</code></pre>
+<p>Do this instead:</p>
+<pre><code>hg pull --rebase
+</code></pre>
+<p>That will change your local revisions to be applied <em>after</em> any revs that were performed in remote locations (after you last updated)</p>
+<p>Let's say while you were making some local revisions, X,Y&amp;Z:</p>
+<p><img src="rebase1.png" alt="rebase1" /></p>
+<p>Meanwhile, let's assume some other turkey (let's call him Richard) was making other revisions, D and E.</p>
+<p>You want to linearize your commits, so that X Y and Z follow D and E.</p>
+<p><img src="rebase2.png" alt="rebase2" /></p>
+<p>Here's the command:</p>
+<pre><code>hg rebase -s X -d E
+</code></pre>
+<p>You won't use the literal letters &quot;X&quot; and &quot;E&quot;. You'll use the revision numbers. i.e. the number that appears before the revision hash:</p>
+<p><img src="revnum.png" alt="revnum" /></p>
+<p>So your command might be more like:</p>
+<pre><code>$myEarliestCommit = 100
+$otherPeoplesLastCommit = 115
+hg rebase -s $myEarliestCommit -d $otherPeoplesLastCommit
+</code></pre>
+<p>Here's another example.</p>
+<p>The repo looked like this:</p>
+<p><img src="rebase_example3.png" alt="rebase_example3.png" /></p>
+<p>I'd commited 722 and 723 locally.</p>
+<p>I wanted to move them after 724, which had been done remotely.</p>
+<p>I used this command:</p>
+<pre><code>hg rebase -s 722 -d 724        
+</code></pre>
+<p>Which resulted in:</p>
+<p><img src="rebase_example4.png" alt="rebase_example4.png" /></p>
+<p>The linear history I was after.</p>
+<p>To see neat <code>log</code> (to help with deciding <code>-s</code> and <code>-d</code>) use:</p>
+<pre><code>hg log --template &quot;{rev}: {desc} {author}\n&quot; -l 10
+</code></pre>
+<h2 id="one-more-time">One more time</h2>
+<p>I seem to have written this out previously, so here it is one more time, this time with ascii art.</p>
+<pre><code>hg rebase -s A -d B
+</code></pre>
+<p>Where A is the lowest number of the revisions I've done locally</p>
+<p>and B is the highest number of the revisions that have been done remotely.</p>
+<p>Once the command is performed A will be rebased to occur straigth after B.</p>
+<pre><code>              -- J (101)--- K (102)--- L (103)---&gt;
+             /
+--- I (100)-
+             \-- M (104)--- N (105)--- O (106)---&gt;
+</code></pre>
+<p>Assume that J,K, and L are my local changes.</p>
+<p>M,N, and O are some remote changes I need to 'merge' with. In this case i decide to merge by rebasing.</p>
+<p>Since &quot;A is the lowest number of the revisions I've done locally&quot;, A = 101</p>
+<p>and &quot;B is the highest number of the revisions that have been done remotely&quot;, B = 106.</p>
+<p>So run this command:</p>
+<pre><code>hg rebase -s 101 -d 106
+</code></pre>
+<p>And end up with:</p>
+<pre><code>--- I (100)--- M (101)--- N (102)--- O (103)--- J (104)--- K (105)--- L (106)---&gt;
+</code></pre>
+<p>Nice and linear</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.mercurial-scm.org/wiki/RebaseExtension">Rebase Extension</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

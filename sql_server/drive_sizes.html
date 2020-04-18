@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-much-space-is-left-on-the-drives-that-my-sql-server-can-access">How much space is left on the drives that my sql server can access?</h1>
+<p>To view how much remaining space you have on the drives your sql server can see, use this command....</p>
+<pre><code>EXEC master..xp_fixeddrives
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>drive</th>
+<th>MB free</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C</td>
+<td>12912</td>
+</tr>
+<tr>
+<td>D</td>
+<td>48222</td>
+</tr>
+<tr>
+<td>E</td>
+<td>201482</td>
+</tr>
+</tbody>
+</table>
+<p>This extended stored procedure seems to be able to be executed even by low privilege accounts.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="backup_restore_script.html">Backup restore script</a></li>
+<li><a href="delete_backup_files.html">Need to delete backup files?</a></li>
+<li><a href="how_much_space_does_my_db_use.html">How much space does my DB use?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

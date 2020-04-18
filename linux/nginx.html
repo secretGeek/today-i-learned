@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="nginx-a-web-server">nginx - a web server</h1>
+<p>nginx overtook apache as the most popular webserver in the world.</p>
+<p>what i use it for is as an internet facing webserver that acts as a 'reverse proxy' for my web apps (which themselves run <code>kestrel</code>, a lightweight webserver, that isn't robust enough to withstand the open internet)</p>
+<p>install via <code>apt-get</code></p>
+<pre><code>sudo apt-get update
+sudo apt-get install nginx
+</code></pre>
+<p>then start the service, if you're interested.</p>
+<pre><code>sudo service nginx start
+</code></pre>
+<p>go and look at the config...</p>
+<pre><code>cd /etc/nginx/
+cat nginx.conf
+</code></pre>
+<p>but the stuff we'll be dealing with mostly is in this folder:</p>
+<pre><code>cd /etc/nginx/sites-available/
+</code></pre>
+<p>If you're only going to host one site, then go ahead and edit the file <code>default</code>.</p>
+<p>But we're not going to do things the easy way: we're going to host multiple sites from this VM. So...</p>
+<p>Make a copy of the file, 'default' and in that file tell us how nginx should pass requests onto your account.
+e.g.</p>
+<pre><code>sudo cp default yourdomain.com
+</code></pre>
+<p>then edit the file, via <code>sudo</code>, ...</p>
+<pre><code>sudo nano yourdomain.com
+</code></pre>
+<p>And update it to something like...</p>
+<pre><code>server {
+    listen 80;
+    root /opt/websites/yourdomain.com/app;
+    server_name blog.yourdomain.com; # this is the incoming path that it will recognise...
+    location / {
+        proxy_pass http://localhost:3000; # this is the local path it will defer to...
+        # the port number there is the one we're using for it (see hosting.config)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Connection keep-alive;
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+</code></pre>
+<p><em>See <a href="redirect_www_https.html">Use nginx to redirect www and non https to bare https</a> for a better final example of nginx config with https and redirecting www to bare url)</em></p>
+<p>Now -- we need to create a symbolic link from your newly added file in the sites-available directory to the sites-enabled directory</p>
+<pre><code>sudo ln -s /etc/nginx/sites-available/yourdomain.com /etc/nginx/sites-enabled/
+</code></pre>
+<p>to test if your changes are valid...</p>
+<pre><code>sudo nginx -t
+</code></pre>
+<p>Sometimes it says the edits you made were indeed horrible, e.g..</p>
+<pre><code>nginx: [emerg] unexpected &quot;}&quot; in /etc/nginx/sites-enabled/yourdomain.com:86
+nginx: configuration file /etc/nginx/nginx.conf test failed
+</code></pre>
+<p>(I had an extra &quot;}&quot;)</p>
+<p>And another example:</p>
+<pre><code>$ sudo nginx -t
+nginx: [warn] conflicting server name &quot;codesmackdown.com&quot; on 0.0.0.0:80, ignored
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful	
+</code></pre>
+<p>(I had two config files that both wanted to be handlers for the <code>codesmackdown.com</code> <code>server_name</code> ...)</p>
+<p>In which case you need to edit the file and fix it. Then <code>sudo nginx -t</code> again to see if the changes are now valid.</p>
+<p>Another thing is that you might be replacing an old site, served from an old folder/app and old config file with a new site, served from a new folder/app/config file.</p>
+<p>In that case you may also have to remove the symbolic link of the old file from the <code>site-enabled</code> folder.</p>
+<p>Once everything is tickety-boo you'll see:</p>
+<pre><code>$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+</code></pre>
+<p>So you can tell nginx to go ahead and use this newly crafted and verified configuration...</p>
+<pre><code>sudo nginx -s reload
+</code></pre>
+<h2 id="about-remote_addr">About remote_addr</h2>
+<p>Note, this particular line of config:</p>
+<pre><code>proxy_set_header X-Real-IP $remote_addr;
+</code></pre>
+<p>This is so that inside our application we'll be able to see the original IP Address of the client. The original IP request is terminated by <code>nginx</code>, and a new request is sent to our application. So if we read the IPAddress a normal way it will simply say 127.0.0.1 (or ::1). Instead if we look at the request header 'X-Real-IP' we will see the original remote IP address of the caller. In C# I do that like this:</p>
+<pre><code>var ipaddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+if (Request.Headers[&quot;X-Real-IP&quot;].Count() &gt; 0)
+{
+    ipaddress = Request.Headers[&quot;X-Real-IP&quot;];
+}
+</code></pre>
+<h2 id="tail-nginx-log">Tail nginx log</h2>
+<pre><code>sudo tail -n 20 -f /var/log/nginx/access.log
+</code></pre>
+<h2 id="gzip-enable-it">gzip -- enable it!</h2>
+<p>I get poor scores at google pagespeed insights: <a href="https://developers.google.com/speed/pagespeed/insights/?url=secretgeek.net&amp;tab=desktop">https://developers.google.com/speed/pagespeed/insights/?url=secretgeek.net&amp;tab=desktop</a> and at
+tools.pingdom -- <a href="https://tools.pingdom.com/#!/cpJDXC/secretgeek.net">https://tools.pingdom.com/#!/cpJDXC/secretgeek.net</a></p>
+<p>...partly because I haven't enabled gzip compression.</p>
+<p>To enable it i edit the <code>/etc/nginx/nginx.conf</code> file and enable the gzip stuff (plus add a little more types to compress)</p>
+<p>Here's what I end up with:</p>
+<pre><code>##
+# Gzip Settings
+##
+
+gzip on;
+gzip_disable &quot;msie6&quot;;
+
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_buffers 16 8k;
+gzip_http_version 1.1;
+gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+gzip_min_length 256;
+</code></pre>
+<p>THen I check the conf file using good old:</p>
+<pre><code>sudo nginx -t
+</code></pre>
+<p>And reload the nginx service with good old:</p>
+<pre><code>sudo nginx -s reload	
+</code></pre>
+<p>I re-run the pagespeed test and my scores are up by 3 points.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04</a></li>
+<li><a href="https://docs.asp.net/en/latest/publishing/linuxproduction.html">https://docs.asp.net/en/latest/publishing/linuxproduction.html</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-virtual-hosts-on-ubuntu-16-04">How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04</a></li>
+<li><a href="http://rehansaeed.com/nginx-asp-net-core-depth/">NGINX for ASP.NET Core In-Depth</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../.net_core_MVC/ip_address.html">IP Address in .net core MVC</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

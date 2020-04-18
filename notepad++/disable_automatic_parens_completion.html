@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="disable-automatic-parens-completion">Disable automatic parens completion.</h1>
+<p>Notepad++ has this annoying built in feature where it autocompletes quotes brackets angle brackets braces parens parentheses etc.</p>
+<p>You type <code>&quot;</code>  and it throws in another <code>&quot;</code> right away! Stop it already!</p>
+<blockquote>
+<p>Settings -&gt; Preferences -&gt; Auto-Completion</p>
+<p>2nd grouping called &quot;Auto-Insert&quot;, check/un-check the appropriate auto completion/inserts.</p>
+</blockquote>
+<p>Similarly...</p>
+<p><img src="nth_char.png" alt="nth_char.png" /></p>
+<p>In the</p>
+<p><code>Settings</code> → <code>Preferences</code> → <code>Auto-Completion</code></p>
+<p>...area, change auto-completion on each input to be from 5th character, not from 1st character</p>
+<p>Note there seems to be a bug in version 7.5.7 where I can't set which character it is from.</p>
+<p>So I could only turn off auto complete.</p>
+<p>Instead though, I've edited the <code>config.xml</code> file stored here:</p>
+<pre><code>cd $env:APPDATA
+cd Notepad++
+FindText auto-compl
+Notepad.exe config.xml
+
+    
+</code></pre>
+<p>And changed:</p>
+<pre><code>&lt;GUIConfig name=&quot;auto-completion&quot; autoCAction=&quot;3&quot; triggerFromNbChar=&quot;1&quot; autoCIgnoreNumbers=&quot;no&quot; funcParams=&quot;yes&quot; /&gt;		
+</code></pre>
+<p>To</p>
+<pre><code>&lt;GUIConfig name=&quot;auto-completion&quot; autoCAction=&quot;3&quot; triggerFromNbChar=&quot;5&quot; autoCIgnoreNumbers=&quot;no&quot; funcParams=&quot;yes&quot; /&gt;
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/119387/how-to-disable-annoying-parenthesis-completion">How to disable annoying 'parenthesis completion'?</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

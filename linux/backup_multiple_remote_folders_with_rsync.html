@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="backup-multiple-remote-folders-with-rsync">backup multiple remote folders with rsync</h1>
+<p>Yes you can <a href="backup_remote_folders_with_rsync.html">Backup remote folders with rsync</a> (and ssh) but when backing up multiple folders you don't want to enter your ssh password multiple times.</p>
+<p>So how can you write a <code>.sh</code> script that will backup multiple folders?</p>
+<p>The best way is to write a script that establishes a connection and reuses the connection!</p>
+<p>&quot;Create an rsync connection and keep it open&quot;</p>
+<p>for example:</p>
+<pre><code>ssh -Nf remote
+rsync -avz out/bin/$BINFILES remote:/usr/bin
+rsync -avz out/lib/$LIBFILES remote:/usr/lib
+rsync -avz out/etc/$ETCFILES remote:/etc
+ssh -O exit remote
+</code></pre>
+<p>Here was my version:</p>
+<pre><code>ssh -Nf myuser@55.55.55.55
+rsync -chavzP --stats myuser@55.55.55.55:/home/myuser/hello/obj/ /home/myuser/test_rsync2/home/myuser/hello/obj/
+rsync -chavzP --stats myuser@55.55.55.55:/home/myuser/test2/ /home/myuser/test_rsync2/home/myuser/test2
+ssh -O exit myuser@55.55.55.55
+</code></pre>
+<p>...didn't work because of these two tricks...</p>
+<ol>
+<li>First I needed to create an <code>~/.ssh/config file</code></li>
+</ol>
+<p>the file contains this:</p>
+<pre><code>ControlMaster auto
+ControlPath ~/.ssh/control:%h:%p:%r
+</code></pre>
+<p>(At this point it still didn't work, the error message was:</p>
+<pre><code>Bad owner or permissions on /home/myuser/.ssh/config
+Bad owner or permissions on /home/myuser/.ssh/config
+rsync: connection unexpectedly closed (0 bytes received so far) [Receiver]
+rsync error: unexplained error (code 255) at io.c(226) [Receiver=3.1.0]
+Bad owner or permissions on /home/myuser/.ssh/config
+rsync: connection unexpectedly closed (0 bytes received so far) [Receiver]
+rsync error: unexplained error (code 255) at io.c(226) [Receiver=3.1.0]
+Bad owner or permissions on /home/myuser/.ssh/config
+</code></pre>
+<p>)</p>
+<p>The &quot;Bad owner or permissions&quot; was literally true, hence step 2:</p>
+<ol start="2">
+<li><p>I Ran this command:</p>
+<p>chmod 600 ~/.ssh/config</p>
+</li>
+</ol>
+<p>now it worked!</p>
+<p>I run the file, it prompts me for the password exactly once, and runs all my many rsyncs.</p>
+<p>I remind myself to perform this regularly using devoir.</p>
+<p>That's sufficient for now.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="backup_remote_folders_with_rsync.html">Backup remote folders with rsync</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

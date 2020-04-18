@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="poor-mans-jquery">Poor Man's JQuery</h1>
+<p>What it lacks in flexibility and versatility, it makes up for in brevity.</p>
+<pre><code>function $(id) {
+    return document.getElementById(id);
+}
+</code></pre>
+<p>from <a href="http://www.secretgeek.net/higgins/slides_alt_net.html#44">slide 44: coding while you commute</a></p>
+<p>And here's the slightly less-poor poor man's jquery, updated for browsers in the modern age....</p>
+<pre><code>function $(selectors) {
+    return document.querySelectorAll(selectors)
+}
+</code></pre>
+<p>Note that this returns an array of elements.</p>
+<h1 id="external-links">External links</h1>
+<ul>
+<li><a href="http://youmightnotneedjquery.com/">You Might Not Need JQuery</a></li>
+<li><a href="http://vanilla-js.com/">vanilla-js</a></li>
+</ul>
+<h1 id="source">Source</h1>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll">https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll</a></li>
+<li>Suggestion from <a href="https://github.com/gkinsman">George Kinsman</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="how-to-find-how-much-free-space-is-left-on-a-drive">How to find how much free space is left on a drive</h1>
+<p>In short:</p>
+<pre><code>get-psdrive C
+</code></pre>
+<p>Bit lengthier...</p>
+<pre><code>get-psdrive C | % { &quot;&quot; + $_.Used/1GB + &quot; GB used, &quot; + $_.Free/1GB  + &quot; GB free&quot;}
+</code></pre>
+<p>Or lengthier still:</p>
+<pre><code>get-psdrive C | % { &quot;&quot; + &quot;{0:0.00}&quot; -f ($_.Used/1GB) + &quot; GB used, &quot; + &quot;{0:0.00}&quot; -f ($_.Free/1GB)   + &quot; GB free&quot;}
+</code></pre>
+
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="use-google-maps-from-the-powershell">Use Google Maps from the PowerShell</h1>
+<pre><code>Install-Module GoogleMap -Scope CurrentUser
+</code></pre>
+<p>That worked great, now let's try and use it....</p>
+<pre><code>&quot;White House&quot;, &quot;Eiffel Tower&quot; | Get-GeoCoding
+
+You need to register and get an API key and save it as environment variable $env:GoogleGeocode_API_Key = &quot;YOUR API KEY&quot;
+Follow this link and get the API Key - http://developers.google.com/maps/documentation/geocoding/get-api-key
+</code></pre>
+<p>So I follow that link... I have to accept some terms and conditions. It sees that I have no projects with google maps, and it auto-creates one called &quot;MyProject&quot;</p>
+<p>I receive the key eventually (I have an option to limit the acceptable IPs for this key, but don't take it)</p>
+<p>Then in powershell I set the environment variable as requested.</p>
+<pre><code>$env:GoogleGeocode_API_KEY = &quot;...my API key...&quot;    
+</code></pre>
+<p>Thereafter, I try again:</p>
+<pre><code>&quot;White House&quot;, &quot;Eiffel Tower&quot; | Get-GeoCoding
+
+
+InputAddress : White House
+Address      : The White House, 1600 Pennsylvania Ave NW, Washington, DC 20500, USA
+Country      : United States
+State        : District of Columbia
+PostalCode   : 20500
+Latitude     : 38.8976763
+Longitude    : -77.0365298
+Coordinates  : 38.8976763,-77.0365298
+
+InputAddress : Eiffel Tower
+Address      : Eiffel Tower, Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France
+Country      : France
+State        : �le-de-France
+PostalCode   : 75007
+Latitude     : 48.8583701
+Longitude    : 2.2944813
+Coordinates  : 48.8583701,2.2944813
+</code></pre>
+<p>Success!</p>
+<p>Now I try</p>
+<pre><code>Get-GeoLocation
+</code></pre>
+<p>This one fails with a familiar though slightly different error...</p>
+<pre><code>You need to register and get an API key and save it as environment variable $env:GoogleGeoloc_API_Key = &quot;YOUR API KEY&quot;
+Follow this link and get the API Key - https://developers.google.com/maps/documentation/geolocation/get-api-key
+
+At C:\Users\Leon\Documents\WindowsPowerShell\Modules\GoogleMap\1.0.0.2\GoogleMap.psm1:703 char:9
++         Throw &quot;You need to register and get an API key and save it as ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (You need to reg...get-api-key
+ :String) [], RuntimeException
+    + FullyQualifiedErrorId : You need to register and get an API key and save it as environment variable $env:GoogleGeoloc_API
+   _Key = &quot;YOUR API KEY&quot;
+Follow this link and get the API Key - https://developers.google.com/maps/documentation/geolocation/get-api-key    
+</code></pre>
+<p>i.e. This time it's</p>
+<p>GoogleGeoloc_API_Key (not GoogleGeocode_API_Key)</p>
+<p>Can I use my geo coding API key?</p>
+<p>I try that, but it fails.</p>
+<p>Looking at the code itself I see it is checking</p>
+<pre><code>!$env:GooglePlaces_API_Key
+</code></pre>
+<p>So I'll set that!</p>
+<p>Later in the code it mentions $env:GoogleGeoloc_API_Key -- so I think it needs BOTH set (and the reference to GooglePlaces_API_Key is a bug... you need to set it because of the bug...)</p>
+<p>Okay -- I went to that url <a href="https://developers.google.com/maps/documentation/geolocation/get-api-key">https://developers.google.com/maps/documentation/geolocation/get-api-key</a> and basically enabled the GeoLocation API for the project that I've created at developers.google.com.</p>
+<p>Try</p>
+<pre><code>Get-GeoLocation
+</code></pre>
+<p>And it returned the address of the house next door.</p>
+<p>That is spooky!</p>
+<p>What we've sent to google is the first two MAC addresses we could find from set of Wifi access points, it's handed back a lat/long, and then we've asked for an adddress based off that.</p>
+<p>What if I modify the code to send <em>ALL</em> of the MAC addresses we have?</p>
+<p>To do that in isolation I changed this line of code:</p>
+<pre><code>$body = @{wifiAccessPoints = @{macAddress = $($WiFiAccessPointMACAdddress[0])},@{macAddress = $($WiFiAccessPointMACAdddress[1])}}|ConvertTo-Json
+
+$body = &quot;{`&quot;wifiAccessPoints`&quot;:[&quot; + (($WiFiAccessPointMACAdddress | % { &quot;{`&quot;macAddress`&quot;: `&quot;$_`&quot;}&quot; }) -join &quot;,`n&quot;) + &quot;]&quot;
+</code></pre>
+<p>But the resulting address that was returned was not any more accurate. So I will leave the code as it was.</p>
+<p>Okay, moving on to Get-Direction... similar error:</p>
+<pre><code>You need to register and get an API key from below link and have to setup an Environment variable like
+$env:GoogleDirection_API_Key = &quot;YOUR API KEY&quot; to make this function work. You can save this $Env variable in your profile, so
+that it automatically loads when you open powershell console.
+API Key Link - https://developers.google.com/maps/documentation/directions/get-api-key
+</code></pre>
+<p>Again I visited the URI provided and then all was good.</p>
+<p>When I tried:</p>
+<pre><code>Get-Direction -from &quot;250 Adelaide St, Brisbane&quot; -to &quot;30 Mary St, Brisbane&quot; | ft -autosize
+</code></pre>
+<p>One of the directions read:</p>
+<pre><code>Turn right onto Mary StDestination will be on the right
+</code></pre>
+<p>Hmmm. No space between 'St' and 'Destination' -- what is happening there?</p>
+<p>I found this method was preparing the text:</p>
+<pre><code>#To Clear unwanted data from the String
+Function Remove-UnwantedString($Str)
+{
+    $str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;','')
+    $str = $str.replace('&lt;/div&gt;','')
+    $str = $str.replace('&lt;b&gt;','')
+    $str = $str.replace('&lt;/b&gt;','')
+    $str = $str.replace('&amp;nbsp;','')
+    Return $str
+}
+</code></pre>
+<p>And when I bypassed that method, the result was:</p>
+<pre><code>Turn &lt;b&gt;right&lt;/b&gt; onto &lt;b&gt;Mary St&lt;/b&gt;&lt;div style=&quot;font-size:0.9em&quot;&gt;Destination will be on the right&lt;/div&gt;
+</code></pre>
+<p>So I updated that method to put a single space where that &lt;div... had been.</p>
+<pre><code>#To Clear unwanted data from the String
+Function Remove-UnwantedString($Str)
+{
+    $str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;',' ') # space here
+    $str = $str.replace('&lt;/div&gt;','')
+    $str = $str.replace('&lt;b&gt;','')
+    $str = $str.replace('&lt;/b&gt;','')
+    $str = $str.replace('&amp;nbsp;',' ') # space here
+    Return $str
+}
+</code></pre>
+<p>And then I got the result I was expecting.</p>
+<p>Finally onto the fun one....</p>
+<pre><code>(&quot;cyberhub, dlf phase 3, Gurgaon&quot; | Get-GeoCoding).Coordinates | Get-NearbyPlace -Radius 3000 -TypeOfPlace bar -Keyword beer
+</code></pre>
+<p>This gave no result at first. It just returned nothing (no error either)</p>
+<p>(Perhaps <code>($status -eq 'OK')</code> was false?)</p>
+<p>I found I had to visit <a href="https://developers.google.com/places/web-service/get-api-key">https://developers.google.com/places/web-service/get-api-key</a></p>
+<p>Then it started to work.</p>
+<p>Finally, to find local pizza joints....</p>
+<pre><code>(Get-GeoLocation -WithCoordinates).Coordinates | Get-NearbyPlace -Radius 2000 -TypeOfPlace Restaurant -Keyword Pizza | % { $_.Name + &quot; (&quot; + $_.Address + &quot;)&quot; }
+</code></pre>
+<p>And nearest beer:</p>
+<pre><code>(Get-GeoLocation -WithCoordinates).Coordinates | Get-NearbyPlace -Radius 1000 -TypeOfPlace Bar -Keyword Beer | % Name
+</code></pre>
+<p>returned:</p>
+<pre><code>Pizza Capers (658 Ipswich Road, Annerley)
+Puccini Pizza Pasta Gelati Bar (Shop 2/6 Gapap Street, Tarragindi)
+Mediterranean Flavours - Gourmet Pizza and Pasta (1A 398 Tarragindi Road, Tarragindi) 
+</code></pre>
+<p>Fantastic!</p>
+<h2 id="source">Source</h2>
+<ul>
+<li>Prateek Singh <a href="https://geekeefy.wordpress.com/2016/05/17/powershell-module-for-google-map/">Powershell Module for Google Map</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

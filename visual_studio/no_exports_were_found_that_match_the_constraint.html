@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="visual-studio-2012-crashed-with-no-exports-were-found-that-match-the-constraint">Visual Studio 2012 crashed with &quot;No exports were found that match the constraint&quot;</h1>
+<pre><code>AN exception was encountered while contructing the content of this frame. This information is also logged in &quot;C:\Users\Bambrickl\AppData\Roaming\Microsoft\VisualStudio\11.0\ActivityLog.xml
+Exception details:
+System.ComponentModel.Composition.ImportCardinalityMismatchException: No exports were found that match the constraint:
+    ContractName	Microsoft.VisualStudio.Utilities.IContentTypeRegistryService
+    RequiredTypeIdentity	Microsoft.VisualStudio.Utilities.IContentTypeRegistryService
+        at System.ComponentModel.COmposition.Hosting.ExportProvider.GetExports(ImportDefinition defintiion, AtomicComposition atomicComposition)
+    at System.ComponentModel.COmposition.Hosting.ExportProvider.GetExportsCore(Type type, Type metadataViewType, String contractName, ImportCardinality cardinality)
+</code></pre>
+<p>To fix...</p>
+<pre><code>Just delete or rename this folder:
+%AppData%\..\Local\Microsoft\VisualStudio\11.0\ComponentModelCache
+</code></pre>
+<h2 id="stack-overflow">Stack Overflow</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/19217506/error-in-microsoft-visual-studio-2012-no-exports-were-found-that-match-the-cons">http://stackoverflow.com/questions/19217506/error-in-microsoft-visual-studio-2012-no-exports-were-found-that-match-the-cons</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>

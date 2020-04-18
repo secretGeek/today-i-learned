@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="add-or-remove-a-class">add or remove a class</h1>
+<p>We're going to look at all the elements with a class of cat, and then test for a class, remove a class, and add a class.</p>
+<p>Everything you need to do with a class. Pretty much.</p>
+<pre><code>for(const cat of $(&quot;.cat&quot;)) {
+	if (cat.classList.contains('fleas')) {
+		// The cat has the fleas class... remove it
+		this.classList.remove('fleas');
+		this.classList.add('clean');
+	}
+}
+</code></pre>
+<p>(I just noticed that this example uses a little helper function I keep handy...)</p>
+<pre><code>function $(selector) {
+	return document.querySelectorAll(selector);
+}
+</code></pre>
+<p>...and similarly I use:</p>
+<pre><code>function $id(id) {
+	return document.getElementById(id);
+}
+</code></pre>
+<p>)</p>
+
+</body>
+<script>
+</script>
+</html>

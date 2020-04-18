@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>{{title}}</title>
+</head>
+<body>
+<style>
+body {
+  max-width:70ch;
+  padding:2ch;
+  margin:auto;
+  color:#333;
+  font-size:1.2em;
+}
+</style>
+<h1 id="git-stash-very-useful">git stash: very useful</h1>
+<p>It's nice to have clean commits and branches and so on.</p>
+<p>One tool that helps with this is <code>stash</code></p>
+<p>If you have some changes you are not ready to commit, you can &quot;stash&quot; them aside, using:</p>
+<pre><code>git stash
+</code></pre>
+<p>Then you can -- for example -- switch to a branch where you want to apply those changes... or do some other more urgent work...</p>
+<p>and when you're in a place where you want those changes back, you can use</p>
+<pre><code>git stash apply
+</code></pre>
+<p>...to bring them back, but leave them in the stash.</p>
+<p>If you no longer need them in the stash, use</p>
+<pre><code>git stash drop
+</code></pre>
+<p>...to clean the stash.</p>
+<p>(You could've used <code>git stash pop</code> to apply them <em>and</em> remove them from the stash. Up to you.)</p>
+<p>Use</p>
+<pre><code>git stash list
+</code></pre>
+<p>To see all your stashes.</p>
+<p>If you stash one thing then another, it forms a stack of stashes. Thus the <code>pop</code> naming above.</p>
+<p>The topmost item is called &quot;stash@{0}&quot; next is &quot;stash@{1}&quot; etc.</p>
+<p>To see the item on top of the stack of stashes, in more detail, use:</p>
+<pre><code>git stash show
+</code></pre>
+<p>To see a specific item in the stack use:</p>
+<pre><code>git stash show -p &quot;stash@{3}&quot;
+</code></pre>
+<p>...where {3} is the item you're looking at.</p>
+<h1 id="avoiding-the-too-many-revisions-specified-error">Avoiding the &quot;Too many revisions specified&quot; error</h1>
+<p>Note that with powershell, if you leave out the double-quotes, i.e.</p>
+<pre><code>git stash show -p stash@{0}
+</code></pre>
+<p>...you'll receive the error:</p>
+<pre><code>Too many revisions specified: 'stash@' 'MAA=' 'xml' 'text'
+</code></pre>
+<p>BRIGST-L-96559 master C:\Apps\repo\MonoRepo\QAPortal\Sps.QAPortal.WebUI\Helpers&gt;</p>
+<h1 id="further-reading">Further reading</h1>
+<ul>
+<li><a href="https://git-scm.com/docs/git-stash/1.5.5">git-stash</a></li>
+</ul>
+
+</body>
+<script>
+</script>
+</html>
