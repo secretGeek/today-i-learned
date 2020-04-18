@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="form-value-count-limit-1024-exceeded">Form value count limit 1024 exceeded</h1>
 <p>I've got a form with 2500 elements. (Why not!?) (It's for doing bulk updates if you must know)</p>
 <p>In line with the suggested code <a href="http://stackoverflow.com/questions/38357108/form-submit-resulting-in-invaliddataexception-form-value-count-limit-1024-exce">here</a> I implemented a <code>RequestFormSizeLimit</code> attribute like so</p>

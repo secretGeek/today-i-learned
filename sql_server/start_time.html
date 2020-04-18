@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="when-was-sql-server-restarted">When was SQL Server restarted?</h1>
 <p>Mohammad Nizamuddin provides 4 different queries to find when the server was started, the first login occurred, the <code>tempdbs</code> were created.</p>
 <pre><code>--SELECT sqlserver_start_time FROM sys.dm_os_sys_info;  --I didn't have permissions for this one

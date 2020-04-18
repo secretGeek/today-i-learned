@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="invoke-a-linqpad-script-with-invoke-linqpadscript-commandlet">Invoke a LinqPad Script with Invoke-LinqPadScript CommandLet</h1>
 <p>Since you can <a href="run_linqpad_scripts_from_commandline.html">Run Linqpad scripts from the command-line</a> I made a short wrapper that lets you invoke scripts in a dedicated LinqPad script folder. (Assuming it is a directory caled <code>linqPad</code> under your <code>utils</code> folder.</p>
 <pre><code>function Invoke-LinqPadScript

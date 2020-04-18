@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="trailing-cr-lf">Trailing Cr Lf</h1>
 <p>Trailing Carriage return (\r) and Linefeed (\n) in a varchar are really hard to detect in SSMS.</p>
 <p>Imagine there's three columns, A, B and C that have the same content except B has two trailing spaces and C has a trailing '\r\n'.</p>

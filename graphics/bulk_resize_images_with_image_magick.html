@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="bulk-resize-images-with-image-magick">Bulk resize images with image magick</h1>
 <p>When I need to resize images, in bulk (or even one at a time) and I want them to stay sharp, i use ImageMagick</p>
 <pre><code>&gt; magick human_resource_machine.png -resize 200 -unsharp 0x6+0.5+0 human_resource_machine_200.png

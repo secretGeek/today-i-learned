@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="create-schema-with-authorization">Create Schema with Authorization</h1>
 <p>When Creating schemas, if you don't specify the 'Authorization' then the 'owner' of the schema will be the user who ran the script.</p>
 <p>So specify <code>DBO</code> for example, with a script like this:</p>

@@ -5,23 +5,7 @@
 <title>{{title}}</title>
 </head>
 <body>
-<style>
-body {
-  max-width:70ch;
-  padding:2ch;
-  margin:auto;
-  color:#333;
-  font-size:1.2em;
-  background-color:#F2F2F2;
-}
-pre {
-  white-space:pre-wrap;
-  margin-left:4ch;
-  background-color:#FFF;
-  padding:1ch;
-  border-radius:4px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/style.css">
 <h1 id="links-containing-parens-in-markdown">Links containing parens, in Markdown</h1>
 <p>I'm writing <a href="http://YourFirstProduct.com">Your First Product</a> (the book, not the website) in markdown. (Okay - the site is mostly written in markdown too, but I digress)... there was a url that ends with a closing parenthesis.</p>
 <p>The markdown parser in gitbook did not understand this (although the one in pandoc did). To make it work everywhere I had to encode the parens as %20 and %29 respectively.</p>
