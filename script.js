@@ -2,8 +2,9 @@
 // populate the breadcrumb
 // bind a 'show menu' behaviour to the hamburger menu
 function configureBreadcrumb() {
-	var currentPage = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-	var parentUrl = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
+	var currentUrl = location.pathname;
+	var currentPage = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
+	var parentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
 	var currentTitle = currentPage.substring(0, currentPage.lastIndexOf('.'));
 	var topicTOC = parentUrl + '/01_summary.html';
 	var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
@@ -13,7 +14,7 @@ function configureBreadcrumb() {
 	var homeLink = "<a href='/today-i-learned/index.html#topics'>Topics</a>";
 	var joiner = " &raquo; ";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
-	if (topicTitle == "today-i-learned") 
+	if (topicTitle == "today-i-learned" || topicTitle == "") ) 
 	{
 			$id('breadcrumb').innerHTML = homeLink + joiner + "index";
 	} 
