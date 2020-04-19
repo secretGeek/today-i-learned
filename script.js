@@ -14,7 +14,7 @@ function configureBreadcrumb() {
 	var homeLink = "<a href='/index.html#topics'>Topics</a>";
 	var joiner = " &raquo; ";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
-	if (topicTitle == "today-i-learned" || topicTitle == "") ) 
+	if (topicTitle == "today-i-learned" || topicTitle == "")
 	{
 			$id('breadcrumb').innerHTML = homeLink + joiner + "index";
 	} 
