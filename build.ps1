@@ -8,7 +8,7 @@ $clowncarExe = "C:\users\leonb\Dropbox\secretGeek\all_someday_projects\git_playg
 # .\quick.ps1;
 # cd $tilTarget;
 
-# now run clowncar to publish the markdowns as htmls
+# now run clowncar to generate htmls from markdowns
 $template = "C:\users\leonb\Dropbox\secretGeek\all_someday_projects\git_playground\today-i-learned\template.clowntent";
-& $clowncarExe -p="$tilSource" -o="$tilTarget" -t="$template" -r; # rebuild!
+& $clowncarExe -p="$tilSource" -o="$tilTarget" -t="$template" -r;
 move-item .\readme.html .\index.html -force
