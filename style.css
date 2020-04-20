@@ -85,6 +85,7 @@ form.search input[type='text'] {
   border-bottom-right-radius:0
 }
 form.search input[type='submit'] {
+  -webkit-appearance: none;
   border-radius:12px; 
   border-top-left-radius:0;
   border-bottom-left-radius:0;
