@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary</title>
+<title>defer execution of script</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,14 +19,15 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="html">html</h1>
-<h3 id="chapter-contents">chapter contents</h3>
-<ul>
-<li><a href="autocomplete_dropdowns.html">autocomplete dropdowns</a></li>
-<li><a href="defer_execution_of_script.html">defer execution of script</a></li>
-<li><a href="emoji_favicon.html">emoji favicon</a></li>
-<li><a href="scraping_files.html">scraping files</a></li>
-</ul>
+<h1 id="load-script-immediately-but-dont-execute-until-page-is-parsed">Load script immediately but don't execute until page is parsed</h1>
+<p>TL/DR; Add your script tags to the top of the page, with a defer attribute, e.g.</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;/script.js&quot; defer&gt;&lt;/script&gt;
+</code></pre>
+<p>This way it will begin loading immediately, but will not be executed until the entire page has been rendered.</p>
+<p>The old way was to add scripts to the bottom of the page, so they wouldn't be executed until the entire page has been rendered. The downside was that they wouldn't start downloading until that part of the page was parsed.</p>
+<p>The old-old way was to add scripts to the top of the page but have cumbersome checks in your code such that they wouldn't be executed until the a page loaded event was fired.</p>
+<p>The old-old-old way was to add scripts to the top of the page but have you code trigged by a onload=&quot;go();&quot; attribute on the body tag.</p>
+<p>Before that, the old-old-old-old way was just to bang a pair of rocks together until you got sparks.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

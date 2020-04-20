@@ -17,9 +17,10 @@ article, footer {
 pre {
   white-space:pre-wrap;
   margin-left:4ch;
-  background-color:#FFF;
+  background-color:#f6f8fa;
   padding:1ch;
-  border-radius:4px;
+  border-radius:3px;
+  overflow:auto;
 }
 header {
   background-color:white;
@@ -30,7 +31,8 @@ header {
   z-index:20;
 }
 footer {
-	text-align:center;
+  text-align:center;
+  opacity:0.8;
 }
 header div.nav{
   max-width:70ch;
@@ -65,6 +67,7 @@ div.breadcrumb {
 }
 form.search {
   float:right;
+	border:1px solid red;
 }
 form.search input[type='text'] {
   border-radius:12px;
