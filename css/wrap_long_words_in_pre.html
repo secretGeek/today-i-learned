@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary</title>
+<title>wrap long words in pre</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,15 +19,31 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="css">css</h1>
-<h3 id="chapter-contents">chapter contents</h3>
+<h1 id="wrapping-long-words-in-pre-tags">Wrapping long words in pre tags</h1>
+<p>Google console is complaining that:</p>
+<pre><code>Mobile Usability &gt; Content wider than screen
+</code></pre>
+<p>The problem appears to be <code>pre</code> tags where I mention long paths, that are basically one long word and don't get wrapped.</p>
+<p>As usual Chris Coyier has my back. Here's what I've used for <code>pre</code> tags:</p>
+<pre><code>pre {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+</code></pre>
+<p>Read his article for descriptions.</p>
+<p>(I feel I could probably drop some of the vendor prefixed ones.)</p>
+<h2 id="source">Source</h2>
 <ul>
-<li><a href="center.html">center</a></li>
-<li><a href="detect_retina_high_dpi_display.html">detect retina high dpi display</a></li>
-<li><a href="glyph_after_blank_anchors.html">glyph after blank anchors</a></li>
-<li><a href="maintainable_css.html">maintainable css</a></li>
-<li><a href="refactoring_ui_tools.html">refactoring ui tools</a></li>
-<li><a href="wrap_long_words_in_pre.html">wrap long words in pre</a></li>
+<li><a href="https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/">Handling Long Words and URLs (Forcing Breaks, Hyphenation, Ellipsis, etc)</a></li>
 </ul>
 
 </article>

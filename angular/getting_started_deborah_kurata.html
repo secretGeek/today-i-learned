@@ -74,10 +74,6 @@ cd .\Angular-GettingStarted\</p>
 6.14.1
 </code></pre>
 <p>Fiiiine.</p>
-<p><strong>But how do we get the angular cli?</strong></p>
-<pre><code>npm install -g @angular/cli
-</code></pre>
-<p>That's how you get the super dooper useful angular cli.</p>
 <p>Basic angular application has:</p>
 <ul>
 <li>package definition and configuration files</li>
@@ -87,6 +83,52 @@ cd .\Angular-GettingStarted\</p>
 <li>host web page (index.html)</li>
 </ul>
 <p>Can use angular cli to do all this...</p>
+<p><strong>But how do we get the angular cli?</strong></p>
+<p>npm install -g @angular/cli</p>
+<p>That's how you get the super dooper useful angular cli.</p>
+<h2 id="make-a-new-app">Make a new app</h2>
+<p>Make a new app with:</p>
+<pre><code>ng new my-app --skip-install --dry-run
+</code></pre>
+<p>(And if you are happy with the output remove the <code>--dry-run</code>)</p>
+<p>It will prompt you regarding routing, and what technology to use for styling (css, scss (sass), less, etc.)</p>
+<pre><code>cd my-app # go into the folder of our newly created app
+tree # look at all these files!
+npm install # because we skipped install earlier. I did that because installing is flaky for me. Just me??
+</code></pre>
+<ul>
+<li>If anything went <em>quite</em> wrong when installing npm dependencies, run <code>npm install</code> again.</li>
+<li>If anything went <em>majorly</em> wrong when installing npm dependencies, delete the lock file <code>package-lock.json</code> and remove the <code>node_modules</code> folder; then run <code>npm install</code> again. As many times as it takes. (wtaf).</li>
+</ul>
+<p>Edit the <code>package.json</code> so that the <code>start</code> script passes an <code>-o</code> parameter to the <code>ng serve</code> command. This way when you start your app in the console, it will also <code>open</code> the browser.</p>
+<pre><code>&quot;scripts&quot;: {
+  &quot;ng&quot;: &quot;ng&quot;,
+  &quot;start&quot;: &quot;ng serve -0&quot;,
+</code></pre>
+<h2 id="generate-some-stufff">Generate some stufff.....</h2>
+<p>In our new app we can generate some stuff....</p>
+<p>Generate a new component, called xyz...</p>
+<pre><code>ng generate component xyz
+</code></pre>
+<p>In fact we can generate any of these:</p>
+<pre><code>	appShell
+	application
+	class
+	component
+	directive
+	enum
+	guard
+	interceptor
+	interface
+	library
+	module
+	pipe
+	service
+	serviceWorker
+	webWorker
+</code></pre>
+<p>(This is just what we get from the <code>Collection</code> <code>@schematics/angular</code> ok.</p>
+<p>As a scientist you can commit everything to your repo. Generate one of those. Then inspect what was added.</p>
 <p>In:</p>
 <pre><code>~\learning\Angular\Angular-GettingStarted\APM-Start\
 </code></pre>
@@ -130,12 +172,27 @@ cd .\Angular-GettingStarted\</p>
 	},
 </code></pre>
 <p>Those scripts are a map of friendly little names on the left to 'complex' commands on the right.</p>
-<p>So when we run <code>npm start</code> it is a shortcut to running:  <code>npm run ng serve -o</code></p>
+<p>So, for this project, when we run <code>npm start</code> it is a shortcut to running:  <code>npm run ng serve -o</code></p>
 <p><img src="welcome.png" alt="welcome" /></p>
 <h2 id="other-supporting-files">Other supporting files</h2>
 <p>Can download the exercise files from:</p>
 <p><a href="https://app.pluralsight.com/library/courses/angular-2-getting-started-update/exercise-files">https://app.pluralsight.com/library/courses/angular-2-getting-started-update/exercise-files</a></p>
 <p>(I've put them in my <code>~learning/angular/</code> folder)</p>
+<h2 id="concepts">Concepts</h2>
+<ul>
+<li>angular module</li>
+<li>component</li>
+<li>template</li>
+<li>directives</li>
+<li>data-binding</li>
+<li>pipes</li>
+<li>services</li>
+<li>routing
+<ul>
+<li>guards</li>
+</ul>
+</li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://app.pluralsight.com/library/courses/angular-2-getting-started-update/discussion">Discussion group for the course here</a> with 6404 comments</li>
