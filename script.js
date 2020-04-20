@@ -12,7 +12,7 @@ function configureBreadcrumb() {
 	topicTitle = topicTitle.replace(/_/g, " ");
 	currentTitle = currentTitle.replace(/_/g, " ");
 	var homeLink = "<a href='/index.html#topics'>Topics</a>";
-	var joiner = " &raquo; ";
+	var joiner = " &rsaquo; ";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
 	if (topicTitle == "today-i-learned" || topicTitle == "")
 	{

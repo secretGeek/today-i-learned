@@ -49,6 +49,7 @@ header div.nav{
   max-width:70ch;
   margin:auto;
   padding:2ch;
+  padding-left:0;
 }
 header div.nav a {
   text-decoration:none;
@@ -58,8 +59,8 @@ header div.nav a {
   color:#333;
 }
 header div.nav a:hover {
-  box-shadow:0 0 4px #666, 0 0 8px inset #666;
-  color:blue;
+  text-shadow:0 0 2px #FF0, 0 0 4px #FF0, 0 0 6px #FF0;
+  color:black;
 }
 div.breadcrumb {
   max-width:70ch;
@@ -93,6 +94,7 @@ form.search input[type='submit'] {
   margin-top:0;
   width:29px;
   height:29px;
+  background-color:#DDD;
   border:1px solid #CCC;
   border-left:none;
   box-shadow:0 -2px 3px inset #AAA;
