@@ -8,7 +8,7 @@ function configureBreadcrumb() {
 	var currentTitle = currentPage.substring(0, currentPage.lastIndexOf('.'));
 	var topicTOC = parentUrl + '/01_summary.html';
 	var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
-	if (currentTitle == "01_summary") currentTitle = "topic contents";
+	if (currentTitle == "01_summary") currentTitle = "contents";
 	topicTitle = topicTitle.replace(/_/g, " ");
 	currentTitle = currentTitle.replace(/_/g, " ");
 	var homeLink = "<a href='/index.html#topics'>Topics</a>";
