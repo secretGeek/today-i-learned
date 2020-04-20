@@ -71,7 +71,7 @@ div.breadcrumb {
   border-bottom-left-radius:1ch;
   border-bottom-right-radius:1ch;
   background-color:#f1f1f1;
-  box-shadow:0 -2px 2px inset #F1F1F1, 0 2px 2px #CCC;
+  box-shadow:0 2px 2px inset #AAA, 0 -2px 2ch inset #fAfAfA, 0 2px 2px #CCC;
   position:relative;
   z-index:2;
   color:#555;
@@ -93,6 +93,9 @@ form.search input[type='submit'] {
   margin-top:0;
   width:29px;
   height:29px;
+  border:1px solid #CCC;
+  border-left:none;
+  box-shadow:0 -2px 3px inset #AAA;
 }
 .search-text 
 {
@@ -101,6 +104,9 @@ form.search input[type='submit'] {
   height:29px;
   width:calc(100% - 30px);
   vertical-align: bottom;
+  border:1px solid #CCC;
+  border-right:none;
+  box-shadow:0 2px 3px inset #EEE;
 }
 img {
   max-width:calc(100% - 30px);
