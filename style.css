@@ -19,8 +19,19 @@ pre {
   margin-left:4ch;
   background-color:#f6f8fa;
   padding:1ch;
-  border-radius:3px;
+  border-radius:4px;
   overflow:auto;
+  box-shadow:0 -2px 4px inset #ddd;
+}
+code {
+  background-color:#f6f8fa;
+  border-radius:4px;
+  padding:2px;
+  box-shadow:0 -2px 4px inset #ddd;
+
+}
+pre code {
+  box-shadow:none;
 }
 header {
   background-color:white;
@@ -67,7 +78,6 @@ div.breadcrumb {
 }
 form.search {
   float:right;
-	border:1px solid red;
 }
 form.search input[type='text'] {
   border-radius:12px;
@@ -85,12 +95,10 @@ form.search input[type='submit'] {
 }
 .search-text 
 {
-  margin-left:25px;
   color:#555;
-  xbackground-color:#666;
-  padding: 0 2px 0 15px;
+  padding: 0 2px 0 10px;
   height:29px;
-  width:calc(100% - 80px);
+  width:calc(100% - 30px);
   vertical-align: bottom;
 }
 img {
