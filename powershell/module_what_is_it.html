@@ -27,6 +27,19 @@
 <p>The psm1 file ends with an <code>Export-ModuleMember</code> statement saying which functions and aliases to export., e.g.</p>
 <pre><code>Export-ModuleMember -Function Get-Foo, New-Bar, ... -Alias gf, ..
 </code></pre>
+<p>You can see each of the folders listed in <code>$env:PSModulePath</code> by splitting it like this:</p>
+<pre><code>$env:PSModulePath | % {$_ -split &quot;;&quot;}
+</code></pre>
+<p>e.g. (I'll explain them all here)</p>
+<pre><code>C:\Users\MyUser\OneDrive\Documents\WindowsPowerShell\Modules		# Modules for *just me*
+C:\Program Files\WindowsPowerShell\Modules											# Modules for all users
+C:\Windows\system32\WindowsPowerShell\v1.0\Modules							# Modules that windows installed...
+</code></pre>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/27713844/dot-source-a-script-within-a-function">Stackoverflow: How to put those extra functions into a module.</a></li>
+<li><a href="https://activedirectorypro.com/install-powershell-modules/">How to install PowerShell modules</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

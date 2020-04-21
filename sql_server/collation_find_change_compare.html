@@ -20,10 +20,10 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="collation">Collation....</h1>
-<h1 id="find-default-collation-of-the-database">Find default collation of the database</h1>
+<h2 id="find-default-collation-of-the-database">Find default collation of the database</h2>
 <pre><code>Select DatabasePropertyEx('DATABASE_NAME','Collation')
 </code></pre>
-<h1 id="find-collation-of-a-column">Find collation of a column</h1>
+<h2 id="find-collation-of-a-column">Find collation of a column</h2>
 <pre><code>SELECT name, collation_name
 FROM sys.columns
 WHERE OBJECT_ID IN (SELECT OBJECT_ID
@@ -33,14 +33,14 @@ AND SCHEMA_NAME(schema_id) = 'MySchema'
 AND name = 'MyTable')
 AND name = 'MyColumn'
 </code></pre>
-<h1 id="compare-two-values-that-have-different-collation">Compare two values that have different collation</h1>
+<h2 id="compare-two-values-that-have-different-collation">Compare two values that have different collation</h2>
 <pre><code>Select p.Name, w.Age
 from
 Person p
 inner join Attributes w
 on p.id = w.id collate database_default
 </code></pre>
-<h1 id="find-all-collations-used-in-a-database">Find all collations used in a database</h1>
+<h2 id="find-all-collations-used-in-a-database">Find all collations used in a database</h2>
 <pre><code>SELECT distinct collation_name
 FROM sys.columns
 </code></pre>
@@ -69,7 +69,7 @@ FROM sys.columns
 </tr>
 </tbody>
 </table>
-<h1 id="change-collation-of-an-entire-database">Change Collation of an entire database</h1>
+<h2 id="change-collation-of-an-entire-database">Change Collation of an entire database</h2>
 <p>First try and change the collation directly</p>
 <pre><code>USE [master]
 GO
@@ -96,7 +96,10 @@ ALTER DATABASE [YOLO_DB] SET MULTI_USER;
 
 GO
 </code></pre>
-<p>Note that having a mismatch between TempDb and your collation is the shortcut to madness.</p>
+<p><em>Note that having a mismatch between TempDb and your collation is the shortcut to madness.</em></p>
+<h2 id="mood-tracker">Mood Tracker</h2>
+<p>Here is a mood tracker I have on my wall so I can move the little yellow pointer to indicate which of the only two possible moods I am currently in:</p>
+<p><img src="TODAY_we_are_angry_about_NULLs_Collation.jpg" alt="TODAY we are angry about: NULLs or Collation" /></p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/13785814/collation-error">SO: Collation Error</a></li>
