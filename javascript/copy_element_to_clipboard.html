@@ -45,15 +45,45 @@ function copytext(copyText) {
 </code></pre>
 <p>And this styling works for me:</p>
 <pre><code>code.copyable {
-
 	background-color:white;
 	border:1px solid #CCC;
 	border-radius:5px;
 	padding:2px 4px;
 }
-	code.copyable:hover {
+code.copyable:hover {
 	cursor: pointer;
-	}
+}
+</code></pre>
+<p>To automatically hook up <em>all</em> <code>pre</code> and <code>code</code> items to be copyable (but <em>not</em> allow <code>code</code> <em>inside</em> <code>pre</code> to trigger a second copy...)</p>
+<p>Run this code:</p>
+<pre><code>for(let preOrCode of $('pre, code')) {
+	preOrCode.setAttribute('title', &quot;Click to copy.&quot;);
+	preOrCode.setAttribute('onclick', &quot;copyItemText(this);&quot;);
+}
+
+for(let codeInPre of $('pre code' )) {
+	codeInPre.removeAttribute('onclick');
+}
+</code></pre>
+<p>Which relies on these functions:</p>
+<pre><code>function copyItemText(item) {
+	item.setAttribute('title', &quot;Copied. Click to copy again.&quot;);
+	copytext(item.textContent);
+}
+
+function copytext(copyText) {
+	const textArea = document.createElement('textarea');
+	textArea.style.position = &quot;absolute&quot;;
+	textArea.style.left = &quot;-100%&quot;;
+	textArea.textContent = copyText;
+	document.body.appendChild(textArea);
+	textArea.select();
+	document.execCommand(&quot;copy&quot;);
+}
+
+function $(selector) {
+	return document.querySelectorAll(selector);
+}
 </code></pre>
 
 </article>

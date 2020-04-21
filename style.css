@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body,html {
   color:#333;
   font-size:1.2em;
@@ -9,11 +10,13 @@ body,html {
   margin:0;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
 article, footer {
   max-width:70ch;
   padding:2ch;
   margin:auto;
 }
+
 pre {
   white-space:pre-wrap;
   margin-left:4ch;
@@ -23,6 +26,7 @@ pre {
   overflow:auto;
   box-shadow:0 -2px 4px inset #ddd;
 }
+
 pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -36,6 +40,7 @@ pre {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
 code {
   background-color:#f6f8fa;
   border-radius:4px;
@@ -43,9 +48,19 @@ code {
   box-shadow:0 -2px 4px inset #ddd;
 
 }
+
 pre code {
   box-shadow:none;
 }
+
+pre:hover, code:hover {
+  cursor: pointer;
+}
+
+pre code:hover {
+  cursor:inherit;
+}
+
 header {
   background-color:white;
   margin:0;
@@ -54,16 +69,19 @@ header {
   position:relative;
   z-index:20;
 }
+
 footer {
   text-align:center;
   opacity:0.8;
 }
+
 header div.nav{
   max-width:70ch;
   margin:auto;
   padding:2ch;
   padding-left:0;
 }
+
 header div.nav a {
   text-decoration:none;
   padding:0.5ch;
@@ -71,10 +89,12 @@ header div.nav a {
   border-radius:12px;
   color:#333;
 }
+
 header div.nav a:hover {
-  text-shadow:0 0 2px #FF0, 0 0 4px #FF0, 0 0 6px #FF0;
+  text-shadow:0 0 2px #FF6, 0 0 4px #FF6, 0 0 6px #FF6;
   color:black;
 }
+
 div.breadcrumb {
   max-width:70ch;
   margin:auto;
@@ -90,14 +110,17 @@ div.breadcrumb {
   z-index:2;
   color:#555;
 }
+
 form.search {
   float:right;
 }
+
 form.search input[type='text'] {
   border-radius:12px;
   border-top-right-radius:0;
   border-bottom-right-radius:0
 }
+
 form.search input[type='submit'] {
   -webkit-appearance: none;
   border-radius:12px; 
@@ -112,6 +135,7 @@ form.search input[type='submit'] {
   border-left:none;
   box-shadow:0 -2px 3px inset #AAA;
 }
+
 .search-text 
 {
   color:#555;
@@ -123,6 +147,7 @@ form.search input[type='submit'] {
   border-right:none;
   box-shadow:0 2px 3px inset #EEE;
 }
+
 img {
   max-width:calc(100% - 30px);
   border:1px solid #CCC;
@@ -130,10 +155,12 @@ img {
   margin:15px auto;
   display:block;
 }
+
 img[src='today_i_learned.png'],img[src='yfp_book.png'] {
   border:none;
   box-shadow:none;
 }
+
 table {
   margin:auto;
   border:1px solid #CCC;
