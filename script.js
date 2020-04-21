@@ -28,7 +28,8 @@ function copyPreCodeOnClick() {
 	}
 
 	for(let codeInPre of $('pre code' )) {
-		codeInPre.removeAttribute('onclick', undefined);
+		codeInPre.removeAttribute('onclick');
+		codeInPre.removeAttribute('title');
 	}
 }
 
