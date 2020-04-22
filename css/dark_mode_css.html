@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>dark mode css</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-implement-dark-mode-with-css">How to implement dark mode with css</h1>
+<p>The way I like to implement this is by combining &quot;custom properties&quot; with <code>prefers-color-scheme</code>.</p>
+<h2 id="custom-properties">Custom Properties</h2>
+<p>First... how to implement custom properties, i.e. <em>variables</em> for your colors.</p>
+<pre><code>&lt;style&gt;
+:root {
+	--main:#333;     /* our 'main' text color */
+	--main-bg:#FFF;  /* our 'main' background color */
+}
+
+body {
+	color:var(--main);	/* applying our main text color */
+	background-color:var(--main-bg); 	/* applying our main background color */
+}
+&lt;/style&gt;
+</code></pre>
+<p>With the example above we've defined some custom properties, and then used them to style our page.</p>
+<h2 id="adding-in-prefers-color-scheme">Adding in <code>prefers-color-scheme</code></h2>
+<p>We can enhance this by supporting a <em>dark</em> color scheme for any users that have configured their device to use dark.</p>
+<pre><code>&lt;style&gt;
+:root {
+	--main:#333;     /* our 'main' text color */
+	--main-bg:#FFF;  /* our 'main' background color */
+}
+
+/* this @media query will apply to those who have
+   chosen a dark scheme on their device. */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--main:#CCC;
+		--main-bg:#222;
+	}
+}
+
+body {
+	color:var(--main);	/* applying our main text color */
+	background-color:var(--main-bg); 	/* applying our main background color */
+}
+&lt;/style&gt;
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">mdn:Using CSS custom properties (variables)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme">mdn:prefers-color-scheme</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
