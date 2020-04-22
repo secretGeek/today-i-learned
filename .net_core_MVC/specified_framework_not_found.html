@@ -69,14 +69,15 @@ Yesterday       dotnet-dev-1.0.0-preview2-1-003177
 <pre><code>sudo apt-get install dotnet-dev-1.0.0-preview2-003156
 </code></pre>
 <p>After that it seems to work okay.</p>
-<p>====</p>
+<hr />
 <p>On a &quot;more recent&quot; machine with (hopefully) .net core 2.2 I see:</p>
-<p>$ dpkg --get-selections | grep -v deinstall | grep dot
+<pre><code>$ dpkg --get-selections | grep -v deinstall | grep dot
 dotnet-host                                     install
 dotnet-hostfxr-2.2                              install
 dotnet-runtime-2.2                              install
 dotnet-runtime-deps-2.2                         install
-dotnet-sdk-2.2                                  install</p>
+dotnet-sdk-2.2                                  install
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

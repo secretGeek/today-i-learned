@@ -20,21 +20,22 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="zip-a-single-file">Zip a single file</h1>
-<p>This is a minimal C# function (usable from Linqpad) to Zip a single file into its own archive.</p>
+<p>This is a minimal C# function (usable from <a href="../linqpad/01_summary.html">Linqpad</a>) to Zip a single file into its own archive.</p>
 <p>References these libraries:</p>
 <ul>
-<li><p><code>System.IO.Compression.dll</code></p>
-</li>
-<li><p><code>System.IO.Compression.FileSystem.dll</code></p>
-<p>using System.IO.Compression;</p>
-<p>public void Zipit(string zipPath, string sourceFilePath)
-{
-var file = Path.GetFileName(sourceFilePath);
-using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
-archive.CreateEntryFromFile(sourceFilePath, file);
-}</p>
-</li>
+<li><code>System.IO.Compression.dll</code></li>
+<li><code>System.IO.Compression.FileSystem.dll</code></li>
 </ul>
+<p>Code:</p>
+<pre><code>using System.IO.Compression;
+
+public void Zipit(string zipPath, string sourceFilePath)
+{
+	var file = Path.GetFileName(sourceFilePath);
+	using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+		archive.CreateEntryFromFile(sourceFilePath, file);
+}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

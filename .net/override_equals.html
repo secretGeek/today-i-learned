@@ -19,7 +19,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="override-equals-to-compare-objects">override equals to compare objects</h1>
+<h1 id="override-equals-to-compare-objects-in-c">Override equals to compare objects in C#</h1>
 <p>If A and B are two different objects in memory, but they are of the same type and have all the same values... are they equal?</p>
 <p>It's a deep question, but if, for your problem domain, the answer is &quot;YES&quot; then you can embed this answer in your code as follows:</p>
 <pre><code>public class MyThing
@@ -31,11 +31,9 @@
 	public override bool Equals(object obj)
 	{
 		Mything test = obj as Mything;
-		if (obj == null)
-		{
-			return false;
-		}
-		return ID == test.ID &amp;&amp;
+
+		return test != null &amp;&amp;
+			ID == test.ID &amp;&amp;
 			Hats == test.Hats &amp;&amp;
 			Noses == test.Noses;
 	}

@@ -2,75 +2,78 @@
   box-sizing: border-box;
 }
 
-	:root {
-		--main:#333;
-		--main-bg:#FFF;
-		--code-bg:#f6f8fa;
-		--code-shadow:#ddd;
-		--header-bg:white;
-		--header-shadow:#CCC;
-		--breadcrumb-bg:#f1f1f1;
-		--breadcrumb:#555;
-		--search-btn-bg:#DDD;
-		--search:#555;
-		--search-border:#CCC;
-		--img-border:#CCC;
-		--img-shadow:#AAA;
-		--table-border:#CCC;
-		--search-shadow:#EEE;
-		--search-btn-shadow:#AAA;
-		--breadcrumb-shadow-inset1:#AAA;
-		--breadcrumb-shadow-inset2:#fAfAfA;
-		--breadcrumb-shadow:#CCC;
-		--nav-hover-shadow:#FF6;
-		--link-active:#F00;
-		--link:blue;
-		--link-hover:red;
-		--link-visited:purple;
-	}
+  :root {
+    --main:#333;
+    --main-bg:#FFF;
+    --code-bg:#f6f8fa;
+    --code-shadow:#ddd;
+    --header-bg:white;
+    --header-shadow:#CCC;
+    --breadcrumb-bg:#f1f1f1;
+    --breadcrumb:#555;
+    --search-btn-bg:#DDD;
+    --search:#555;
+    --search-border:#CCC;
+    --img-border:#CCC;
+    --img-shadow:#AAA;
+    --table-border:#CCC;
+    --search-shadow:#EEE;
+    --search-btn-shadow:#AAA;
+    --breadcrumb-shadow-inset1:#AAA;
+    --breadcrumb-shadow-inset2:#fAfAfA;
+    --breadcrumb-shadow:#CCC;
+    --nav-hover-shadow:#FF6;
+    --link-active:red;
+    --link:blue;
+    --link-hover:lightblue;
+    --link-visited:purple;
+  }
 
-	/* this @media query will apply to those who have
-	   chosen a dark scheme on their device. */
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--main:#CCC;
-			--main-bg:#222;
-			--code-bg:#333;
-			--code-shadow:#383838;
-			--header-bg:#222;
-			--header-shadow:#666;
-			--breadcrumb-bg:#333;
-			--breadcrumb:#DDD;
-			--search-btn-bg:#333;
-			--search:#CCC;
-			--search-border:#AAA;
-			--img-border:#AAA;
-			--img-shadow:#000;
-			--table-border:#AAA;
-			--search-shadow:#EEE;
-			--search-btn-shadow:#000;
-			--breadcrumb-shadow-inset1:#666;
-			--breadcrumb-shadow-inset2:#383838;
-			--breadcrumb-shadow:#666;
-			--nav-hover-shadow:#AA2;
-			--link-active:#FAA;
-			--link:darkcyan;
-			--link-hover:cyan;
-			--link-visited:lightblue;
-		}
-	}
+  /* this @media query will apply to those who have
+     chosen a dark scheme on their device. */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --main:#CCC;
+      --main-bg:#222;
+      --code-bg:#333;
+      --code-shadow:#383838;
+      --header-bg:#222;
+      --header-shadow:#666;
+      --breadcrumb-bg:#333;
+      --breadcrumb:#DDD;
+      --search-btn-bg:#333;
+      --search:#CCC;
+      --search-border:#AAA;
+      --img-border:#AAA;
+      --img-shadow:#000;
+      --table-border:#AAA;
+      --search-shadow:#222;
+      --search-btn-shadow:#000;
+      --breadcrumb-shadow-inset1:#222;
+      --breadcrumb-shadow-inset2:#383838;
+      --breadcrumb-shadow:#666;
+      --nav-hover-shadow:#AA2;
+      --link-active:#FAA;
+      --link:cyan;
+      --link-hover:lightblue;
+      --link-visited:darkcyan;
+    }
+    img[src='today_i_learned.png']{
+      filter: invert(87%);
+    }
+  }
 
 a{
-	color:var(--link);
+  color:var(--link);
 }
 a:active {
-	color:var(--link-active);
+  color:var(--link-active);
 }
 a:visited {
-	color:var(--link-visited);
+  color:var(--link-visited);
 }
 a:hover {
-	text-shadow:0 0 1px var(--link-active);
+  text-shadow:0 0 1px var(--link-active);
 }
 
 body,html {
@@ -184,9 +187,12 @@ form.search {
 }
 
 form.search input[type='text'] {
+  -webkit-appearance: none;
+  background-color:var(--breadcrumb-bg);
+  color:var(--breadcrumb);
   border-radius:12px;
   border-top-right-radius:0;
-  border-bottom-right-radius:0
+  border-bottom-right-radius:0;
 }
 
 form.search input[type='submit'] {
@@ -234,4 +240,13 @@ table {
   border:1px solid var(--table-border);
   padding:2ch;
   border-radius:5px;
+}
+
+blockquote {
+  border:none;
+  border-left:1ch solid var(--table-border);
+  box-shadow:0 0 6px inset var(--code-bg);
+  padding:1ch 4ch;
+  margin:0;
+  border-radius:0 1ch 1ch 0;
 }
