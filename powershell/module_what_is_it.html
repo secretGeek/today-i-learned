@@ -24,9 +24,6 @@
 <p>In its simplest form a module is a subfolder in one of the folders listed in $env:PSModulePath with a PowerShell script of the same name (but with the extension .psm1 instead of .ps1):
 <a href="https://stackoverflow.com/questions/27713844/dot-source-a-script-within-a-function">source</a></p>
 </blockquote>
-<p>The psm1 file ends with an <code>Export-ModuleMember</code> statement saying which functions and aliases to export., e.g.</p>
-<pre><code>Export-ModuleMember -Function Get-Foo, New-Bar, ... -Alias gf, ..
-</code></pre>
 <p>You can see each of the folders listed in <code>$env:PSModulePath</code> by splitting it like this:</p>
 <pre><code>$env:PSModulePath | % {$_ -split &quot;;&quot;}
 </code></pre>
@@ -35,6 +32,15 @@
 C:\Program Files\WindowsPowerShell\Modules											# Modules for all users
 C:\Windows\system32\WindowsPowerShell\v1.0\Modules							# Modules that windows installed...
 </code></pre>
+<p>The psm1 file ends with an <code>Export-ModuleMember</code> statement saying which functions and aliases to export., e.g.</p>
+<pre><code>Export-ModuleMember -Function Get-Foo, New-Bar, ... -Alias gf, ..
+</code></pre>
+<h1 id="how-to-import-a-local.psm1-module-file">How to import a local .psm1 module file</h1>
+<p>If you have a module as a .psm1 file, you can import it like this:</p>
+<pre><code>import-module cowsay.psm1
+</code></pre>
+<p>That will create a folder called <code>cowsay</code> (in this case), under one of the <code>$env:PSModulePath</code> folders mentioned above, and put the <code>cowsay.psm1</code> file into it.</p>
+<p>Normally you would instead import it from an online repository. And you may also want to know how to publish to one of those.</p>
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/27713844/dot-source-a-script-within-a-function">Stackoverflow: How to put those extra functions into a module.</a></li>
