@@ -12,3 +12,5 @@ $clowncarExe = "C:\users\leonb\Dropbox\secretGeek\all_someday_projects\git_playg
 $template = "C:\users\leonb\Dropbox\secretGeek\all_someday_projects\git_playground\today-i-learned\template.clowntent";
 & $clowncarExe -p="$tilSource" -o="$tilTarget" -t="$template" -r -z;
 move-item .\readme.html .\index.html -force
+
+stat

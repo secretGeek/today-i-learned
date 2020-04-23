@@ -2,66 +2,66 @@
   box-sizing: border-box;
 }
 
-  :root {
-    --main:#333;
-    --main-bg:#FFF;
-    --code-bg:#f6f8fa;
-    --code-shadow:#ddd;
-    --header-bg:white;
-    --header-shadow:#CCC;
-    --breadcrumb-bg:#f1f1f1;
-    --breadcrumb:#555;
-    --search-btn-bg:#DDD;
-    --search:#555;
-    --search-border:#CCC;
-    --img-border:#CCC;
-    --img-shadow:#AAA;
-    --table-border:#CCC;
-    --search-shadow:#EEE;
-    --search-btn-shadow:#AAA;
-    --breadcrumb-shadow-inset1:#AAA;
-    --breadcrumb-shadow-inset2:#fAfAfA;
-    --breadcrumb-shadow:#CCC;
-    --nav-hover-shadow:#FF6;
-    --link-active:red;
-    --link:blue;
-    --link-hover:lightblue;
-    --link-visited:purple;
-  }
+:root {
+  --main:#333;
+  --main-bg:#FFF;
+  --code-bg:#f6f8fa;
+  --code-shadow:#ddd;
+  --header-bg:white;
+  --header-shadow:#CCC;
+  --breadcrumb-bg:#f1f1f1;
+  --breadcrumb:#555;
+  --search-btn-bg:#DDD;
+  --search:#555;
+  --search-border:#CCC;
+  --img-border:#CCC;
+  --img-shadow:#AAA;
+  --table-border:#CCC;
+  --search-shadow:#EEE;
+  --search-btn-shadow:#AAA;
+  --breadcrumb-shadow-inset1:#AAA;
+  --breadcrumb-shadow-inset2:#fAfAfA;
+  --breadcrumb-shadow:#CCC;
+  --nav-hover-shadow:#FF6;
+  --link-active:red;
+  --link:blue;
+  --link-hover:lightblue;
+  --link-visited:purple;
+}
 
-  /* this @media query will apply to those who have
-     chosen a dark scheme on their device. */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --main:#CCC;
-      --main-bg:#222;
-      --code-bg:#333;
-      --code-shadow:#383838;
-      --header-bg:#222;
-      --header-shadow:#666;
-      --breadcrumb-bg:#333;
-      --breadcrumb:#DDD;
-      --search-btn-bg:#333;
-      --search:#CCC;
-      --search-border:#AAA;
-      --img-border:#AAA;
-      --img-shadow:#000;
-      --table-border:#AAA;
-      --search-shadow:#222;
-      --search-btn-shadow:#000;
-      --breadcrumb-shadow-inset1:#222;
-      --breadcrumb-shadow-inset2:#383838;
-      --breadcrumb-shadow:#666;
-      --nav-hover-shadow:#AA2;
-      --link-active:#FAA;
-      --link:cyan;
-      --link-hover:lightblue;
-      --link-visited:darkcyan;
-    }
-    img[src='today_i_learned.png']{
-      filter: invert(87%);
-    }
+/* this @media query will apply to those who have
+   chosen a dark scheme on their device. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main:#CCC;
+    --main-bg:#222;
+    --code-bg:#333;
+    --code-shadow:#383838;
+    --header-bg:#222;
+    --header-shadow:#666;
+    --breadcrumb-bg:#333;
+    --breadcrumb:#DDD;
+    --search-btn-bg:#333;
+    --search:#CCC;
+    --search-border:#AAA;
+    --img-border:#AAA;
+    --img-shadow:#000;
+    --table-border:#AAA;
+    --search-shadow:#222;
+    --search-btn-shadow:#000;
+    --breadcrumb-shadow-inset1:#222;
+    --breadcrumb-shadow-inset2:#383838;
+    --breadcrumb-shadow:#666;
+    --nav-hover-shadow:#AA2;
+    --link-active:#FAA;
+    --link:cyan;
+    --link-hover:lightblue;
+    --link-visited:darkcyan;
   }
+  img[src='today_i_learned.png']{
+    filter: invert(87%);
+  }
+}
 
 a{
   color:var(--link);

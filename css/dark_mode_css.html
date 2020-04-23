@@ -59,6 +59,42 @@ body {
 }
 &lt;/style&gt;
 </code></pre>
+<h2 id="invert-colors-of-some-images">Invert colors of some images</h2>
+<p>One other trick... if you have an image that is dark text on a light background you might want to magically <code>invert</code> the colors using css.</p>
+<p>First put a class on all such images, for example <code>class='invertable'</code>, then apply the filter to <code>.invertable</code> inside your dark scheme <code>@media</code> query:</p>
+<pre><code>&lt;style&gt;
+:root {
+@media (prefers-color-scheme: dark) {
+	img.invertable{
+		filter: invert(87%);
+	}
+}
+&lt;/style&gt;
+</code></pre>
+<p>(I use this trick at the front page of <a href="TIL.secretGeek.net">TIL.secretGeek.net</a>.</p>
+<p>Also here is a poor man's dark mode trick... and it's slightly better than other versions of this idea I've seen elsewhere...</p>
+<p>If you don't have time to implement a full dark mode, picking all the colors, you can just invert the colors.</p>
+<p>The problem there is that the images become negatives. So you need to re-filter them, to invert the inverted. Then you also want to darken the images, so that they don't blind your user.</p>
+<p>There is also a class i created (<code>.ignore-color-scheme</code>) you can apply to items you <em>don't</em> want to invert. That is gold plating!</p>
+<p>Here's the full poor man's dark mode stylesheet...</p>
+<pre><code>&lt;style&gt;
+html { background-color:white;} /* you *need* to set a color for html background. */
+
+/* dark mode support */
+@media (prefers-color-scheme: dark) {
+	html {
+		filter: invert(100%);
+	}
+	img:not(.ignore-color-scheme) {
+		filter: brightness(50%) invert(100%);
+	}
+	.ignore-color-scheme {
+		filter: invert(100%);
+	}
+}
+&lt;/style&gt;
+</code></pre>
+<p>I've added this to the default built-in template used by <a href="https://github.com/secretGeek/clowncar">clowncar</a> (my static site generator)</p>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">mdn:Using CSS custom properties (variables)</a></li>

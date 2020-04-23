@@ -30,9 +30,9 @@
 
 	public override bool Equals(object obj)
 	{
-		Mything test = obj as Mything;
-
-		return test != null &amp;&amp;
+		var test = obj as Mything;
+		return
+			test != null &amp;&amp;
 			ID == test.ID &amp;&amp;
 			Hats == test.Hats &amp;&amp;
 			Noses == test.Noses;
