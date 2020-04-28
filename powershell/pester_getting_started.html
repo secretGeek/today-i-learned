@@ -24,6 +24,27 @@
 <h2 id="install">Install</h2>
 <pre><code>Find-Module pester -Repository psgallery | Install-Module
 </code></pre>
+<p><em>Must run as an admin.</em> May get this warning:</p>
+<blockquote>
+<p>You are installing the modules from an untrusted repository. If you trust this repository, change its InstallationPolicy value by running the Set-PSRepository  cmdlet. Are you sure you want to install the modules from 'https://www.powershellgallery.com/api/v2'?</p>
+</blockquote>
+<p>...which is resolved with.</p>
+<pre><code>Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
+</code></pre>
+<p>That succeeded then retried installing pester.</p>
+<p>I then received this error message:</p>
+<pre><code>&gt; Find-Module pester -Repository psgallery | Install-Module
+PackageManagement\Install-Package : A Microsoft-signed module named 'Pester' with version '3.4.0' that was previously installed conflicts with the new module
+'Pester' from publisher 'CN=DigiCert Assured ID Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US' with version '4.10.1'. Installing the new module may
+result in system instability. If you still want to install or update, use -SkipPublisherCheck parameter.
+At C:\Program Files\WindowsPowerShell\Modules\PowerShellGet\1.0.0.1\PSModule.psm1:1912 char:34
++ ...          $null = PackageManagement\Install-Package @PSBoundParameters
++                      ~~~~~ ~~~~~~~~~ ~~~~ ~~~~~ ~~~~~~~~ ~~~~~~~~~~ ~~~~~
+		+ CategoryInfo          : InvalidOperation: (Microsoft.Power....InstallPackage:InstallPackage) [Install-Package], Exception
+		+ FullyQualifiedErrorId : PublishersMismatch,Validate-ModuleAuthenticodeSignature,Microsoft.PowerShell.PackageManagement.Cmdlets.InstallPackage
+</code></pre>
+<p>So I tried:</p>
+<p>Find-Module pester -Repository psgallery | Install-Module -SkipPublisherCheck</p>
 <h2 id="get-help">Get Help</h2>
 <pre><code>Invoke-Pester -?
 New-Fixture -?
@@ -40,12 +61,12 @@ New-PesterOption -?
 <p>...unless the file already exists in which case it skips that one and gives you a warning. (i.e. it won't overwrite your stuff)</p>
 <h2 id="example-of-a-test-file">Example of a test file:</h2>
 <pre><code>Describe &quot;Fire-LaserWeapon&quot; {
-		It &quot;tries the impossible&quot; {
-				$true | Should Be $false
-		}
-		It &quot;tries something ease&quot; {
-				$true | Should Be $false
-		}
+	It &quot;tries the impossible&quot; {
+		$true | Should Be $false
+	}
+	It &quot;tries something easy&quot; {
+		$true | Should Be $true
+	}
 }
 </code></pre>
 <h2 id="running-our-tests">Running our tests</h2>

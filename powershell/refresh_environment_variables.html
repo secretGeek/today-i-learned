@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>refresh environment variables . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,22 +19,12 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="notepad">notepad++</h1>
-<h3 id="chapter-contents">chapter contents</h3>
-<ul>
-<li><a href="dark_theme_notepad++.html">dark theme notepad++</a></li>
-<li><a href="disable_automatic_parens_completion.html">disable automatic parens completion</a></li>
-<li><a href="error_downloading_the_plugin_list.html">error downloading the plugin list</a></li>
-<li><a href="expand_collapse.html">expand collapse</a></li>
-<li><a href="install_textfx_plugin.html">install textfx plugin</a></li>
-<li><a href="markdown_in_notepad.html">markdown in notepad</a></li>
-<li><a href="navigate_back.html">navigate back</a></li>
-<li><a href="plugins.html">plugins</a></li>
-<li><a href="shortcut_close_document.html">shortcut close document</a></li>
-<li><a href="tell_notepad++_about_a_new_file_type.html">tell notepad++ about a new file type</a></li>
-<li><a href="todays_date.html">todays date</a></li>
-<li><a href="trim_trailing_and_save.html">trim trailing and save</a></li>
-</ul>
+<h1 id="refresh-environment-variables">Refresh environment variables</h1>
+<p>All these years I've been closing and reopening the powershell console, like a chump, every time the environment variables were changed (for example because I changed the path in a different window)</p>
+<p>Turns out, in both <code>powershell</code> and <code>cmd.exe</code> just call:</p>
+<pre><code>refreshenv
+</code></pre>
+<p>...and all your environment variables will be refreshed.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

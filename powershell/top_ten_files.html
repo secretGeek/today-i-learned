@@ -20,17 +20,17 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="top-10-files-by-size-in-all-subfolders">Top 10 files by size, in all subfolders</h1>
-<pre><code>gci . -r | sort Length -d | select -f 10 | ft FullName, Length
+<pre><code>dir . -r | sort Length -d | select -f 10 | ft FullName, Length
 </code></pre>
 <footer>This relies on a trick: directories have no length. And it abbreviates things somewhat.</footer>
 <p>A longer version....</p>
-<pre><code>gci -re -in * |
+<pre><code>dir -re -in * |
   ?{ -not $_.PSIsContainer } |
   sort Length -descending |
   select -first 10
 </code></pre>
 <p>As a one liner</p>
-<pre><code>gci -re -in * | ?{ -not $_.PSIsContainer } | sort Length -descending | select -first 10
+<pre><code>dir -re -in * | ?{ -not $_.PSIsContainer } | sort Length -descending | select -first 10
 </code></pre>
 <p>or if you want to exclude contents of <code>.hg</code> folder (as we do sometimes...)</p>
 <pre><code>dir -rec -in * | ?{ -not $_.PSIsContainer -and $_.DirectoryName -notmatch &quot;.hg&quot; } | sort Length -descending | select -first 10 | % { $_.FullName + &quot;, &quot; + $_.Length }

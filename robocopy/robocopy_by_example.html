@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>robocopy by example . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="robocopy-by-example">Robocopy by Example</h1>
+<p>You usually want <code>/MIR</code> though it does <code>PURGE</code> things away from the target if they're not present in the source:</p>
+<pre><code>/MIR :: MIRror a directory tree (equivalent to /E plus /PURGE).
+</code></pre>
+<p>Example:</p>
+<pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /MIR # Mirror from source to target, includes purging within target if file is missing in source
+</code></pre>
+<p>So the next most common need is <code>/E</code> by itself, which is effectively &quot;mirror but don't purge&quot;</p>
+<pre><code>/E :: copy subdirectories, including Empty ones.
+</code></pre>
+<p>see:</p>
+<pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /E # don't purge just copy, including subfolders (even empty ones)
+</code></pre>
+<p>The closest to a <code>what-if</code> or <code>dry-run</code> is to use <code>/L</code>:</p>
+<pre><code>/L :: List only - don't copy, timestamp or delete any files.
+</code></pre>
+<p>see:</p>
+<pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /MIR /L # Mirror but LISTONLY
+</code></pre>
+<p>Often want to add on <code>/R:3</code> (only retry 3 times, not 1 million) and <code>/W:3</code> (only wait 3 seconds between retries not 30 seconds)</p>
+<pre><code>/R:n :: number of Retries on failed copies: default 1 million.
+/W:n :: Wait time between retries: default is 30 seconds.
+</code></pre>
+<p>So add these:</p>
+<pre><code>/R:3 /W:3
+</code></pre>
+<h2 id="look-at-all-the-other-options">Look at all the other options...</h2>
+<p>But all of the options are worth reading about!</p>
+<p>How awesome are these.... it's dropbox!</p>
+<pre><code>/MON:n :: MONitor source; run again when more than n changes seen.
+/MOT:m :: MOnitor source; run again in m minutes Time, if changed.
+</code></pre>
+<h2 id="complete-list">Complete list</h2>
+<pre><code>---------------------------------------------------
+	 ROBOCOPY     ::     Robust File Copy for Windows
+---------------------------------------------------
+
+	Started : Wednesday, 29 April 2020 8:34:06 AM
+							Usage :: ROBOCOPY source destination [file [file]...] [options]
+
+						 source :: Source Directory (drive:\path or \\server\share\path).
+				destination :: Destination Dir  (drive:\path or \\server\share\path).
+							 file :: File(s) to copy  (names/wildcards: default is &quot;*.*&quot;).
+
+::
+:: Copy options :
+::
+								 /S :: copy Subdirectories, but not empty ones.
+								 /E :: copy subdirectories, including Empty ones.
+						 /LEV:n :: only copy the top n LEVels of the source directory tree.
+
+								 /Z :: copy files in restartable mode.
+								 /B :: copy files in Backup mode.
+								/ZB :: use restartable mode; if access denied use Backup mode.
+								 /J :: copy using unbuffered I/O (recommended for large files).
+						/EFSRAW :: copy all encrypted files in EFS RAW mode.
+
+	/COPY:copyflag[s] :: what to COPY for files (default is /COPY:DAT).
+											 (copyflags : D=Data, A=Attributes, T=Timestamps).
+											 (S=Security=NTFS ACLs, O=Owner info, U=aUditing info).
+
+
+							 /SEC :: copy files with SECurity (equivalent to /COPY:DATS).
+					 /COPYALL :: COPY ALL file info (equivalent to /COPY:DATSOU).
+						/NOCOPY :: COPY NO file info (useful with /PURGE).
+						/SECFIX :: FIX file SECurity on all files, even skipped files.
+						/TIMFIX :: FIX file TIMes on all files, even skipped files.
+
+						 /PURGE :: delete dest files/dirs that no longer exist in source.
+							 /MIR :: MIRror a directory tree (equivalent to /E plus /PURGE).
+
+							 /MOV :: MOVe files (delete from source after copying).
+							/MOVE :: MOVE files AND dirs (delete from source after copying).
+
+		 /A+:[RASHCNET] :: add the given Attributes to copied files.
+		 /A-:[RASHCNET] :: remove the given Attributes from copied files.
+
+						/CREATE :: CREATE directory tree and zero-length files only.
+							 /FAT :: create destination files using 8.3 FAT file names only.
+							 /256 :: turn off very long path (&gt; 256 characters) support.
+
+						 /MON:n :: MONitor source; run again when more than n changes seen.
+						 /MOT:m :: MOnitor source; run again in m minutes Time, if changed.
+
+			/RH:hhmm-hhmm :: Run Hours - times when new copies may be started.
+								/PF :: check run hours on a Per File (not per pass) basis.
+
+						 /IPG:n :: Inter-Packet Gap (ms), to free bandwidth on slow lines.
+
+								/SL :: copy symbolic links versus the target.
+
+						/MT[:n] :: Do multi-threaded copies with n threads (default 8).
+											 n must be at least 1 and not greater than 128.
+											 This option is incompatible with the /IPG and /EFSRAW options.
+											 Redirect output using /LOG option for better performance.
+
+ /DCOPY:copyflag[s] :: what to COPY for directories (default is /DCOPY:DA).
+											 (copyflags : D=Data, A=Attributes, T=Timestamps).
+
+					 /NODCOPY :: COPY NO directory info (by default /DCOPY:DA is done).
+
+				 /NOOFFLOAD :: copy files without using the Windows Copy Offload mechanism.
+
+::
+:: File Selection Options :
+::
+								 /A :: copy only files with the Archive attribute set.
+								 /M :: copy only files with the Archive attribute and reset it.
+		/IA:[RASHCNETO] :: Include only files with any of the given Attributes set.
+		/XA:[RASHCNETO] :: eXclude files with any of the given Attributes set.
+
+ /XF file [file]... :: eXclude Files matching given names/paths/wildcards.
+ /XD dirs [dirs]... :: eXclude Directories matching given names/paths.
+
+								/XC :: eXclude Changed files.
+								/XN :: eXclude Newer files.
+								/XO :: eXclude Older files.
+								/XX :: eXclude eXtra files and directories.
+								/XL :: eXclude Lonely files and directories.
+								/IS :: Include Same files.
+								/IT :: Include Tweaked files.
+
+						 /MAX:n :: MAXimum file size - exclude files bigger than n bytes.
+						 /MIN:n :: MINimum file size - exclude files smaller than n bytes.
+
+					/MAXAGE:n :: MAXimum file AGE - exclude files older than n days/date.
+					/MINAGE:n :: MINimum file AGE - exclude files newer than n days/date.
+					/MAXLAD:n :: MAXimum Last Access Date - exclude files unused since n.
+					/MINLAD:n :: MINimum Last Access Date - exclude files used since n.
+											 (If n &lt; 1900 then n = n days, else n = YYYYMMDD date).
+
+								/XJ :: eXclude Junction points and symbolic links. (normally included by default).
+
+							 /FFT :: assume FAT File Times (2-second granularity).
+							 /DST :: compensate for one-hour DST time differences.
+
+							 /XJD :: eXclude Junction points and symbolic links for Directories.
+							 /XJF :: eXclude symbolic links for Files.
+
+::
+:: Retry Options :
+::
+							 /R:n :: number of Retries on failed copies: default 1 million.
+							 /W:n :: Wait time between retries: default is 30 seconds.
+
+							 /REG :: Save /R:n and /W:n in the Registry as default settings.
+
+							 /TBD :: wait for sharenames To Be Defined (retry error 67).
+
+::
+:: Logging Options :
+::
+								 /L :: List only - don't copy, timestamp or delete any files.
+								 /X :: report all eXtra files, not just those selected.
+								 /V :: produce Verbose output, showing skipped files.
+								/TS :: include source file Time Stamps in the output.
+								/FP :: include Full Pathname of files in the output.
+						 /BYTES :: Print sizes as bytes.
+
+								/NS :: No Size - don't log file sizes.
+								/NC :: No Class - don't log file classes.
+							 /NFL :: No File List - don't log file names.
+							 /NDL :: No Directory List - don't log directory names.
+
+								/NP :: No Progress - don't display percentage copied.
+							 /ETA :: show Estimated Time of Arrival of copied files.
+
+					/LOG:file :: output status to LOG file (overwrite existing log).
+				 /LOG+:file :: output status to LOG file (append to existing log).
+
+			 /UNILOG:file :: output status to LOG file as UNICODE (overwrite existing log).
+			/UNILOG+:file :: output status to LOG file as UNICODE (append to existing log).
+
+							 /TEE :: output to console window, as well as the log file.
+
+							 /NJH :: No Job Header.
+							 /NJS :: No Job Summary.
+
+					 /UNICODE :: output status as UNICODE.
+
+::
+:: Job Options :
+::
+			 /JOB:jobname :: take parameters from the named JOB file.
+			/SAVE:jobname :: SAVE parameters to the named job file
+							/QUIT :: QUIT after processing command line (to view parameters).
+							/NOSD :: NO Source Directory is specified.
+							/NODD :: NO Destination Directory is specified.
+								/IF :: Include the following Files.
+
+::
+:: Remarks :
+::
+			 Using /PURGE or /MIR on the root directory of the volume formerly caused
+			 robocopy to apply the requested operation on files inside the System
+			 Volume Information directory as well. This is no longer the case; if
+			 either is specified, robocopy will skip any files or directories with that
+			 name in the top-level source and destination directories of the copy session.
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

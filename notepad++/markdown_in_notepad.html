@@ -22,20 +22,20 @@
 <h1 id="markdown-in-notepad">Markdown in Notepad++</h1>
 <p>To improve markdown styling in notepad++ (particularly if <a href="dark_theme_notepad++.html">using a dark theme in notepad++</a> like <code>ZenBurn</code>, where it goes really bad....</p>
 <p>Use <a href="https://github.com/Edditoria/markdown-plus-plus">Edditoria markdown++ syntax highlighting</a></p>
-<pre><code>:: Check whether you have Node.js installed
+<pre><code># Check whether you have Node.js installed
 node -v
 
-:: Go to UDL folder of Notepad++
+# Go to UDL folder of Notepad++
 cd $env:AppData\Notepad++\userDefineLangs
 
-:: Example: Download Zenburn UDL file
+# Example: Download Zenburn UDL file
 npx markdown-plus-plus zenburn
 
-:: Read help for details
+# Read help for details
 npx markdown-plus-plus --help
 </code></pre>
 <p>Relies on <a href="../npm/getting_started.html">npm</a></p>
-<p>You may need to restart notepad -- and close and reopen relevant files, before notepad++ will apply the correct user defined language to them.</p>
+<p>You may need to restart notepad, and close and reopen relevant files, before notepad++ will apply the correct user defined language to them.</p>
 <h2 id="real-time-previews">Real time previews....</h2>
 <blockquote>
 <p>MarkdownViewer++ is a Notepad++ plugin that lets you type a file using Markdown and see the preview in real time, in a preview panel</p>
@@ -48,7 +48,11 @@ npx markdown-plus-plus --help
 <p>Consider using this one: <a href="https://github.com/yrgoldteeth/darkdowncss/blob/master/darkdown.css">darkdown css</a>
 ...though I found I had to make minor changes.</p>
 <p>Here's my current one:</p>
-<pre><code>body{
+<pre><code>/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+		page-break-inside: avoid;
+}
+body{
 		margin: 0 auto;
 		background-color: #333;
 		font-family: Georgia, Palatino, serif;
@@ -100,23 +104,26 @@ ul, ol {
 li {
 		line-height: 24px;
 }
-li ul, li ul {
-		margin-left: 24px;
+ul li {
+		margin-left:24px;
+		padding-left:8px;
 }
 p, ul, ol {
 		font-size: 16px;
 		line-height: 24px;
 		max-width: 540px;
 }
-pre {
-		padding: 0px 24px;
+pre,code {
+		padding: 8px 24px;
 		max-width: 800px;
 		white-space: pre-wrap;
+		background-color:#444;
 }
 code {
+		padding: 2px;
 		font-family: Consolas, Monaco, Andale Mono, monospace;
 		line-height: 1.5;
-		font-size: 13px;
+		font-size: 16px;
 }
 aside {
 		display: block;
@@ -124,15 +131,16 @@ aside {
 		width: 390px;
 }
 blockquote {
-		border-left:.5em solid #ccc;
+		border-left:.3em solid #ccc;
 		padding: 0 2em;
 		margin-left:0;
 		max-width: 476px;
+		background-color: #444;
 }
 blockquote {
-	color:#AAA;
+	color: #AAA;
 }
-blockquote  cite {
+blockquote cite {
 		font-size:14px;
 		line-height:20px;
 		color:#AAA;
@@ -141,7 +149,7 @@ blockquote cite:before {
 		content: '\2014 \00A0';
 }
 
-blockquote p {  
+blockquote p {
 		max-width: 460px;
 }
 hr {
@@ -309,9 +317,12 @@ button::-moz-focus-inner {
 	border: 0;
 }
 </code></pre>
+<p>The style info you set gets embedded into a <code>.ini</code> file here:</p>
+<pre><code>$env:AppDat\Notepad++\plugins\config\MarkdownViewerPlusPlus.ini
+</code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href=".%5Cdark_theme_notepadplusplus.html">dark theme notepad++</a></li>
+<li><a href=".%5Cdark_theme_notepad++.html">dark theme notepad++</a></li>
 <li><a href="https://superuser.com/questions/586177/how-to-use-markdown-in-notepad">How to use Markdown in Notepad++</a></li>
 </ul>
 
