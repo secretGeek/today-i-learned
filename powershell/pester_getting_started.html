@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>pester getting started . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="pester-getting-started-with-using-pester-to-test-powershell">Pester: Getting Started with using Pester to test powershell</h1>
+<p>Pester is <em>the</em> framework for testing your powershell scripts, functions and modules. It is a BDD (behavior driven design) framework. Tests are written in, and executed by, powershell.</p>
+<h2 id="install">Install</h2>
+<pre><code>Find-Module pester -Repository psgallery | Install-Module
+</code></pre>
+<h2 id="get-help">Get Help</h2>
+<pre><code>Invoke-Pester -?
+New-Fixture -?
+New-PesterOption -?
+</code></pre>
+<h2 id="create-new-file">Create new file</h2>
+<pre><code>New-Fixture -Name Fire-LaserWeapon
+</code></pre>
+<p>Will create two pre-populated files:</p>
+<ul>
+<li><code>Fire-LaserWeapon.ps1</code></li>
+<li><code>Fire-LaserWeapon.Tests.ps1</code></li>
+</ul>
+<p>...unless the file already exists in which case it skips that one and gives you a warning. (i.e. it won't overwrite your stuff)</p>
+<h2 id="example-of-a-test-file">Example of a test file:</h2>
+<pre><code>Describe &quot;Fire-LaserWeapon&quot; {
+		It &quot;tries the impossible&quot; {
+				$true | Should Be $false
+		}
+		It &quot;tries something ease&quot; {
+				$true | Should Be $false
+		}
+}
+</code></pre>
+<h2 id="running-our-tests">Running our tests</h2>
+<p>We can run those tests with:</p>
+<pre><code>Invoke-Pester -Script ./Fire-LaserWeapon.Tests.ps1
+</code></pre>
+<h2 id="all-pester-commands-today">All Pester commands (today)</h2>
+<ul>
+<li>AfterAll</li>
+<li>AfterEach</li>
+<li>Assert-MockCalled</li>
+<li>Assert-VerifiableMocks</li>
+<li>BeforeAll</li>
+<li>BeforeEach</li>
+<li>Context</li>
+<li>Describe</li>
+<li>Get-MockDynamicParameters</li>
+<li>Get-TestDriveItem</li>
+<li>In</li>
+<li>InModuleScope</li>
+<li>Invoke-Mock</li>
+<li>Invoke-Pester</li>
+<li>It</li>
+<li>Mock</li>
+<li>New-Fixture</li>
+<li>New-PesterOption</li>
+<li>SafeGetCommand</li>
+<li>Set-DynamicParameterVariables</li>
+<li>Set-TestInconclusive</li>
+<li>Setup</li>
+<li>Should</li>
+</ul>
+<p>...found via:</p>
+<pre><code>which * | ? { $_.Source -eq &quot;Pester&quot; } | % {&quot; - $($_.Name)&quot;} | clipp
+</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="http://duffney.io/GettingStartedWithPester">Getting Started with Pester</a> — I did this guy's powershell course in pluralsight and he discussed pester a bit.</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

@@ -50,7 +50,29 @@ foreach( $fcolor in $colors )
     }
 }
 </code></pre>
-<!--  [enum]::GetValues([System.ConsoleColor]) | % { " * {0}" -f $_ }  -->
+<!--  [enum]::GetValues([System.ConsoleColor]) | % { Write-Host " * $($_)" -f ($_) }  -->
+<pre><code>$host.ui.rawui.ForegroundColor = &lt;ConsoleColor&gt;
+$host.ui.rawui.BackgroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.ErrorForegroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.ErrorBackgroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.WarningForegroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.WarningBackgroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.DebugForegroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.DebugBackgroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.VerboseForegroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.VerboseBackgroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.ProgressForegroundColor = &lt;ConsoleColor&gt;
+$Host.PrivateData.ProgressBackgroundColor = &lt;ConsoleColor&gt;
+
+
+$host.ui.rawui
+$host.ui.rawui | select *color
+
+Get-PSReadlineOption
+Get-PSReadlineOption | Select *color
+
+$Host.PrivateData
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx">http://blogs.technet.com/b/gary/archive/2013/11/21/sample-all-powershell-console-colors.aspx</a></li>

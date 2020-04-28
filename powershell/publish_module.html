@@ -20,7 +20,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-to-publish-a-module">How to publish a module</h1>
-<p>For now -- this is based entirely on <a href="http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/">Building a PowerShell Module</a> by Warren Frame.</p>
+<p>For now — this is based entirely on <a href="http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/">Building a PowerShell Module</a> by Warren Frame.</p>
 <ol>
 <li>Create a module (.psm1)</li>
 <li>Create a module manifest (using New-ModuleManifest)</li>
@@ -60,8 +60,11 @@ New-ModuleManifest -Path $Path\$ModuleName\$ModuleName.psd1 `
                    -PowerShellVersion 3.0 `
                    -Author $Author `
                    -FormatsToProcess &quot;$ModuleName.Format.ps1xml&quot;
-                   
 </code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="module_what_is_it.html">What is a module?</a></li>
+</ul>
 <h2 id="register-at-powershellgallery-and-get-an-api-key">Register at PowershellGallery, and get an API key</h2>
 <p>To publish it to the <a href="https://www.powershellgallery.com/">Powershell Gallery</a> you'll need to register yourself as a user there, and then you'll need an API key. Once registered, you'll find your API key here: <a href="https://www.powershellgallery.com/account">https://www.powershellgallery.com/account</a></p>
 <p>Once you have your API key, please remember to keep it secret for if it falls into enemy hands, then god help us all.</p>
@@ -96,6 +99,10 @@ Find-Module PSStackExchange
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/">Building a PowerShell Module</a> by Warren Frame.</li>
+</ul>
+<h2 id="see-also-1">See also</h2>
+<ul>
+<li><a href="module_what_is_it.html">What is a module?</a></li>
 </ul>
 
 </article>

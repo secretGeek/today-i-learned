@@ -26,7 +26,7 @@
 <p>If you want <em>ALL</em> static files to be served from MVC (rather than IIS) you add this to your <code>web.config</code></p>
 <pre><code>&lt;modules runAllManagedModulesForAllRequests=&quot;true&quot;&gt;
 </code></pre>
-<p>...under &lt;system.WebServer&gt;</p>
+<p>...under <code>&lt;system.WebServer&gt;</code></p>
 <p>aka — <a href="http://www.hanselman.com/blog/BackToBasicsDynamicImageGenerationASPNETControllersRoutingIHttpHandlersAndRunAllManagedModulesForAllRequests.aspx">THE  DREADED RAMMFAR!!</a></p>
 <p>But that means <em>every</em> request will be sent to Asp.net, which could create a whole bunch of work for you.</p>
 <p>If you only want a subset — a folder for example — to be routed through Asp.net (and MVC), then you can use this approach:</p>
