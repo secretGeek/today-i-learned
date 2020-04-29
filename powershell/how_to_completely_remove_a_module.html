@@ -21,15 +21,17 @@
 <article>
 <h1 id="how-to-completely-remove-a-module">How to completely remove a module</h1>
 <p>If you have a conflict with a module then you may need to remove it from your machine.</p>
-<p>The remove-module commandlet DOES NOT remove the module from your machine, it only:</p>
+<p>The <code>remove-module</code> commandlet DOES NOT remove the module from your machine, it only:</p>
 <pre><code>Removes modules from the current session.
 </code></pre>
 <p>In other words it reverses:</p>
-<pre><code>Import-Module  -- which adds modules to the current session.
-</code></pre>
-<p>It does not reverse:</p>
-<pre><code>Install-Module  -- (with which a &quot;package provider&quot; downloads and installs a module from a &quot;package source&quot;)
-</code></pre>
+<ul>
+<li><code>Import-Module</code> -- which adds modules to the current session.</li>
+</ul>
+<p>It does <em>not</em> reverse:</p>
+<ul>
+<li><code>Install-Module</code>  -- (with which a &quot;package provider&quot; downloads and installs a module from a &quot;package source&quot;)</li>
+</ul>
 <p>You need to find where the module sits (each module is a directly full of files) and delete that folder. (Or move it out of harm's way)</p>
 <pre><code>get-module -listavailable
 </code></pre>
@@ -39,10 +41,11 @@
 Directory: C:\Program Files\WindowsPowerShell\Modules
 Directory: C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 Directory: C:\Program Files (x86)\Code Owls LLC
-...and others...
 </code></pre>
+<p>...and others.</p>
 <p>And the results you see from get-module will depend upon where you are running a 32-bit or 64-bit version of Powershell. And which user.</p>
 <p>(A module is a &quot;package&quot; -- a specific type of package which exports a bunch of cmdlets.)</p>
+<p>Then delete the files of the module (and the folder it is in, which is named after itself)</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li>More about <a href="../powershell/module_commands.html">package/module commands</a></li>

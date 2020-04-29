@@ -36,7 +36,7 @@
     --main:#CCC;
     --main-bg:#222;
     --code-bg:#333;
-    --code-shadow:#383838;
+    --code-shadow:#181818;
     --header-bg:#222;
     --header-shadow:#666;
     --breadcrumb-bg:#333;
@@ -58,8 +58,17 @@
     --link-hover:lightblue;
     --link-visited:darkcyan;
   }
-  img[src='today_i_learned.png']{
+  img[src='today_i_learned.png'],  
+  img[src='dorian_aeolian_phrygian.png'],
+  img[src='majorheptatonicpositions.png'],
+  img[src='majorpentatonicpositions.png'],
+  img[src='minorheptatonicpositions.png'],
+  img[src='minorpentatonicpositionsG.png'],
+  img[src='quadrants.png']
+{
     filter: invert(87%);
+    box-shadow:none;
+    border:none;
   }
 }
 
@@ -98,7 +107,6 @@ pre {
   padding:1ch;
   border-radius:4px;
   overflow:auto;
-  box-shadow:0 -2px 4px inset var(--code-shadow);
 }
 
 pre {
@@ -243,9 +251,9 @@ table {
 }
 
 blockquote {
+  background-color:var(--code-bg);
   border:none;
   border-left:1ch solid var(--table-border);
-  box-shadow:0 0 6px inset var(--code-bg);
   padding:1ch 4ch;
   margin:0;
   border-radius:0 1ch 1ch 0;

@@ -40,7 +40,8 @@
 <pre><code>dir | sort lastwritetime -desc | select -f 10
 </code></pre>
 <p>To sort by a secondary column, instead pass a hash table as the property.</p>
-<p>dir | sort -property @{Expression=&quot;lastwritetime&quot;;Descending=$true},@{Expression=&quot;Name&quot;;Descending=$false} | select -f 10</p>
+<pre><code>dir | sort -property @{Expression=&quot;lastwritetime&quot;;Descending=$true},@{Expression=&quot;Name&quot;;Descending=$false} | select -f 10
+</code></pre>
 <p>(Not quite as eloquent as you'd hope.)</p>
 <h2 id="source">Source</h2>
 <ul>
