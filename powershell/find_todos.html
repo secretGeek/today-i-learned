@@ -38,12 +38,12 @@
 
 function findtext($pattern, $recursive)
 {
-    if ($pattern -eq $null) {
+    if ($null -eq $pattern) {
         write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
         return
     }
-    
-    if ($recursive -eq $null) {
+
+    if ($null -eq $recursive) {
         #&quot;SETTING RECURSIVE&quot;
         $recursive = $true
     } else {
@@ -51,12 +51,12 @@ function findtext($pattern, $recursive)
     }
 
     # $path = get-location
-    $path = (get-location | % { $_.ProviderPath })
+    $path = (get-location | ForEach-Object { $_.ProviderPath })
 
     $ErrorActionPreference = &quot;SilentlyContinue&quot;
 
     get-childitem -Path * -Include $fileTypes -Exclude .hg,*jquery*,modernizr* -Recurse:$recursive |
-        ? { $_.DirectoryName -notmatch &quot;_book&quot; } |
+        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
         select-string -pattern $pattern |
         format-table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
             @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
@@ -68,9 +68,9 @@ function findtext($pattern, $recursive)
         write-host &quot;Not a valid regex, so falling back to a simple match&quot; -foregroundcolor  &quot;green&quot;
 
         get-childitem -Path * -Include $fileTypes -Exclude .hg,*jquery*,modernizr* -Recurse |
-            ? { $_.DirectoryName -notmatch &quot;_book&quot; } |
+            Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
             select-string -pattern $pattern -SimpleMatch |
-            ft -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
+            Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
                 @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
                 @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
     }
@@ -85,35 +85,34 @@ function findtext_norecurse($pattern)
 # Pattern is not treated as regular expression -- it's a &quot;simplematch&quot; instead
 function findtext_raw($pattern)
 {
-    if ($pattern -eq $null) {
+    if ($null -eq $pattern) {
         write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
         return
     }
 
-    $path = (get-location | % { $_.ProviderPath })
-    
+    $path = (get-location | ForEach-Object { $_.ProviderPath })
+
     get-childitem -Path * -Include $fileTypes -Exclude .hg,*jquery*,modernizr* -Recurse |
-        ? { $_.DirectoryName -notmatch &quot;_book&quot; } |
+        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
         select-string -pattern $pattern -SimpleMatch |
-        ft -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
+        Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
             @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
             @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
-
 }
 
 function findtext_raw_casesensitive($pattern)
 {
-    if ($pattern -eq $null) {
+    if ($null -eq $pattern) {
         write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
         return
     }
 
-    $path = (get-location | % { $_.ProviderPath })
-    
+    $path = (get-location | ForEach-Object { $_.ProviderPath })
+
     get-childitem -Path * -Include $fileTypes -Exclude .hg,*jquery*,modernizr* -Recurse |
-        ? { $_.DirectoryName -notmatch &quot;_book&quot; } |
+        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
         select-string -pattern $pattern -SimpleMatch -CaseSensitive |
-        ft -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
+        Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
             @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
             @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
 }

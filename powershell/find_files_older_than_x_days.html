@@ -33,10 +33,10 @@
 	% { &quot;&quot; +$_.Length + &quot;`t&quot; + $(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days + &quot;`t&quot; + $_.FullName } | clipp
 </code></pre>
 <p>Or just find the 10 oldest files</p>
-<pre><code>dir -rec | sort lastwritetime | select -f 10 
+<pre><code>dir -rec | sort lastwritetime | select -first 10 
 </code></pre>
 <p>Or find the 10 oldest files and show them in a neat table</p>
-<pre><code>dir -rec | sort lastwritetime | select -f 10 |format-table -property @{Expression={(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days};Label=&quot;Days&quot;},Length, FullName
+<pre><code>dir -rec | sort lastwritetime | select -first 10 |format-table -property @{Expression={(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days};Label=&quot;Days&quot;},Length, FullName
 </code></pre>
 
 </article>
