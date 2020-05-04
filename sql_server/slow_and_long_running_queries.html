@@ -19,8 +19,8 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<p>#slow and long running queries</p>
-<p>Query to show which queries are the worst performers.</p>
+<h1 id="slow-and-long-running-queries">slow and long running queries</h1>
+<p>Famous query to show which queries are the worst performers.</p>
 <pre><code>SELECT TOP 50 creation_time 
         ,last_execution_time
         ,total_physical_reads
@@ -40,8 +40,8 @@ CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) st
 where last_execution_time &gt; '18 Feb 2016'
 ORDER BY total_elapsed_time / execution_count DESC;
 </code></pre>
-<p>You may want to change the Order by...</p>
-<p>You may lacks permissions to run this. Specifically:</p>
+<p>You may want to change the <code>Order by</code>...</p>
+<p>You may lack permissions to run this. Specifically:</p>
 <pre><code>VIEW SERVER STATE permission was denied on object 'server', database 'master'.
 </code></pre>
 <p>Which requires this to be executed:</p>
