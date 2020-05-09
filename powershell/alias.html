@@ -19,9 +19,23 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="to-set-an-alias">To Set An Alias:</h1>
+<h1 id="alias-a-guide-to-powershell-and-aliases">Alias: a guide to powershell and aliases.</h1>
+<h2 id="to-set-an-alias">To Set An Alias:</h2>
 <pre><code>set-alias -name gito -value git_off
+	
 </code></pre>
+<h2 id="to-check-an-alias">To check an alias:</h2>
+<pre><code>	&gt; get-alias *cls*
+</code></pre>
+<p>...produces a list of aliases that match your pattern.</p>
+<pre><code>CommandType     Name
+Alias           cls -&gt; Clear-Host
+</code></pre>
+<h2 id="to-find-aliases-for-a-command">To find aliases for a command</h2>
+<p>Wonder what aliases exist for a command (or commands)? add the <code>-def</code> parameter</p>
+<pre><code>get-alias -def &quot;push-location&quot;
+</code></pre>
+<h2 id="to-get-the-source-of-an-alias">To get the source of an alias</h2>
 <h1 id="aliases-cant-have-parameters">Aliases can't have parameters</h1>
 <p>in bash, an alias can include parameters. Not so in PowerShell. It's just an abbreviation.</p>
 <p>to create an alias with parameters you're advised to create a function in your <code>$PROFILE</code>.</p>

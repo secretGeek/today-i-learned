@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Use Job To Measure Processors . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="use-job-to-measure-processors">Use Job to measure Processors</h1>
+<p>(in Powershell)</p>
+<h2 id="checking-cpu-percentage-with-get-counter-and-a-job">Checking CPU Percentage with Get-Counter (and a Job)</h2>
+<p>Checking the processor time or processor percentage, using counters or wmi...</p>
+<pre><code>$JobObject = Start-Job -Name &quot;MyJob&quot; -ScriptBlock {
+		Get-Counter -Counter &quot;\Processor(_Total)\% Processor Time&quot; -SampleInterval 1 -Continuous
+}
+
+Start-Sleep -Seconds 5 # give it time to load
+$Result = Receive-Job -Job $JobObject
+
+$Result.Readings | 
+	Foreach-Object { ($_ -split ':')[-1].Trim() } |
+	Measure-Object -Average | 
+	Select-Object @{n='Average';e={&quot;{0:f2}&quot; -f $_.Average}}
+</code></pre>
+<p>From <a href="https://stackoverflow.com/questions/59051743/retrieve-average-cpu-workload-with-get-counter">Retrieve average CPU-workload with Get-Counter</a> (by Duke Donnovan and AdminOfThings)</p>
+<h2 id="checking-cpu-percentage-with-wmi">Checking CPU Percentage with WMI...</h2>
+<pre><code>Get-WmiObject -computer $env:computername -class win32_processor | 
+	Measure-Object -property LoadPercentage -Average | 
+	Select-Object -ExpandProperty Average
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

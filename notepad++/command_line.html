@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>command line . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="notepad-command-line-help">Notepad++ command line help</h1>
+<p>Note I can scroll to a particular line using:</p>
+<pre><code>&gt; n -n56 .\yow.txt
+</code></pre>
+<p>...or to a particular position...</p>
+<pre><code>&gt; n -n4321 .\yow.txt
+</code></pre>
+<p>...and could first find that position by using a different regex based match finder.</p>
+<p>That's the plan!</p>
+<pre><code>---------------------------
+Notepad++ Command Argument Help
+---------------------------
+Usage :
+
+notepad++ [--help] [-multiInst] [-noPlugin] [-lLanguage] [-LlangCode] [-nLineNumber] [-cColumnNumber] [-pPosition] [-xLeftPos] [-yTopPos] [-nosession] [-notabbar] [-ro] [-systemtray] [-loadingTime] [-alwaysOnTop] [-openSession] [-r] [-qnEasterEggName | -qtText | -qfCntentFileName] [-qSpeed1|2|3] [-quickPrint] [-openFoldersAsWorkspace] [filePath]
+
+--help : This help message
+-multiInst : Launch another Notepad++ instance
+-noPlugin : Launch Notepad++ without loading any plugin
+-l : Open file or display ghost typing with syntax highlighting of choice
+-L : Apply indicated localization, langCode is browser language code
+-n : Scroll to indicated line on filePath
+-c : Scroll to indicated column on filePath
+-p : Scroll to indicated position on filePath
+-x : Move Notepad++ to indicated left side position on the screen
+-y : Move Notepad++ to indicated top position on the screen
+-nosession : Launch Notepad++ without previous session
+-notabbar : Launch Notepad++ without tabbar
+-ro : Make the filePath read only
+-systemtray : Launch Notepad++ directly in system tray
+-loadingTime : Display Notepad++ loading time
+-alwaysOnTop : Make Notepad++ always on top
+-openSession : Open a session. filePath must be a session file
+-r : Open files recursively. This argument will be ignored
+		 if filePath contain no wildcard character
+-qn : Launch ghost typing to display easter egg via its name
+-qt : Launch ghost typing to display a text via the given text
+-qf : Launch ghost typing to display a file content via the file path
+-qSpeed : Ghost typing speed. Value from 1 to 3 for slow, fast and fastest
+-quickPrint : Print the file given as argument then quit Notepad++
+-openFoldersAsWorkspace: open filePath of folder(s) as workspace
+filePath : file or folder name to open (absolute or relative path name)
+
+---------------------------
+OK   
+---------------------------
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

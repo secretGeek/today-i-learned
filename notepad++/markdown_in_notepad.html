@@ -41,13 +41,14 @@ npx markdown-plus-plus --help
 <p>MarkdownViewer++ is a Notepad++ plugin that lets you type a file using Markdown and see the preview in real time, in a preview panel</p>
 </blockquote>
 <p>See <a href="https://github.com/nea/MarkdownViewerPlusPlus">github nea markdownviewer++</a></p>
-<p>Download the 32 or 64 bit (check what you have in <code>? &gt; about</code></p>
+<p>Download the 32 or 64 bit (check what you have in the men of notepad++, <code>? &gt; about</code>) from <a href="https://github.com/nea/MarkdownViewerPlusPlus/releases">releases</a> (expand &quot;&lt; Assets&quot;)</p>
 <p>Unzip the dll and copy it to your <code>plugins</code> folder (open it with <code>Plugins &gt; Open plugins folder...</code>)</p>
 <p>May need to restart notepad++.</p>
+<p>(I'm happy to note that it uses <a href="https://github.com/lunet-io/markdig">markdig</a>, which I also use at <a href="https://til.secretGeek.net">TIL</a> and <a href="http://wiki.secretgeek.net">wiki</a>. Also, it is written in C#, so could be a useful reference if I ever wish to write a notepad++ plugin. And I could always fork/contribute.)</p>
 <p>You can set custom CSS. It seems to be internet explorer browser, so CSS support is quite old.</p>
 <p>Consider using this one: <a href="https://github.com/yrgoldteeth/darkdowncss/blob/master/darkdown.css">darkdown css</a>
 ...though I found I had to make minor changes.</p>
-<p>Here's my current one:</p>
+<p>Here's my current style-sheet:</p>
 <pre><code>/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
 td, h1, h2, h3, h4, h5, p, ul, ol, li {
 		page-break-inside: avoid;

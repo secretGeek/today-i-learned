@@ -22,21 +22,22 @@
 <h1 id="how-to-publish-a-module">How to publish a module</h1>
 <p>For now — this is based entirely on <a href="http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/">Building a PowerShell Module</a> by Warren Frame.</p>
 <ol>
-<li>Create a module (.psm1)</li>
-<li>Create a module manifest (using New-ModuleManifest)</li>
-<li>Register at PowershellGallery, and get an API key</li>
-<li>Publish using Publish-Module</li>
+<li>Create a module (<code>.psm1</code>)</li>
+<li>Create a module manifest (<code>.psd1</code>)(using <code>New-ModuleManifest</code>)</li>
+<li>Register at PowershellGallery, and get an <code>API key</code></li>
+<li>Publish using <code>Publish-Module</code></li>
 </ol>
 <h2 id="create-a-module.psm1">Create a module (.psm1)</h2>
-<p>This is just a script file but with a .psm1 extension, and an 'export-moduleMember' declaration(s) at the end, for example:</p>
-<pre><code>export-modulemember *-*
+<p>This is just a script file but with a <code>.psm1</code> extension, and an <code>export-moduleMember</code> declaration(s) at the end, for example:</p>
+<pre><code>Export-Module&lt;ember *-*
 </code></pre>
-<p>...means export every function that has a hyphen in the name, i.e. standard cmdLet syntax.</p>
-<p>You can also individually specify the functions to be exported.</p>
-<pre><code>Export-modulemember -function Invoke-CupHolder
+<p>...means &quot;export every function that has a hyphen in the name&quot;, i.e. standard cmdLet syntax.</p>
+<p>You can also individually specify the functions to be exported, e.g.:</p>
+<pre><code>Export-ModuleMember -function Invoke-CupHolder
 </code></pre>
+<p>(The alternative: if you don't use <code>Export-ModuleMember</code> then <em>everything</em> is automatically exported from your <code>.psm1</code> file)</p>
 <h2 id="create-a-module-manifest">Create a module manifest.</h2>
-<p>A module manifest is a script with a &quot;.psd1&quot; extension. It describes the module, and is needed for publication.</p>
+<p>A module manifest is a script with a <code>.psd1</code> extension. It describes the module, and is needed for publication.</p>
 <pre><code>$Path = 'C:\sc\PSStackExchange'
 $ModuleName = 'PSStackExchange'
 $Author = 'RamblingCookieMonster'
@@ -99,6 +100,7 @@ Find-Module PSStackExchange
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/">Building a PowerShell Module</a> by Warren Frame.</li>
+<li><a href="https://powershellexplained.com/2017-05-27-Powershell-module-building-basics/">Powershell: Building a Module, one microstep at a time</a></li>
 </ul>
 <h2 id="see-also-1">See also</h2>
 <ul>

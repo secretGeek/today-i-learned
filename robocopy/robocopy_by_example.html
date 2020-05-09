@@ -20,38 +20,45 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="robocopy-by-example">Robocopy by Example</h1>
+<h2 id="normal-use-mirroring">Normal use: Mirroring</h2>
 <p>You usually want <code>/MIR</code> though it does <code>PURGE</code> things away from the target if they're not present in the source:</p>
 <pre><code>/MIR :: MIRror a directory tree (equivalent to /E plus /PURGE).
 </code></pre>
-<p>Example:</p>
+<h3 id="example-for-mirror">Example for Mirror</h3>
 <pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /MIR # Mirror from source to target, includes purging within target if file is missing in source
 </code></pre>
+<h2 id="mirror-but-dont-purge">Mirror but don't purge</h2>
 <p>So the next most common need is <code>/E</code> by itself, which is effectively &quot;mirror but don't purge&quot;</p>
 <pre><code>/E :: copy subdirectories, including Empty ones.
 </code></pre>
-<p>see:</p>
+<h3 id="example-for-mirror-but-dont-purge">Example for mirror but don't purge</h3>
 <pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /E # don't purge just copy, including subfolders (even empty ones)
 </code></pre>
+<h2 id="mirror-with-list-only-what-if">Mirror with 'List Only' (what-if)</h2>
 <p>The closest to a <code>what-if</code> or <code>dry-run</code> is to use <code>/L</code>:</p>
 <pre><code>/L :: List only - don't copy, timestamp or delete any files.
 </code></pre>
-<p>see:</p>
+<h3 id="example-for-mirror-with-list-only">Example for Mirror with List Only</h3>
 <pre><code>robocopy.exe &quot;C:\source\&quot; &quot;C:\target&quot; *.mp3 /MIR /L # Mirror but LISTONLY
 </code></pre>
+<hr />
+<h2 id="common-options">Common options</h2>
 <p>Often want to add on <code>/R:3</code> (only retry 3 times, not 1 million) and <code>/W:3</code> (only wait 3 seconds between retries not 30 seconds)</p>
 <pre><code>/R:n :: number of Retries on failed copies: default 1 million.
 /W:n :: Wait time between retries: default is 30 seconds.
 </code></pre>
 <p>So add these:</p>
+<h2 id="example-lower-retry-and-wait-between-retry">Example (lower retry and wait between retry)</h2>
 <pre><code>/R:3 /W:3
 </code></pre>
-<h2 id="look-at-all-the-other-options">Look at all the other options...</h2>
+<h2 id="other-options">Other options...</h2>
 <p>But all of the options are worth reading about!</p>
 <p>How awesome are these.... it's dropbox!</p>
 <pre><code>/MON:n :: MONitor source; run again when more than n changes seen.
 /MOT:m :: MOnitor source; run again in m minutes Time, if changed.
 </code></pre>
 <h2 id="complete-list">Complete list</h2>
+<p>Got a lazy afternoon -- the whole list is worth reading!</p>
 <pre><code>---------------------------------------------------
 	 ROBOCOPY     ::     Robust File Copy for Windows
 ---------------------------------------------------
