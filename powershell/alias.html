@@ -25,54 +25,26 @@
 	
 </code></pre>
 <h2 id="to-check-an-alias">To check an alias:</h2>
-<pre><code>	&gt; get-alias *cls*
+<pre><code>	get-command *cls*
 </code></pre>
-<p>...produces a list of aliases that match your pattern.</p>
+<p>...produces a list of not just aliases but commands that match your pattern. (so i prefer it over <code>get-alias</code>)</p>
 <pre><code>CommandType     Name
 Alias           cls -&gt; Clear-Host
 </code></pre>
 <h2 id="to-find-aliases-for-a-command">To find aliases for a command</h2>
-<p>Wonder what aliases exist for a command (or commands)? add the <code>-def</code> parameter</p>
+<p>Wonder what aliases exist for a command (or commands)? add the <code>-def</code> parameter to <code>get-alias</code></p>
 <pre><code>get-alias -def &quot;push-location&quot;
 </code></pre>
-<h2 id="to-get-the-source-of-an-alias">To get the source of an alias</h2>
-<h1 id="aliases-cant-have-parameters">Aliases can't have parameters</h1>
+<h1 id="aliases-cant-have-parameters-make-little-functions-instead">Aliases can't have parameters: make little functions instead</h1>
 <p>in bash, an alias can include parameters. Not so in PowerShell. It's just an abbreviation.</p>
-<p>to create an alias with parameters you're advised to create a function in your <code>$PROFILE</code>.</p>
+<p>set-alias tf &quot;tree /f&quot; # this doesn't work! (bash allows that kind of thing)</p>
+<p>To create an alias with parameters you're advised to create a tiny function in your <code>$PROFILE</code>.</p>
 <p>e.g.</p>
 <pre><code>function tf() {
     tree /f
 }
 </code></pre>
-<h1 id="see-if-theres-any-alias-for-a-command">See if there's any alias for a command...</h1>
-<p>Often you know the alias and not the command.</p>
-<p>e.g.
-get-alias &quot;dir&quot;</p>
-<p>... teaches you that <code>dir</code> is an alias for <code>get-childitem</code></p>
-<p>Sometimes the opposite is true.</p>
-<p>e.g. I wasn't sure what alias to use instead of the cumbersome <code>push-location</code></p>
-<pre><code>get-alias -definition &quot;push-location&quot;
-</code></pre>
-<p>or, shorter:</p>
-<pre><code>get-alias -def &quot;push-location&quot;
-</code></pre>
-<p>shortest:</p>
-<pre><code>gal -def push-loc*
-</code></pre>
-<p>...aha! <code>pushd</code></p>
-<p>Btw, Here's what my first, most cumbersome attempt looked like:</p>
-<pre><code>alias | % { if($_.definition -eq &quot;push-location&quot;) {$_} }
-</code></pre>
-<p>This could be better written as:</p>
-<pre><code>alias  | ? Definition -like 'push-location'    
-</code></pre>
-<p>In bash you'd use something like</p>
-<pre><code>alias | grep push-location
-</code></pre>
-<p>The nearest equivalent of this is:</p>
-<pre><code>alias  | select-string 'push-location'
-</code></pre>
-<p>And it doesn't work. (Because the select-string works by performing a .toString on the object it receives, and to-string of this object only returns the name, not the definition.)</p>
+<p>...and over time: grow it into a cmdLet and eventually put it into a module.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
