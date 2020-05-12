@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>vscode powershell profile . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,19 +19,17 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="npm">npm</h1>
-<h3 id="chapter-contents">chapter contents</h3>
-<ul>
-<li><a href="amd.html">amd</a></li>
-<li><a href="getting_started.html">getting started</a></li>
-<li><a href="install_npm.html">install npm</a></li>
-<li><a href="List_Globally_Installed_npm_Packages.html">List Globally Installed npm Packages</a></li>
-<li><a href="nodejs_on_ubuntu_linux.html">nodejs on ubuntu linux</a></li>
-<li><a href="node_gyp_dependencies.html">node gyp dependencies</a></li>
-<li><a href="npm_run_scripts.html">npm run scripts</a></li>
-<li><a href="tab_completion_with_powershell.html">tab completion with powershell</a></li>
-<li><a href="treee.html">treee</a></li>
-</ul>
+<h1 id="vscode-powershell-profile">VSCode Powershell Profile</h1>
+<p>VSCode's powershell terminal is exactly the same one you use in regular powershell.  It runs the <code>$PROFILE</code> the exact same way.</p>
+<p>THe easiest way for the profile to tell that it is being run by <code>vscode</code> is that <code>vscode</code> sets an environment variable called <code>TERMPROGRAM</code>.</p>
+<p>So I have a condition in my profile at which point I do some simple things and then exit the profile, instead of loading all my usual convenience functions.</p>
+<pre><code>if ($null -ne $env:TERM_PROGRAM -and $env:TERM_PROGRAM -eq &quot;VSCODE&quot;) {
+	Write-host &quot;VSCODE!&quot; -f green;
+	. (Join-Path $env:util &quot;Powershell\vsprompt.ps1&quot;)
+	return;
+}
+</code></pre>
+<p>...I detect it is vscode, output &quot;VSCODE!&quot; in green, load a custom prompt function and then 'return' to exit the profile, instead of running the remaining 600 lines of gnarly profile code and ascii art I've built up over months of covid isolation.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

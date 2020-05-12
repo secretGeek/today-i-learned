@@ -17,11 +17,11 @@ git commit . -m "$message";
 git out;
 git push;
 
-# TODO: also deploy the staging folder
-pushd ..\today-i-learned-staging\
+Push-Location ..\today-i-learned-staging\
+
 git add *;
 git commit . -m "$message";
 git out;
 git push;
 
-popd;
+Pop-Location;

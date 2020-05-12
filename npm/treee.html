@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>treee . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="treee-replacement-for-tree">Treee replacement for tree</h1>
+<p>I like the <code>tree</code> command in windows but it has too few options to be useful.</p>
+<p>I found an npm package called <code>tree-cli</code> available from <a href="https://github.com/MrRaindrop/tree-cli">https://github.com/MrRaindrop/tree-cli</a></p>
+<p>Install it with...</p>
+<pre><code>npm install -g tree-cli
+</code></pre>
+<p>And thereafter you will have <code>treee</code> available.</p>
+<p>And you can set up an alias in your profile to use <code>tre</code> for example.</p>
+<p>set-alias tre treee</p>
+<p>tre --ignore node_modules</p>
+<h3 id="options">Options....</h3>
+<pre><code>&gt; treee --help
+
+List contents of directories in tree-like format.
+
+tree - list contents of directories in tree-like format
+
+Tree is a recursive directory listing program that
+produces a depth indented listing of files.
+With no arguments, tree lists the files in the
+current directory. When directory arguments are
+given, tree lists all the files and/or directories
+found in the given directories each in turn. Upon
+completion of listing all files/directories found,
+tree returns the total number of files and/or
+directories listed.
+
+USAGE
+
+	tree &lt;options&gt;
+
+OPTIONS:
+
+--help, -h
+	outputs a verbose usage listing.
+--version
+	outputs the version of tree-cli.
+--debug
+	show debug info.
+--ignore
+	ignores directory or file you specify.
+--base
+	specify a root directory. Relative path from cwd root and absolute path are both acceptable.
+--fullpath
+	prints the full path prefix for each file.
+--noreport
+	omits printing of the file and directory report at the
+	end of the tree listing and omits printing the tree on
+	console.
+-a
+	all files are printed. By default tree does not print
+	hidden files (those beginning with a dot '.'). In no
+	event does tree print the file system constructs '.'
+	(current directory) and '..' (previous directory).
+-d
+	list directories only.
+--directoryFirst
+	list directories first.
+-f
+	append a '/' for directories, a '=' for socket files
+	and a '|' for FIFOs
+-i
+	makes tree not print the indentation lines, useful
+	when used in conjunction with the -f option.
+-l
+	max display depth of the directory tree.
+-o
+	send output to filename.
+
+EXAMPLE:
+
+$ tree
+
+$ tree -l 2, -o out.txt --ignore [node_modules, test] -d --noreport
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

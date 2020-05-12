@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>getting started making vscode extensions . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-making-vscode-extensions">Getting started making vscode extensions</h1>
+<p>You can scaffold a starting extension using <code>yo</code> (yeoman generator)</p>
+<pre><code>npm install -g yo generator-code
+</code></pre>
+<p>(requires node which gives you npm.)</p>
+<p>run: <code>yo code</code> and follow the prompts....</p>
+<pre><code>&gt; yo code
+
+		 _-----_     ?--------------------------?
+		|       |    ¦   Welcome to the Visual  ¦
+		|--(o)--|    ¦   Studio Code Extension  ¦
+	 `---------´   ¦        generator!        ¦
+		( _´U`_ )    ?--------------------------?
+		/___A___\   /
+		 |  ~  |
+	 __'.___.'__
+ ´   `  |° ´ Y `
+
+? What type of extension do you want to create? New Extension (TypeScript)
+? What's the name of your extension? HelloWorld
+? What's the identifier of your extension? helloworld
+? What's the description of your extension?
+? Initialize a git repository? Yes
+? Which package manager to use? npm
+	 create helloworld\.vscode\extensions.json
+	 create helloworld\.vscode\launch.json
+	 create helloworld\.vscode\settings.json
+	 create helloworld\.vscode\tasks.json
+	 create helloworld\src\test\runTest.ts
+	 create helloworld\src\test\suite\extension.test.ts
+	 create helloworld\src\test\suite\index.ts
+	 create helloworld\.vscodeignore
+	 create helloworld\.gitignore
+	 create helloworld\README.md
+	 create helloworld\CHANGELOG.md
+	 create helloworld\vsc-extension-quickstart.md
+	 create helloworld\tsconfig.json
+	 create helloworld\src\extension.ts
+	 create helloworld\.eslintrc.json
+
+	 create helloworld\package.json
+</code></pre>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://code.visualstudio.com/api/get-started/your-first-extension">Your first vs code extension</a></li>
+<li><a href="https://code.visualstudio.com/api/get-started/extension-anatomy">Extension anatomy</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
