@@ -25,8 +25,26 @@
 <p>e.g.</p>
 <pre><code>pip install grip
 </code></pre>
-<p>Here's a very easy to follow guide to using pip on windows:</p>
-<pre><code>&lt;https://projects.raspberrypi.org/en/projects/using-pip-on-windows&gt;
+<p>Here's a very easy to follow guide to <a href="https://projects.raspberrypi.org/en/projects/using-pip-on-windows">using pip on windows</a></p>
+<h2 id="making-pip-available-for-visual-studio-users">Making pip available (for visual studio users)</h2>
+<p>What I found in my case is that I didn't have <code>pip</code> available on my <code>path</code>, nor <code>python</code> for that matter.</p>
+<p>But when I searched my program files, I found <em>several</em> versions of python under:</p>
+<pre><code>C:\Program Files (x86)\Microsoft Visual Studio\Shared\
+</code></pre>
+<p>...then added the best one to my <code>path</code>, and it's sub directory <code>scripts</code> i also added to my <code>path</code> (as <code>pip</code> is in the <code>scripts</code> subfolder of python.)</p>
+<p>Here are two folders I added in this case:</p>
+<pre><code>C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_86;
+C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_86\Scripts;
+</code></pre>
+<h2 id="elevated-console">Elevated console</h2>
+<p>I found that installing things with <code>pip</code> often requires an elevated shell.</p>
+<h2 id="upgrading-pip">Upgrading pip...</h2>
+<p>Sometimes you see a message like this</p>
+<pre><code>WARNING: You are using pip version 19.2.3, however version 20.1 is available.
+You should consider upgrading via the 'python -m pip install --upgrade pip' command.
+</code></pre>
+<p>So here is the upgrade command... again, need an <code>elevated</code> shell</p>
+<pre><code>python -m pip install --upgrade pip
 </code></pre>
 
 </article>
