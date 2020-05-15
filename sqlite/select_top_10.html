@@ -19,18 +19,21 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="select-top-10-in-firebird">Select top 10 in firebird</h1>
-<p>How do you select <code>top 10</code> in firebird db? Is it <code>limit</code>? it it <code>rownum</code>?</p>
-<p>No it is <code>first</code>:</p>
-<pre><code>Select FIRST(10) *
-from CUSTOMER 
-order by ID desc
+<h1 id="select-top-10-in-sqlite">Select top (10) in sqlite</h1>
+<p>Limit! Put the limit at the end...</p>
+<pre><code>	SELECT * FROM PERSONS
+	LIMIT 10
 </code></pre>
-<p>Ha!</p>
+<p>Exactly the same as MySQL....</p>
+<pre><code>SELECT *
+FROM Persons
+LIMIT 5;
+</code></pre>
+<p>Different from Firebird and oracle....</p>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="../oracle/top_10.html">Oracle TOP 10</a> ...includes mysql tip!</li>
-<li><a href="../sqlite/select_top_10.html">SQLite Select Top 10</a></li>
+<li><a href="../firebird/select_top_10.html">Firebird TOP 10</a></li>
+<li><a href="../oracle/top_10.html">Oracle Top 10</a></li>
 </ul>
 
 </article>
