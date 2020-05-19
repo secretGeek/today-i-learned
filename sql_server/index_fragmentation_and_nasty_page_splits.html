@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>index fragmentation and nasty page splits . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="index-fragmentation-and-nasty-page-splits">index fragmentation and nasty page splits</h1>
+<p>I learned most about index fragmentation and 'nasty' page splits from Paul Randal in his pluralsight course '[SQL Server: Index Fragmentation Internals, Analysis, and Solutions]'(<a href="https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents">https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents</a>)</p>
+<p>There's no point looking at every page split as some are &quot;good page splits&quot; -- e.g. when an append happens at the end of a table, and others are &quot;nasty&quot; e.g. inserts, updates deletes within an index that cause page splits.</p>
+<p>You can see nasty page splits occur though by looking for a specific event in the transaction log. (<a href="https://www.sqlskills.com/blogs/paul/tracking-page-splits-using-the-transaction-log/">read more</a>)</p>
+<p>How can you see fragmentation of your indexes?</p>
+<p>With <code>sys.dm_db_index_physical_stats</code></p>
+<p>Quick guide to its usage:</p>
+<pre><code>-- LIMITED option
+SELECT * FROM sys.dm_db_index_physical_stats (
+	DB_ID (N'Company'),
+	NULL,
+	NULL,
+	NULL,
+	N'LIMITED');
+GO
+</code></pre>
+<p>Limited will return an answer quickly. Will not look at the leaf level of the index, so it will not know anything about page density. But it will know about fragmentation down to the leaf level (because you can see this fro the level above.)</p>
+<p>If you have a big table and are happy to know about page density only on 1 in 100 of the pages, then the 'sampled' mode will suit you fine:</p>
+<pre><code>-- And now with the SAMPLED option
+SELECT * FROM sys.dm_db_index_physical_stats (
+	DB_ID (N'Company'),
+	NULL,
+	NULL,
+	NULL,
+	N'SAMPLED');
+GO
+</code></pre>
+<p>But if you have more time to wait, the 'detailed' option will show page density info for all pages in the leaf level.</p>
+<pre><code>-- With DETAILED option
+SELECT * FROM sys.dm_db_index_physical_stats (
+	DB_ID (N'Company'),
+	NULL,
+	NULL,
+	NULL,
+	N'DETAILED');
+GO
+</code></pre>
+<p>Even the <code>LIMITED</code> version of this query can take some time for a large and fractured index. You may not want to run it for the entire database but only for selected tables or selected indexes.</p>
+<p>A good approach is to:</p>
+<ol>
+<li>identify the indexes you are interested in maintaining.</li>
+<li>gather info on their fragmentation, possibly over time.</li>
+<li>apply the relevant sort of index repair -- a rebuild or a reorganize, (or a dropping and recreating of the index may even be warranted). Unless the index is very heavily fragmented, you can probably get away with a reorganize while the system is online.</li>
+<li>Watch the fragmentation again: when it is higher than the threshold that you deem acceptable, you run another reorganize.</li>
+<li>But if fragmentation grows faster than you can keep up... you may set a slightly lower fill factor on a table, before the next reorganize. (If fragmentation continues to grow faster than you can keep up with, you continue to lower the fill factor... but if you're not getting closer to a result, then more drastic changes are needed, outside the scope of this TIL)</li>
+</ol>
+<p>About reorganize:</p>
+<p>Note that although it is &quot;online&quot; it does still take locks, just less aggressively so. And you can run it for a little while, stop it, and allow other things to continue: it will not roll back everything it has done (as a rebuild would) -- so in that manner you could proceed a little at a time, if you must.</p>
+<h1 id="tools-to-help-reorganize-your-fragmented-indexes">Tools to help reorganize your fragmented indexes</h1>
+<p>One of the conclusions at the end of the course by Paul Randall was that the Index maintenance scripts from Ola Hallengren <a href="https://ola.hallengren.com">https://ola.hallengren.com</a> are really the gold standard and do all of the work that would need to do if you built your own solution.</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
