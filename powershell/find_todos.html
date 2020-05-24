@@ -60,7 +60,7 @@ function findtext($pattern, $recursive)
         select-string -pattern $pattern |
         format-table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
             @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
-            @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
+            @{Expression={$_.Line.Replace(&quot;  &quot;,&quot; &quot;)};Label=&quot;Match&quot;} -auto
 
     return
 
