@@ -56,12 +56,12 @@ $height=$args[1]
 <p>But if you do use real <code>params</code> you can also enforce simple validation:</p>
 <p>For example -- string, length from 1 to 10...</p>
 <pre><code>Param(
-    [ValidateLength(1,10)][string]$string
+    [ValidateLength(1,10)][string]$mystring
 )
 </code></pre>
 <p>Or how about a number that must be within a range...</p>
 <p>Param(
-[ValidateRange(0,10)][int]$integer
+[ValidateRange(0,10)][int]$myinteger
 )</p>
 <p>What about -- a filename that must be an existing file...</p>
 <pre><code>Param(
