@@ -29,7 +29,7 @@ function copytext(copyText) {
 	const textArea = document.createElement('textarea');
 	textArea.style.position = &quot;absolute&quot;;
 	textArea.style.left = &quot;-100%&quot;;
-	textArea.textContent = copyText;
+	textArea.textContent = copyText.trim();
 	document.body.appendChild(textArea);
 	textArea.select();
 	document.execCommand(&quot;copy&quot;);
