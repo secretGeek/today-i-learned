@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>drawsquare . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="drawing-a-square-with-svg">Drawing a square with svg</h1>
+<p>Here is the codes:</p>
+<pre><code>&lt;svg width=&quot;400&quot; height=&quot;110&quot;&gt;
+	&lt;rect width=&quot;100&quot; height=&quot;100&quot; style=&quot;fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)&quot; /&gt;
+&lt;/svg&gt;
+</code></pre>
+<svg width="400" height="110">
+  <rect width="300" height="100" style="fill:rgb(255,255,30,0.0);stroke-width:1;stroke:rgb(255,128,0)" />
+</svg>
+<ul>
+<li><code>stroke-width</code> e.g. 1, 2, 10%.</li>
+<li><code>stroke</code> (color) e.g. rgb(255,127,63), green</li>
+</ul>
+<h1 id="stroke-example-also-a-circle-example">Stroke Example (also a circle example)</h1>
+<p>Can define a stroke using another element.</p>
+<svg width="200" height="200">
+	<circle cx="100" cy="100" r="97" fill="none"
+			stroke="url(#myGradient)" />
+	<defs>
+		<linearGradient id="myGradient">
+		<stop offset="0%"   stop-color="green" />
+		<stop offset="100%" stop-color="white" />
+		</linearGradient>
+	</defs>
+</svg>
+<pre><code>&lt;svg width=&quot;200&quot; height=&quot;200&quot;&gt;
+	&lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;97&quot; fill=&quot;none&quot;
+			stroke=&quot;url(#myGradient)&quot; /&gt;
+	&lt;defs&gt;
+		&lt;linearGradient id=&quot;myGradient&quot;&gt;
+		&lt;stop offset=&quot;0%&quot;   stop-color=&quot;green&quot; /&gt;
+		&lt;stop offset=&quot;100%&quot; stop-color=&quot;white&quot; /&gt;
+		&lt;/linearGradient&gt;
+	&lt;/defs&gt;
+&lt;/svg&gt;
+</code></pre>
+<svg width="110" height="110" style='padding:10;background-color:red;'>
+	<rect width="100" height="100" style="fill:rgb(255,200,64);stroke-width:3;stroke:rgb(255,255,255)" />
+</svg>
+<svg width="110" height="110" style='margin:5;padding:5;background-color:purple;'>
+	<rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+</svg>
+<svg width="110" height="110">
+	<rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+</svg>
+<svg width="110" height="110">
+	<rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="smallGrid" width="8" height="8" patternUnits="userSpaceOnUse">
+      <path d="M 8 0 L 0 0 0 8" fill="none" stroke="gray" stroke-width="0.5" />
+    </pattern>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="url(#smallGrid)"/>
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" />
+</svg>
+<h1 id="svg-path-commands">svg path commands</h1>
+<table>
+<thead>
+<tr>
+<th><strong>Letter</strong></th>
+<th>Meaning</th>
+<th><code>Sample</code></th>
+<th>Params</th>
+<th><em>Note</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>M</strong></td>
+<td>Move to</td>
+<td><code>M 10 30</code></td>
+<td>(X,Y)+</td>
+<td><em>set current point to</em> (10,30)</td>
+</tr>
+<tr>
+<td><strong>m</strong></td>
+<td>move delta</td>
+<td><code>m 1 2</code></td>
+<td>(dx,dy)+</td>
+<td><em>change current point by</em> (1,2)</td>
+</tr>
+<tr>
+<td><strong>L</strong></td>
+<td>Line to</td>
+<td><code>L 10 20</code></td>
+<td>(dx,dy)+</td>
+<td><em>line from current point to</em> (10,20)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>L 10 20 30 40</code></td>
+<td>(dx,dy)+</td>
+<td><em>line from current point to</em> (10,20) <em>and line from there to</em> (30,40)</td>
+</tr>
+<tr>
+<td><strong>H</strong></td>
+<td>Horiz Line to</td>
+<td><code>H 10</code></td>
+<td>x+</td>
+<td><em>horiz line from current point to</em> x <em>of</em> 10</td>
+</tr>
+<tr>
+<td><strong>h</strong></td>
+<td>Horiz Line delta</td>
+<td><code>h 10</code></td>
+<td>dx+</td>
+<td><em>horiz line from current point to</em> x <em>of</em> x + 10</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>h -10</code></td>
+<td>dx+</td>
+<td><em>horiz line from current point to</em> x <em>of</em> x - 10</td>
+</tr>
+<tr>
+<td><strong>V</strong></td>
+<td>Vert Line to</td>
+<td><code>V 10</code></td>
+<td>y+</td>
+<td><em>vertical from current point to</em> y <em>of</em> 10</td>
+</tr>
+<tr>
+<td><strong>v</strong></td>
+<td>Vert Line delta</td>
+<td><code>v 10</code></td>
+<td>dy+</td>
+<td><em>vertical from current point to</em> y <em>of</em> y + 10</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>v -10</code></td>
+<td>dy+</td>
+<td><em>vertical from current point to</em> y <em>of</em> y - 10</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>from current point to end point</em> x,y <em>with control points at</em> x1,y1 <em>and</em> x2,y2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>C 30,90 25,10 50,10 10,25 90,30 10,50</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>subsequent triplets of pairs continue the curve</em></td>
+</tr>
+<tr>
+<td><strong>c</strong></td>
+<td>relative Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(dx1,dy1, dx2,dy2, dx,dy)+</td>
+<td><em>from current point to relative end point</em> x,y <em>with relative control points at</em> dx1,dy1 <em>and</em> dx2,dy2</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>from current point to end point</em> x,y <em>with control points at</em> x1,y1 <em>and</em> x2,y2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>C 30,90 25,10 50,10 10,25 90,30 10,50</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>subsequent triplets of pairs continue the curve</em></td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td>Smooth Cubic Bézier</td>
+<td><code>S 20,50 80,110</code></td>
+<td>(x2, y2, x, y)+</td>
+<td><em>from current point to end point</em> x,y <em>with end control point</em> x2, y2 <em>and start control point of previous control point or current point if previous curve wasn't a cubic bezier</em></td>
+</tr>
+<tr>
+<td><strong>Q</strong></td>
+<td>Quadratic Bézier</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>q</strong></td>
+<td>Relative Quad Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>Smooth Quad Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t</strong></td>
+<td>Realitve smooth quaz Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>Arc curve</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>a</strong></td>
+<td>Relative Arc curve</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Z</strong></td>
+<td>Close path</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:#FFF'>
+  <defs>
+    <pattern id="grid2" width="12" height="10" patternUnits="userSpaceOnUse">
+	<path d="M 12 0 L 0 0 0 10" fill="none" stroke="gray" stroke-width="0.5" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid2)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:#FFF'>
+  <defs>
+    <pattern id="grid1212" width="12" height="12" patternUnits="userSpaceOnUse">
+	<path d="M 12 0 L 0 0 0 12" fill="none" stroke="gray" stroke-width="0.5" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid1212)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <defs>
+    <pattern id="gridcc" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:rgb(128,128,128);stroke-width:1;stroke:rgb(30,30,30)" />
+	<path d="M 0 0 L 7 0 28 10 28 0 35 0 35 15 28 15 7 5 7 15 0 15 0 0 C" fill="#48F" stroke="#000" stroke-width="1" />
+	<path d="M 0 15 L 35 15 35 20 21 20 21 35 14 35 14 20 0 20 0 15 C" fill="#48F" stroke="#000" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridcc)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <defs>
+    <pattern id="gridcc2" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:rgb(128,128,128);stroke-width:1;stroke:rgb(30,30,30)" />
+	<path d="M 0 0 L 21 0 28 10 28 0 35 0 35 15 14 15 7 5 7 15 0 15 0 0 C" fill="#48F" stroke="#000" stroke-width="1" />
+	<path d="M 0 15 L 35 15 35 25 28 25 28 35 14 35 14 25 0 25 0 15 C" fill="#48F" stroke="#000" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridcc2)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <defs>
+    <pattern id="gridcc3" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:rgb(128,128,128);stroke-width:1;stroke:rgb(30,30,30)" />
+	<path d="M 0 0 L 17.5 0 28 10 28 0 35 0 35 15 17.5 15 7 5 7 15 0 15 0 0 C" fill="#48F" stroke="#000" stroke-width="1" />
+	<path d="M 0 15 L 35 15 35 25 28 25 28 35 7 35 7 25 0 25 0 15 C" fill="#48F" stroke="#000" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridcc3)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <defs>
+    <pattern id="gridcc4" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:rgb(128,128,128);stroke-width:1;stroke:rgb(30,30,30)" />
+	<path d="M 0 0 L 17.5 0 26.25 10 26.25 0 35 0 35 15 17.5 15 8.75 5 8.75 15 0 15 0 0 C" fill="#48F" stroke="#000" stroke-width="1" />
+	<path d="M 0 15 L 35 15 35 25 26.25 25 26.25 35 8.75 35 8.75 25 0 25 0 15 C" fill="#48F" stroke="#000" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridcc4)" />
+</svg>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <defs>
+    <pattern id="gridcc5" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:black;stroke:none" />
+	<path d="M 0 0 L 17.5 0 26.25 10 26.25 0 35 0 35 15 17.5 15 8.75 5 8.75 15 0 15 0 0 C" fill="white" stroke="#000" stroke-width="1" />
+	<path d="M 0 15 L 35 15 35 25 26.25 25 26.25 35 8.75 35 8.75 25 0 25 0 15 C" fill="#26A" stroke="#000" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridcc5)" />
+</svg>
+<h2 id="on-dark-mode">On Dark Mode</h2>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:black'>
+  <defs>
+    <pattern id="gridNWhiteTGrayBackBlack" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:black;stroke:none" />
+	<path d="M 0 0 L 17.5 0 26.25 10 26.25 0 35 0 35 15 17.5 15 8.75 5 8.75 15 0 15 0 0 C" fill="white" stroke="none" />
+	<path d="M 0 15 L 35 15 35 25 26.25 25 26.25 35 8.75 35 8.75 25 0 25 0 15 C" fill="#88A" stroke="none" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridNWhiteTGrayBackBlack)" />
+</svg>
+<h2 id="on-light-mode">On Light Mode</h2>
+<svg width="401" height="401" xmlns="http://www.w3.org/2000/svg" style='background-color:white'>
+  <defs>
+    <pattern id="gridNBlackTGrayBackWhite" width="39" height="39" patternUnits="userSpaceOnUse">
+	<rect width="35" height="35" style="fill:white;stroke:none" />
+	<path d="M 0 0 L 17.5 0 26.25 10 26.25 0 35 0 35 15 17.5 15 8.75 5 8.75 15 0 15 0 0 C" fill="black" stroke="none" />
+	<path d="M 0 15 L 35 15 35 25 26.25 25 26.25 35 8.75 35 8.75 25 0 25 0 15 C" fill="#88A" stroke="none" />
+    </pattern>
+  </defs>
+  <rect width="380" height="380" fill="url(#gridNBlackTGrayBackWhite)" />
+</svg>
+<p>(Idea for a NimbleText logo redesign.)</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
