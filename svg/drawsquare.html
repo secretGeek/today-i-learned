@@ -35,26 +35,25 @@
 <h1 id="stroke-example-also-a-circle-example">Stroke Example (also a circle example)</h1>
 <p>Can define a stroke using another element.</p>
 <svg width="200" height="200">
-	<circle cx="100" cy="100" r="97" fill="none"
-			stroke="url(#myGradient)" />
-	<defs>
-		<linearGradient id="myGradient">
-		<stop offset="0%"   stop-color="green" />
-		<stop offset="100%" stop-color="white" />
-		</linearGradient>
-	</defs>
+  <circle cx="100" cy="100" r="97" fill="none"
+      stroke="url(#myGradient)" />
+  <defs>
+    <linearGradient id="myGradient">
+    <stop offset="0%"   stop-color="green" />
+    <stop offset="100%" stop-color="white" />
+    </linearGradient>
+  </defs>
 </svg>
-<pre><code>&lt;svg width=&quot;200&quot; height=&quot;200&quot;&gt;
-	&lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;97&quot; fill=&quot;none&quot;
-			stroke=&quot;url(#myGradient)&quot; /&gt;
-	&lt;defs&gt;
-		&lt;linearGradient id=&quot;myGradient&quot;&gt;
-		&lt;stop offset=&quot;0%&quot;   stop-color=&quot;green&quot; /&gt;
-		&lt;stop offset=&quot;100%&quot; stop-color=&quot;white&quot; /&gt;
-		&lt;/linearGradient&gt;
-	&lt;/defs&gt;
-&lt;/svg&gt;
-</code></pre>
+  <svg width="200" height="200">
+    <circle cx="100" cy="100" r="97" fill="none"
+        stroke="url(#myGradient)" />
+    <defs>
+      <linearGradient id="myGradient">
+      <stop offset="0%"   stop-color="green" />
+      <stop offset="100%" stop-color="white" />
+      </linearGradient>
+    </defs>
+  </svg>
 <svg width="110" height="110" style='padding:10;background-color:red;'>
 	<rect width="100" height="100" style="fill:rgb(255,200,64);stroke-width:3;stroke:rgb(255,255,255)" />
 </svg>
@@ -80,6 +79,7 @@
   <rect width="100%" height="100%" fill="url(#grid)" />
 </svg>
 <h1 id="svg-path-commands">svg path commands</h1>
+<p>(in the following rel. means relative and abs. means absolute.</p>
 <table>
 <thead>
 <tr>
@@ -96,49 +96,49 @@
 <td>Move to</td>
 <td><code>M 10 30</code></td>
 <td>(X,Y)+</td>
-<td><em>set current point to</em> (10,30)</td>
+<td>_set current point to abs. _ (10,30)</td>
 </tr>
 <tr>
 <td><strong>m</strong></td>
 <td>move delta</td>
 <td><code>m 1 2</code></td>
 <td>(dx,dy)+</td>
-<td><em>change current point by</em> (1,2)</td>
+<td>_change current point by rel. _ (1,2)</td>
 </tr>
 <tr>
 <td><strong>L</strong></td>
 <td>Line to</td>
 <td><code>L 10 20</code></td>
 <td>(dx,dy)+</td>
-<td><em>line from current point to</em> (10,20)</td>
+<td>_line from current point, to rel. _ (10,20)</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td><code>L 10 20 30 40</code></td>
 <td>(dx,dy)+</td>
-<td><em>line from current point to</em> (10,20) <em>and line from there to</em> (30,40)</td>
+<td>_line from current point to rel. _ (10,20) _and line from there to rel. _ (30,40)</td>
 </tr>
 <tr>
 <td><strong>H</strong></td>
 <td>Horiz Line to</td>
 <td><code>H 10</code></td>
 <td>x+</td>
-<td><em>horiz line from current point to</em> x <em>of</em> 10</td>
+<td>_horiz line from current point to abs. _ x <em>of</em> 10</td>
 </tr>
 <tr>
 <td><strong>h</strong></td>
 <td>Horiz Line delta</td>
 <td><code>h 10</code></td>
 <td>dx+</td>
-<td><em>horiz line from current point to</em> x <em>of</em> x + 10</td>
+<td>_horiz line from current point to rel. _ x <em>of</em> x + 10</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td><code>h -10</code></td>
 <td>dx+</td>
-<td><em>horiz line from current point to</em> x <em>of</em> x - 10</td>
+<td>_horiz line from current point to rel. _ x <em>of</em> x - 10</td>
 </tr>
 <tr>
 <td><strong>V</strong></td>
@@ -152,14 +152,14 @@
 <td>Vert Line delta</td>
 <td><code>v 10</code></td>
 <td>dy+</td>
-<td><em>vertical from current point to</em> y <em>of</em> y + 10</td>
+<td>_vertical from current point to rel. _ y <em>of</em> y + 10</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td><code>v -10</code></td>
 <td>dy+</td>
-<td><em>vertical from current point to</em> y <em>of</em> y - 10</td>
+<td>_vertical from current point to rel. _ y <em>of</em> y - 10</td>
 </tr>
 <tr>
 <td><strong>C</strong></td>
@@ -428,9 +428,75 @@ svg.squiggle:hover {
 <svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
   <g transform="scale(1 1)">
   <circle cx="203" cy="203" r="203" fill="white" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#333" stroke="none" />
+	</g>
+</svg>
+<div style='padding:30px;background-color:white;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:white'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#333" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="white" stroke="none" />
+	</g>
+</svg>
+</div>
+<p><img src="nt.svg" alt="svg" /></p>
+<div style='padding:30px;background-color:#333;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#333'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#F1F1F1" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#CCC" stroke="none" />
+	</g>
+</svg>
+</div>
+<div style='padding:30px;background-color:#333;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#333'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#F1F1F1" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#888" stroke="none" />
+	</g>
+</svg>
+</div>
+<div style='padding:30px;background-color:#111;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#888" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#333" stroke="none" />
+	</g>
+</svg>
+</div>
+<div style='padding:30px;background-color:#111;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#888" stroke="none"/>
 		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#222" stroke="none" />
 	</g>
 </svg>
+</div>
+<div style='padding:30px;background-color:#111;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#444" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#222" stroke="none" />
+	</g>
+</svg>
+</div>
+<div style='padding:30px;background-color:#111;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#444" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#111" stroke="none" />
+	</g>
+</svg>
+</div>
+<p><img src="nt.svg" alt="nt.svg" /></p>
+<div style='padding:30px;background-color:#111;'>
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#383838" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#000" stroke="none" />
+	</g>
+</svg>
+</div>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
