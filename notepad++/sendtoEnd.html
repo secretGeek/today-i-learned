@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>sendtoEnd . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,13 +19,24 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="svg">svg</h1>
-<h3 id="chapter-contents">chapter contents</h3>
-<ul>
-<li><a href="drawsquare.html">drawsquare</a></li>
-<li><a href="svg-to-favicon.html">svg-to-favicon</a></li>
-<li><a href="svg-to-ico-file.html">svg-to-ico-file</a></li>
-</ul>
+<h1 id="send-to-end-macro">Send to End Macro...</h1>
+<p>I often want to grab some text -- send it to the end (or the top!) of the file, without losing my place in the file.</p>
+<p>It's more specific than that... I want to grab a &quot;todo&quot; item, make it as &quot;brought forward&quot; and paste it at the end of the document. (Without losing my place!)</p>
+<p>To achieve this, I use the bookmark and the macro feature, and record a macro called &quot;Send to End&quot;, with keystroke &quot;Ctrl-Shift-D&quot; -- and it does these steps:</p>
+<ol start="0">
+<li>Macro: Start Recording</li>
+<li>copies the currently selected text.</li>
+<li>replaces [ space ] with [ v ].</li>
+<li>Set book mark (with 'Toggle BOOK MARK (Ctrl F2)')</li>
+<li>moves to end of document.</li>
+<li>Press Enter</li>
+<li>paste.</li>
+<li>returns to previus bookmark (with Shift F2)</li>
+<li>Clear book mark (with 'Toggle BOOK MARK (Ctrl F2)')</li>
+<li>Macro: Stop Recording.</li>
+<li>Save current recorded macro.</li>
+<li>Name it &quot;SendToEnd&quot; and apply shortcut Ctrl Shift D.)</li>
+</ol>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

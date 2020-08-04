@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>svg-to-favicon . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-use-an-svg-as-a-website-or-web-pages-favicon-including-supporting-legacy-platforms-and-rich-application-platforms">How to use an svg as a website or web page's favicon, including supporting legacy platforms and rich application platforms.</h1>
+<p>You end up with this kind of text:</p>
+<pre><code>&lt;link rel=&quot;icon&quot; href=&quot;/favicon.svg&quot; type=&quot;image/svg+xml&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/apple-touch-icon.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;32x32&quot; href=&quot;/favicon-32x32.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/favicon-16x16.png&quot;&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/site.json&quot;&gt;
+&lt;link rel=&quot;mask-icon&quot; href=&quot;/safari-pinned-tab.svg&quot; color=&quot;#5bbad5&quot;&gt;
+&lt;meta name=&quot;msapplication-TileColor&quot; content=&quot;#da532c&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#ffffff&quot;&gt;
+</code></pre>
+<p>The svg is used in conjunction with some sites to make all the other variants (<code>32x32</code> etc... whatever is needed in the year you're in.)</p>
+<p>But first you have to write the svg.</p>
+<p>Start with:</p>
+<pre><code>&lt;svg width=&quot;16&quot; height=&quot;16&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+&lt;style&gt;
+</code></pre>
+<p>...and then include styles that depend on light/dark mode of browser itself.</p>
+<p>e.g. the new NimbleText favicon has this:</p>
+<p>Some default styles that are applied in normal situations:</p>
+<pre><code>.logo {
+	filter: drop-shadow( 0 1px 1px rgba(180, 180, 180, 1)) drop-shadow(0 1px 1px rgba(220, 220, 220, 0.5)) drop-shadow( 0 2px 2px rgba(200, 200, 200, 0.25));
+}
+</code></pre>
+<p>And some other styles only used in dark schemes.</p>
+<pre><code>@media (prefers-color-scheme: dark) {
+	.logo {
+		filter: drop-shadow( 0 1px 1px rgba(0, 0, 0, 1)) drop-shadow(0 1px 1px rgba(17, 17, 17, 0.5)) drop-shadow( 0 2px 2px rgba(34, 34, 34, 0.25));
+	}
+}
+</code></pre>
+<p>You may also want to make sure your vectors are nicely aligned on pixel boundaries at common sizes.</p>
+<h2 id="generate-extra-favicon-files-and-html-once-you-have-your-svg-built">Generate extra favicon files and html (once you have your svg built)</h2>
+<p>I'm currently using:</p>
+<ul>
+<li><a href="https://realfavicongenerator.net/">https://realfavicongenerator.net/</a></li>
+</ul>
+<p>for this.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="svg-to-ico-file.html">How to convert an svg to a Windows .ico icon file, with inkscape and magick</a></li>
+<li><a href="..%5Chtml%5Cemoji_favicon.html">Use an Emoji as a favicon</a></li>
+<li><a href="..%5Csvg%5Csvg-to-favicon.html">How to use an svg as a website or web page's favicon, including supporting legacy platforms and rich application platforms.</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
