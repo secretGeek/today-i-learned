@@ -63,9 +63,9 @@ from OldSet o
 left outer join NewSet n on n.PK1 = o.Pk1 and n.PK2 = o.PK2
 where n.PK1 is null and n.PK2 is null -- i.e. not match
 )
-Select Summary, Count(*)as [Count] from Comparison group by Summary
+Select Summary, Count(*) as [Count] from Comparison group by Summary
 UNION
-Select Summary, Count(*)as [Count] from Comparison2 group by Summary
+Select Summary, Count(*) as [Count] from Comparison2 group by Summary
 </code></pre>
 <p>This will give you a summary table that tells you:</p>
 <ul>
@@ -102,7 +102,63 @@ Select Summary, Count(*)as [Count] from Comparison2 group by Summary
 </tbody>
 </table>
 <h2 id="problem">Problem...</h2>
-<p>The maximum input to <code>hashbytes</code> -- prior to SQL 2016 -- is 8000 bytes.</p>
+<p>The maximum input to <code>hashbytes</code> -- prior to <code>SQL Server 2016</code> -- is 8000 bytes.</p>
+<h1 id="solution-for-versions-less-than-sql-server-2016">Solution for versions less than SQL Server 2016</h1>
+<p>This yak took a lot of shaving cream!</p>
+<p>You can use this function to hash <code>varbinary(max)</code> ... (note you don't specify which hash function is used... so I'm guessing it's possible that two different database instances <em>might</em> use different hash functions inside the repl hash binary... it may be configurable? but within one database instance this should work consistently...)</p>
+<pre><code>master.sys.fn_repl_hash_binary(SOME_VARBINARY)
+</code></pre>
+<p>...but we don't have a var binary we have a <code>nvarchar(max)</code> !</p>
+<p>So cast the <code>nvarchar(max)</code> to <code>varbinary(max)</code> before running the function....</p>
+<pre><code>master.sys.fn_repl_hash_binary(cast(SOME_NVARCHAR_MAX as varbinary(max)))
+</code></pre>
+<p>...And that appears to work, in SSMS... but the output is actually an array of bytes, not a varchar of any sort.</p>
+<p>I found the trick this time is to convert the result to varchar(32) with a third parameter of <code>2</code>, i.e.</p>
+<pre><code>Convert(varchar(32), master.sys.fn_repl_hash_binary(cast(SOME_NVARCHAR_MAX as varbinary(max))), 2) as Hasho
+</code></pre>
+<p>So here's our function modified to work with large nvarchar's prior to <code>SQL Server 2016</code>. (I'm writing/needing this in 2020!)</p>
+<pre><code>With 
+NEWSET as (
+SELECT 
+	MBT.PK1,
+	MBT.PK2,
+	Convert(varchar(32), master.sys.fn_repl_hash_binary(cast((SELECT MBT.*
+			FROM (VALUES(NULL))foo(bar)
+			FOR xml auto) as varbinary(max))), 2) as [Hash]
+	FROM TableNew AS MBT)
+,OLDSET as (
+SELECT 
+	MBT.PK1, 
+	MBT.PK2,
+	Convert(varchar(32), master.sys.fn_repl_hash_binary(cast((SELECT MBT.*
+			FROM (VALUES(NULL))foo(bar)
+			FOR xml auto) as varbinary(max))), 2) as [Hash]
+FROM TableOld AS MBT)
+,Comparison as (
+Select
+	n.PK1,
+	n.PK2,
+	Case 
+		when o.[Hash] is null then 'Not in old set'
+		when o.[Hash] != n.[Hash] then 'Changed'
+		else 'Same'
+	end as Summary
+from NewSet n
+left outer join OldSet o on n.PK1 = o.Pk1 and n.PK2 = o.PK2
+)
+,Comparison2 as (
+Select
+	o.PK1,
+	o.PK2,
+	'Not in new set' as Summary
+from OldSet o
+left outer join NewSet n on n.PK1 = o.Pk1 and n.PK2 = o.PK2
+where n.PK1 is null and n.PK2 is null -- i.e. not match
+)
+Select Summary, Count(*) as [Count] from Comparison group by Summary
+UNION
+Select Summary, Count(*) as [Count] from Comparison2 group by Summary
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

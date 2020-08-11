@@ -69,7 +69,54 @@ order by 1
 0x3000, -- IDEOGRAPHIC SPACE
 0xFEFF  -- ZERO WIDTH NO-BREAK SPACE
 </code></pre>
-<p>...which found at: <a href="https://www.rmjcs.com/SQL-Server/T-SQL-Functions/Trim-Whitespace">https://www.rmjcs.com/SQL-Server/T-SQL-Functions/Trim-Whitespace</a></p>
+<p>...which I found at: <a href="https://www.rmjcs.com/SQL-Server/T-SQL-Functions/Trim-Whitespace">https://www.rmjcs.com/SQL-Server/T-SQL-Functions/Trim-Whitespace</a></p>
+<p>Note that in <code>SQL Server 2017</code> (and higher) you can trim leading/trailing whitespace with the <code>trim</code> function -- like this!:</p>
+<p>To trim just spaces:</p>
+<pre><code>Select TRIM(' ' FROM name) from sysobjects
+</code></pre>
+<p>To trim <code>space</code>, <code>tab</code>, <code>cr</code>, <code>lf</code>.... use this slightly odd syntax....</p>
+<pre><code>Select TRIM(CHAR(13) + CHAR(10) + CHAR(9) + ' ' FROM name) from sysobjects
+</code></pre>
+<h2 id="in-sql-server-2016-and-lower">In SQL Server 2016 and lower....</h2>
+<p>To Trim those in earlier versions, make some custom <code>LTrimWhiteSpace</code> and <code>RTrimWhiteSpace</code> functions....</p>
+<p>Left Trim White Space:</p>
+<pre><code>CREATE FUNCTION dbo.LTrimWhiteSpace(@str NVARCHAR(MAX)) RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @trimchars NVARCHAR(10)
+	SET @trimchars = CHAR(9)+CHAR(10)+CHAR(13)+CHAR(32)
+	IF ISNULL(@str,'') LIKE '[' + @trimchars + ']%'
+		SET @str = SUBSTRING(@str, PATINDEX('%[^' + @trimchars + ']', @str), LEN(@str))
+	RETURN @str
+END
+</code></pre>
+<p>Right Trim White Space</p>
+<pre><code>CREATE FUNCTION dbo.RTrimWhiteSpace(@str NVARCHAR(MAX)) RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @trimchars NVARCHAR(10)
+	SET @trimchars = CHAR(9)+CHAR(10)+CHAR(13)+CHAR(32)
+	IF ISNULL(@str,'') LIKE '%[' + @trimchars + ']'
+		SET @str = REVERSE(dbo.LTrimWhiteSpace(REVERSE(@str)))
+	RETURN @str
+END
+</code></pre>
+<p>Trim White Space function itself:</p>
+<pre><code>CREATE FUNCTION dbo.TrimWhiteSpace(@str NVARCHAR(MAX)) RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+	RETURN dbo.LTrimWhiteSpace(dbo.RTrimWhiteSpace(@str))
+END
+</code></pre>
+<p>Example of usage:</p>
+<pre><code>SELECT dbo.TrimWhiteSpace(@MyString)
+</code></pre>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.rmjcs.com/SQL-Server/T-SQL-Functions/Trim-Whitespace">trim white space</a></li>
+<li><a href="http://sqlfiddle.com/#!18/25c63/11">sqldfiddle trim()</a></li>
+<li><a href="https://stackoverflow.com/a/36191186/49">Stackoverflow: remove only leading or trailing CRs</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

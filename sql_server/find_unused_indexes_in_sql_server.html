@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>find unused indexes in sql server . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="finding-unused-indexes-in-sql-server">Finding unused indexes in sql server</h1>
+<p>Before finding (and eliminating) unused indexes, you have to know that sometimes primary keys and uniqueness indexes are not specifically used as indexes (i.e. they may not be involves in seeks/scans or lookups) but they might be useful in assisting the query planner to make wise decisions. So don't blindly delete PK's or uniqueness constraints based off the results of looking at 'unused indexes'.</p>
+<pre><code>SELECT
+	schema_name([objects].[schema_id]) + '.' + objects.name AS [Schema.Table],
+	indexes.name AS [Index],
+	stats.user_seeks,
+	stats.user_scans,
+	stats.user_lookups,
+	stats.user_updates,
+	indexes.*
+FROM
+	sys.dm_db_index_usage_stats stats
+	INNER JOIN sys.objects ON stats.OBJECT_ID = objects.OBJECT_ID
+	INNER JOIN sys.indexes ON indexes.index_id = stats.index_id AND stats.OBJECT_ID = indexes.OBJECT_ID
+WHERE
+--		stats.user_lookups = 0
+--	AND	stats.user_seeks = 0
+--	AND	stats.user_scans = 0
+--  AND
+	indexes.is_primary_key = 0		-- Excludes primary keys as described above
+AND indexes.is_unique = 0			-- Excludes unique constarints are described above
+ORDER BY
+	(stats.user_seeks + stats.user_scans + stats.user_lookups) asc,  
+	stats.user_updates DESC
+</code></pre>
+<p>What do you expect to find when you run this query?</p>
+<p>Most of you will find:</p>
+<pre><code>Msg 300, Level 14, State 1, Line 1
+VIEW SERVER STATE permission was denied on object 'server', database 'master'.
+Msg 297, Level 16, State 1, Line 1
+The user does not have permission to perform this action.
+</code></pre>
+<p>And you may then have to either find someone who does have this permission, or get the necessary permissions added to an account you can use.</p>
+<p>Some of you will find no data! When SQL Server service is reset, <code>dm_db_index_usage_stats</code> is cleared, so this works best after SQl Server has been up for a decent amount of time -- enough to give reasonable info about the pattern of usage for you datbase. (You can find when it was reset  using <code>SELECT sqlserver_start_time FROM sys.dm_os_sys_info</code> see <a href="start_time.html">start_time</a>)</p>
+<p>If you do find results, you may see::</p>
+<ul>
+<li>For <code>heap</code> tables, the index name may be <code>NULL</code>.</li>
+<li>You might find completely unused indexes -- those where <code>user_seeks</code>, <code>user_scans</code> and <code>user_lookups</code> are <em>all</em> Zero. Or you may find cases where these numbers are very very small, close to zero.</li>
+</ul>
+<h2 id="sources">Sources</h2>
+<p>-<a href="https://www.sqlshack.com/how-to-identify-and-monitor-unused-indexes-in-sql-server/">Nikola Dimitrijevic: How to identify and monitor unused indexes in SQL Server</a></p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
