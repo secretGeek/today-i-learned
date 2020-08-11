@@ -20,7 +20,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="finding-unused-indexes-in-sql-server">Finding unused indexes in sql server</h1>
-<p>Before finding (and eliminating) unused indexes, you have to know that sometimes primary keys and uniqueness indexes are not specifically used as indexes (i.e. they may not be involves in seeks/scans or lookups) but they might be useful in assisting the query planner to make wise decisions. So don't blindly delete PK's or uniqueness constraints based off the results of looking at 'unused indexes'.</p>
+<p>Before finding (and eliminating) unused indexes, you have to know that sometimes primary keys and uniqueness indexes are not specifically used as indexes (i.e. they may not be involved in seeks/scans or lookups) but they might be useful in assisting the query planner to make wise decisions. So please don't blindly delete <code>PK</code>s or uniqueness constraints based off the results of looking at 'unused' indexes!</p>
 <pre><code>SELECT
 	schema_name([objects].[schema_id]) + '.' + objects.name AS [Schema.Table],
 	indexes.name AS [Index],
@@ -34,7 +34,7 @@ FROM
 	INNER JOIN sys.objects ON stats.OBJECT_ID = objects.OBJECT_ID
 	INNER JOIN sys.indexes ON indexes.index_id = stats.index_id AND stats.OBJECT_ID = indexes.OBJECT_ID
 WHERE
---		stats.user_lookups = 0
+--	stats.user_lookups = 0
 --	AND	stats.user_seeks = 0
 --	AND	stats.user_scans = 0
 --  AND
@@ -53,13 +53,17 @@ The user does not have permission to perform this action.
 </code></pre>
 <p>And you may then have to either find someone who does have this permission, or get the necessary permissions added to an account you can use.</p>
 <p>Some of you will find no data! When SQL Server service is reset, <code>dm_db_index_usage_stats</code> is cleared, so this works best after SQl Server has been up for a decent amount of time -- enough to give reasonable info about the pattern of usage for you datbase. (You can find when it was reset  using <code>SELECT sqlserver_start_time FROM sys.dm_os_sys_info</code> see <a href="start_time.html">start_time</a>)</p>
-<p>If you do find results, you may see::</p>
+<p>If you do find results, you may see:</p>
 <ul>
 <li>For <code>heap</code> tables, the index name may be <code>NULL</code>.</li>
 <li>You might find completely unused indexes -- those where <code>user_seeks</code>, <code>user_scans</code> and <code>user_lookups</code> are <em>all</em> Zero. Or you may find cases where these numbers are very very small, close to zero.</li>
 </ul>
 <h2 id="sources">Sources</h2>
 <p>-<a href="https://www.sqlshack.com/how-to-identify-and-monitor-unused-indexes-in-sql-server/">Nikola Dimitrijevic: How to identify and monitor unused indexes in SQL Server</a></p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="find_missing_indexes_in_sql_server.html">Find missing indexes in sql server</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
