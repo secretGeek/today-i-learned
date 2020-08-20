@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>drawcircle . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-draw-a-circle-with-svg">how to draw a circle with svg</h1>
+<pre><code>&lt;svg&gt;
+	&lt;circle cx=&quot;70&quot; cy=&quot;70&quot; r=&quot;70&quot; fill=&quot;#383838&quot; stroke=&quot;none&quot;/&gt;
+&lt;/svg&gt;
+</code></pre>
+<p>That's one circle, how about two?</p>
+<svg>
+	<circle cx="70" cy="70" r="62" fill="#383838" stroke="white" stroke-width="5"/>
+	<circle cx="120" cy="70" r="62" fill="none" stroke="white" stroke-width="5"/>
+</svg>
+<svg style="background:white;height:149" width="400" height="400">
+    <defs>
+    <g id="shape" fill="none" stroke="red">
+<circle cx="100" cy="100" r="100" fill="#888" stroke="#000" stroke-width="15"/>
+<circle cx="180" cy="100" r="100" fill="none" stroke="#000" stroke-width="15"/>
+</g>
+<filter id="shadow">
+</filter>
+</defs>
+<g transform="scale(0.32)">
+  <use xlink:href="#shape" x="50" y="50"  />
+</g>
+<g filter="url(#shadow)">
+<rect width="100%" height="100%" fill="red" clip-path="url(#shape)"/>
+</g>
+</svg>
+<pre><code>&lt;div style='padding:30px;background-color:#111;'&gt;
+	&lt;svg width=&quot;406&quot; height=&quot;406&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; style='background-color:#111'&gt;
+		&lt;g transform=&quot;scale(1 1)&quot;&gt;
+			&lt;circle cx=&quot;203&quot; cy=&quot;203&quot; r=&quot;203&quot; fill=&quot;#383838&quot; stroke=&quot;none&quot;/&gt;
+		&lt;/g&gt;
+	&lt;/svg&gt;
+&lt;/div&gt;
+
+
+&lt;div style='padding:30px;background-color:#111;'&gt;
+	&lt;svg width=&quot;406&quot; height=&quot;406&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; style='background-color:#111'&gt;
+		&lt;g transform=&quot;scale(1 1)&quot;&gt;
+			&lt;circle cx=&quot;203&quot; cy=&quot;203&quot; r=&quot;203&quot; fill=&quot;#383838&quot; stroke=&quot;none&quot;/&gt;
+		&lt;/g&gt;
+	&lt;/svg&gt;
+&lt;/div&gt;
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

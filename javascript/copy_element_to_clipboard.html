@@ -38,6 +38,7 @@ function copytext(copyText) {
 }
 &lt;/script&gt;
 </code></pre>
+<p>(Note the <code>trim()</code>... most people forget that, i think it matters a lot. You don't want leading/trailing spaces, tabs, new lines. It's standard in enough browsers no, and happily it's not just spaces)</p>
 <p>When you want just a single word/term that is copyable....</p>
 <pre><code>&lt;code onclick=&quot;copytext('%name%');&quot; class=&quot;copyable&quot; title=&quot;click to copy&quot;&gt;%name%&lt;/code&gt;
 &lt;code onclick=&quot;copytext('%email%');&quot; class=&quot;copyable&quot; title=&quot;click to copy&quot;&gt;%email%&lt;/code&gt;
@@ -85,6 +86,7 @@ function $(selector) {
 	return document.querySelectorAll(selector);
 }
 </code></pre>
+<p>Above copies <strong>text</strong> only. If you want to copy (non-markdown) formatted text or other content (like images), you might want to consider <a href="https://clipboardjs.com">ClipboardJS</a>.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
