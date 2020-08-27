@@ -20,6 +20,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="copy-element-to-clipboard">Copy element to clipboard</h1>
+<p><code>tip</code> These methods copy <strong>text</strong> only. If you want to copy (non-markdown) formatted text or other content (like images), you might want to consider <a href="https://clipboardjs.com">ClipboardJS</a>.</p>
 <p>Here's a general 'vanilla js' solution:</p>
 <pre><code>&lt;pre id=&quot;mypre&quot;&gt;Hello world2!&lt;/pre&gt;
 &lt;button onclick=&quot;copytext(document.querySelectorAll('#mypre')[0].textContent)&quot;&gt;hello&lt;/button&gt;
@@ -28,6 +29,8 @@
 function copytext(copyText) {
 	const textArea = document.createElement('textarea');
 	textArea.style.position = &quot;absolute&quot;;
+	// to prevent scrolling on IE/Safari, place the element beside us...
+	textArea.style.top = &quot;&quot; + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) ||  document.body.scrollTop) + &quot;px&quot;;
 	textArea.style.left = &quot;-100%&quot;;
 	textArea.textContent = copyText.trim();
 	document.body.appendChild(textArea);
@@ -35,6 +38,7 @@ function copytext(copyText) {
 	document.execCommand(&quot;copy&quot;);
 	//Consider: visually indicate success...
 	//alert(copyText);
+	textArea.parentNode.removeChild(textArea);
 }
 &lt;/script&gt;
 </code></pre>
@@ -62,6 +66,7 @@ code.copyable:hover {
 	preOrCode.setAttribute('onclick', &quot;copyItemText(this);&quot;);
 }
 
+// Don't accidentally wire yourself to a code inside a pre (those are common)
 for(let codeInPre of $('pre code' )) {
 	codeInPre.removeAttribute('onclick');
 }
@@ -75,18 +80,121 @@ for(let codeInPre of $('pre code' )) {
 function copytext(copyText) {
 	const textArea = document.createElement('textarea');
 	textArea.style.position = &quot;absolute&quot;;
+	// to prevent scrolling on IE/Safari, place the element beside us...
+	textArea.style.top = &quot;&quot; + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) ||  document.body.scrollTop) + &quot;px&quot;;
 	textArea.style.left = &quot;-100%&quot;;
-	textArea.textContent = copyText;
+	textArea.textContent = copyText.trim();
 	document.body.appendChild(textArea);
 	textArea.select();
 	document.execCommand(&quot;copy&quot;);
+	textArea.parentNode.removeChild(textArea);
 }
 
 function $(selector) {
 	return document.querySelectorAll(selector);
 }
 </code></pre>
-<p>Above copies <strong>text</strong> only. If you want to copy (non-markdown) formatted text or other content (like images), you might want to consider <a href="https://clipboardjs.com">ClipboardJS</a>.</p>
+<hr />
+<h2 id="fading-out-tooltip-at-copy-time">Fading out Tooltip at Copy Time...</h2>
+<p>Here's another variation, this time with a fading out tooltip.</p>
+<p>Here's the function that shows the tool tip. It is centered above the <code>element</code> passed to it.</p>
+<p>To support the tooltip I have these two CSS classes:</p>
+<pre><code>/* 
+	Used for notifications that clipboard text has been copied. 
+	Can be used for other transient js messages. 
+*/
+.floating-message {
+	/* initial opacity/top margin */
+	opacity: 1;
+	margin-top: 0;
+	padding: 5px;
+	box-shadow: 0 0 3px #888;
+	background-color: #FFC;
+	color: #333;
+	border-radius: 5px;
+	font-size: 0.8em;
+	transform: translate(-50%,-120%);
+}
+
+.fade-message-out {
+	/* when 'hidden' it will fade out and float &quot;up&quot; over 1 second */
+	opacity: 0;
+	margin-top: -50px;
+	/*transition: opacity 1s ease-in-out, margin 1s ease-in-out;*/
+	transition: opacity 1s ease-in-out, margin 1s ease-in-out;
+}
+</code></pre>
+<p>And the function to show a message that floats away is like this:</p>
+<pre><code>// Message will be displayed near the element and disappear soon after
+function showFloatingMessage(message, element) {
+	var rect = element.getBoundingClientRect();
+	const tip = document.createElement('span');
+	tip.innerText = message;
+	tip.classList.add(&quot;floating-message&quot;);
+	tip.style.position = &quot;absolute&quot;;
+	var top = rect.top + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) || document.body.scrollTop);
+	tip.style.top = top + &quot;px&quot;;
+	tip.style.left = (rect.left + ((rect.right - rect.left) / 2)) + &quot;px&quot;;
+	document.body.appendChild(tip);
+
+	// apply 'fade-message-out' to make it fade with css animation -- and then remove it altogether.
+	setTimeout(function () {
+		tip.classList.add(&quot;fade-message-out&quot;);
+		setTimeout(function () { tip.parentNode.removeChild(tip); }, 1000);
+	}, 10);
+}
+</code></pre>
+<p>And here's the <em>revised</em> function that does the copying itself, and which then notifies the <code>showFloatingMessage</code>. It now has an extra parameter, <code>item</code>.</p>
+<pre><code>function copyToClipboard(value, element) {
+	const textArea = document.createElement('textarea');
+	textArea.style.position = &quot;absolute&quot;;
+	var rect = element.getBoundingClientRect();
+
+	// top is at current height, to avoid causing a scroll on IE/Safari.
+	var top = rect.top + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) || document.body.scrollTop);
+	textArea.style.top = top + &quot;px&quot;;
+	textArea.style.left = &quot;-100%&quot;; // off screen
+	textArea.style.width = &quot;200px&quot;;
+	textArea.textContent = value.trim();
+	element.parentNode.appendChild(textArea);
+	textArea.select();
+	document.execCommand(&quot;copy&quot;);
+	textArea.parentNode.removeChild(textArea);
+	showFloatingMessage(&quot;copied to clipboard.&quot;, element);
+}
+</code></pre>
+<p>And I call it via this helper method:</p>
+<pre><code>function copyItemText(item) {
+	copytext(item.textContent, item);
+}
+</code></pre>
+<p>And wire that up to every <code>pre</code>/<code>code</code> element like this:</p>
+<pre><code>for(let preOrCode of $('pre, code')) {
+	preOrCode.setAttribute('title', &quot;Click to copy.&quot;);
+	preOrCode.setAttribute('onclick', &quot;copyItemText(this);&quot;);
+}
+</code></pre>
+<h1 id="using-this-with-jquery">Using this with JQuery</h1>
+<p>The methods above are all vanilla JS. If wiring it up with jQuery, note that you have to pass a <code>DOM</code> element, not a <code>JQuery</code> element.</p>
+<p>For example</p>
+<pre><code>// Inject a button before every pre...
+$(&quot;&lt;button class='copy-text btn btn-sm' title='copy code to clipboard'&gt;copy&lt;/button&gt;&quot;).insertBefore($(&quot;pre&quot;));
+
+
+// And have it call 'copy to clipboard'
+$(&quot;.copy-text&quot;).click(function (i) {
+	copyToClipboard($(this).next(&quot;pre&quot;).text(), this); // that final *this* is the DOM element.
+});
+</code></pre>
+<p>And to style that little button, this CSS is my starting point:</p>
+<pre><code>.copy-text {
+	float: right;
+	background-color: #F5F5F5; /* same as pre */
+	box-shadow: 0 0 3px #AAA, 0 0 3px #AAA;
+	margin-top: 5px;
+	margin-right:5px;
+}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

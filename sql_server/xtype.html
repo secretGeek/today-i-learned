@@ -143,7 +143,7 @@ WHERE type = 'O9T'
 <h1 id="query-to-filter-by-type-of-object">Query to filter by type of object</h1>
 <pre><code>$x = &quot;Select Schema_Name(o.UID) + '.' + o.Name , o.Xtype, tt.[name]
 from sysobjects o inner join  master..spt_values tt 
-on tt.name like o.xtype + '%' collate database_default
+on tt.type = 'O9T' and tt.name like o.xtype + '%' collate database_default
 where
 tt.[name] like 
 '%proc%' --e.g. function table proc
