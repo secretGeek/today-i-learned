@@ -97,7 +97,6 @@ function $(selector) {
 <hr />
 <h2 id="fading-out-tooltip-at-copy-time">Fading out Tooltip at Copy Time...</h2>
 <p>Here's another variation, this time with a fading out tooltip.</p>
-<p>Here's the function that shows the tool tip. It is centered above the <code>element</code> passed to it.</p>
 <p>To support the tooltip I have these two CSS classes:</p>
 <pre><code>/* 
 	Used for notifications that clipboard text has been copied. 
@@ -124,6 +123,7 @@ function $(selector) {
 	transition: opacity 1s ease-in-out, margin 1s ease-in-out;
 }
 </code></pre>
+<p>And here's the function that shows the tool tip. It is centered above the <code>element</code> passed to it.</p>
 <p>And the function to show a message that floats away is like this:</p>
 <pre><code>// Message will be displayed near the element and disappear soon after
 function showFloatingMessage(message, element) {
@@ -176,14 +176,17 @@ function showFloatingMessage(message, element) {
 </code></pre>
 <h1 id="using-this-with-jquery">Using this with JQuery</h1>
 <p>The methods above are all vanilla JS. If wiring it up with jQuery, note that you have to pass a <code>DOM</code> element, not a <code>JQuery</code> element.</p>
-<p>For example</p>
+<p>For example:</p>
 <pre><code>// Inject a button before every pre...
 $(&quot;&lt;button class='copy-text btn btn-sm' title='copy code to clipboard'&gt;copy&lt;/button&gt;&quot;).insertBefore($(&quot;pre&quot;));
 
 
 // And have it call 'copy to clipboard'
-$(&quot;.copy-text&quot;).click(function (i) {
+$(&quot;.copy-text&quot;).click(function (e) {
 	copyToClipboard($(this).next(&quot;pre&quot;).text(), this); // that final *this* is the DOM element.
+	// stop any other consequence fo this click from occurring. 
+	e.preventDefault();
+	return false;
 });
 </code></pre>
 <p>And to style that little button, this CSS is my starting point:</p>

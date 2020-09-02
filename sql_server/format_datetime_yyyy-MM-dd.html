@@ -21,6 +21,10 @@
 <article>
 <h1 id="format-datetime-as-yyyy-mm-dd">Format DateTime as yyyy-MM-dd</h1>
 <p>You want ISO8601 formats in SQL Server, here you go.</p>
+<p>In SQL Server 2014 forward you can do this...</p>
+<pre><code>select Format(GetDate(), 'yyyy-MM-dd HH:mm:ss.ffffff')
+</code></pre>
+<p>I'm not sure exactly when that came into existence. Here's the older techniques, which were maddening...</p>
 <p>For <code>yyyy-MM-dd</code> :</p>
 <pre><code>CONVERT(VARCHAR(10), GetDate(), 120)
 </code></pre>
@@ -42,6 +46,10 @@
 2017-02-02 11:52:33.980
 </code></pre>
 <p>(Any length 23 or larger will suffice)</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/functions/format-transact-sql?view=sql-server-ver15">Doc.Microsoft: Format T-Sql</a>)</li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="datetime_trim_hours_milliseconds.html">SQL: just the date portion of a datetime</a></li>

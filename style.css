@@ -25,8 +25,12 @@
   --nav-hover-shadow:#FF6;
   --link-active:red;
   --link:blue;
-  --link-hover:lightblue;
+  --link-hover:#000;
   --link-visited:purple;
+	--btn-background: #DDD;
+	--btn-background-active:#FCA;
+	--btn-background-hover:#EEE;
+	--btn-active:#FFF;
 }
 
 /* this @media query will apply to those who have
@@ -39,7 +43,8 @@
     --code-shadow:#181818;
     --header-bg:#222;
     --header-shadow:#666;
-    --breadcrumb-bg:#333;
+    --breadcrumb-bg:#444;
+		--btn-background:#444;
     --breadcrumb:#DDD;
     --search-btn-bg:#333;
     --search:#CCC;
@@ -53,10 +58,14 @@
     --breadcrumb-shadow-inset2:#383838;
     --breadcrumb-shadow:#666;
     --nav-hover-shadow:#AA2;
-    --link-active:#FAA;
+    --link-active:hsl(180, 100%, 39%);
     --link:cyan;
-    --link-hover:lightblue;
+    --link-hover:white;
     --link-visited:darkcyan;
+		--btn-background: #4C4C4C;
+		--btn-background-active:#F93;
+	  --btn-background-hover:#6C6C6C;
+		--btn-active:white;
   }
   img[src='today_i_learned.png'],  
   img[src='dorian_aeolian_phrygian.png'],
@@ -82,7 +91,11 @@ a:visited {
   color:var(--link-visited);
 }
 a:hover {
-  text-shadow:0 0 1px var(--link-active);
+	color:var(--link-hover);
+  text-decoration:none;
+	background-size: 1px 1em;
+  display: inline;
+	box-shadow: inset 0 -0.2em var(--link);
 }
 
 body,html {
@@ -132,8 +145,8 @@ pre code {
   box-shadow:none;
 }
 
-pre:hover, code:hover {
-  cursor: pointer;
+code:hover {
+	cursor: pointer;  
 }
 
 pre code:hover {
@@ -177,14 +190,14 @@ header div.nav a:hover {
 div.breadcrumb {
   max-width:70ch;
   margin:auto;
-  margin-top:0;
-  padding:0.5ch 1ch;
+  margin-top:1px;
+  padding:0.5ch 2.0ch 0.75ch 2.0ch;
   border-top-left-radius:0;
   border-top-right-radius:0;
   border-bottom-left-radius:1ch;
   border-bottom-right-radius:1ch;
   background-color:var(--breadcrumb-bg);
-  box-shadow:0 2px 2px inset var(--breadcrumb-shadow-inset1), 0 -2px 2ch inset var(--breadcrumb-shadow-inset2), 0 2px 2px var(--breadcrumb-shadow);
+	box-shadow:0 -2px 3px inset var(--search-btn-shadow);
   position:relative;
   z-index:2;
   color:var(--breadcrumb);
@@ -217,6 +230,7 @@ form.search input[type='submit'] {
   border-left:none;
   box-shadow:0 -2px 3px inset var(--search-btn-shadow);
 }
+
 
 .search-text 
 {
@@ -264,4 +278,87 @@ li {
 }
 td {
   padding:0.33ch;
+}
+
+
+/* 
+	Used for notifications that clipboard text has been copied. 
+	Can be used for other transient js messages. 
+*/
+.floating-message {
+	/* initial opacity/top margin */
+	opacity: 1;
+	margin-top: 0;
+	padding: 5px;
+	box-shadow: 0 0 3px #888;
+	background-color: #FFC;
+	color: #333;
+	border-radius: 5px;
+	font-size: 0.8em;
+	transform: translate(-50%,-120%);
+}
+
+.fade-message-out {
+	/* when 'hidden' it will fade out and float "up" over 1 second */
+	opacity: 0;
+	margin-top: -50px;
+	/*transition: opacity 1s ease-in-out, margin 1s ease-in-out;*/
+	transition: opacity 1s ease-in-out, margin 1s ease-in-out;
+}
+
+pre {
+  overflow:visible;
+}
+.copy-text {
+	z-index:100;
+	float: right;
+	background-color: #F5F5F5; /* same as pre */
+	box-shadow: 0 0 3px #AAA, 0 0 3px #AAA;
+	margin-top: 5px;
+	margin-right:5px;
+}
+
+.copy-text:hover {
+	cursor: pointer;
+}
+
+.btn {
+	border-radius:10px; 
+	-webkit-appearance: none;
+  padding:10px;
+  background-color: var(--btn-background);
+  border:1px solid var(--code-shadow); /*#333; var(--code-shadow);*/
+  xborder-left:none;
+  box-shadow:0 -2px 3px inset var(--search-btn-shadow);
+	color:var(--main);
+	font-size:0.9em;
+}
+
+.btn:hover {
+	background-color: var(--btn-background-hover);
+}
+.btn:active {
+	background-color: var(--btn-background-active);
+	color:var(--btn-active);
+	box-shadow:0 -2px 3px inset var(--search-btn-shadow), 0 0 3px var(--btn-active);
+	text-shadow:0 2px 2px black;
+}
+
+.btn.btn-sm {
+  border-radius:8px; 
+  padding:6px;
+	font-size:0.75em;
+}
+
+
+form.search input[type='submit']:hover {
+	background-color: var(--btn-background-hover);
+}
+
+form.search input[type='submit']:active {
+		background-color: var(--btn-background-active);
+	color:var(--btn-active);
+	box-shadow:0 -2px 3px inset var(--search-btn-shadow), 0 0 3px var(--btn-active);
+	text-shadow:0 2px 2px black;
+
 }

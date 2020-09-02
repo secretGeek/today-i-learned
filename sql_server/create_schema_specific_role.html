@@ -31,6 +31,15 @@ GRANT ALTER, DELETE, EXECUTE, INSERT, REFERENCES, SELECT,
 
 EXEC sp_addrolemember 'SpecificSchemaSuperPowers', 'AD\BambrickL';
 </code></pre>
+<p>For a &quot;reporting-only&quot; role, on a single schema called MyReportingSchema...</p>
+<pre><code>CREATE ROLE ReportingRole AUTHORIZATION dbo;
+
+GRANT EXECUTE, REFERENCES, SELECT,
+          VIEW DEFINITION ON SCHEMA::MyReportingSchema TO ReportingRole;
+</code></pre>
+<p>Then add the relevant group or user to that role:</p>
+<pre><code>EXEC sp_addrolemember 'ReportingRole', 'AD\ReportingUser';
+</code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="Create_Schema_Authorization.html">Create Schema with Authorization</a></li>
