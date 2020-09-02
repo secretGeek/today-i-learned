@@ -184,7 +184,14 @@ header div.nav a {
 
 header div.nav a:hover {
   text-shadow:0 0 2px var(--nav-hover-shadow), 0 0 4px var(--nav-hover-shadow), 0 0 6px var(--nav-hover-shadow);
+	
   color:black;
+	box-shadow: none;
+}
+
+header div.nav a:active {
+	/* some style when header link is clicked.*/
+	color:yellow;
 }
 
 div.breadcrumb {
