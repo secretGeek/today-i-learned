@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>taskwarrior . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="using-taskwarrior-on-windows">Using TaskWarrior on Windows</h1>
+<p>Install on <a href="../windows/bash_on_windows.html">WSL (windows subsystem for linux)</a> with:</p>
+<pre><code>sudo apt-get install taskwarrior
+</code></pre>
+<p>If messages are happy then you succeeded.</p>
+<p>Type <code>task</code> to see if it's there....</p>
+<pre><code>$ task
+A configuration file could not be found in
+
+Would you like a sample /home/myuser/.taskrc created, so Taskwarrior can proceed? (yes/no) y
+[task next]
+No matches.
+</code></pre>
+<ul>
+<li><code>Task help</code> -- gives help (bit technical for right now though)</li>
+</ul>
+<h1 id="add-a-really-plain-task">Add a really plain task...</h1>
+<pre><code>task add buy milk
+</code></pre>
+<p>...this is how it plays out:</p>
+<pre><code>$ task add buy milk
+Created task 1.
+</code></pre>
+<p>Now see all your tasks...</p>
+<pre><code>$ task
+[task next]
+
+ID Age Description  Urg
+ 1 1s  buy milk    0
+
+1 task	
+</code></pre>
+<p>See that the current task id for that task is &quot;1&quot;. (It's actual primary key is hidden and won't change.)</p>
+<h1 id="mark-a-task-as-done">Mark a task as done</h1>
+<p>Mark that task as done like this:</p>
+<pre><code>task 1 done
+</code></pre>
+<p>Result:</p>
+<pre><code>~$ task 1 done
+Completed task 1 'buy milk'.
+Completed 1 task.
+</code></pre>
+<p>Now -- add a fresh task such as:</p>
+<pre><code>task add learn to use task warrior
+</code></pre>
+<p>You'll see (when you run <code>task</code>) that this new task is now listed as number 1.</p>
+<h2 id="add-a-tag-to-a-task">Add a tag to a task</h2>
+<p>When adding a new task you can give it a <code>tag</code> like this:</p>
+<pre><code>task add learn about tags +tw
+</code></pre>
+<p>(the tag here is &quot;tw&quot; and the task is &quot;learn more about tags&quot;)</p>
+<h2 id="add-multiple-tags-to-a-task">Add multiple tags to a task</h2>
+<p>Just list them all with a plus before each:</p>
+<pre><code>task add learn more about tags +tw +tags +example
+</code></pre>
+<p>Or add another <code>tag</code> to an existing task like this:</p>
+<pre><code>task 1 modify +tw
+</code></pre>
+<p>(Added the tag &quot;tw&quot;. Obviously you could've added more than 1 at once, with <code>+tw +fun +easy</code> etc.)</p>
+<h2 id="remove-a-tag-from-a-task">Remove a tag from a task</h2>
+<p>Remove a <code>tag</code> by using minues (<code>-</code>) e.g.</p>
+<pre><code>task 1 modify -tw
+</code></pre>
+<p>(Removed the tag <code>tw</code> from task 1)</p>
+<h2 id="add-and-remove">Add AND Remove...</h2>
+<pre><code>task 1 modify -tw +tech
+</code></pre>
+<p>(Removed <code>tw</code> and added <code>tech</code> to task 1)</p>
+<h2 id="add-a-tag-to-all-tasks">Add a tag to all tasks</h2>
+<p>If we leave out the number, then we are asking to apply the behaviour to <em>all</em>...</p>
+<pre><code>task modify +tw
+</code></pre>
+<p>...and it is careful to make sure we mean it (we have to confirm sort of twice...)....</p>
+<pre><code>This command has no filter, and will modify all tasks.  Are you sure? (yes/no) y
+	- Tags will be set to 'tw'.
+</code></pre>
+<p>...We say &quot;y&quot; for yes, and then it asks for the next task... we say &quot;a&quot; for &quot;all&quot;, and boom it's done.</p>
+<p>Ah -- lesson here is that a command can apply to many tasks. THat little number we use is a &quot;filter&quot; saying &quot;where ID = 1&quot;.</p>
+<h2 id="list-tasks-with-a-tag">List tasks with a tag</h2>
+<pre><code>task list +todo
+</code></pre>
+<p>...lists tasks with <code>todo</code> tag.</p>
+<p>Or - list those that have some tags and don't have other tags...</p>
+<pre><code>task list +shop -grocery
+</code></pre>
+<p>(things to buy at the shop but that are not grocery items)</p>
+<p>...in fact leave out the <code>list</code> command and you get the same...</p>
+<pre><code>task list +todo
+</code></pre>
+<p>and</p>
+<pre><code>task +shop -grocery
+</code></pre>
+<p>...lists tasks that have/lack those tags.</p>
+<h2 id="list-all-completed-tasks">List all completed tasks</h2>
+<p>This worked...</p>
+<pre><code>task status:completed all
+</code></pre>
+<p>I learned also that I can see <em>all</em> tasks open or closed with:</p>
+<pre><code>task all
+</code></pre>
+<h2 id="list-all-tasks-completed-today">List all tasks completed today</h2>
+<h2 id="set-no-priority-to-be-higher-than-low-priority">Set no priority to be higher than 'low' priority</h2>
+<p>As described here <a href="https://taskwarrior.org/docs/priority.html">taskwarrior priority</a>, priority is a user-defined attribute.</p>
+<p>Inline with the talk i watched, here is how you can configure taskwarrior's &quot;priorities&quot; such that &quot;no priority&quot; is higher priority than &quot;low priority&quot; -- like so:</p>
+<pre><code>task config -- uda.priority.values  H,M,,L
+</code></pre>
+<p>...it asked me to confirm first, and then it added this line to &quot;.taskrc&quot;</p>
+<pre><code>uda.priority.values=H,M,,L
+</code></pre>
+<p>Easy.</p>
+<h2 id="taskrc-file-what-is-in-there">.taskrc file: what is in there?</h2>
+<p>remember it created a <code>.taskrc</code> file for me, automatucally? let's inspect that!</p>
+<p>$ cat .taskrc</p>
+<pre><code># [Created by task 2.5.1 9/3/2020 16:31:00]
+# Taskwarrior program configuration file.
+# For more documentation, see http://taskwarrior.org or try 'man task', 'man task-color',
+# 'man task-sync' or 'man taskrc'
+
+# Here is an example of entries that use the default, override and blank values
+#   variable=foo   -- By specifying a value, this overrides the default
+#   variable=      -- By specifying no value, this means no default
+#   #variable=foo  -- By commenting out the line, or deleting it, this uses the default
+
+# Use the command 'task show' to see all defaults and overrides
+
+# Files
+data.location=~/.task
+
+# Color theme (uncomment one to use)
+#include /usr/share/taskwarrior/light-16.theme
+#include /usr/share/taskwarrior/light-256.theme
+#include /usr/share/taskwarrior/dark-16.theme
+#include /usr/share/taskwarrior/dark-256.theme
+#include /usr/share/taskwarrior/dark-red-256.theme
+#include /usr/share/taskwarrior/dark-green-256.theme
+#include /usr/share/taskwarrior/dark-blue-256.theme
+#include /usr/share/taskwarrior/dark-violets-256.theme
+#include /usr/share/taskwarrior/dark-yellow-green.theme
+#include /usr/share/taskwarrior/dark-gray-256.theme
+#include /usr/share/taskwarrior/dark-gray-blue-256.theme
+#include /usr/share/taskwarrior/solarized-dark-256.theme
+#include /usr/share/taskwarrior/solarized-light-256.theme
+#include /usr/share/taskwarrior/no-color.theme
+</code></pre>
+<p>Oh I see -- all the data is in a <code>.tasks</code> directory. Fun fun!!</p>
+<h2 id="sources">sources</h2>
+<ul>
+<li><a href="https://taskwarrior.org/docs/30second.html">30 second guide</a></li>
+<li><a href="https://www.youtube.com/watch?&amp;v=zl68asL9jZA">30 minute talk</a> by <a href="https://twitter.com/pjf">Paul Fenwick</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
