@@ -20,6 +20,25 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="using-taskwarrior-on-windows">Using TaskWarrior on Windows</h1>
+<p><strong>Table of Content</strong></p>
+<ul>
+<li><a href="#install-on-windows-wsl">Install on windows (WSL)</a></li>
+<li><a href="#add-a-really-plain-task">Add a really plain task...</a></li>
+<li><a href="#mark-a-task-as-done">Mark a task as done</a></li>
+<li><a href="#add-a-tag-to-a-task">Add a tag to a task</a></li>
+<li><a href="#add-multiple-tags-to-a-task">Add multiple tags to a task</a></li>
+<li><a href="#remove-a-tag-from-a-task">Remove a tag from a task</a></li>
+<li><a href="#add-and-remove">Add AND Remove...</a></li>
+<li><a href="#add-a-tag-to-all-tasks">Add a tag to all tasks</a></li>
+<li><a href="#list-tasks-with-a-tag">List tasks with a tag</a></li>
+<li><a href="#list-all-completed-tasks">List all completed tasks</a></li>
+<li><a href="#list-all-tasks-completed-today">List all tasks completed today</a></li>
+<li><a href="#set-the-priority-on-a-new-task">Set the priority on a new task</a></li>
+<li><a href="#set-no-priority-to-be-higher-than-low-priority">Set no priority to be higher than 'low' priority</a></li>
+<li><a href="#taskrc-file-what-is-in-there">.taskrc file: what is in there?</a></li>
+<li><a href="#sources">sources</a></li>
+</ul>
+<h2 id="install-on-windows-wsl">Install on windows (WSL)</h2>
 <p>Install on <a href="../windows/bash_on_windows.html">WSL (windows subsystem for linux)</a> with:</p>
 <pre><code>sudo apt-get install taskwarrior
 </code></pre>
@@ -35,7 +54,7 @@ No matches.
 <ul>
 <li><code>Task help</code> -- gives help (bit technical for right now though)</li>
 </ul>
-<h1 id="add-a-really-plain-task">Add a really plain task...</h1>
+<h2 id="add-a-really-plain-task">Add a really plain task...</h2>
 <pre><code>task add buy milk
 </code></pre>
 <p>...this is how it plays out:</p>
@@ -52,7 +71,7 @@ ID Age Description  Urg
 1 task	
 </code></pre>
 <p>See that the current task id for that task is &quot;1&quot;. (It's actual primary key is hidden and won't change.)</p>
-<h1 id="mark-a-task-as-done">Mark a task as done</h1>
+<h2 id="mark-a-task-as-done">Mark a task as done</h2>
 <p>Mark that task as done like this:</p>
 <pre><code>task 1 done
 </code></pre>
@@ -78,6 +97,10 @@ Completed 1 task.
 <pre><code>task 1 modify +tw
 </code></pre>
 <p>(Added the tag &quot;tw&quot;. Obviously you could've added more than 1 at once, with <code>+tw +fun +easy</code> etc.)</p>
+<p>And note you can shorten <code>modify</code> to <code>mod</code>, as I just did:</p>
+<pre><code>task 8 mod +bug
+</code></pre>
+<p>(Clearly there are aliases, I haven't worked out details, but can tell you that just <code>m</code> by itself does not work. So they are probably defined somewhere.)</p>
 <h2 id="remove-a-tag-from-a-task">Remove a tag from a task</h2>
 <p>Remove a <code>tag</code> by using minues (<code>-</code>) e.g.</p>
 <pre><code>task 1 modify -tw
@@ -120,6 +143,13 @@ Completed 1 task.
 <pre><code>task all
 </code></pre>
 <h2 id="list-all-tasks-completed-today">List all tasks completed today</h2>
+<h2 id="set-the-priority-on-a-new-task">Set the priority on a new task</h2>
+<p>Priorities as <code>H</code> for &quot;High&quot;, <code>M</code> for &quot;Medium&quot;, <code>L</code> for &quot;Low&quot;. And if not assigned it is blank (and empty string).</p>
+<p>Set it on a new task, e.g.</p>
+<p>task add put out fire priority:H</p>
+<p>Or update it on an existing task:</p>
+<p>task 1 mod pri:H</p>
+<p>...by which I am showing you that <code>pri:</code> works as an alias for <code>priority:</code></p>
 <h2 id="set-no-priority-to-be-higher-than-low-priority">Set no priority to be higher than 'low' priority</h2>
 <p>As described here <a href="https://taskwarrior.org/docs/priority.html">taskwarrior priority</a>, priority is a user-defined attribute.</p>
 <p>Inline with the talk i watched, here is how you can configure taskwarrior's &quot;priorities&quot; such that &quot;no priority&quot; is higher priority than &quot;low priority&quot; -- like so:</p>
