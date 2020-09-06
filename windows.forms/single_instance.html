@@ -20,12 +20,125 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="single-instance-application">Single Instance Application</h1>
+<p>Note that this TIL includes a bigger snippet than I'd usually snaffle. I put it here so i have it available locally, and so i can use &quot;copy to clipboard&quot; to grab it in no time.</p>
 <blockquote>
 <p>You can use a Mutex to signal to Windows that a certain resource is already active. But this doesn't bring the running instance to the user's attention.</p>
 <p>... Almost every professional software program focuses the application.</p>
 <p>—<a href="https://www.dotnetperls.com/single-instance-windows-form">Sam Allen, DotNetPerls: Single Instance Windows Forms</a></p>
 </blockquote>
-<h2 id="if-you">If you</h2>
+<p>So what I always do is just use Sam Allen's code.</p>
+<p>The class is like this:</p>
+<pre><code>using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
+using System;
+using System.Windows.Forms;
+
+/// &lt;summary&gt;
+/// Check running processes for an already-running instance.
+/// Implements a simple, effective algorithm.
+//  Find currently running processes with matching titles.
+/// &lt;/summary&gt;
+static class ProcessChecker
+{
+		/// &lt;summary&gt;
+		/// Stores a required string that must be present in the window title for it
+		/// to be detected.
+		/// &lt;/summary&gt;
+		static string _requiredString;
+
+		/// &lt;summary&gt;
+		/// Contains signatures for C++ DLLs using interop.
+		/// &lt;/summary&gt;
+		internal static class NativeMethods
+		{
+				[DllImport(&quot;user32.dll&quot;)]
+				public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
+				[DllImport(&quot;user32.dll&quot;)]
+				public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+				[DllImport(&quot;user32.dll&quot;)]
+				public static extern bool EnumWindows(EnumWindowsProcDel lpEnumFunc,
+						Int32 lParam);
+
+				[DllImport(&quot;user32.dll&quot;)]
+				public static extern int GetWindowThreadProcessId(IntPtr hWnd,
+						ref Int32 lpdwProcessId);
+
+				[DllImport(&quot;user32.dll&quot;)]
+				public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString,
+						Int32 nMaxCount);
+
+				public const int SW_SHOWNORMAL = 1;
+		}
+
+		public delegate bool EnumWindowsProcDel(IntPtr hWnd, Int32 lParam);
+
+		/// &lt;summary&gt;
+		/// Perform finding and showing of running window.
+		/// &lt;/summary&gt;
+		/// &lt;returns&gt;Bool, which is important and must be kept to match up
+		/// with system call.&lt;/returns&gt;
+		static private bool EnumWindowsProc(IntPtr hWnd, Int32 lParam)
+		{
+				int processId = 0;
+				NativeMethods.GetWindowThreadProcessId(hWnd, ref processId);
+
+				StringBuilder caption = new StringBuilder(1024);
+				NativeMethods.GetWindowText(hWnd, caption, 1024);
+
+				// Use IndexOf to make sure our required string is in the title.
+				if (processId == lParam &amp;&amp; (caption.ToString().IndexOf(_requiredString,
+						StringComparison.OrdinalIgnoreCase) != -1))
+				{
+						// Restore the window.
+						NativeMethods.ShowWindowAsync(hWnd, NativeMethods.SW_SHOWNORMAL);
+						NativeMethods.SetForegroundWindow(hWnd);
+				}
+				return true; // Keep this.
+		}
+
+		/// &lt;summary&gt;
+		/// Find out if we need to continue to load the current process. If we
+		/// don't focus the old process that is equivalent to this one.
+		/// &lt;/summary&gt;
+		/// &lt;param name=&quot;forceTitle&quot;&gt;This string must be contained in the window
+		/// to restore. Use a string that contains the most
+		/// unique sequence possible. If the program has windows with the string
+		/// &quot;Journal&quot;, pass that word.&lt;/param&gt;
+		/// &lt;returns&gt;False if no previous process was activated. True if we did
+		/// focus a previous process and should simply exit the current one.&lt;/returns&gt;
+		static public bool IsOnlyProcess(string forceTitle)
+		{
+				_requiredString = forceTitle;
+				foreach (Process proc in Process.GetProcessesByName(Application.ProductName))
+				{
+						if (proc.Id != Process.GetCurrentProcess().Id)
+						{
+								NativeMethods.EnumWindows(new EnumWindowsProcDel(EnumWindowsProc),
+										proc.Id);
+								return false;
+						}
+				}
+				return true;
+		}
+}
+</code></pre>
+<p>And in <code>static void main</code> Add this as the first line....</p>
+<pre><code>if (!ProcessChecker.IsOnlyProcess(&quot;Focus&quot;)) return;
+</code></pre>
+<p>Where &quot;Focus&quot; is an example value passed to the optional parameter &quot;forceTitle&quot;.</p>
+<p>Described with this comment:</p>
+<blockquote>
+<p>forceTitle</p>
+<p>This string must be contained in the window to restore. Use a string that contains the most unique sequence possible. If the program has windows with the string &quot;Journal&quot;, pass that word.</p>
+<p>—<a href="https://www.dotnetperls.com/single-instance-windows-form">Sam Allen, DotNetPerls: Single Instance Windows Forms</a></p>
+</blockquote>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.dotnetperls.com/single-instance-windows-form">Sam Allen, DotNetPerls: Single Instance Windows Forms</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

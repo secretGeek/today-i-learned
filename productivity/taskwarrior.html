@@ -34,7 +34,7 @@
 <li><a href="#list-all-completed-tasks">List all completed tasks</a></li>
 <li><a href="#list-all-tasks-completed-today">List all tasks completed today</a></li>
 <li><a href="#set-the-priority-on-a-new-task">Set the priority on a new task</a></li>
-<li><a href="#set-no-priority-to-be-higher-than-low-priority">Set no priority to be higher than 'low' priority</a></li>
+<li>[Set no priority to be higher than 'low' priority]</li>
 <li><a href="#taskrc-file-what-is-in-there">.taskrc file: what is in there?</a></li>
 <li><a href="#sources">sources</a></li>
 </ul>
@@ -142,6 +142,10 @@ Completed 1 task.
 <p>I learned also that I can see <em>all</em> tasks open or closed with:</p>
 <pre><code>task all
 </code></pre>
+<h2 id="mark-a-task-as-started">mark a task as started</h2>
+<p>To mark a task as started:</p>
+<pre><code>task 21 start
+</code></pre>
 <h2 id="list-all-tasks-completed-today">List all tasks completed today</h2>
 <h2 id="set-the-priority-on-a-new-task">Set the priority on a new task</h2>
 <p>Priorities as <code>H</code> for &quot;High&quot;, <code>M</code> for &quot;Medium&quot;, <code>L</code> for &quot;Low&quot;. And if not assigned it is blank (and empty string).</p>
@@ -150,7 +154,7 @@ Completed 1 task.
 <p>Or update it on an existing task:</p>
 <p>task 1 mod pri:H</p>
 <p>...by which I am showing you that <code>pri:</code> works as an alias for <code>priority:</code></p>
-<h2 id="set-no-priority-to-be-higher-than-low-priority">Set no priority to be higher than 'low' priority</h2>
+<h2 id="set-no-priority-to-be-higher-than-low-priority">Set 'no priority' to be higher than 'low' priority</h2>
 <p>As described here <a href="https://taskwarrior.org/docs/priority.html">taskwarrior priority</a>, priority is a user-defined attribute.</p>
 <p>Inline with the talk i watched, here is how you can configure taskwarrior's &quot;priorities&quot; such that &quot;no priority&quot; is higher priority than &quot;low priority&quot; -- like so:</p>
 <pre><code>task config -- uda.priority.values  H,M,,L
