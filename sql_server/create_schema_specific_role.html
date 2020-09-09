@@ -28,8 +28,9 @@
 
 GRANT ALTER, DELETE, EXECUTE, INSERT, REFERENCES, SELECT,
           UPDATE, VIEW DEFINITION ON SCHEMA::SpecificSchema TO SpecificSchemaSuperPowers;
-
-EXEC sp_addrolemember 'SpecificSchemaSuperPowers', 'AD\BambrickL';
+</code></pre>
+<p>And grant those powers, I mean assign that role, to a user or group:</p>
+<pre><code>EXEC sp_addrolemember 'SpecificSchemaSuperPowers', 'AD\BambrickL';
 </code></pre>
 <p>For a &quot;reporting-only&quot; role, on a single schema called MyReportingSchema...</p>
 <pre><code>CREATE ROLE ReportingRole AUTHORIZATION dbo;
@@ -37,12 +38,14 @@ EXEC sp_addrolemember 'SpecificSchemaSuperPowers', 'AD\BambrickL';
 GRANT EXECUTE, REFERENCES, SELECT,
           VIEW DEFINITION ON SCHEMA::MyReportingSchema TO ReportingRole;
 </code></pre>
-<p>Then add the relevant group or user to that role:</p>
+<p>And grant those powers, I mean assign that role, to a user or group:
+Then add the relevant group or user to that role:</p>
 <pre><code>EXEC sp_addrolemember 'ReportingRole', 'AD\ReportingUser';
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="Create_Schema_Authorization.html">Create Schema with Authorization</a></li>
+<li><a href="../sql_server/create_active_directory_user_on_sql_server.html">create active directory user on sql server</a></li>
 </ul>
 
 </article>

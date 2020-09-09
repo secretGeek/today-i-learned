@@ -19,10 +19,19 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="see-function-definition">See Function Definition</h1>
+<p>il # See Function Definition</p>
 <p>A quick way to see a function definition</p>
 <p>(e.g. to see the definition of nprof...)</p>
 <pre><code>dir function:nprof | % { $_.definition }
+</code></pre>
+<p>A way to search for the definition....</p>
+<pre><code>Get-Command findtext |  Foreach-Object Definition
+</code></pre>
+<p>(And with my aliases...)</p>
+<pre><code>which findtext | % Definition
+</code></pre>
+<p>Or</p>
+<pre><code>which findtext | Select Name,Definition
 </code></pre>
 
 </article>

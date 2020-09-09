@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>Create Schema Authorization . Today I Learned (secretGeek)</title>
+<title>create active directory user on sql server . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,15 +19,33 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="create-schema-with-authorization">Create Schema with Authorization</h1>
-<p>When Creating schemas, if you don't specify the 'Authorization' then the 'owner' of the schema will be the user who ran the script.</p>
-<p>So specify <code>DBO</code> for example, with a script like this:</p>
-<pre><code>CREATE SCHEMA [BUSINESS] Authorization DBO
+<h1 id="create-active-directory-user-on-sql-server">Create active directory user on SQL Server</h1>
+<p>If an active directory user can't access a database you might see:</p>
+<pre><code>Login failed for user 'MYDOMAIN\MYUSER'.
 </code></pre>
+<p>If the user has never accessed any database on that server, then a DBA needs to created the login at a server level first, e.g.:</p>
+<pre><code>USE [master]
+GO
+CREATE LOGIN [MYDOMAIN\MYUSER] FROM WINDOWS WITH DEFAULT_DATABASE=[master], DEFAULT_LANGUAGE=[us_english]
+GO
+</code></pre>
+<p>A DBA can then create the user on the specific database with this command:</p>
+<pre><code>USE [TheSpecificDatabase]
+GO
+
+CREATE USER [MYDOMAIN\MYUSER] FOR LOGIN [MYDOMAIN\MYUSER] WITH DEFAULT_SCHEMA=[dbo]
+</code></pre>
+<p>And can then grant <code>db_owner</code> role with:</p>
+<pre><code>ALTER ROLE [db_owner] ADD MEMBER [MYDOMAIN\MYUSER]
+</code></pre>
+<p>Or with:</p>
+<pre><code>EXEC sp_addrolemember N'db_owner', N'MYDOMAIN\MYUSER'
+</code></pre>
+<p>If uncomfortable with <code>db_owner</code> you might consider <code>db_datareader</code> instead.</p>
 <h2 id="see-also">See also</h2>
 <ul>
+<li><a href="../sql_server/Create_Schema_Authorization.html">Create Schema Authorization</a></li>
 <li><a href="../sql_server/create_schema_specific_role.html">create schema specific role</a></li>
-<li><a href="../sql_server/create_active_directory_user_on_sql_server.html">create active directory user on sql server</a></li>
 </ul>
 
 </article>

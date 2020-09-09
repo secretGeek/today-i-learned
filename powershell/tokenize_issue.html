@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>tokenize issue . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="an-issue-with-powershell-tokenize">An issue with Powershell Tokenize</h1>
+<p>I am trying to use <code>[System.Management.Automation.PSParser]::Tokenize</code> to syntax highlight some code.</p>
+<p>But I have a problem!</p>
+<p>First a simple case (that works ok)</p>
+<p>Consider this line of code:</p>
+<pre><code>echo &quot;hello&quot;
+</code></pre>
+<p>What tokens does it have? We can find out like this:</p>
+<pre><code>[System.Management.Automation.PSParser]::Tokenize('echo &quot;hello&quot;', [ref]$null) | Format-Table;
+</code></pre>
+<p>...which produces this table.</p>
+<pre><code>Content    Type Start Length StartLine StartColumn EndLine EndColumn
+-------    ---- ----- ------ --------- ----------- ------- ---------
+echo    Command     0      4         1           1       1         5
+hello    String     5      7         1           6       1        13
+</code></pre>
+<p>That's awesome. It is the <code>Command</code> <code>echo</code> followed by the <code>String</code> <code>hello</code>.</p>
+<p>But I am confused by the next example.</p>
+<p>Consider these two lines of code:</p>
+<pre><code>echo &quot;$hello&quot;; echo '$hello'
+</code></pre>
+<p>These are similar but <em>different</em>.</p>
+<p>They are both 'echo' Command followed by a String. But the <code>$hello</code> is very different between the two examples.</p>
+<ul>
+<li>In the first line, the <code>$hello</code> is a variable inside the string, and it will be interpolated.</li>
+<li>In the second line, the <code>$hello</code> is a literal string: it is not interpolated.</li>
+</ul>
+<p>If you paste those two lines into a Powershell console you'll see that the <code>$hello</code> is syntax highlighted differently in each case.</p>
+<p><img src="echo_hello_echo_hello.png" alt="echo hello echo hello" /></p>
+<p>Now look at what happens when we tokenize them...</p>
+<pre><code>[System.Management.Automation.PSParser]::Tokenize('echo &quot;$hello&quot;', [ref]$null) | Format-Table;
+[System.Management.Automation.PSParser]::Tokenize(&quot;echo '`$hello'&quot;, [ref]$null) | Format-Table;
+</code></pre>
+<p>They both produce the same tokens, with the same content.</p>
+<pre><code>Content    Type Start Length StartLine StartColumn EndLine EndColumn
+-------    ---- ----- ------ --------- ----------- ------- ---------
+echo    Command     0      4         1           1       1         5
+$hello   String     5      8         1           6       1        14
+</code></pre>
+<p>If we try to write our own syntax highlighter, how do we know to highlight the two strings differently?</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
