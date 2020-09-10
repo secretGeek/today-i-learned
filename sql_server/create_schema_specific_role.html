@@ -42,6 +42,96 @@ GRANT EXECUTE, REFERENCES, SELECT,
 Then add the relevant group or user to that role:</p>
 <pre><code>EXEC sp_addrolemember 'ReportingRole', 'AD\ReportingUser';
 </code></pre>
+<h2 id="dynamic-sql-for-a-limited-rights-user">Dynamic SQL for a limited rights user</h2>
+<p>Next challenge is that for very rare but perfectly acceptable reasons, there is a stored procedure in the <code>MyReportingSchema</code> schema, that needs to execute some dynamic sql (with sp_executesql), which selects from other tables in another schema.</p>
+<p>(<strong>Yes I protected against sql injection.</strong> I feel I'm safe here because the only dynamic part of the sql, is some integers, which I validate as being integers and in a good range, before I proceed. I can't see a way to sneak any other user data into the query.)</p>
+<p>Problem: Dynamic SQL gets run in a different context to the caller. So even though the callers was allowed to execute the stored procedure, they are not allowed to run the <em>dynamic</em> sql (it calls a table they can't access.)</p>
+<p>This is a sample of code (from <a href="https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms187051(v=sql.105)?redirectedfrom=MSDN">BOL</a> that shows how the inner context and out context are different:</p>
+<pre><code>PRINT 'Outside Dynamic SQL Execution:';
+SET ARITHABORT ON;
+SET ANSI_WARNINGS ON;
+PRINT 1/0;
+PRINT '---------------------------------';
+
+PRINT 'Inside Dynamic SQL Execution:';
+DECLARE @SQL NVARCHAR(MAX);
+SET @SQL = 'SET ARITHABORT OFF;
+			SET ANSI_WARNINGS OFF;
+			PRINT 1/0;
+			PRINT ''---------------------------------'';'
+EXECUTE sp_executesql @SQL;
+
+PRINT 'Back outside Dynamic SQL Execution:';
+PRINT 1/0;
+</code></pre>
+<p>In this case Granting to the sproc is not enough.</p>
+<p>I thought I had the perfect solution, the <code>with execute as owner</code></p>
+<pre><code>CREATE OR ALTER PROCEDURE [Reporting].[MyDynamicSproc]
+	@ID            int
+WITH EXECUTE AS OWNER
+AS
+....
+</code></pre>
+<p>This worked. But when a member of <code>ReportingRole</code> tried to execute the sproc, they now received this message:</p>
+<pre><code>Problem: Could not obtain information about Windows NT group/user 'MyActiveDirectoryDomain\ASpecificDBAsName', error code 0x534.
+</code></pre>
+<p>I was surprised to see some random person's name shown as the problem.</p>
+<p>I researched and found the owner of the db was 'dbo' and the dbo user was mapped to this NT user account.</p>
+<p>Hmmm. What to do?</p>
+<p>The main solution people recommended online was to set the owner of the database to 'sa'.</p>
+<p>I was reluctant to do this, performed some testing with a different/similar database, which worked fine, when i then tried it on the original database I received:</p>
+<pre><code>Msg 15151, Level 16, State 1, Line 74
+Cannot find the principal 'sa', because it does not exist or you do not have permission.
+</code></pre>
+<p>Eventually I looked at the master database, and saw that its owner was also <code>dbo</code> -- but not the same <code>dbo</code> as my specific database. The backing user for that <code>dbo</code> was a <code>SQL_USER</code> called <code>membersa</code></p>
+<pre><code>select * from master.sys.database_principals where principal_id = 1
+select * from MyDataBase.sys.database_principals where principal_id = 1
+</code></pre>
+<p>So with great reluctance I ran this:</p>
+<pre><code>sp_changedbowner 'membersa'
+</code></pre>
+<p>...which returned &quot;Commands completed successfully.&quot;</p>
+<p>...then re-ran the <code>with EXECUTE AS OWNER</code> on each of the sprocs....</p>
+<pre><code>CREATE OR ALTER PROCEDURE [Reporting].[MyDynamicSproc]
+	@ID            int
+WITH EXECUTE AS OWNER
+AS
+....
+</code></pre>
+<p>And now found that members of the reporting role were able to run the sprocs:</p>
+<pre><code>-- As member of ReportingRole
+exec [Reporting].[MyDynamicSproc] @ID = 1
+-- ....succeeds (even though it uses dynamic sql that does things the reporting user can't normally do)
+</code></pre>
+<p>FIN.</p>
+<h2 id="alternative-solution">Alternative Solution</h2>
+<p>Another solution which I did not try, but which made sense was from here <a href="https://stackoverflow.com/a/22803561/49">Give permissions to a stored procedure, answer by 'dean' (user 3464852)</a>:</p>
+<p>Create a 'limited' user, with an expiry in the distant future (long after your contract runs out, or shortly before) and make them a member of the 'db_owner' role. Have them create a certificate and sign the target sproc.</p>
+<pre><code>create certificate cert_raiser
+	encryption by password = 'pGFD4bb925DGvbd2439587y'
+	with subject = 'raiser',
+	expiry_date = '01/01/2114';
+go
+
+create user cert_user from certificate cert_raiser
+go
+
+alter role db_owner add member cert_user
+go
+
+add signature to [Reporting].[MyDynamicSproc]
+   by certificate cert_raiser
+	with password = 'pGFD4bb925DGvbd2439587y';
+go
+</code></pre>
+<p>And instead of being a member of 'db_owner' -- that user could have been a member of a mich more restricted, but fit for purpose, permission set.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms187051(v=sql.105)?redirectedfrom=MSDN">Dynamic context not the same as outer context</a></li>
+<li><a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/execute-as-clause-transact-sql?view=sql-server-ver15">WITH EXECUTE AS OWNER</a></li>
+<li><a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-changedbowner-transact-sql?view=sql-server-ver15">sp_changedbowner</a></li>
+<li><a href="https://stackoverflow.com/a/22803561/49">Give permissions to a stored procedure, answer by 'dean' (user 3464852)</a></li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="Create_Schema_Authorization.html">Create Schema with Authorization</a></li>

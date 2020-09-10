@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>SSMS Dark Mode . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="ssms-dark-mode-in-sql-server-management-studio">SSMS Dark Mode in SQL Server Management Studio</h1>
+<p>In SQl Server management studio you can enable the hidden Dark Mode.</p>
+<p>Caveats -- it's not great. A few things are not themed, and some menus have black text on gray background.</p>
+<p><img src="SSMS_Dark_Mode_Broken.png" alt="SSMS Dark Mode Broken" /></p>
+<p>Before applying the registry hack:</p>
+<pre><code>Tools -&gt; Options -&gt; General -&gt; the only two color themes available are Blue and Light.
+</code></pre>
+<p>Find the folder SSMS is running from, e.g.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Example Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SSMS 2016</td>
+<td><code>C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\ManagementStudio</code></td>
+</tr>
+<tr>
+<td>SSMS 17</td>
+<td><code>C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio</code></td>
+</tr>
+</tbody>
+</table>
+<p>(Basically got to <code>C:\Program Files (x86)\Microsoft SQL Server\</code> and find the biggest number, go into it, then look in  <code>Tools\Binn\ManagementStudio</code> ... or right click your SSMS to see where it's launched)</p>
+<p><strong>As administrator</strong> Edit the file <code>ssms.pkgundef</code></p>
+<ul>
+<li>Look for the line <code>// Remove Dark Theme</code></li>
+<li>The very next line needs to be commented out! Put <code>//</code> at the start of the line, to comment it out.</li>
+</ul>
+<p>Restart SSMS.</p>
+<p>Go to:</p>
+<pre><code>Tools -&gt; Options -&gt; General -&gt; Color themes
+</code></pre>
+<p>Available theme now includes Blue, <strong>DARK</strong> and Light.</p>
+<h2 id="sources">Source(s)</h2>
+<ul>
+<li><p><a href="https://www.prajwaldesai.com/how-to-enable-dark-theme-in-sql-server-management-studio/">How to enable dark theme in SQL Server Management Studio</a> -- this is the one i used</p>
+</li>
+<li><p><a href="https://www.sqlshack.com/setting-up-the-dark-theme-in-sql-server-management-studio/">Setting up the dark theme in SQL Server Management Studio</a> -- this is one i didn't use but it may be useful if/when upgrades break it</p>
+</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../sql_server/SSMS_Dark_Mode.html">SSMS Dark Mode</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

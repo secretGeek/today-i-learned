@@ -25,6 +25,43 @@
 </code></pre>
 <p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique.</p>
 <p>Or if you have 3 different web applications that all want the same config for just part of their config file, you can use this trick.</p>
+<h1 id="or-dynamically-load-connection-string-info">Or dynamically load connection string info...</h1>
+<p>More extremem is this method:</p>
+<p>Make your own connection string object:</p>
+<pre><code>public class ConnectionInfo
+{
+	public string ConnectionString { get; set; }
+	public string Name { get; set; }
+	public string Provider { get; set; }
+}
+</code></pre>
+<p>And use this method to load a connection string file, all by itself.</p>
+<pre><code>private IEnumerable&lt;ConnectionInfo&gt; LoadConfig(string fileName)
+{
+	using (var reader = XmlReader.Create(fileName))
+	{
+		//reader.Dump();
+		reader.MoveToContent();
+		var connectionStrings = new List&lt;ConnectionInfo&gt;();
+		while (reader.ReadToFollowing(&quot;add&quot;))
+		{
+			reader.MoveToFirstAttribute();
+			var c = new ConnectionInfo();
+
+			if (reader.MoveToAttribute(&quot;name&quot;)) c.Name = reader.Value;
+			if (reader.MoveToAttribute(&quot;connectionString&quot;)) c.ConnectionString = reader.Value;
+			if (reader.MoveToAttribute(&quot;providerName&quot;)) c.Provider = reader.Value;
+			connectionStrings.Add(c);
+		}
+	
+	return connectionStrings;
+	}
+	
+}
+</code></pre>
+<p>Like so</p>
+<pre><code>LoadConfig(@&quot;C:\Temp\SomeConnectionStrings.config&quot;);
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
