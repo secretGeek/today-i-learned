@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>Custom Dumper Per Type . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,21 +19,28 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="linqpad">linqpad</h1>
-<h3 id="chapter-contents">chapter contents</h3>
-<ul>
-<li><a href="clear_results.html">clear results</a></li>
-<li><a href="connect_to_oracle.html">connect to oracle</a></li>
-<li><a href="csv_to_array.html">csv to array</a></li>
-<li><a href="Custom_Dumper_Per_Type.html">Custom Dumper Per Type</a></li>
-<li><a href="datatable_to_csv.html">datatable to csv</a></li>
-<li><a href="group_by.html">group by</a></li>
-<li><a href="inspect_clipboard.html">inspect clipboard</a></li>
-<li><a href="invoke_linqpad_commandlet.html">invoke linqpad commandlet</a></li>
-<li><a href="offline_registration.html">offline registration</a></li>
-<li><a href="run_linqpad_scripts_from_commandline.html">run linqpad scripts from commandline</a></li>
-<li><a href="set_breakpoint.html">set breakpoint</a></li>
-</ul>
+<h1 id="customize-dump-style-and-colors-in-linqpad-using-myextensions">Customize Dump Style and Colors in Linqpad using MyExtensions</h1>
+<p>Make true bools green, false bools red, and some other things blue.</p>
+<pre><code>static object ToDump(object input)
+{
+	if (input is bool &amp;&amp; (bool)input) return Util.WithStyle(input, &quot;color:green&quot;);
+	if (input is bool &amp;&amp; !(bool)input) return Util.WithStyle(input, &quot;color:red&quot;);
+	return Util.WithStyle(input, &quot;color:blue&quot;);
+}
+</code></pre>
+<p>? WHy doesn't this make string render blue? string doesn't pass through here it seems.</p>
+<pre><code>void Main()
+{
+	&quot;string&quot;.Dump(); //string, white &lt;-- WHY!?
+	true.Dump();  //True, green
+	false.Dump(); //False, red
+	false.Dump(true); //False, red
+	false.Dump(false); //False, red
+	false.Dump(&quot;Text&quot;); //False, red, text dark orange (in dark theme)
+}
+
+// Define other methods and classes here
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
