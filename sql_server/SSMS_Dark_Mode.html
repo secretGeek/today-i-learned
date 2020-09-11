@@ -20,12 +20,14 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="ssms-dark-mode-in-sql-server-management-studio">SSMS Dark Mode in SQL Server Management Studio</h1>
-<p>In SQl Server management studio you can enable the hidden Dark Mode.</p>
-<p>Caveats -- it's not great. A few things are not themed, and some menus have black text on gray background.</p>
+<p>In SQL Server Management Studio you can enable the hidden Dark Mode, by altering one line in one file.</p>
+<p>Caveats -- it's not a great dark mode implementation, yet. A few things are not themed, and some menus have black text on gray background.</p>
 <p><img src="SSMS_Dark_Mode_Broken.png" alt="SSMS Dark Mode Broken" /></p>
-<p>Before applying the registry hack:</p>
-<pre><code>Tools -&gt; Options -&gt; General -&gt; the only two color themes available are Blue and Light.
+<p>Despite this I still prefer it, very much. Better for the eyes.</p>
+<p>Before applying the change you will only have two color themes (Blue and Light) available under:</p>
+<pre><code>Tools -&gt; Options -&gt; General -&gt; Color themes
 </code></pre>
+<p>To fix this:</p>
 <p>Find the folder SSMS is running from, e.g.</p>
 <table>
 <thead>
