@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>using sylvan tools for csvz . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="using-sylvan-tools-for-csvz">using sylvan tools for csvz</h1>
+<p>First attempt to install:</p>
+<p>This worked:</p>
+<pre><code>dotnet tool install -g Sylvan.Data.CsvZip --version 0.1.0-b0002
+</code></pre>
+<p>Result:</p>
+<pre><code>&gt; dotnet tool install -g Sylvan.Tools.CsvZip --version 0.1.0-b0002
+mate best match of Sylvan.Tools.CsvZip 0.1.0 was resolved.
+You can invoke the tool using the following command: csvz
+Tool 'sylvan.tools.csvzip' (version '0.1.0') was successfully installed.
+</code></pre>
+<p>I had a folder with some csv files in it (okay, just 1 file)</p>
+<p>I ran this command:</p>
+<pre><code>csvz --dir .\business\ --file business.csvz
+</code></pre>
+<p>It seemed to have worked!</p>
+<pre><code>&gt; csvz --dir .\business\ --file business.csvz
+Creating: business.csvz
+Processing people.csv:
+	Analyzing. 00:00:00.0085868
+	Writing.   00:00:00.0238635
+Done.
+</code></pre>
+<p>I copied the resulting <code>.csvz</code> file to <code>.zip</code>:</p>
+<pre><code>&gt; copy .\business.csvz .\business.zip
+</code></pre>
+<p>... then unzipped it to a new folder called &quot;output&quot;:</p>
+<pre><code>&gt; 7z x &quot;business.zip&quot; -ooutput
+
+7-Zip 19.00 (x86) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
+
+Scanning the drive for archives:
+1 file, 596 bytes (1 KiB)
+
+Extracting archive: business.zip
+--
+Path = business.zip
+Type = zip
+Physical Size = 596
+
+Everything is Ok
+
+Files: 3
+Size:       319
+Compressed: 596
+</code></pre>
+<p>Now I'll inspect the output folder and see what we have....</p>
+<pre><code>&gt; cd .\output\
+&gt; tree /f
+Folder PATH listing for volume OS
+Volume serial number is 9472-94B6
+C:.
+│   people.csv
+│
+└───_meta
+				columns.csv
+				tables.csv	
+</code></pre>
+<p>Look ^^  It even has a <code>_meta</code> subfolder with <code>columns.csv</code> and <code>tables.csv</code></p>
+<p>It must've interpeted the types.</p>
+<p>Let's see if it got it right?</p>
+<p><code>_meta\tables.csv</code> contains:</p>
+<pre><code>filename,bytes,rows,columns,description,published,source
+people.csv,35,2,2,,,
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>bytes</th>
+<th>rows</th>
+<th>columns</th>
+<th>description</th>
+<th>published</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>people.csv</td>
+<td>35</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code>_meta\columns.csv</code> contains:</p>
+<pre><code>filename,column,ordinal,type,nullable,max-length,unique,primary-key,description,units,published,source
+people.csv,Name,0,string,False,5,True,False,,,,
+people.csv,Age,1,int,False,4,True,False,,,,
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>column</th>
+<th>ordinal</th>
+<th>type</th>
+<th>nullable</th>
+<th>max-length</th>
+<th>unique</th>
+<th>primary-key</th>
+<th>description</th>
+<th>units</th>
+<th>published</th>
+<th>source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>people.csv</td>
+<td>Name</td>
+<td>0</td>
+<td>string</td>
+<td>False</td>
+<td>5</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>people.csv</td>
+<td>Age</td>
+<td>1</td>
+<td>int</td>
+<td>False</td>
+<td>4</td>
+<td>True</td>
+<td>False</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Awesome. It's guessed the types as <code>string</code> and <code>int</code>. True enough!</p>
+<h2 id="sources">Source(s)</h2>
+<ul>
+<li><a href="https://github.com/MarkPflug/Sylvan.Data.CsvZip">Sylvan.Data.CsvZip</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../csv/using_sylvan_tools_for_csvz.html">using sylvan tools for csvz</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
