@@ -34,7 +34,7 @@ Tool 'sylvan.tools.csvzip' (version '0.1.0') was successfully installed.
 <p>I ran this command:</p>
 <pre><code>csvz --dir .\business\ --file business.csvz
 </code></pre>
-<p>It seemed to have worked!</p>
+<p>Here's what happened</p>
 <pre><code>&gt; csvz --dir .\business\ --file business.csvz
 Creating: business.csvz
 Processing people.csv:
@@ -42,6 +42,7 @@ Processing people.csv:
 	Writing.   00:00:00.0238635
 Done.
 </code></pre>
+<p>It seemed to have worked! There is now a &quot;business.csvz&quot; file.</p>
 <p>I copied the resulting <code>.csvz</code> file to <code>.zip</code>:</p>
 <pre><code>&gt; copy .\business.csvz .\business.zip
 </code></pre>
@@ -74,8 +75,8 @@ C:.
 │   people.csv
 │
 └───_meta
-				columns.csv
-				tables.csv	
+      columns.csv
+      tables.csv	
 </code></pre>
 <p>Look ^^  It even has a <code>_meta</code> subfolder with <code>columns.csv</code> and <code>tables.csv</code></p>
 <p>It must've interpeted the types.</p>
