@@ -27,25 +27,25 @@ group by SomeColumn
 order by 2 desc
 </code></pre>
 <p>Here's the equivalent in Linq:</p>
-<pre><code>var tableSummary = someTable.GroupBy(p=&gt; p.SomeColumn).Select(group =&gt; new { 
-                        Count = group.Count(), 
+<pre><code>var tableSummary = someTable.GroupBy(p=&gt; p.SomeColumn).Select(group =&gt; new {
+                        Count = group.Count(),
                         SomeColumn = group.Key
                     }).OrderByDescending(x =&gt; x.Count);
 tableSummary.Dump();
 </code></pre>
 <p>Here's a more complex example:</p>
-<pre><code>var data = new Person[] { 
-    new Person { Name = &quot;Jim&quot;, Height = 1000}, 
+<pre><code>var data = new Person[] {
+    new Person { Name = &quot;Jim&quot;, Height = 1000},
     new Person { Name = &quot;Jack&quot;, Height = 2000},
     new Person { Name = &quot;Jack&quot;, Height = 2300},
     new Person { Name = &quot;Jim&quot;, Height = 5000},
     new Person { Name = &quot;Jim&quot;, Height = 12}
 };
 var groups = data.GroupBy(p =&gt; p.Name, (key, values)
-    =&gt; new { 
-        Name = key, 
-        Count = values.Count(), 
-        Avg_Height = values.Average(a =&gt; a.Height), 
+    =&gt; new {
+        Name = key,
+        Count = values.Count(),
+        Avg_Height = values.Average(a =&gt; a.Height),
         Total_Height = values.Sum(a =&gt; a.Height),
         Name_Length = values.Average(a =&gt; a.Name.Length),
         Name_Length2 = key.Length,
@@ -56,6 +56,15 @@ var groups = data.GroupBy(p =&gt; p.Name, (key, values)
         ).Where(g =&gt; g.Count &gt; 1).OrderByDescending(gg =&gt; gg.Variance_Height);
 groups.Dump();
 </code></pre>
+<p><img src="linqpad%5Cgroup_by.png" alt="result is 1 row per name with many aggregated properties regarding that name and child rows: of type person, with name matching their parent group" /></p>
+<p>(Supporting code....</p>
+<pre><code>public class Person
+{
+	public string Name { get; set; }
+	public int Height { get; set; }
+}
+</code></pre>
+<p>...)</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

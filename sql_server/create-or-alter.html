@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>merge for upsert . Today I Learned (secretGeek)</title>
+<title>create-or-alter . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,32 +19,24 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="using-merge-for-upsert-update-or-insert">Using Merge for upsert (update or insert)</h1>
-<p>SQL Server supports a Merge statement which lets you Update, Insert, Delete (for example) based on matching conditions.</p>
-<pre><code>MERGE dbo.People p 
-	USING dbo.People_staging s
-ON (p.person_id = t.person_id)
-WHEN MATCHED
-	THEN UPDATE SET 
-		p.name = s.name
-		p.pets_name = s.pets_name
-		p.pet_type = s.pet_type
-WHEN NOT MATCHED BY TARGET 
-	THEN INSERT (person_id, name, pets_name, pet_type)
-		 VALUES (s.person_id, s.name, s.pets_name, s.pet_type)
-WHEN NOT MATCHED BY SOURCE 
-	THEN DELETE;
+<h1 id="create-of-alter-for-stored-procedures-and-views-etc">create of alter for stored procedures and views etc</h1>
+<p>it's better to <code>alter</code> a stored procedure than to <code>drop</code> it and re <code>create</code> it.</p>
+<p>but here's something that's better again:</p>
+<pre><code>create or alter procedure MySproc
 </code></pre>
-<p>That's fun and alll....</p>
-<p>I want &quot;when not matched by source then update with condition&quot;</p>
-<h2 id="sources">Source(s)</h2>
-<ul>
-<li><a href="https://www.sqlservertutorial.net/sql-server-basics/sql-server-merge/">SQL Server MERGE</a></li>
-</ul>
-<h2 id="see-also">See also</h2>
-<ul>
-<li><a href="../sql_server/merge_for_upsert.html">merge for upsert</a></li>
-</ul>
+<p>and: no need to test for existence before creating. no more:</p>
+<pre><code>if exists ( select * 
+        from   sysobjects 
+        where  id = object_id(N'[dbo].[MySproc]') 
+               and objectproperty(id, N'IsProcedure') = 1 )
+begin
+	--create procedure [dbo].[MySproc]
+end
+else
+begin
+	--alter procedure [dbo].[MySproc]
+end
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

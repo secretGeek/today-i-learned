@@ -24,7 +24,111 @@
 <blockquote>
 <p>Electron enables you to create desktop applications with pure JavaScript by providing a runtime with rich native (operating system) APIs. You could see it as a variant of the Node.js runtime that is focused on desktop applications instead of web servers.</p>
 </blockquote>
-<p>Get started as easy as</p>
+<p>Okay -- I installed yarn instead (see <a href="../yarn/install-yarn-on-windows-2020.html">install yarn on windows</a></p>
+<pre><code>yarn init
+</code></pre>
+<p>Tell it things.</p>
+<pre><code>yarn install electron
+</code></pre>
+<p>Okay - that worked better.</p>
+<p>Edited <code>package.json</code> and:</p>
+<ul>
+<li>replace <code>index.js</code> with <code>main.js</code></li>
+<li>add a start action...</li>
+<li>leave out a comma (this was by accident)</li>
+</ul>
+<p>So <code>package.json</code> now says:</p>
+<pre><code>{
+	&quot;name&quot;: &quot;my app&quot;,
+	&quot;version&quot;: &quot;1.0.0&quot;,
+	&quot;description&quot;: &quot;my app in electron&quot;,
+	&quot;main&quot;: &quot;main.js&quot;,
+	&quot;author&quot;: &quot;NimbleThing.net&quot;,
+	&quot;license&quot;: &quot;None currently. All rights reserved.&quot;
+	&quot;scripts&quot;: {
+		&quot;start&quot;: &quot;electron .&quot;
+	}
+}
+</code></pre>
+<p>...which lead to this error...</p>
+<pre><code>&gt; yarn install --save-dev electron
+yarn install v1.22.5
+error An unexpected error occurred: &quot;C:\\users\\MyLeon\\dropbox\\secretgeek\\scratch\\electron\\nimbletext\\package.json: Unexpected string in JSON at position 196&quot;.
+</code></pre>
+<p>Stupid that it says the missing comma issue is so ridiculously user hostile:</p>
+<pre><code>Unexpected string in JSON at position 196&quot;.
+</code></pre>
+<p>Fixed that -- now complains:</p>
+<pre><code>License should be a valid SPDX license expression
+</code></pre>
+<p>Also said....</p>
+<pre><code>error `install` has been replaced with `add` to add new dependencies. Run &quot;yarn add electron --dev&quot; instead.
+</code></pre>
+<p>So I change the license to:</p>
+<pre><code>&quot;license&quot;: &quot;UNLICENSED&quot;,
+</code></pre>
+<p>And now to run:</p>
+<pre><code>yarn add electron --dev
+</code></pre>
+<p>Done in 7.46s. That's nice.</p>
+<p>Now added a <code>main.js</code> and a <code>index.html</code> based on the tutorial i'm following -- this one.</p>
+<p>// Open the DevTools.
+win.webContents.openDevTools()</p>
+<p>^ I like that.</p>
+<p>I don't like this warning:</p>
+<pre><code>webFrame.executeJavaScript was called without worldSafeExecuteJavaScript enabled. This is considered unsafe. worldSafeExecuteJavaScript will be enabled by default in Electron 12.
+</code></pre>
+<p>Ok fun.</p>
+<p>Now trying this other approach....</p>
+<pre><code>git clone https://github.com/electron/electron-quick-start.git
+cd electron-quick-start
+yarn install
+yarn start
+</code></pre>
+<p>Okay -- nifty demo it has menus.</p>
+<pre><code>https://www.electronjs.org/docs/tutorial/boilerplates-and-clis
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://www.electronjs.org/docs/tutorial/first-app">electron first app</a></li>
+</ul>
+<p>/EOF</p>
+<h1 id="everything-after-here-is-a-historical-note.eof">Everything after here is a historical note. /EOF</h1>
+<p>Getting started is as easy as:</p>
+<ol>
+<li>Create a package for the application you wish to build.</li>
+</ol>
+<p>In a new folder run <code>npm init</code></p>
+<p>It may just have place holder names and address for now.</p>
+<p>Infact it should.</p>
+<p>Idea: When you initiate a project, you should not write actual strings into the name of the program and the location - just guids.</p>
+<p>Idea: A separate navigation tool can be used, and it lets you rename these things as you go.</p>
+<p>Add a start script to <code>index.js</code></p>
+<pre><code>{
+	&quot;name&quot;: &quot;your-app&quot;,
+	&quot;version&quot;: &quot;0.1.0&quot;,
+	&quot;main&quot;: &quot;main.js&quot;,
+	&quot;scripts&quot;: {
+		&quot;start&quot;: &quot;electron .&quot;
+	}
+}
+</code></pre>
+<p>For now if you run <code>npm start</code> you'll receive something like:</p>
+<pre><code>&gt; npm start
+npm ERR! missing script: start
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\MyUser\AppData\Roaming\npm-cache\_logs\2020-09-22T05_33_56_124Z-debug.log
+</code></pre>
+<p>(As always I find npm useless on my windows machine)</p>
+<h2 id="install-electron">Install Electron</h2>
+<p>Now:</p>
+<pre><code>npm install --save-dev electron
+</code></pre>
+<p>This goes horribly because <code>npm</code> is useless on my machine.</p>
+<h1 id="historical-note">Historical Note</h1>
+<p>Previous Version of this file read:</p>
+<p>Get started is as easy as:</p>
 <pre><code># Clone the Quick Start repository
 &gt; git clone https://github.com/atom/electron-quick-start
 
@@ -50,12 +154,13 @@
 <li>obfuscation/IP protection.</li>
 <li>save/load &quot;settings&quot; (other than explicitly using dialogs)</li>
 </ul>
-<h2 id="source">Source</h2>
+<h2 id="source-1">Source</h2>
 <ul>
 <li><a href="http://electron.atom.io/#get-started">http://electron.atom.io/#get-started</a></li>
 <li><a href="http://electron.atom.io/docs/latest/tutorial/quick-start/">http://electron.atom.io/docs/latest/tutorial/quick-start/</a></li>
 </ul>
-<p>Todo: watch this 9 min video. <a href="https://m.youtube.com/watch?v=ojX5yz35v4M">https://m.youtube.com/watch?v=ojX5yz35v4M</a></p>
+<p>Please watch this 9 min video. <a href="https://m.youtube.com/watch?v=ojX5yz35v4M">https://m.youtube.com/watch?v=ojX5yz35v4M</a></p>
+<h1 id="end-of-historical-note">end of historical note.</h1>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

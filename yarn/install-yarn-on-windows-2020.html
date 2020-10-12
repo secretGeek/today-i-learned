@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>install-yarn-on-windows-2020 . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="install-yarn-on-windows-2020">install yarn on windows 2020</h1>
+<p>Tired of errors from <code>npm</code>, i now want errors from <code>yarn</code> too.</p>
+<h2 id="pre-requisite-node">Pre-Requisite: node.</h2>
+<p>(Check your version: <code>node -v</code>)</p>
+<p>I have version <code>14.4.0</code></p>
+<p>Install if needed, or upgrade. (TODO: Link to node install/upgrade)</p>
+<p>(<code>Get-Command node</code> tells me node is here: <code>C:\Program Files\nodejs\node.exe</code>)</p>
+<p>(Some say to upgrade node with <code>nvm</code> but that is for linux/apple only. <code>nvmw</code> is a different and now outof date attempt for windows. this one is newer: <a href="https://github.com/coreybutler/nvm-windows">https://github.com/coreybutler/nvm-windows</a> maybe it will work.)</p>
+<p>(i found i had it in chocolatey. upgrade node with with <code>cup nodejs</code></p>
+<p>Install yarn with chocolatey....</p>
+<p>From admin window:</p>
+<pre><code>choco install yarn
+</code></pre>
+<p>Ah... I think that worked.</p>
+<pre><code>yarn --version
+</code></pre>
+<h2 id="common-yarn-commands">Common yarn commands...</h2>
+<p>Start a package</p>
+<pre><code>yarn init
+</code></pre>
+<p>Install what needs installing</p>
+<pre><code>yarn 
+yarn install
+</code></pre>
+<p>Add a package (pick a technique..)
+yarn add [package]
+yarn add [package]@[version]
+yarn add [package]@[tag]</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

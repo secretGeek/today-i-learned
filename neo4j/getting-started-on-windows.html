@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>getting-started-on-windows . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-with-neo4j-on-windows">getting started with neo4j on windows</h1>
+<p>As a hobbyist/dabbler -- first thing was:</p>
+<p>Download the &quot;Community Edition&quot; from the <a href="https://neo4j.com/download-center/#community">download center</a></p>
+<p>I got the &quot;Neo4j 4.1.1 (zip)&quot;</p>
+<p>(There was a bunch of other things I could download - I ignored those for now)</p>
+<p>They really wanted me to download &quot;Neo4J Desktop&quot;
+...what's that?</p>
+<blockquote>
+<p>Neo4j Desktop is a convenient way for developers to work with local Neo4j databases.</p>
+</blockquote>
+<p>Sounds good!</p>
+<blockquote>
+<p>While most functionality is the same, the instructions in this manual are not written for Neo4j Desktop. For example, file locations for a database installed via Neo4j Desktop will be different from those described here.</p>
+</blockquote>
+<p>Oh, sounds bad?</p>
+<p>Found a better guide....</p>
+<ul>
+<li><a href="https://kvangundy.com/wp/5-quick-steps-to-getting-started-with-neo4j-2-2-3-on-windows-os/">5 QUICK STEPS TO GETTING STARTED WITH NEO4J 2.2.3 ON WINDOWS OS</a> -- <strong>2015</strong> article that is actually on the topic!</li>
+</ul>
+<p>...step 2 &quot;Go ahead and run the installer&quot; -- hmm - the download for comunity edition is a zip not an installer.</p>
+<p>Maybe i should get the desktop edition instead then.</p>
+<p>For that I had to give them my &quot;business&quot; email -- I thought they would reject gmail, but they did not.</p>
+<p>They did give me a giant neo4j activation key, 704 bytes of random junk.</p>
+<p>Okay -- so now I have...</p>
+<pre><code>neo4j-desktop-offline-1.3.4-setup.exe
+</code></pre>
+<p>Installing to here:</p>
+<pre><code>C:\Users\MyUser\AppData\Local\Programs\Neo4j Desktop
+</code></pre>
+<p>Some firewall stuff had to be investigated....</p>
+<p>Now setting a path where I &quot;want&quot; to store application data, going with the default</p>
+<pre><code>C:\Users\MyUser\.Neo4jDesktop
+</code></pre>
+<p>Now I got to paste in the huge key, the 704 bytes of random junk I received earlier.</p>
+<p>OKay -- now I get to play, it's interesting already.</p>
+<p>I need to store something in csv that is interesting (to me at least)</p>
+<p>and then load it up in the graph database.</p>
+<h2 id="sources">Source(s)</h2>
+<ul>
+<li><a href="https://neo4j.com/docs/operations-manual/current/installation/windows/">&quot;This section describes how to install Neo4j on Windows.&quot;</a> -- nah it doesn't. It describes things &quot;related&quot; to that topic. But nothing about that really.</li>
+<li><a href="https://kvangundy.com/wp/5-quick-steps-to-getting-started-with-neo4j-2-2-3-on-windows-os/">5 QUICK STEPS TO GETTING STARTED WITH NEO4J 2.2.3 ON WINDOWS OS</a> -- 2015 article that is actually on the topic!</li>
+</ul>
+<h2 id="see-also">See also</h2>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

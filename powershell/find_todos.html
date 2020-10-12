@@ -115,7 +115,6 @@ function findtext_raw($pattern, $recursive, $logging)
     get-childitem -Path * -Include $fileTypes -Exclude .git,.hg,*jquery*,modernizr* -Recurse:$recursive |
         Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
 				% { 
-						write-host $_.FullName -f yellow;
 						$_ | select-string -pattern $pattern -SimpleMatch |
 						Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
 								@{Expression={$_.LineNumber};Label=&quot;Line&quot;},
@@ -136,7 +135,6 @@ function findtext_raw_casesensitive($pattern, $recursive)
     } else {
         #&quot;recursive was not null it was $recursive&quot;
     }
-
 
     $path = (get-location | ForEach-Object { $_.ProviderPath })
 
@@ -179,6 +177,7 @@ set-alias f.type-raw findtext_raw_type
 set-alias f.raw-type findtext_raw_type
 set-alias f.raw-ci findtext_raw_casesensitive
 set-alias f.no-rec findtext_norecurse
+set-alias ftx findtext_norecurse
 </code></pre>
 
 </article>
