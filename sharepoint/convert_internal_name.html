@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>convert internal name . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="to-convert-to-or-from-an-internal-name-in-sharepoint">To Convert to or from an internal name in sharepoint</h1>
+<p>Sharepoint internal names can only include letters/numbers and underscores.</p>
+<p>Any other character needs to be encoded using this scheem:</p>
+<p>Convert the character's ascii representation to a four digit hex number, prefixed with 'x' and surrounded by underscores.</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Encoded As</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(space)</code></td>
+<td><code>_x0020_</code></td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td><code>_x0021_</code></td>
+</tr>
+<tr>
+<td><code>&quot;</code></td>
+<td><code>_x0022_</code></td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td><code>_x0023_</code></td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td><code>_x0024_</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td><code>_x0025_</code></td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td><code>_x0026_</code></td>
+</tr>
+<tr>
+<td><code>'</code></td>
+<td><code>_x0027_</code></td>
+</tr>
+<tr>
+<td><code>(</code></td>
+<td><code>_x0028_</code></td>
+</tr>
+<tr>
+<td><code>)</code></td>
+<td><code>_x0029_</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td><code>_x002a_</code></td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td><code>_x002b_</code></td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td><code>_x002c_</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td><code>_x002d_</code></td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td><code>_x002e_</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>_x002f_</code></td>
+</tr>
+<tr>
+<td><code>:</code></td>
+<td><code>_x003a_</code></td>
+</tr>
+<tr>
+<td><code>;</code></td>
+<td><code>_x003b_</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>_x003c_</code></td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td><code>_x003d_</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td><code>_x003e_</code></td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td><code>_x003f_</code></td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td><code>_x0040_</code></td>
+</tr>
+<tr>
+<td><code>\</code></td>
+<td><code>_x005c_</code></td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td><code>_x005e_</code></td>
+</tr>
+<tr>
+<td><code>(backtick)</code></td>
+<td><code>_x0060_</code></td>
+</tr>
+<tr>
+<td><code>{</code></td>
+<td><code>_x007b_</code></td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td><code>_x007c_</code></td>
+</tr>
+<tr>
+<td><code>}</code></td>
+<td><code>_x007d_</code></td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td><code>_x007e_</code></td>
+</tr>
+</tbody>
+</table>
+<p>I don't know how a <em>literal</em> &quot;_x&quot; is encoded, but no doubt there is a convention, such as encoding literal <code>_x</code> as  <code>_xx</code> (thus a <code>_x(x)+</code> decodes to <code>_($1)</code> )(But this is just speculation.)</p>
+<h1 id="see-also">See also</h1>
+<ul>
+<li><a href="https://nimbletext.com/Live/-864084882/">This NimbleText Pattern for converting sharepoint names</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
