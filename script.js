@@ -20,7 +20,7 @@ function configureBreadcrumb() {
 }
 
 function copyPreCodeOnClick() {
-  for (let pre of $("pre")) {
+  for (let pre of $("pre")) {x
     let el = htmlToElement(
       "<button class='copy-text btn btn-sm' title='copy code to clipboard'>copy</button>"
     );

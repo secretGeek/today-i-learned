@@ -60,7 +60,10 @@ stopsignal=INT
 </code></pre>
 <p>I noticed that supervisor did not successfully restart when I <a href="reboot.html">rebooted my linux</a> box.</p>
 <p>I restarted it with <code>service supervisor start</code> (which required me to type my password)</p>
-<p>First though, I checked the status with <code>service supervisor status</code>, and saw:</p>
+<p>First though, I checked the status with:</p>
+<pre><code>service supervisor status
+</code></pre>
+<p>and saw:</p>
 <pre><code>user1@machine1:~$ service supervisor status
 ? supervisor.service - Supervisor process control system for UNIX
    Loaded: loaded (/lib/systemd/system/supervisor.service; disabled; vendor preset: enabled)

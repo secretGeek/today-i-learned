@@ -86,7 +86,16 @@ yarn install
 yarn start
 </code></pre>
 <p>Okay -- nifty demo it has menus.</p>
-<pre><code>https://www.electronjs.org/docs/tutorial/boilerplates-and-clis
+<p>And it doesn't have that warning... Let me check something....</p>
+<p>Okay I copied over the line from the erroring project to the working project, the line that says....</p>
+<pre><code>We are using node &lt;script&gt;document.write(process.versions.node)&lt;/script&gt;,
+Chrome &lt;script&gt;document.write(process.versions.chrome)&lt;/script&gt;,
+and Electron &lt;script&gt;document.write(process.versions.electron)&lt;/script&gt;.
+</code></pre>
+<p>...and now that failed to run <em>and</em> I got this massive error message....</p>
+<pre><code>Refused to execute inline script because it violates the following Content Security Policy directive: &quot;default-src 'self' script-src 'self'&quot;. Either the 'unsafe-inline' keyword, a hash ('sha256-I/aHv1UwJJBBNPzXh7y8431zWAJCeFzsD1fvSu1KqMw='), or a nonce ('nonce-...') is required to enable inline execution. Note also that 'script-src' was not explicitly set, so 'default-src' is used as a fallback.
+
+https://www.electronjs.org/docs/tutorial/boilerplates-and-clis
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>

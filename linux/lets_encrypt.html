@@ -23,7 +23,7 @@
 <p>Pre-requisite: Nginx is installed and websites are already configured and running as non-https sites.</p>
 <h2 id="step-1-get-certbot">Step 1: Get certbot</h2>
 <p>Let's Encrypt provide a tool called <code>certbot</code> which you need to get.</p>
-<p>(Some older instructions call this the letsencrypt tool, and other even older instructions say you need to get the source code of the tool)</p>
+<p>(Some older instructions call this the &quot;letsencrypt&quot; tool, and other even older instructions say you need to get the source code of the tool)</p>
 <pre><code>sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt-get install python-certbot-nginx
@@ -44,6 +44,9 @@ sudo add-apt-repository ppa:certbot/certbot
 </code></pre>
 <p>Okay... i didn't run that last command I used this one instead (results below)</p>
 <pre><code>sudo apt-get install --only-upgrade certbot
+</code></pre>
+<p>results:</p>
+<pre><code>$ sudo apt-get install --only-upgrade certbot
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -60,7 +63,7 @@ certbot is already the newest version (0.31.0-1+ubuntu18.10.1+certbot+1).
 <ul>
 <li>there is a file  /etc/nginx/sites-available/example.com</li>
 <li>it has a line like this: <code>server_name example.com www.example.com;</code></li>
-<li>and you've used <code>sudo nginx -t</code> to check your config, and have reloaded nginx config if necessary.</li>
+<li>and you've used <code>sudo nginx -t</code> to check your config, and have reloaded nginx config if necessary (<code>sudo nginx -s reload</code>).</li>
 </ul>
 <p>NOW we're ready to create and install certificates...</p>
 <p>If you have a domain called 'example.com' then run:</p>
@@ -80,6 +83,11 @@ certbot is already the newest version (0.31.0-1+ubuntu18.10.1+certbot+1).
 <pre><code>--dry-run currently only works with the 'certonly' or 'renew' subcommands ('run')	
 </code></pre>
 <p>)</p>
+<p><code>tip</code> if you get this error:</p>
+<blockquote>
+<p>The requested nginx plugin does not appear to be installed</p>
+</blockquote>
+<p>...see this note: <a href="#the-requested-nginx-plugin-does-not-appear-to-be-installed">The requested nginx plugin does not appear to be installed</a></p>
 <p>If you have 3 different domains on the same server, example1, example2 and example3 then run the command 3 times, i.e.:</p>
 <pre><code>sudo certbot --nginx -d example1.com -d www.example1.com
 sudo certbot --nginx -d example2.com -d www.example2.com
@@ -241,10 +249,52 @@ sudo nginx -s reload
 </code></pre>
 <p>(Maybe need to hit 'clear cache')</p>
 <p>Should now score an &quot;A&quot;.</p>
-<h2 id="source">Source</h2>
+<h2 id="the-requested-nginx-plugin-does-not-appear-to-be-installed">The requested nginx plugin does not appear to be installed</h2>
+<p>If you get this error:</p>
+<blockquote>
+<p>Saving debug log to /var/log/letsencrypt/letsencrypt.log <br />
+The requested nginx plugin does not appear to be installed</p>
+</blockquote>
+<p>...here is some advice, but first -- here is more detail from the log:</p>
+<pre><code>sudo cat /var/log/letsencrypt/letsencrypt.log
+</code></pre>
+<p>details:</p>
+<pre><code>2020-10-23 22:23:54,936:DEBUG:certbot.main:Arguments: ['--nginx', '-d', 'mysubdomain.example.com']
+2020-10-23 22:23:54,936:DEBUG:certbot.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2020-10-23 22:23:54,944:DEBUG:certbot.log:Root logging level set at 20
+2020-10-23 22:23:54,944:INFO:certbot.log:Saving debug log to /var/log/letsencrypt/letsencrypt.log
+2020-10-23 22:23:54,945:DEBUG:certbot.plugins.selection:Requested authenticator nginx and installer nginx
+2020-10-23 22:23:54,945:DEBUG:certbot.plugins.selection:No candidate plugin
+2020-10-23 22:23:54,945:DEBUG:certbot.plugins.selection:Selected authenticator None and installer None
+</code></pre>
+<p>...that &quot;No candidate plugin&quot; is key here</p>
+<p><strong>Solution</strong></p>
+<p>sudo apt-get install python-certbot-nginx</p>
+<p>Nah:</p>
+<pre><code>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Package python-certbot-nginx is not available, but is referred to by another package.
+This may mean that the package is missing, has been obsoleted, or
+is only available from another source
+
+E: Package 'python-certbot-nginx' has no installation candidate
+</code></pre>
+<p>First need:</p>
+<pre><code>sudo add-apt-repository ppa:certbot/certbot
+sudo apt update
+sudo apt install python-certbot-nginx
+</code></pre>
+<p>That seemed to work... though this message in the log looked oddd....</p>
+<pre><code>Setting up certbot (0.31.0-1+ubuntu16.04.1+certbot+1) ...
+Installing new version of config file /etc/cron.d/certbot ...
+certbot.service is a disabled or a static unit, not starting it.
+</code></pre>
+<h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-16-04">How To Secure Nginx with Let's Encrypt on Ubuntu 16.04</a></li>
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04">How To Secure Nginx with Let's Encrypt on Ubuntu 18.04</a></li>
+<li><a href="https://stackoverflow.com/questions/53223914/issue-using-certbot-with-nginx">Stackoverflow: Issue using certbot with nginx</a></li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>

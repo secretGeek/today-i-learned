@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>get-adgroup . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="get-adgroup-in-powershell-via-rsat-remote-server-administration-tools">Get-AdGroup in powershell via RSAT (Remote server administration tools)</h1>
+<p>Traditionally I use some C# Linq files to query active directory, but they're a bit of a mess. I was trying to get some help online and most articles talked about using powershell cmdlets like <code>Get-ADGroup</code></p>
+<p>To get this module you need to install &quot;RSAT&quot; or &quot;Remote Server Administration Tools&quot;. In Windows 10, this is available as an optional feature.</p>
+<pre><code>Start Menu | 
+	Apps &amp; Features | 
+		Manage Optional Features | 
+			Add a feature | 
+				&quot;RSAT: Active Directory Domain Services and Lightweight Directory Services Tools&quot;
+			
+</code></pre>
+<p>...bit of a mouthful. (There are a lot of other RSAT features to pick from.)</p>
+<p>Once that's installed, you can get Ad group info via:</p>
+<pre><code>get-adgroup &quot;THE-GROUPS-NAME&quot; -properties *
+</code></pre>
+<p>And similarly:</p>
+<pre><code>get-aduser &quot;my-user-name&quot; -properties *
+</code></pre>
+<p>In fact here's all the 'get' methods that are available:</p>
+<ul>
+<li><code>Get-ADAccountAuthorizationGroup</code></li>
+<li><code>Get-ADAccountResultantPasswordReplicationPolicy</code></li>
+<li><code>Get-ADAuthenticationPolicy</code></li>
+<li><code>Get-ADAuthenticationPolicySilo</code></li>
+<li><code>Get-ADCentralAccessPolicy</code></li>
+<li><code>Get-ADCentralAccessRule</code></li>
+<li><code>Get-ADClaimTransformPolicy</code></li>
+<li><code>Get-ADClaimType</code></li>
+<li><code>Get-ADComputer</code></li>
+<li><code>Get-ADComputerServiceAccount</code></li>
+<li><code>Get-ADDCCloningExcludedApplicationList</code></li>
+<li><code>Get-ADDefaultDomainPasswordPolicy</code></li>
+<li><code>Get-ADDomain</code></li>
+<li><code>Get-ADDomainController</code></li>
+<li><code>Get-ADDomainControllerPasswordReplicationPolicy</code></li>
+<li><code>Get-ADDomainControllerPasswordReplicationPolicyUsage</code></li>
+<li><code>Get-ADFineGrainedPasswordPolicy</code></li>
+<li><code>Get-ADFineGrainedPasswordPolicySubject</code></li>
+<li><code>Get-ADForest</code></li>
+<li><code>Get-ADGroup</code></li>
+<li><code>Get-ADGroupMember</code></li>
+<li><code>Get-ADObject</code></li>
+<li><code>Get-ADOptionalFeature</code></li>
+<li><code>Get-ADOrganizationalUnit</code></li>
+<li><code>Get-ADPrincipalGroupMembership</code></li>
+<li><code>Get-ADReplicationAttributeMetadata</code></li>
+<li><code>Get-ADReplicationConnection</code></li>
+<li><code>Get-ADReplicationFailure</code></li>
+<li><code>Get-ADReplicationPartnerMetadata</code></li>
+<li><code>Get-ADReplicationQueueOperation</code></li>
+<li><code>Get-ADReplicationSite</code></li>
+<li><code>Get-ADReplicationSiteLink</code></li>
+<li><code>Get-ADReplicationSiteLinkBridge</code></li>
+<li><code>Get-ADReplicationSubnet</code></li>
+<li><code>Get-ADReplicationUpToDatenessVectorTable</code></li>
+<li><code>Get-ADResourceProperty</code></li>
+<li><code>Get-ADResourcePropertyList</code></li>
+<li><code>Get-ADResourcePropertyValueType</code></li>
+<li><code>Get-ADRootDSE</code></li>
+<li><code>Get-ADServiceAccount</code></li>
+<li><code>Get-ADTrust</code></li>
+<li><code>Get-ADUser</code></li>
+<li><code>Get-ADUserResultantPasswordPolicy</code></li>
+</ul>
+<p>Usually I want:</p>
+<ul>
+<li>details of a user/group (see above)</li>
+<li>which groups is a user in</li>
+<li>which users are in a group</li>
+</ul>
+<h2 id="which-groups-is-a-user-in">which groups is a user in</h2>
+<pre><code>(Get-ADUser &quot;MyUser&quot; –Properties MemberOf).MemberOf
+</code></pre>
+<p>(I did like this alternative form <a href="https://serverfault.com/a/594724/17154">at serverfault from user Canoas</a> which doesn't rely on RSAT....</p>
+<pre><code>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=User)(samAccountName=$($env:username)))&quot;)).FindOne().GetDirectoryEntry().memberOf
+</code></pre>
+<p>...)</p>
+<h2 id="which-users-are-in-a-group">which users are in a group</h2>
+<pre><code>Get-ADGroupMember
+</code></pre>
+<p>e.g.</p>
+<pre><code>get-adgroupmember &quot;A-SPECIAL-GROUP&quot; | % SamAccountName
+</code></pre>
+<h2 id="optional-features">Optional Features...</h2>
+<p>Optional features, also known as FODs - Feature On Demand  - can also be installed via <code>DISM /add-capability</code>.</p>
+<p>What is <code>DISM</code> ??</p>
+<pre><code>&gt; get-command DISM.exe
+
+CommandType     Name        Version    Source
+-----------     ----        -------    ------
+Application     Dism.exe    10.0.17... C:\windows\system32\Dism.exe
+</code></pre>
+<p>To list all the features (whiether installed or not)</p>
+<pre><code>dism /Online /Get-Capabilities
+</code></pre>
+<p>...this will list many capabilities (why are they sometmies called 'optional features','feature on demand','Capabilities' ... which is it!?!?!)</p>
+<p>This will list detaisl of a specific capability...</p>
+<pre><code>DISM /Online /Get-CapabilityInfo /CapabilityName:Language.Basic~en-US~0.0.1.0
+</code></pre>
+<p>Here's a list of all at a specific point in time:</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accessibility.Braille~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Analog.Holographic.Desktop~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>App.Support.QuickAssist~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Browser.InternetExplorer~~~~0.0.11.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Hello.Face.17658~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Hello.Face.Migration.17658~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>af-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ar-SA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>as-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>az-LATN-AZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ba-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>be-BY</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>bg-BG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>bn-BD</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>bn-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>bs-LATN-BA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ca-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>cs-CZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>cy-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>da-DK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>de-DE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>el-GR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>en-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>en-US</sub>0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>es-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>es-MX</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>et-EE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>eu-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>fa-IR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>fi-FI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>fil-PH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>fr-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>fr-FR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ga-IE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>gd-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>gl-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>gu-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ha-LATN-NG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>haw-US</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>he-IL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>hi-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>hr-HR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>hu-HU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>hy-AM</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>id-ID</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ig-NG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>is-IS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>it-IT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ja-JP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ka-GE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>kk-KZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>kl-GL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>kn-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ko-KR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>kok-DEVA-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ky-KG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>lb-LU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>lt-LT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>lv-LV</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>mi-NZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>mk-MK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ml-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>mn-MN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>mr-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ms-BN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ms-MY</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>mt-MT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>nb-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ne-NP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>nl-NL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>nn-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>nso-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>or-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>pa-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>pl-PL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ps-AF</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>pt-BR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>pt-PT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>rm-CH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ro-RO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ru-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>rw-RW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sah-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>si-LK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sk-SK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sl-SI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sq-AL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sr-CYRL-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sr-LATN-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sv-SE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>sw-KE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ta-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>te-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>tg-CYRL-TJ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>th-TH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>tk-TM</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>tn-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>tr-TR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>tt-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ug-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>uk-UA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>ur-PK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>uz-LATN-UZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>vi-VN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>wo-SN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>xh-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>yo-NG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>zh-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>zh-HK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>zh-TW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Basic~~<sub>zu-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Arab~~<sub>und-ARAB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Beng~~<sub>und-BENG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Cans~~<sub>und-CANS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Cher~~<sub>und-CHER</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Deva~~<sub>und-DEVA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Ethi~~<sub>und-ETHI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Gujr~~<sub>und-GUJR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Guru~~<sub>und-GURU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Hans~~<sub>und-HANS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Hant~~<sub>und-HANT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Hebr~~<sub>und-HEBR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Jpan~~<sub>und-JPAN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Khmr~~<sub>und-KHMR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Knda~~<sub>und-KNDA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Kore~~<sub>und-KORE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Laoo~~<sub>und-LAOO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Mlym~~<sub>und-MLYM</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Orya~~<sub>und-ORYA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.PanEuropeanSupplementalFonts~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Sinh~~<sub>und-SINH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Syrc~~<sub>und-SYRC</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Taml~~<sub>und-TAML</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Telu~~<sub>und-TELU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Fonts.Thai~~<sub>und-THAI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>af-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>bs-LATN-BA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ca-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>cs-CZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>cy-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>da-DK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>de-DE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>el-GR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>en-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>en-US</sub>0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>es-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>es-MX</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>eu-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>fi-FI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>fr-FR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ga-IE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>gd-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>gl-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>hi-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>hr-HR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>id-ID</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>it-IT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ja-JP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ko-KR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>lb-LU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>mi-NZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ms-BN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ms-MY</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>nb-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>nl-NL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>nn-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>nso-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>pl-PL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>pt-BR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>pt-PT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>rm-CH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ro-RO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>ru-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>rw-RW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sk-SK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sl-SI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sq-AL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sr-CYRL-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sr-LATN-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sv-SE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>sw-KE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>tn-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>tr-TR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>wo-SN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>xh-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>zh-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>zh-HK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>zh-TW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Handwriting~~<sub>zu-ZA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>ar-SA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>bg-BG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>bs-LATN-BA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>cs-CZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>da-DK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>de-DE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>el-GR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>en-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>en-US</sub>0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>es-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>es-MX</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>fi-FI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>fr-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>fr-FR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>hr-HR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>hu-HU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>it-IT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>ja-JP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>ko-KR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>nb-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>nl-NL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>pl-PL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>pt-BR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>pt-PT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>ro-RO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>ru-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>sk-SK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>sl-SI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>sr-CYRL-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>sr-LATN-RS</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>sv-SE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>tr-TR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>zh-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>zh-HK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.OCR~~<sub>zh-TW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>de-DE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>en-AU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>en-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>en-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>en-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>en-US</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>es-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>es-MX</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>fr-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>fr-FR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>it-IT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>ja-JP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>pt-BR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>zh-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>zh-HK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.Speech~~<sub>zh-TW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ar-EG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ar-SA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>bg-BG</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ca-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>cs-CZ</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>da-DK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>de-AT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>de-CH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>de-DE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>el-GR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-AU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-GB</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-IE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>en-US</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>es-ES</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>es-MX</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>fi-FI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>fr-CA</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>fr-CH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>fr-FR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>he-IL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>hi-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>hr-HR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>hu-HU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>id-ID</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>it-IT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ja-JP</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ko-KR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ms-MY</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>nb-NO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>nl-BE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>nl-NL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>pl-PL</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>pt-BR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>pt-PT</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ro-RO</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ru-RU</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>sk-SK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>sl-SI</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>sv-SE</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>ta-IN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>th-TH</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>tr-TR</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>vi-VN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>zh-CN</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>zh-HK</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Language.TextToSpeech~~<sub>zh-TW</sub>0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>MathRecognizer~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Media.WindowsMediaPlayer~~~~0.0.12.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Microsoft.Onecore.StorageManagement~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Microsoft.WebDriver~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Microsoft.Windows.StorageManagement~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Msix.PackagingTool.Driver~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>NetFX3~~~~</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>OneCoreUAP.OneSync~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>OpenSSH.Client~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>OpenSSH.Server~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>RasCMAK.Client~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>RIP.Listener~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Rsat.BitLocker.Recovery.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.CertificateServices.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.DHCP.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.Dns.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.FailoverCluster.Management.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.FileServices.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.IPAM.Client.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.LLDP.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.NetworkController.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.NetworkLoadBalancing.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.RemoteAccess.Management.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.RemoteDesktop.Services.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.ServerManager.Tools~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>Rsat.Shielded.VM.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.StorageMigrationService.Management.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.StorageReplica.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.SystemInsights.Management.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.VolumeActivation.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Rsat.WSUS.Tools~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>SNMP.Client~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Tools.DeveloperMode.Core~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Tools.DTrace.Platform~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>Tools.Graphics.DirectX~~~~0.0.1.0</td>
+<td>Installed</td>
+</tr>
+<tr>
+<td>WMI-SNMP-Provider.Client~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+<tr>
+<td>XPS.Viewer~~~~0.0.1.0</td>
+<td>Not Present</td>
+</tr>
+</tbody>
+</table>
+<p>You can find out more about any one of those via:</p>
+<pre><code>DISM /Online /Get-CapabilityInfo /CapabilityName:Language.Basic~~~en-US~0.0.1.0
+</code></pre>
+<p>Read <a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-capabilities-package-servicing-command-line-options">More about DISM.</a></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat">All RSAT Components</a></li>
+<li><a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities#using-dism-add-capability-to-add-or-remove-fods">DISM: Add Capability</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
