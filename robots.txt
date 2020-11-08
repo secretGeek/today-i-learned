@@ -1,0 +1,5 @@
+# robots.txt for https://til.secretgeek.net
+
+User-agent: *
+Disallow: /admin/
+Disallow: /honeypot/

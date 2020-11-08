@@ -31,7 +31,47 @@ group-object -property { ($_.extension) } |
 		Files = ($_.Group | % Name)
 	}
 } | sort -desc Size
+
+
+dir -rec | 
+group-object -property { ($_.extension) } | 
+% {
+	[PSCustomObject]@{
+		Id = $_.Name
+		Size = ($_.Group.Length| Measure -sum).Sum
+		Count = $_.Count
+		Files = ($_.Group | % Name)
+	}
+} | sort -desc Size
 </code></pre>
+<h2 id="group-by-multiple-properties">Group by multiple properties</h2>
+<p>This example is from stackoverflow (see sources)</p>
+<pre><code>$grouped = $InitialListToBeGrouped | group ID, ID2
+$grouped | foreach {
+		$b= $_.name -split ', '
+		[pscustomobject] @{
+				 ID = $b[0];ID2 = $b[1]
+				'Sum Value' = ($_.group | measure value -sum).sum
+		}
+}
+</code></pre>
+<p>Group my tasks by Source and Category</p>
+<pre><code>$grouped = (read-stockfile | group &quot;Category&quot;,&quot;Source&quot;);
+$grouped | foreach {
+		$b= $_.name -split ', ';
+		$_.Group | select *;
+		[pscustomobject] @{
+				 Category = $b[0];
+				 Source = $b[1];
+				 Count = $_.Count;
+				'Sum Value' = ($_.group.Length | measure -sum).sum
+		}
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/30769809/powershell-group-by-multiple-properties">stackoverflow - group by multiple properties</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
