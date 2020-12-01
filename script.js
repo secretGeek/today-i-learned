@@ -20,7 +20,7 @@ function configureBreadcrumb() {
 }
 
 function copyPreCodeOnClick() {
-  for (let pre of $("pre")) {x
+  for (let pre of $("pre")) {
     let el = htmlToElement(
       "<button class='copy-text btn btn-sm' title='copy code to clipboard'>copy</button>"
     );
@@ -103,7 +103,14 @@ function showFloatingMessage(message, element) {
   }, 10);
 }
 
+/* ####################### */
+/* ####################### */
 /* ## utility functions ## */
+/* ####################### */
+/*    #################    */
+/*       ###########       */
+/*          #####          */
+/*            #            */
 
 function htmlToElement(html) {
   var template = document.createElement("template");
@@ -154,3 +161,12 @@ function htmlToElement(html) {
   template.innerHTML = html;
   return template.content.firstChild;
 }
+
+/*            #            */
+/*          #####          */
+/*       ###########       */
+/*    #################    */
+/* ####################### */
+/* ## utility functions ## */
+/* ####################### */
+/* ####################### */

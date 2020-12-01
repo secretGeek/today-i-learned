@@ -297,7 +297,6 @@ td {
 	opacity: 1;
 	margin-top: 0;
 	padding: 5px;
-	box-shadow: 0 0 3px #888;
 	background-color: #FFC;
 	color: #333;
 	border-radius: 5px;
@@ -310,7 +309,8 @@ td {
 	opacity: 0;
 	margin-top: -50px;
 	/*transition: opacity 1s ease-in-out, margin 1s ease-in-out;*/
-	transition: opacity 1s ease-in-out, margin 1s ease-in-out;
+	box-shadow: 0 0 3px #FFC, 0 0 8px #FFC, 0 0 17px #FFC;
+	transition: opacity 1s ease-in-out, margin 1s ease-in-out, box-shadow 1s ease-in-out;
 }
 
 pre {
