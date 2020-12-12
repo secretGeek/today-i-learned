@@ -106,6 +106,9 @@ body,html {
   margin:0;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+body, hmtl {
+  width:100%;
+}
 
 article, footer {
   max-width:70ch;
@@ -369,3 +372,44 @@ form.search input[type='submit']:active {
 	text-shadow:0 2px 2px black;
 
 }
+
+
+
+html::-webkit-scrollbar-track {
+						border-radius: 10px;
+						background-color: transparent;
+				}
+
+html::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background-color: var(--btn-background);
+}
+
+
+				html {
+						transition: background-color 250ms ease;
+				}
+						textarea::-webkit-scrollbar-thumb:hover {
+								background-color: var(--btn-background-hover);
+						}
+
+				html::-webkit-scrollbar-corner {
+						background-color: transparent;
+						border-color: transparent;
+				}
+
+				html::-webkit-scrollbar {
+						width: 10px;
+						height: 10px;
+						background-color: transparent;
+				}
+
+		/*IE-only*/
+		@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+				html {
+						scrollbar-face-color: var(--btn-background); /* moving part */
+						scrollbar-track-color: var(--btn-background); /* main background */
+						scrollbar-arrow-color: var(--btn-background); /* both arrows */
+						scrollbar-shadow-color: var(--btn-background); /* outline of moving part */
+				}
+		}
