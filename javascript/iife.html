@@ -19,23 +19,24 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="immediately-invoked-function-expression">immediately-invoked function expression</h1>
+<h1 id="immediately-invoked-function-expression">Immediately-invoked function expression</h1>
 <blockquote>
 <p>An immediately-invoked function expression (or IIFE, pronounced &quot;iffy&quot;) is a JavaScript design pattern which produces a lexical scope using JavaScript's function scoping.</p>
 </blockquote>
 <pre><code>(function(){
-    // all your code here
-    var foo = function() {};
-    window.onload = foo;
-    // ...
+	// all your code here
+	var foo = function() {};
+	window.onload = foo;
+	// ...
 })();
 // foo is unreachable here (it's undefined)
 </code></pre>
 <blockquote>
 <p>This pattern is often used when trying to avoid polluting the global namespace, because all the variables used inside the IIFE (like in any other normal function) are not visible outside its scope.</p>
 </blockquote>
+<p>and note also:</p>
 <blockquote>
-<p>In ES6, the above IIFE can be rewritten using the arrow function</p>
+<p>In ES6, the above IIFE can be rewritten using the <strong>arrow function</strong></p>
 </blockquote>
 <pre><code>((foo) =&gt; foo)('foo value')
 </code></pre>

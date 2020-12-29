@@ -19,7 +19,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="see-all-console-colors">see all console colors:</h1>
+<h1 id="see-all-console-colors">See all console colors:</h1>
 <pre><code>[enum]::GetValues([System.ConsoleColor]) | Foreach-Object {Write-Host $_ -ForegroundColor $_}
 </code></pre>
 <ul>
@@ -44,10 +44,10 @@
 <pre><code>$colors = [enum]::GetValues([System.ConsoleColor])
 foreach( $fcolor in $colors )
 {
-    foreach( $bcolor in $colors )
-    {
-        Write-Host -NoNewLine &quot;$fcolor/$bcolor &quot;-ForegroundColor $fcolor -BackgroundColor $bcolor
-    }
+	foreach( $bcolor in $colors )
+	{
+		Write-Host -NoNewLine &quot;$fcolor/$bcolor &quot;-ForegroundColor $fcolor -BackgroundColor $bcolor
+	}
 }
 </code></pre>
 <!--  [enum]::GetValues([System.ConsoleColor]) | % { Write-Host " * $($_)" -f ($_) }  -->

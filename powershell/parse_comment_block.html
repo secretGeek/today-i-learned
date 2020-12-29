@@ -19,7 +19,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="parse-a-comment-block">parse a comment block</h1>
+<h1 id="parse-a-powershell-comment-block">Parse a Powershell Comment block</h1>
 <p>If you have a comment block containing text like this:</p>
 <pre><code>.SYNOPSIS
 This script does magical terrible things
@@ -31,26 +31,26 @@ In order to do the magical terrible things you must first purchase a license
 <p>You can parse it into TAGS (e.g. &quot;SYNOPSIS&quot;) and bodies (e.g. &quot;This script does magical terrible things&quot;)</p>
 <p>... using this function:</p>
 <pre><code>function parseComment ($comment) {
-  $token = $null
-  $body = $null
-  $comment.split(&quot;`r`n&quot;) | % {
-    if ($_.StartsWith(&quot;.&quot;)) 
-    {
-       #new token, so yield the previous one
-       if ($token -ne $null) {
-        New-Object psobject -property  @{token = $token.trim(); body = $body.trim()}
-       }
-      $token = $_.Trim(&quot;.&quot;);
-      $body = &quot;&quot;
-    } else {
-      $body+= $_ + &quot;`r`n&quot;
-    }
-  }
-  
-  #yield any remaining token
-  if ($token -ne $null) {
-    New-Object psobject -property  @{token = $token.trim(); body = $body.trim()}
-  }
+	$token = $null
+	$body = $null
+	$comment.split(&quot;`r`n&quot;) | % {
+		if ($_.StartsWith(&quot;.&quot;)) 
+		{
+			 # new token, so yield the previous one
+			 if ($token -ne $null) {
+				New-Object psobject -property  @{token = $token.trim(); body = $body.trim()}
+			 }
+			$token = $_.Trim(&quot;.&quot;);
+			$body = &quot;&quot;
+		} else {
+			$body+= $_ + &quot;`r`n&quot;
+		}
+	}
+	
+	# yield any remaining token
+	if ($token -ne $null) {
+		New-Object psobject -property  @{token = $token.trim(); body = $body.trim()}
+	}
 }
 </code></pre>
 <p>For example:</p>

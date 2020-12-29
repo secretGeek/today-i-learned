@@ -19,7 +19,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="index-fragmentation-and-nasty-page-splits">index fragmentation and nasty page splits</h1>
+<h1 id="index-fragmentation-and-nasty-page-splits">Index fragmentation and nasty page splits</h1>
 <p>I learned most about index fragmentation and 'nasty' page splits from Paul Randal in his pluralsight course '[SQL Server: Index Fragmentation Internals, Analysis, and Solutions]'(<a href="https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents">https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents</a>)</p>
 <p>There's no point looking at every page split as some are &quot;good page splits&quot; -- e.g. when an append happens at the end of a table, and others are &quot;nasty&quot; e.g. inserts, updates deletes within an index that cause page splits.</p>
 <p>You can see nasty page splits occur though by looking for a specific event in the transaction log. (<a href="https://www.sqlskills.com/blogs/paul/tracking-page-splits-using-the-transaction-log/">read more</a>)</p>

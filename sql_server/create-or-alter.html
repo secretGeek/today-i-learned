@@ -19,12 +19,14 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="create-of-alter-for-stored-procedures-and-views-etc">create of alter for stored procedures and views etc</h1>
-<p>it's better to <code>alter</code> a stored procedure than to <code>drop</code> it and re <code>create</code> it.</p>
-<p>but here's something that's better again:</p>
+<h1 id="create-of-alter-for-stored-procedures-and-views-etc">Create of alter for stored procedures and views etc</h1>
+<p>It's better to <code>alter</code> a stored procedure than to <code>drop</code> it and re <code>create</code> it.</p>
+<p>(It's better because it doesn't drop any 'custom' grants you've applied. And it's less typing.)</p>
+<p>But here's something that's better again:</p>
 <pre><code>create or alter procedure MySproc
 </code></pre>
-<p>and: no need to test for existence before creating. no more:</p>
+<p>...because: no need to test for existence before creating</p>
+<p>No more:</p>
 <pre><code>if exists ( select * 
         from   sysobjects 
         where  id = object_id(N'[dbo].[MySproc]') 

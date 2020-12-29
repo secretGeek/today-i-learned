@@ -19,11 +19,12 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="powershell-experiments">powershell experiments.</h1>
-<h1 id="see-if-theres-any-alias-for-a-command">See if there's any alias for a command...</h1>
+<h1 id="powershell-experiments-with-alias">Powershell experiments with Alias</h1>
+<h2 id="see-if-theres-any-alias-for-a-command">See if there's any alias for a command...</h2>
 <p>Often you know the alias and not the command.</p>
-<p>e.g.
-get-alias &quot;dir&quot;</p>
+<p>e.g.</p>
+<pre><code>get-alias &quot;dir&quot;
+</code></pre>
 <p>... teaches you that <code>dir</code> is an alias for <code>get-childitem</code></p>
 <p>Sometimes the opposite is true.</p>
 <p>e.g. I wasn't sure what alias to use instead of the cumbersome <code>push-location</code></p>
@@ -40,7 +41,7 @@ get-alias &quot;dir&quot;</p>
 <pre><code>alias | % { if($_.definition -eq &quot;push-location&quot;) {$_} }
 </code></pre>
 <p>This could be better written as:</p>
-<pre><code>alias  | ? Definition -like 'push-location'    
+<pre><code>alias  | ? Definition -like 'push-location'
 </code></pre>
 <p>In bash you'd use something like</p>
 <pre><code>alias | grep push-location
