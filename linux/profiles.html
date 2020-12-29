@@ -19,7 +19,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h2 id="profiles">Profiles</h2>
+<h1 id="profiles">Profiles</h1>
 <pre><code>cd /etc
 
 cat profile
@@ -30,8 +30,8 @@ cat .bashrc
 cat .bash_profile
 </code></pre>
 <blockquote>
-<p>When you login (type username and password) via console, either sitting at the machine, or remotely via ssh: <code>.bash_profile</code> is executed to configure your shell before the initial command prompt.
-But, if you've already logged into your machine and open a new terminal window (xterm) inside Gnome or KDE, then <code>.bashrc</code> is executed before the window command prompt. <code>.bashrc</code> is also run when you start a new bash instance by typing <code>/bin/bash</code> in a terminal.<br />
+<p>When you login (type username and password) via console, either sitting at the machine, or remotely via ssh: <code>.bash_profile</code> is executed to configure your shell before the initial command prompt.</p>
+<p>But, if you've already logged into your machine and open a new terminal window (xterm) inside Gnome or KDE, then <code>.bashrc</code> is executed before the window command prompt. <code>.bashrc</code> is also run when you start a new bash instance by typing <code>/bin/bash</code> in a terminal.
 <br/>—<a href="http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html">http://www.joshstaiger.org/archives/2005/07/bash_profile_vs.html</a></p>
 </blockquote>
 <p>And a good tip...</p>
@@ -42,7 +42,7 @@ But, if you've already logged into your machine and open a new terminal window (
 <p>To do this, add the following lines to .bash_profile:</p>
 </blockquote>
 <pre><code>if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
+	 source ~/.bashrc
 fi
 </code></pre>
 

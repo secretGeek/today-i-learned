@@ -19,15 +19,18 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h2 id="chmod-and-the-magic-of-file-permissions">chmod - and the magic of file permissions</h2>
+<h1 id="chmod-and-the-magic-of-file-permissions">chmod - and the magic of file permissions</h1>
 <pre><code>$ chmod 777 /opt/webapps
 </code></pre>
 <p>Causes these permissions:</p>
 <pre><code>drwxrwxrwx
 </code></pre>
 <p>How is this true? What does this mean?</p>
-<p>777 -- three digits, each digit is the value of 3 flags, 3 bits.</p>
-<p>7, in binary, is 111.</p>
+<pre><code>777 -- three digits, each digit is the value of 3 flags, 3 bits.
+</code></pre>
+<ul>
+<li><code>7</code>, in binary, is <code>111</code>.</li>
+</ul>
 <p>Each digit refers to three different groups:</p>
 <p>This</p>
 <pre><code>drwxrwxrwx
@@ -53,11 +56,12 @@ rwx   rwx   rwx
 ||+-- execute permission for the owner of the file
 |+--- write permission for the owner of the file
 +---- read permission for the owner of the file
-   
 </code></pre>
-<p>r = read permission
-w = write permission
-x = execute permission</p>
+<ul>
+<li><code>r</code> = read permission</li>
+<li><code>w</code> = write permission</li>
+<li><code>x</code> = execute permission</li>
+</ul>
 <p>If a permission was missing it would be represented by a dash '-'.</p>
 <ul>
 <li><code>chmod</code> - modify permissions</li>

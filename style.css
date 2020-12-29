@@ -429,3 +429,7 @@ html::-webkit-scrollbar {
     padding: 1.5ch;
   }
 }
+
+h1.chapter {
+  font-variant: small-caps;
+}

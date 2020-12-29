@@ -19,17 +19,18 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h2 id="for-a-new-process-to-runas-a-different-admin-user-from-powershell">For a new process to runas a different (admin) user from powershell</h2>
+<h1 id="for-a-new-process-to-runas-a-different-admin-user-from-powershell">For a new process to runas a different (admin) user from powershell</h1>
 <p>Run a new console window as admin, like so:</p>
 <pre><code>Start-Process console.exe -Verb runAs
 </code></pre>
 <p>Or you might prefer</p>
 <pre><code>Start-Process powershell -Verb runAs
 </code></pre>
-<p>Or better yet..</p>
+<p>Or better yet...</p>
 <pre><code>Start-Process &quot;$env:ChocolateyInstall\lib\ConsoleZ\tools\console.exe&quot; -Verb runAs
-
-Start-Process C:\Users\Leon\Downloads\cmder_mini\vendor\conemu-maximus5\ConEmu64.exe -Verb runAs
+</code></pre>
+<p>e.g.</p>
+<pre><code>Start-Process C:\Users\Leon\Downloads\cmder_mini\vendor\conemu-maximus5\ConEmu64.exe -Verb runAs
 </code></pre>
 <p>Or simply:</p>
 <pre><code>Start-Process ConEmu64.exe -Verb runAs

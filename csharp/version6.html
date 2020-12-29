@@ -192,7 +192,7 @@ WriteLine(&quot;Press F4 and see 'static System.Console'...&quot;);
 <p>(Source: <a href="https://forum.linqpad.net/discussion/1754/using-static-support">LinqPad forum</a>)</p>
 <p>And if it's a local static class, you need to give its fully qualified name, which starts with <code>UserQuery</code>, e.g. <code>static UserQuery.MyOwnClass</code></p>
 <h2 id="null-conditional-operators">null conditional operators</h2>
-<p>I've said <a href="http://www.secretgeek.net/cruel_compiler">previously</a> that statements like this are basically <code>NullReferenceException</code> generators:</p>
+<p>I've said <a href="https://secretgeek.net/cruel_compiler">previously</a> that statements like this are basically <code>NullReferenceException</code> generators:</p>
 <pre><code>return Person.Manager.Manager.Employees[3].Manager.Name;
 </code></pre>
 <p>And you'd be better off cutting this down to just:</p>
@@ -287,7 +287,7 @@ Console.WriteLine(str.ToString(new CultureInfo(&quot;en-UK&quot;)));
 <pre><code>Console.WriteLine($&quot;The winner is: {(a &gt; b ? PersonA : PersonB)}&quot;);
 </code></pre>
 <p>Many more details at <a href="https://docs.microsoft.com/en-us/dotnet/csharp/tutorials/string-interpolation">this tutorial</a></p>
-<p>C# has needed this for a long time, I use it every chance I get. Here's ancient articles wishing for it: <a href="http://www.secretgeek.net/string_templating">previously</a> and <a href="https://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx/">phil haack 10years earlier</a></p>
+<p>C# has needed this for a long time, I use it every chance I get. Here's ancient articles wishing for it: <a href="https://secretgeek.net/string_templating">previously</a> and <a href="https://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx/">phil haack 10years earlier</a></p>
 <h2 id="exception-filters">exception filters</h2>
 <p>This is a special new piece of syntax... a 'when' statement that can follow a catch --</p>
 <p>Instead of catching <em>every</em> exception of the given type, you can add a &quot;when filter&quot; so the exception handler will only catch exceptions that are:</p>
