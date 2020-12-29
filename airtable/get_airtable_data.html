@@ -20,6 +20,55 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="to-get-airtable-data-in-powershell">To Get AirTable Data (in Powershell)</h1>
+<p>Adam Bertram ('Adam the Automator') has written a <a href="https://www.powershellgallery.com/packages/PSAirTable/1.0.12">PSAirTable Module</a>, that is easy to use.</p>
+<p>Run as administrator...</p>
+<pre><code>Import-Module -Name PSAirTable
+</code></pre>
+<p>and</p>
+<pre><code>Install-Module -Name PSAirTable
+</code></pre>
+<p>Source here: <a href="https://github.com/adbertram/PSAirTable">https://github.com/adbertram/PSAirTable</a></p>
+<p><code>PSAirTable</code> has these functions:</p>
+<ul>
+<li><p><code>Get-AirTableApiKey</code></p>
+</li>
+<li><p><code>Get-PSAirTableConfiguration</code></p>
+</li>
+<li><p><code>Update-Record</code></p>
+</li>
+<li><p><code>New-Record</code></p>
+</li>
+<li><p><code>Remove-Record</code></p>
+</li>
+<li><p><code>Save-AirTableApiKey</code></p>
+</li>
+<li><p><code>Find-Record</code></p>
+</li>
+<li><p><code>InvokeAirTableApiCall</code></p>
+<p>Get-PSAirTableConfiguration</p>
+<p>Application      Bases</p>
+<hr />
+<p ApiKey="XXXXXX">@ {@{Name=<name of base here>; ID=<id of base here>}}</p>
+</li>
+</ul>
+<p>Previously I could find a record in the <code>Todo</code> table of the <code>Projects</code> base, with:</p>
+<pre><code>Find-Record Projects Todo
+</code></pre>
+<p>...but now it errors with:</p>
+<pre><code>The base name [projects] could not be found. Ensure it exists by running (Get-PSAirTableConfiguration).Bases
+</code></pre>
+<p>I have my API Key from 	<code>airtable.com/account</code></p>
+<p>I tried to save it with:</p>
+<pre><code>Save-AirTableApiKey  keyXXXXXXXXXXX
+</code></pre>
+<p>But this failed with:</p>
+<pre><code>Access to the path 'C:\Program Files\WindowsPowerShell\Modules\PSAirTable\1.0.12\Configuration.json' is denied
+</code></pre>
+<p>Tried again as Administrator -- and it seems to have worked, as no error.</p>
+<p>Tried:</p>
+<pre><code>Find-Record Projects Todo
+</code></pre>
+<p>...and it works now.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

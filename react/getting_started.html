@@ -20,130 +20,323 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="getting-started-with-react">Getting started with react</h1>
-<p>React concepts:</p>
+<p>(My old version of this is here: <a href="old_getting_started.html">old_getting_started</a> -- but things are easier in 2020, luckily.)</p>
+<p>You can create a new starter project called <code>hello-world</code> with:</p>
+<pre><code>npx create-react-app hello-world
+cd hello-word
+</code></pre>
+<p>Then you can see the available scripts with <code>npm run</code> or <code>yarn run</code></p>
 <ul>
-<li>JSX</li>
-<li>components</li>
-<li>virtual DOM</li>
-<li>props</li>
+<li>start -- run it on port something.</li>
+<li>test -- run tests</li>
+<li>build -- create html ready for deployment</li>
+<li>eject -- (this is interesting and optional! ejects the dependencies into the local folder... see later)</li>
 </ul>
-<p>Reacts.js is: A javascript library, from facebook, for building user interfaces (in HTML).</p>
-<p>Unlike other recent frameworks (e.g. Angular, Polymer) it doesn't do &quot;two-way data binding with templates&quot;. Instead it works by having you develop &quot;components&quot;. These components are rendered in a virtual DOM, which is then compared to the actual DOM, and only the things that are different are applied.</p>
-<p>Okay - the <a href="https://facebook.github.io/react/docs/getting-started.html">official getting started</a> with react.js is utterly <a href="../concepts/coik.html">COIK</a>. So I've had to write my own, mostly by walking through the react-tutorial.</p>
-<p>Start by getting the code.</p>
-<pre><code>&gt; git clone https://github.com/reactjs/react-tutorial.git
-&gt; cd react-tutorial
-&gt; npm install  # ..may have to run that multiple times!!   
-&gt; npm start 
-
-# Now browse to http://localhost:3000 ...
+<p>We'll run it first and then make some fun little changes.</p>
+<pre><code>&gt; npm start
 </code></pre>
-<p>This example runs a local webserver (using node). (start, in this case, is an <a href="../npm/npm_run_scripts.html">npm script</a> in the <code>package</code>.json file). The part we're interested in examining is the front end app, not what happens on the server. But I've looking in the server (a file <code>server.js</code>) just long enough to see that:</p>
+<p>That launches the browser on localhost 3000...</p>
+<pre><code>http://localhost:3000/
+</code></pre>
+<p>And it says right there:</p>
+<pre><code>edit src/App.js and save to reload.
+</code></pre>
+<p>...which we will do in a moment.</p>
+<h2 id="get-your-environment-set-up-a-little-better">Get your environment set up a little better...</h2>
+<p>Some environment tips before proceeding:</p>
 <ol>
-<li>it is a node app,</li>
-<li>i don't speak node,</li>
-<li>The root path (/) simply serves out the subfolder <code>public</code>.</li>
+<li>Install the <a href="https://reactjs.org/blog/2019/08/15/new-react-devtools.html">react dev tools</a> into chrome (or firefox) -- those are useful</li>
+<li>We'll use <a href="../vs_code/01_summary.html">vs code</a> to edit the whole thing... as in <code>code .</code> (which opens the current folder as a 'workspace')</li>
+<li>Make sure &quot;prettier&quot; is installed and is set to run on save. That's useful - formats your files nicely.</li>
 </ol>
-<p>So the place to start is by examining <code>public/index.html</code>.</p>
-<p>The body of that page contains this:</p>
-<pre><code>&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
-&lt;script type=&quot;text/babel&quot; src=&quot;scripts/example.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/babel&quot;&gt;
-  // To get started with this tutorial running your own code, simply remove
-  // the script tag loading scripts/example.js and start writing code here.
-&lt;/script&gt;
+<h2 id="how-does-this-demo-hang-together">How does this demo hang together?</h2>
+<p>Soon, as suggested, we'll edited <code>src/App.js</code> -- first we'll look at it.</p>
+<p>It starts with some imports:</p>
+<pre><code>import logo from &quot;./logo.svg&quot;;
+import &quot;./App.css&quot;;
 </code></pre>
-<p>So <code>#content</code> is where all the html will go, and there's also an example script we will dig into. You can model your own application's behavior to be a bit like example.js. Note the script type of text/babel!</p>
-<h1 id="babel">Babel...</h1>
-<p>First let's deal with babel.</p>
-<p>There's a reference to this babel library:</p>
-<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js&quot;&gt;&lt;/script&gt;
+<p>And ends with an export:</p>
+<pre><code>export default App;
 </code></pre>
-<p>And note that other scripts are of type <code>text/babel</code>.</p>
-<p>There is no other mention of babel in the entire app.</p>
-<p>From this I can assume:</p>
-<p>The babel javascript library is loaded, and the <code>text/babel</code> scripts are not executed by the browser. The babel library then looks for any <code>text/babel</code> scripts, and <em>transpiles</em> them into javascript, adding them to the page. (Kids actually do this kind of thing on purpose... Wow.)</p>
-<p>Inside the babel scripts we see the intermingling of javascript with XML. The XML is called <code>JSX</code>. Babel turns the <code>JSX</code> into regular javascript. Again -- kids do this kind of thing on purpose. I know, right. The scariest part isn't that they're doing this sort of business, but that they're actually making it work for them. Really freaking nicely.</p>
-<p>Take this snippet from the example.js</p>
-<pre><code>ReactDOM.render(
-  &lt;CommentBox url=&quot;/api/comments&quot; pollInterval={2000} /&gt;,
-  document.getElementById('content')
-);
+<p>Other than that it defines a function called <code>App</code> which returns... a JSX element!</p>
+<p>This stuff is compiled via Blazor.</p>
+<pre><code>function App() {
+	return (
+		&lt;div className=&quot;App&quot;&gt;
+				&lt;img src={logo} className=&quot;App-logo&quot; alt=&quot;logo&quot; /&gt;
+				&lt;p&gt;
+					edit &lt;code&gt;src/App.js&lt;/code&gt; and save to reload.
+				&lt;/p&gt;
+			&lt;/header&gt;
+		&lt;/div&gt;
+	);
+}
 </code></pre>
-<p>That's where the whole thing starts. It creates a component called CommentBox.</p>
-<p>What is CommentBox you might ask? Is that some new highly-specific HTML5 tag? No... it is a component, that has been defined inside the project. (Note the capital C, more on that later)</p>
-<p>So we see that ReactDOM renders that CommentBox <strong>component</strong>. And it renders it inside that <code>#content</code> element we saw earlier.</p>
-<p>How was it defined? in some code that looks like this:</p>
-<pre><code>var CommentBox = React.createClass({
-   ...});
+<p>Okay, so we'll tinker with that for fun and to learn.</p>
+<p>But what we won't learn by doing that is... how is that <code>App</code> function &quot;wired in&quot; to be the heart and soul of this application?</p>
+<p>Okay -- the answer to that is... the app's starting page is <code>public/index.html</code> which has an element:</p>
+<pre><code>&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
 </code></pre>
-<p>Note the capital C on CommentBox. That's a convention, whereby they're saying &quot;Hey, this thing is a Component! It's kind of a big deal!&quot;</p>
-<p>Inside that createClass piece of JSON, there's a whoooole bunch of crazy going on.</p>
-<p>Let's look at a different component, and pick it apart piece by piece.</p>
-<pre><code>var CommentForm = React.createClass({
-  getInitialState: function() {...
-  handleAuthorChange: function (comment) {...
-  handleTextChange: function (comment) {...
-  handleSubmit: function (comment) {...
-  render: function() {...
-});
+<p>...and <code>index.js</code> is called by <code>npm start</code> -- loads the <code>App</code> component, mounts it onto that <code>#root</code> div of <code>public/index.html</code>.</p>
+<h1 id="simple-things-to-change">Simple things to change...</h1>
+<ul>
+<li>Look at <code>src/App.js</code>.</li>
+<li>The <code>App</code> function is a component - it returns elements.</li>
+<li>Note that regular html tags are written in lowercase. Note that &quot;class&quot; is written as &quot;className&quot;</li>
+<li>Note that when elements are written on more than one line, they are wrapped in &quot;(&quot; and &quot;)&quot;.</li>
+<li>Change the app function so it returns some slightly different HTML. Use lowercase.</li>
+<li>Call another, new function, that you write. e.g.</li>
+</ul>
+<p>e.g.,</p>
+<pre><code>function App() {
+	return (
+		&lt;div className=&quot;App&quot;&gt;
+			&lt;header className=&quot;App-header&quot;&gt;
+				&lt;img src={logo} className=&quot;App-logo&quot; alt=&quot;logo&quot; /&gt;
+				&lt;About /&gt;
+			&lt;/header&gt;
+		&lt;/div&gt;
+	)
+};
 </code></pre>
-<p>Those three middle functions (handle, handle, handle) are all similar -- we'll see what happens with those in a moment. They're specific to this component.</p>
-<p>The first and last functions, <code>getInitialState</code> and <code>render</code> are to do with the lifecycle of this component.</p>
-<p>That last function, 'render' is called by React when an instance of the component is rendered.</p>
-<p>Let's start there.</p>
-<pre><code>render: function() {
-    return (
-      &lt;form className=&quot;commentForm&quot; onSubmit={this.handleSubmit}&gt;
-        &lt;input
-          type=&quot;text&quot;
-          placeholder=&quot;Your name&quot;
-          value={this.state.author}
-          onChange={this.handleAuthorChange}
-        /&gt;
-        &lt;input
-          type=&quot;text&quot;
-          placeholder=&quot;Say something...&quot;
-          value={this.state.text}
-          onChange={this.handleTextChange}
-        /&gt;
-        &lt;input type=&quot;submit&quot; value=&quot;Post&quot; /&gt;
-      &lt;/form&gt;
-);
+<p>Okay - we've just invoked some fictional &quot;About&quot; tag -- now let's implement that component:</p>
+<pre><code>function About() {
+	return &lt;p&gt;About this app. It is fun.&lt;/p&gt;;
+}
 </code></pre>
-<p>Okay -- so again, it contains <code>JSX</code>. It looks like HTML, is actually XML. Is turned into javascript at compile time (by babel) and is rendered into the virtual DOM at render time. And possibly applied to the real DOM, if needed.</p>
-<p>Like any good xml document, it needs to have only one root node (a <form /> in this case).</p>
-<p>(Btw, these familiar html tags are written with a <strong>lowercase</strong> first letter, unlike our special Components)</p>
-<p>Note how, inside a few <code>{squiggly}</code> brackets there's a bunch of stuff going on.</p>
-<p>Let's pull those bits out and examine them one by one.</p>
-<p>These bits are all similar...</p>
-<pre><code>{this.handleSubmit}
-{this.handleAuthorChange}
-{this.handleTextChange}
+<p>Easy. Now try passing through a &quot;property&quot; to the new component. Here is how it is done...</p>
+<p>Change the <code>&lt;About /&gt;</code> to:</p>
+<pre><code>&lt;About year=&quot;2021&quot; /&gt;
 </code></pre>
-<p>These indicate event handlers that need to be wired up... to the 3 functions we mentioned earlier.</p>
-<p>And these bits are all similar:</p>
-<pre><code>{this.state.author}
-{this.state.text}
+<p>And change the function/component to use this property, via the 'props' parameter:</p>
+<pre><code>function About(props) {
+	return &lt;p&gt;About this app. &amp;copy; {props.year}&lt;/p&gt;;
+}
 </code></pre>
-<p>...indicating the state of the component will be rendered at that point.</p>
-<p>Okay -- so we'll examine &quot;handleTextChange&quot; ---</p>
-<p>It's a function that does just this:</p>
-<pre><code>handleTextChange: function(e) {
-    this.setState({text: e.target.value});
+<p>Now that property -- it's considered to be a string. (e.g. if you added &quot;1&quot; to it, it would be concatenated and return &quot;20211&quot;) To treat it as a number, you'd need to use:</p>
+<pre><code>&lt;About year={2021} /&gt;
+</code></pre>
+<p>Ok - that's <em>simple</em> props. Next trick: simple &quot;state&quot;.</p>
+<h2 id="usestate">useState</h2>
+<p>Let's give our component some <code>state</code>.</p>
+<p>First, make sure this file imports <code>useState</code> module.</p>
+<pre><code>import { useState } from 'react';
+</code></pre>
+<p>First a pretty useless example where we have store a value in the state, but we never change it...</p>
+<pre><code>function About(props) {
+	const [users] = useState(100);
+	return &lt;p&gt;About this app. We have {users} users!&lt;/p&gt;;
+}
+</code></pre>
+<p>Hmm -- okay, neat but useless, isn't it? Let's make it that this component can change it's state.</p>
+<p>Instead of getting just that value out of the <code>useState</code> function, we can also grab a <code>setter</code> -- watch this.</p>
+<pre><code>function About(props) {
+	const [users, setUsers] = useState(2);
+	if (users &lt; 10) {
+		setUsers(users + 1);
+	}
+	return &lt;p&gt;About this app. We have {users} users!&lt;/p&gt;;
+}
+</code></pre>
+<p>Okay - that's a bit of an odd example sorry. What I'm doing is calling the setter, returned by useState. But since the state of the component has been changed, it causes the component to be re-rendered to show it's new state. I put that &quot;if&quot; statement in because otherwise it would be re-rendered over and over until it crashes. This way it stoped when the state value gets to <code>10</code>.</p>
+<p>Instead -- let's make it that the state is updated when a user clicks the component.</p>
+<h2 id="making-a-component-that-can-contain-any-other-component-or-elements">Making a component that can contain <em>any</em> other component (or elements)</h2>
+<p>With <code>props</code> -- we can use a special <code>props.children</code> property to return <em>any</em> arbitrary elements that have been nested inside that component.</p>
+<p>e.g.</p>
+<p>imagine we want to nest various different things inside special, propietary &quot;cool looking rounded box&quot;</p>
+<p>We can implement the cool looking rounded box like this ---</p>
+<pre><code>function MyCoolContainer(props) {
+	return &lt;div className=&quot;my-cool-looking-rounded-box&quot;&gt;{props.children}&lt;/div&gt;;
+}
+</code></pre>
+<p>...and then reuse it to, with <em>any</em> contain inside it....  perhaps in one place it has this....</p>
+<pre><code>return &lt;MyCoolContainer&gt;&lt;h2&gt;Hello!&lt;/h2&gt;&lt;p&gt;Welcome to new york.&lt;/p&gt;&lt;/MyCoolContainer&gt;;
+</code></pre>
+<p>and in another...</p>
+<pre><code>function FunList() {
+	return (
+		&lt;MyCoolContainer&gt;
+			&lt;ol&gt;
+				&lt;li&gt;THis is a fun list!&lt;/li&gt;
+				&lt;li&gt;And it's inside a cool container!&lt;/li&gt;
+			&lt;/ol&gt;
+			&lt;About /&gt;
+		&lt;/MyCoolContainer&gt;
+	);
+}
+</code></pre>
+<p>encapsulation
+move component to separate file</p>
+<h1 id="the-effects-of-running-an-eject">the effects of running an <code>eject</code></h1>
+<pre><code>npm run eject
+</code></pre>
+<p>i got a chance to fill out a survey. I choose to fill it out and tell them i was learning about how eject works.</p>
+<p>Then used git to see what was different before/after running eject.</p>
+<p>it added these new files to a <code>config</code> folder:</p>
+<ul>
+<li><code>env.js</code></li>
+<li><code>getHttpsConfig.js</code></li>
+<li><code>jest/cssTransform.js</code></li>
+<li><code>jest/fileTransform.js</code></li>
+<li><code>modules.js</code></li>
+<li><code>paths.js</code></li>
+<li><code>pnpTs.js</code></li>
+<li><code>webpack.config.js</code></li>
+<li><code>webpackDevServer.config.js</code></li>
+</ul>
+<p>And these to a <code>scripts</code> folder:</p>
+<ul>
+<li><code>build.js</code></li>
+<li><code>start.js</code></li>
+<li><code>test.js</code></li>
+</ul>
+<p>As of today (2020-12-20) it added these dependencies to <code>package.json</code>:</p>
+<pre><code>&quot;@babel/core&quot;: &quot;7.12.3&quot;,
+&quot;@pmmmwh/react-refresh-webpack-plugin&quot;: &quot;0.4.2&quot;,
+&quot;@svgr/webpack&quot;: &quot;5.4.0&quot;,
+&quot;@typescript-eslint/eslint-plugin&quot;: &quot;^4.5.0&quot;,
+&quot;@typescript-eslint/parser&quot;: &quot;^4.5.0&quot;,
+&quot;babel-eslint&quot;: &quot;^10.1.0&quot;,
+&quot;babel-jest&quot;: &quot;^26.6.0&quot;,
+&quot;babel-loader&quot;: &quot;8.1.0&quot;,
+&quot;babel-plugin-named-asset-import&quot;: &quot;^0.3.7&quot;,
+&quot;babel-preset-react-app&quot;: &quot;^10.0.0&quot;,
+&quot;bfj&quot;: &quot;^7.0.2&quot;,
+&quot;camelcase&quot;: &quot;^6.1.0&quot;,
+&quot;case-sensitive-paths-webpack-plugin&quot;: &quot;2.3.0&quot;,
+&quot;css-loader&quot;: &quot;4.3.0&quot;,
+&quot;dotenv&quot;: &quot;8.2.0&quot;,
+&quot;dotenv-expand&quot;: &quot;5.1.0&quot;,
+&quot;eslint&quot;: &quot;^7.11.0&quot;,
+&quot;eslint-config-react-app&quot;: &quot;^6.0.0&quot;,
+&quot;eslint-plugin-flowtype&quot;: &quot;^5.2.0&quot;,
+&quot;eslint-plugin-import&quot;: &quot;^2.22.1&quot;,
+&quot;eslint-plugin-jest&quot;: &quot;^24.1.0&quot;,
+&quot;eslint-plugin-jsx-a11y&quot;: &quot;^6.3.1&quot;,
+&quot;eslint-plugin-react&quot;: &quot;^7.21.5&quot;,
+&quot;eslint-plugin-react-hooks&quot;: &quot;^4.2.0&quot;,
+&quot;eslint-plugin-testing-library&quot;: &quot;^3.9.2&quot;,
+&quot;eslint-webpack-plugin&quot;: &quot;^2.1.0&quot;,
+&quot;file-loader&quot;: &quot;6.1.1&quot;,
+&quot;fs-extra&quot;: &quot;^9.0.1&quot;,
+&quot;html-webpack-plugin&quot;: &quot;4.5.0&quot;,
+&quot;identity-obj-proxy&quot;: &quot;3.0.0&quot;,
+&quot;jest&quot;: &quot;26.6.0&quot;,
+&quot;jest-circus&quot;: &quot;26.6.0&quot;,
+&quot;jest-resolve&quot;: &quot;26.6.0&quot;,
+&quot;jest-watch-typeahead&quot;: &quot;0.6.1&quot;,
+&quot;mini-css-extract-plugin&quot;: &quot;0.11.3&quot;,
+&quot;optimize-css-assets-webpack-plugin&quot;: &quot;5.0.4&quot;,
+&quot;pnp-webpack-plugin&quot;: &quot;1.6.4&quot;,
+&quot;postcss-flexbugs-fixes&quot;: &quot;4.2.1&quot;,
+&quot;postcss-loader&quot;: &quot;3.0.0&quot;,
+&quot;postcss-normalize&quot;: &quot;8.0.1&quot;,
+&quot;postcss-preset-env&quot;: &quot;6.7.0&quot;,
+&quot;postcss-safe-parser&quot;: &quot;5.0.2&quot;,
+&quot;prompts&quot;: &quot;2.4.0&quot;,
+&quot;react-app-polyfill&quot;: &quot;^2.0.0&quot;,
+&quot;react-dev-utils&quot;: &quot;^11.0.1&quot;,
+&quot;react-refresh&quot;: &quot;^0.8.3&quot;,
+&quot;resolve&quot;: &quot;1.18.1&quot;,
+&quot;resolve-url-loader&quot;: &quot;^3.1.2&quot;,
+&quot;sass-loader&quot;: &quot;8.0.2&quot;,
+&quot;semver&quot;: &quot;7.3.2&quot;,
+&quot;style-loader&quot;: &quot;1.3.0&quot;,
+&quot;terser-webpack-plugin&quot;: &quot;4.2.3&quot;,
+&quot;ts-pnp&quot;: &quot;1.2.0&quot;,
+&quot;url-loader&quot;: &quot;4.1.1&quot;,
+&quot;web-vitals&quot;: &quot;^0.2.4&quot;,
+&quot;webpack&quot;: &quot;4.44.2&quot;,
+&quot;webpack-dev-server&quot;: &quot;3.11.0&quot;,
+&quot;webpack-manifest-plugin&quot;: &quot;2.2.0&quot;,
+&quot;workbox-webpack-plugin&quot;: &quot;5.1.4&quot;
+</code></pre>
+<p>The <code>eject</code> script is gone from the <code>scripts</code> section and these are changed (in <code>package.json</code>):</p>
+<pre><code>&quot;start&quot;: &quot;node scripts/start.js&quot;,
+&quot;build&quot;: &quot;node scripts/build.js&quot;,
+&quot;test&quot;: &quot;node scripts/test.js&quot;
+</code></pre>
+<p>Jest - we can now explicitly see that the testing framework is configured like so (in <code>package.json</code>):</p>
+<pre><code>&quot;jest&quot;: {
+	&quot;roots&quot;: [
+		&quot;&lt;rootDir&gt;/src&quot;
+	&quot;collectCoverageFrom&quot;: [
+		&quot;src/**/*.{js,jsx,ts,tsx}&quot;,
+		&quot;!src/**/*.d.ts&quot;
+	],
+
+	&quot;setupFiles&quot;: [
+		&quot;react-app-polyfill/jsdom&quot;
+	],
+	&quot;setupFilesAfterEnv&quot;: [
+		&quot;&lt;rootDir&gt;/src/setupTests.js&quot;
+	],
+	
+	&quot;testMatch&quot;: [
+		&quot;&lt;rootDir&gt;/src/**/__tests__/**/*.{js,jsx,ts,tsx}&quot;,
+		&quot;&lt;rootDir&gt;/src/**/*.{spec,test}.{js,jsx,ts,tsx}&quot;
+	],
+	&quot;testEnvironment&quot;: &quot;jsdom&quot;,
+	&quot;testRunner&quot;: &quot;C:\\Users\\leonb\\Dropbox\\secretGeek\\learning\\react\\eject-me\\node_modules\\jest-circus\\runner.js&quot;,
+
+	&quot;transform&quot;: {
+		&quot;^.+\\.(js|jsx|mjs|cjs|ts|tsx)$&quot;: &quot;&lt;rootDir&gt;/node_modules/babel-jest&quot;,
+		&quot;^.+\\.css$&quot;: &quot;&lt;rootDir&gt;/config/jest/cssTransform.js&quot;,
+		&quot;^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)&quot;: &quot;&lt;rootDir&gt;/config/jest/fileTransform.js&quot;
+	},
+	&quot;transformIgnorePatterns&quot;: [
+		&quot;[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$&quot;,
+		&quot;^.+\\.module\\.(css|sass|scss)$&quot;
+	],
+	
+	&quot;modulePaths&quot;: [],
+	&quot;moduleNameMapper&quot;: {
+		&quot;^react-native$&quot;: &quot;react-native-web&quot;,
+		&quot;^.+\\.module\\.(css|sass|scss)$&quot;: &quot;identity-obj-proxy&quot;
+	},
+	&quot;moduleFileExtensions&quot;: [
+		&quot;[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$&quot;,
+		&quot;^.+\\.module\\.(css|sass|scss)$&quot;
+	],
+	&quot;modulePaths&quot;: [],
+	&quot;moduleNameMapper&quot;: {
+		&quot;^react-native$&quot;: &quot;react-native-web&quot;,
+		&quot;^.+\\.module\\.(css|sass|scss)$&quot;: &quot;identity-obj-proxy&quot;
+	},
+	&quot;moduleFileExtensions&quot;: [
+		&quot;web.js&quot;,
+		&quot;js&quot;,
+		&quot;web.ts&quot;,
+		&quot;ts&quot;,
+		&quot;web.tsx&quot;,
+		&quot;tsx&quot;,
+		&quot;json&quot;,
+		&quot;web.jsx&quot;,
+		&quot;jsx&quot;,
+		&quot;node&quot;
+	],
+	&quot;watchPlugins&quot;: [
+		&quot;jest-watch-typeahead/filename&quot;,
+		&quot;jest-watch-typeahead/testname&quot;
+	],
+		&quot;resetMocks&quot;: true
 },
 </code></pre>
-<p>Now we learn how <code>this.state</code> is updated. I suspect it's immutable and a new state was created.</p>
-<p>In any case, we had to explicitly add such a handler, demonstrating that two-way binding is not occurring. State propagation has to be taken care of somewhat explicitly. (I like this!)</p>
-<h2 id="source">Source</h2>
+<p>All of the above ^^ is Jest....</p>
+<p>Finally: babel configured like this.</p>
+<pre><code>&quot;babel&quot;: {
+	&quot;presets&quot;: [
+		&quot;react-app&quot;
+	]
+}
+</code></pre>
+<h2 id="reference">Reference</h2>
 <ul>
-<li><a href="https://facebook.github.io/react/docs/tutorial.html">https://facebook.github.io/react/docs/tutorial.html</a></li>
+<li><a href="https://reactjs.org/blog/2019/08/15/new-react-devtools.html">react devtools</a></li>
 </ul>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">see also</h2>
 <ul>
-<li><code>npm</code> — to install: see <a href="../npm/install_npm.html">install npm</a></li>
-<li><code>browserify</code> — to install: <code>npm install -g browserify</code></li>
-<li><a href="javascript_1.7.html">javascript 1.7</a></li>
+<li><a href="..%5Cnpm%5Cnpx.html">npx</a></li>
 </ul>
 
 </article>

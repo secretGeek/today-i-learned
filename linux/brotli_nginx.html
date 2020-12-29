@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>brotli nginx . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-enable-brotli-compression-in-nginx-on-ubuntu">How to enable Brotli compression in nginx on ubuntu</h1>
+<p>This is useful if (for example) Google Lighthouse gives you this message:</p>
+<blockquote>
+<p>Text-based resources should be served with compression (gzip, deflate or brotli) to minimize total network bytes.</p>
+</blockquote>
+<p>Brotli reduces file sizes more than the other compression algorithms.</p>
+<pre><code>sudo apt-add-repository -y ppa:hda-me/nginx-stable
+sudo apt-get update
+sudo apt-get install brotli nginx nginx-module-brotli
+</code></pre>
+<p>(the step above it different if you don't have apt-get... there's a yum equivalent, and a 'download and unzip' equivalent too.</p>
+<p>Edit your nginx.conf file --</p>
+<p>e.g.</p>
+<pre><code>sudo nano /etc/nginx/nginx.conf
+</code></pre>
+<p>Load the module when nginx restarts, by adding these lines:</p>
+<pre><code>load_module modules/ngx_http_brotli_filter_module.so;
+load_module modules/ngx_http_brotli_static_module.so;
+</code></pre>
+<p>Now locate the nginx config file specific to your site. e.g. it should be in <code>/etc/nginx/sites-available/</code></p>
+<pre><code> # gzip
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/xml application/json application/javascript application/xml+rss application/atom+xml image/svg+xml;
+
+# brotli
+brotli on;
+brotli_comp_level 6;
+brotli_types text/xml image/svg+xml application/x-font-ttf image/vnd.microsoft.icon application/x-font-opentype application/json font/eot application/vnd.ms-fontobject application/javascript font/otf application/xml application/xhtml+xml text/javascript  application/x-javascript text/plain application/x-font-truetype application/xml+rss image/x-icon font/opentype text/css image/x-win-bitmap;
+Nginx web server needs a restart for the static contents to be compressed.
+
+
+
+
+
+sudo systemctl restart nginx
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

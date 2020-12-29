@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>old getting started . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-with-react">Getting started with react</h1>
+<p>React concepts:</p>
+<ul>
+<li>JSX</li>
+<li>components</li>
+<li>virtual DOM</li>
+<li>props</li>
+</ul>
+<p>Reacts.js is: A javascript library, from facebook, for building user interfaces (in HTML).</p>
+<p>Unlike other recent frameworks (e.g. Angular, Polymer) it doesn't do &quot;two-way data binding with templates&quot;. Instead it works by having you develop &quot;components&quot;. These components are rendered in a virtual DOM, which is then compared to the actual DOM, and only the things that are different are applied.</p>
+<p>Okay - the <a href="https://facebook.github.io/react/docs/getting-started.html">official getting started</a> with react.js is utterly <a href="../concepts/coik.html">COIK</a>. So I've had to write my own, mostly by walking through the react-tutorial.</p>
+<p>Start by getting the code.</p>
+<pre><code>&gt; git clone https://github.com/reactjs/react-tutorial.git
+&gt; cd react-tutorial
+&gt; npm install  # ..may have to run that multiple times!!   
+&gt; npm start 
+
+# Now browse to http://localhost:3000 ...
+</code></pre>
+<p>This example runs a local webserver (using node). (start, in this case, is an <a href="../npm/npm_run_scripts.html">npm script</a> in the <code>package.json</code> file). The part we're interested in examining is the front end app, not what happens on the server. But I've been looking in the server (a file <code>server.js</code>) just long enough to see that:</p>
+<ol>
+<li>it is a node app,</li>
+<li>i don't speak node,</li>
+<li>The root path (/) simply serves out the subfolder <code>public</code>.</li>
+</ol>
+<p>So the place to start is by examining <code>public/index.html</code>.</p>
+<p>The body of that page contains this:</p>
+<pre><code>&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot; src=&quot;scripts/example.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+	// To get started with this tutorial running your own code, simply remove
+	// the script tag loading scripts/example.js and start writing code here.
+&lt;/script&gt;
+</code></pre>
+<p>So <code>#content</code> is where all the html will go, and there's also an example script we will dig into. You can model your own application's behavior to be a bit like example.js. Note the script type of text/babel!</p>
+<h1 id="babel">Babel...</h1>
+<p>First let's deal with babel.</p>
+<p>There's a reference to this babel library:</p>
+<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>And note that other scripts are of type <code>text/babel</code>.</p>
+<p>There is no other mention of babel in the entire app.</p>
+<p>From this I can assume:</p>
+<p>The babel javascript library is loaded, and the <code>text/babel</code> scripts are not executed by the browser. The babel library then looks for any <code>text/babel</code> scripts, and <em>transpiles</em> them into javascript, adding them to the page. (Kids actually do this kind of thing on purpose... Wow.)</p>
+<p>Inside the babel scripts we see the intermingling of javascript with XML. The XML is called <code>JSX</code>. Babel turns the <code>JSX</code> into regular javascript. Again -- kids do this kind of thing on purpose. I know, right. The scariest part isn't that they're doing this sort of business, but that they're actually making it work for them. Really freaking nicely.</p>
+<p>Take this snippet from the example.js</p>
+<pre><code>ReactDOM.render(
+  &lt;CommentBox url=&quot;/api/comments&quot; pollInterval={2000} /&gt;,
+  document.getElementById('content')
+);
+</code></pre>
+<p>That's where the whole thing starts. It creates a component called CommentBox.</p>
+<p>What is CommentBox you might ask? Is that some new highly-specific HTML5 tag? No... it is a component, that has been defined inside the project. (Note the capital C, more on that later)</p>
+<p>So we see that ReactDOM renders that CommentBox <strong>component</strong>. And it renders it inside that <code>#content</code> element we saw earlier.</p>
+<p>How was it defined? in some code that looks like this:</p>
+<pre><code>var CommentBox = React.createClass({
+   ...});
+</code></pre>
+<p>Note the capital C on CommentBox. That's a convention, whereby they're saying &quot;Hey, this thing is a Component! It's kind of a big deal!&quot;</p>
+<p>Inside that createClass piece of JSON, there's a whoooole bunch of crazy going on.</p>
+<p>Let's look at a different component, and pick it apart piece by piece.</p>
+<pre><code>var CommentForm = React.createClass({
+	getInitialState: function() {...
+	handleAuthorChange: function (comment) {...
+	handleTextChange: function (comment) {...
+	handleSubmit: function (comment) {...
+	render: function() {...
+});
+</code></pre>
+<p>Those three middle functions (handle, handle, handle) are all similar -- we'll see what happens with those in a moment. They're specific to this component.</p>
+<p>The first and last functions, <code>getInitialState</code> and <code>render</code> are to do with the lifecycle of this component.</p>
+<p>That last function, 'render' is called by React when an instance of the component is rendered.</p>
+<p>Let's start there.</p>
+<pre><code>render: function() {
+	return (
+		&lt;form className=&quot;commentForm&quot; onSubmit={this.handleSubmit}&gt;
+			&lt;input
+				type=&quot;text&quot;
+				placeholder=&quot;Your name&quot;
+				value={this.state.author}
+				onChange={this.handleAuthorChange}
+			/&gt;
+			&lt;input
+				type=&quot;text&quot;
+				placeholder=&quot;Say something...&quot;
+				value={this.state.text}
+				onChange={this.handleTextChange}
+			/&gt;
+			&lt;input type=&quot;submit&quot; value=&quot;Post&quot; /&gt;
+		&lt;/form&gt;
+);
+</code></pre>
+<p>Okay -- so again, it contains <code>JSX</code>. It looks like HTML, is actually XML. Is turned into javascript at compile time (by babel) and is rendered into the virtual DOM at render time. And possibly applied to the real DOM, if needed.</p>
+<p>Like any good xml document, it needs to have only one root node (a <form /> in this case).</p>
+<p>(Btw, these familiar html tags are written with a <strong>lowercase</strong> first letter, unlike our special Components)</p>
+<p>Note how, inside a few <code>{squiggly}</code> brackets there's a bunch of stuff going on.</p>
+<p>Let's pull those bits out and examine them one by one.</p>
+<p>These bits are all similar...</p>
+<pre><code>{this.handleSubmit}
+{this.handleAuthorChange}
+{this.handleTextChange}
+</code></pre>
+<p>These indicate event handlers that need to be wired up... to the 3 functions we mentioned earlier.</p>
+<p>And these bits are all similar:</p>
+<pre><code>{this.state.author}
+{this.state.text}
+</code></pre>
+<p>...indicating the state of the component will be rendered at that point.</p>
+<p>Okay -- so we'll examine &quot;handleTextChange&quot; ---</p>
+<p>It's a function that does just this:</p>
+<pre><code>handleTextChange: function(e) {
+	this.setState({text: e.target.value});
+},
+</code></pre>
+<p>Now we learn how <code>this.state</code> is updated. I suspect it's immutable and a new state was created.</p>
+<p>In any case, we had to explicitly add such a handler, demonstrating that two-way binding is not occurring. State propagation has to be taken care of somewhat explicitly. (I like this!)</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://facebook.github.io/react/docs/tutorial.html">https://facebook.github.io/react/docs/tutorial.html</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><code>npm</code> — to install: see <a href="../npm/install_npm.html">install npm</a></li>
+<li><code>browserify</code> — to install: <code>npm install -g browserify</code></li>
+<li><a href="javascript_1.7.html">javascript 1.7</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

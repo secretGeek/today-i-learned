@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>npx . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="npx-a-fun-and-simple-npm-package-runner">npx - a fun and simple npm package runner</h1>
+<p>Okay -- <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">npx</a> is a fun idea.</p>
+<p>When you install <code>npm</code> it also installs a handy little executable called <code>npx</code>. What is that for?</p>
+<p>I'll explain it by way of an example...</p>
+<h2 id="an-example">An example...</h2>
+<p>There's a useful npm package called <code>http-server</code> and you can install it globally and then use it to server a folder of html files, like this:</p>
+<pre><code># install it, globally
+npm install -g http-server
+# run it...
+http-server -o
+</code></pre>
+<p>Two small but persistent problems...</p>
+<ol>
+<li>a few months later... when you go to use it again... wonder is it up to date? Was there some critical issue that was fixed...</li>
+<li>On a different machine, go to use it and realise oops, it's not installed... i need to install it first...</li>
+</ol>
+<p>Instead -- you can use <code>npx</code> to grab it immediately, from the internet, and run it, knowing you're using the latest version, and it won't be installed at all.</p>
+<pre><code>npx http-server -o
+</code></pre>
+<p>So npx is like renting instead of buying. Use it, thow it away. Next time, use the latest again... then throw it away. No commitment.</p>
+<h2 id="local-scripts">Local scripts</h2>
+<p>The other great thing is inside projects... you want each project to be able to talk about the local scripts it uses, without it requiring that you install them globally and worrying about version collisions on those globally installed projects. Previously this meant you had to use <code>npm run-script</code> to use a locally installed version. But -- on top of what is stated above -- <code>npx</code> will first check for a locally installed version, inside the project you are tinkering in.</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
