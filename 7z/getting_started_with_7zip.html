@@ -29,17 +29,22 @@
 <li>Passwords are applied on a &quot;per file&quot; basis. So people without the password can inspect the files in the zip, but not the contents. I guess double-zipping would get around this.</li>
 </ul>
 <hr />
-<p>Add all files a <em>new zip</em> (or add to an existing zip), including subfolders:</p>
+<h2 id="add-all-files-to-a-new-zip">Add all files to a <em>new zip</em></h2>
+<p>(or add to an existing zip) including subfolders:</p>
 <pre><code>7za a example1.zip -r *
 </code></pre>
+<p><code>Nasty gotcha</code></p>
 <ul>
-<li><strong>Nasty trick</strong>: the wildcard <code>*</code> will match &quot;all&quot; files whereas <code>*.*</code> will only match files with an extension (it will not match files with no extension).</li>
+<li>the wildcard <code>*</code> will match <strong>all</strong> files</li>
+<li>whereas <code>*.*</code> will <em>only</em> match files <strong>with</strong> an extension (i.e. it will not match files with <em>no</em> extension)</li>
 </ul>
 <hr />
-<p>Unzip a .zip file to a folder (they call it eXtract)</p>
+<h2 id="unzip-a.zip-file-to-a-folder">Unzip a .zip file to a folder</h2>
+<p>(they call it eXtract)</p>
 <pre><code>7z x &quot;MyZip.zip&quot; -oMyFolder
 </code></pre>
 <hr />
+<h2 id="help-output">Help output</h2>
 <pre><code>7-Zip (a) 19.00 (x86) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
 
 Usage: 7za &lt;command&gt; [&lt;switches&gt;...] &lt;archive_name&gt; [&lt;file_names&gt;...] [@listfile]

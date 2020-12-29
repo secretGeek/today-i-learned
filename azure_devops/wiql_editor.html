@@ -22,42 +22,41 @@
 <h1 id="wiql-editor">Wiql Editor</h1>
 <h2 id="key-bindings">Key bindings:</h2>
 <ul>
-<li><p>Shift + Enter : Run</p>
-</li>
-<li><p>Alt + Shift + F or Ctr + Shift + F : Format</p>
-</li>
-<li><p>Alt + R : Apply focus to first result</p>
-<p>SELECT
-[System.Id],
-[Microsoft.VSTS.Common.StackRank],
-[Microsoft.VSTS.Common.Priority],
-[System.AssignedTo],
-[Microsoft.VSTS.Scheduling.RemainingWork],
-[Microsoft.VSTS.Scheduling.CompletedWork],
-[System.Title],
-[System.BoardColumn],
-[System.BoardColumnDone],
-[System.BoardLane],
-[Microsoft.VSTS.CodeReview.AcceptedBy],
-[Microsoft.VSTS.Common.ActivatedDate],
-[Microsoft.VSTS.Common.Activity],
-[Microsoft.VSTS.CodeReview.Context],
-[System.ChangedDate],
-[System.CreatedDate],
-[Microsoft.VSTS.TCM.QueryText],
-[System.State],
-[Microsoft.VSTS.Common.StateCode],
-[Microsoft.VSTS.Common.StateChangeDate]
+<li>Shift + Enter : Run</li>
+<li>Alt + Shift + F or Ctr + Shift + F : Format</li>
+<li>Alt + R : Apply focus to first result</li>
+</ul>
+<h2 id="query-example">Query example</h2>
+<pre><code>SELECT
+	[System.Id],
+	[Microsoft.VSTS.Common.StackRank],
+	[Microsoft.VSTS.Common.Priority],
+	[System.AssignedTo],
+	[Microsoft.VSTS.Scheduling.RemainingWork],
+	[Microsoft.VSTS.Scheduling.CompletedWork],
+	[System.Title],
+	[System.BoardColumn],
+	[System.BoardColumnDone],
+	[System.BoardLane],
+	[Microsoft.VSTS.CodeReview.AcceptedBy],
+	[Microsoft.VSTS.Common.ActivatedDate],
+	[Microsoft.VSTS.Common.Activity],
+	[Microsoft.VSTS.CodeReview.Context],
+	[System.ChangedDate],
+	[System.CreatedDate],
+	[Microsoft.VSTS.TCM.QueryText],
+	[System.State],
+	[Microsoft.VSTS.Common.StateCode],
+	[Microsoft.VSTS.Common.StateChangeDate]
 FROM workitems
 WHERE
-[System.TeamProject] = @project
-AND [System.WorkItemType] = 'User Story'
-AND NOT [System.State] CONTAINS 'Removed'
-AND NOT [System.State] CONTAINS 'Closed'
-ORDER BY [System.BoardColumn]</p>
-</li>
-</ul>
-<h1 id="avoiding-sock-exceptions-when-using-workitemtrackinghttpclient">Avoiding Sock Exceptions when using WorkItemTrackingHttpClient</h1>
+	[System.TeamProject] = @project
+	AND [System.WorkItemType] = 'User Story'
+	AND NOT [System.State] CONTAINS 'Removed'
+	AND NOT [System.State] CONTAINS 'Closed'
+ORDER BY [System.BoardColumn]
+</code></pre>
+<h1 id="avoiding-socket-exceptions-when-using-workitemtrackinghttpclient">Avoiding Socket Exceptions when using WorkItemTrackingHttpClient</h1>
 <p>When writing a C# asp.net MVC app that queries azure devops with the <code>WorkItemTrackingHttpClient</code> -- I found I was receiving</p>
 <pre><code>SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 11.111.11.11:443
 </code></pre>
@@ -65,12 +64,12 @@ ORDER BY [System.BoardColumn]</p>
 <p>...even though the exact same code worked from a C# Console app.</p>
 <p>The fix was to specify the proxy information, in the <code>web.config</code> file</p>
 <pre><code>&lt;system.net&gt;
-  &lt;defaultProxy useDefaultCredentials=&quot;true&quot; enabled=&quot;true&quot;&gt;
-    &lt;proxy bypassonlocal=&quot;true&quot; proxyaddress=&quot;http://PROXYADDRESS:8080&quot; /&gt;
-  &lt;/defaultProxy&gt;
-  &lt;settings&gt;
-    &lt;ipv6 enabled=&quot;true&quot;/&gt;
-  &lt;/settings&gt;
+	&lt;defaultProxy useDefaultCredentials=&quot;true&quot; enabled=&quot;true&quot;&gt;
+		&lt;proxy bypassonlocal=&quot;true&quot; proxyaddress=&quot;http://PROXYADDRESS:8080&quot; /&gt;
+	&lt;/defaultProxy&gt;
+	&lt;settings&gt;
+		&lt;ipv6 enabled=&quot;true&quot;/&gt;
+	&lt;/settings&gt;
 &lt;/system.net&gt;
 </code></pre>
 <p>...where PROXYADDRESS is the actual address of the company's proxy.</p>
