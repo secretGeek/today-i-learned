@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>info message . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -19,17 +19,25 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="net" class="chapter">.net</h1>
-<h3 id="content">content</h3>
+<h1 id="info-message-processing-info-returned-from-sql-in-c">Info Message: Processing Info returned from SQL (in C#)</h1>
+<p>Just want to take note of this for next time I need it:</p>
+<p>When executing queries with SqlConnection and friends, you can add a handled for SqlInfoMessageEvents -- like so...</p>
+<pre><code>var(SqlConnection conn = new SqlConnection(connectionString)) {
+	conn.InfoMessage += new SqlInfoMessageEventHandler(conn_InfoMessage);
+	conn.FireInfoMessageEventOnUserErrors = true;
+	conn.Open();
+</code></pre>
+<p>....</p>
+<p>where the message handler is, for example:</p>
+<pre><code>static void conn_InfoMessage(object sender, SqlInfoMessageEventArgs e)
+{
+		MessageBox.Show(&quot;InfoMessage Handled Error Level-&quot; + 	e.Errors[0].Class.ToString() + &quot;:&quot; + e.Message);           
+}
+</code></pre>
+<p>...(and it may as well be done with a local/lambda function)</p>
+<h2 id="source">Source</h2>
 <ul>
-<li><a href="config_external_source.html">Config from an external source</a></li>
-<li><a href="detect_text_encoding.html">Detect the encoding of a file</a></li>
-<li><a href="load_datatable.html">Load DataTable from a SQL query</a></li>
-<li><a href="override_equals.html">Override equals to compare objects in C#</a></li>
-<li><a href="parse_exact.html">ParseExact (and TryParseExact) </a></li>
-<li><a href="pluralize.html">Pluralization Helper</a></li>
-<li><a href="retry_pattern.html">Retry Pattern in C#</a></li>
-<li><a href="zipfile.html">Zip a single file</a></li>
+<li><a href="https://www.codeproject.com/Articles/37102/Using-InfoMessage-Event-of-SqlConnection-Object">Using InfoMessage Event of SqlConnection Object</a></li>
 </ul>
 
 </article>

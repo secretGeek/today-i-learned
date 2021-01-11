@@ -21,14 +21,26 @@
 <article>
 <h1 id="want-to-prompt-user-for-credentials-and-then-run-a-script-on-a-remote-machine">Want to prompt user for credentials and then run a script on a remote machine?</h1>
 <p>Assuming the Remote Computer Name is stored in a variable <code>$remoteComputerName</code></p>
-<pre><code>$name = Read-Host (&quot;What is the account name to use for remote execution, please include the domain, e.g. AD\&quot; + $env:username + &quot;)&quot;)
+<pre><code>$credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; -UserName $env:username 
+$TargetServer = &quot;YourServer&quot;
+$remoteSession = New-PSSession -ComputerName $TargetServer = &quot;YourServer&quot; -Credential $credentials
 
 Invoke-Command -ComputerName $remoteComputerName -ScriptBlock { 
-
     # Commands in here are remote executed, hence relative to $remoteComputerName
-
+	# Note that if referring to a variable from outside this block, preface it with 'using'
+	# e.g. '$using:TargetServer' has a value of 'YourServer'
+	#       whereas '$TargetServer' without the `using:` is blank, as its an unused variable local to this block.
 } -credential $name
 </code></pre>
+<p>Furthermore, note that if embedded <code>$using:</code>'s in a double quoted string, they need to be embedded in a <code>$( )</code>, like this:</p>
+<pre><code>&quot;$($using:TargetServer)&quot;
+</code></pre>
+<p>...and your chances of forgetting some nuance of remoting is always 100%.</p>
+<h1 id="see-also">See also</h1>
+<ul>
+<li><a href="avoid_access_is_denied_when_remoting_talking_to_share.html">Avoid 'access is denied' when using Powershell Remoting to Copy to a Shared Network Folder (i.e. Defeating Kerberos)</a></li>
+<li><a href="resolve_502_proxy_issue_when_remoting.html">Resolve 502 error (proxy issue) when using Powershell Remoting</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

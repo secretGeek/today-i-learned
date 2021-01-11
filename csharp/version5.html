@@ -45,7 +45,7 @@
 }
 </code></pre>
 <p>(Ideally it would be doing something intensely cool and mathematical instead of just sleeping. This is just a tribute to such code...)</p>
-<p>How can we ensure our code stays responsive, even while we do such am <em>instense</em> calculation?</p>
+<p>How can we ensure our code stays responsive, even while we do such an <em>intense</em> calculation?</p>
 <p>This is an example designed for linqPad...</p>
 <pre><code>void Main()
 {
@@ -103,17 +103,19 @@
 <p>If the 'Do something with our data' was going to be a CPU-intensive operation... then we'd use the technique in the first example to handle it.</p>
 <h2 id="caller-info-attributes">Caller info attributes</h2>
 <p>Well look at this!</p>
-<p>By applying these attributes to some members you can have them magically populated with some info from the compiler....</p>
+<p>By applying these &quot;Caller&quot; related attributes from <code>System.Runtime.CompilerServices</code> to some members you can have them magically populated with some info from the compiler....</p>
 <p>This is a strange magic!</p>
-<pre><code>void Main()
+<pre><code>// using System.Runtime.CompilerServices;
+
+void Main()
 {
-	DoThing(&quot;Thing&quot;);
+	LogThisMomentInTime(&quot;Here I am!&quot;);
 }
 
-void DoThing(string message,
-		[System.Runtime.CompilerServices.CallerMemberName] string memberName = &quot;&quot;,
-		[System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = &quot;&quot;,
-		[System.Runtime.CompilerServices.CallerLineNumber] int sourceLineNumber = 0)
+void LogThisMomentInTime(string message,
+		[CallerMemberName] string memberName = &quot;&quot;,
+		[CallerFilePath] string sourceFilePath = &quot;&quot;,
+		[CallerLineNumber] int sourceLineNumber = 0)
 {
 	message.Dump(&quot;Message&quot;);
 	memberName.Dump(&quot;MemberName&quot;);
@@ -121,10 +123,34 @@ void DoThing(string message,
 	sourceLineNumber.Dump(&quot;SourceLineNumber&quot;);
 }
 </code></pre>
-<p>(<a href="http://share.linqpad.net/dul59u.linq">Shared online with linqpad query sharing....</a>)</p>
+<ul>
+<li><a href="http://share.linqpad.net/dul59u.linq">Shared online with linqpad query sharing....</a></li>
+</ul>
+<p><strong>Bonus</strong> -- we can also add on top the <a href="version6.html">version 6</a> feature, <code>nameof</code>, and even get rid of the hard-coded &quot;Message&quot; string and others above!</p>
+<pre><code>//using System.Runtime.CompilerServices;
+
+void LogThisMomentInTime(string message,
+		[CallerMemberName] string memberName = &quot;&quot;,
+		[CallerFilePath] string sourceFilePath = &quot;&quot;,
+		[CallerLineNumber] int sourceLineNumber = 0)
+{
+	// Look ma, no hard coded strings!!
+	message.Dump(nameof(message));
+	memberName.Dump(nameof(memberName));
+	sourceFilePath.Dump(nameof(sourceFilePath));
+	sourceLineNumber.Dump(nameof(sourceLineNumber));
+}
+</code></pre>
+<ul>
+<li><a href="http://share.linqpad.net/59a2ti.linq">Shared online with linqpad query sharing....</a> -- includes version 6 features</li>
+</ul>
 <p>This would've avoided a few NT1 errors back in T-S days.</p>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/caller-information">Further Reading</a></li>
+</ul>
+<h2 id="see-also">see also</h2>
+<ul>
+<li><a href="version6.html">C Sharp version 6</a></li>
 </ul>
 
 </article>

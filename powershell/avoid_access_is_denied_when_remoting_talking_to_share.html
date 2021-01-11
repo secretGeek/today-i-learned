@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>avoid access is denied when remoting talking to share . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="avoid-access-is-denied-when-using-powershell-remoting-to-copy-to-a-shared-network-folder-i.e.defeating-kerberos">Avoid 'access is denied' when using Powershell Remoting to Copy to a Shared Network Folder (i.e. Defeating Kerberos)</h1>
+<p><strong>Scenario</strong> You are using remoting, and have assigned credentials to the remoting session...</p>
+<p>Within the remote session block you are trying to talk a network fileshare, but failing with Access Denied. (<code>UnauthorizedAccessException</code>)</p>
+<p>For example:</p>
+<pre><code>$Credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; # prompts for credentials
+$TargetServer = &quot;YourServer&quot;
+$PSSessionOption = New-PSSessionOption -ProxyAccessType NoProxyServer
+$RemoteSession = New-PSSession -ComputerName $TargetServer -Credential $Credentials -SessionOption $PSSessionOption
+
+$TargetFolder = &quot;\\OtherServer\ShareName\Pathy\Path&quot;
+write-host &quot;THIS WON'T WORK...&quot; -f red
+Invoke-Command -Session $RemoteSession {
+
+	# This works: we can view local folders on machine
+	dir; 
+	
+	# This doesn't work: we cannot authenticate to view restricted network shares
+	dir $using:TargetFolder
+}
+</code></pre>
+<p>But it errors with &quot;Access is Denied&quot;</p>
+<p>You can't believe it, because when you remote onto the same machine with Remote Desktop Connection Manager (etc) and run the same command in powershell, with the exact same user -- you <em>do</em> have permission!</p>
+<p>What's going on?</p>
+<p>It <strong>kerberos</strong> of course! It's always kerberos!</p>
+<p>Those credentials are being quietly refused to be passed along to the second machine -- so it just don't matter.</p>
+<p>Instead -- do this...</p>
+<pre><code>$Credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; # prompts for credentials
+$TargetServer = &quot;YourServer&quot;
+$PSSessionOption = New-PSSessionOption -ProxyAccessType NoProxyServer
+$RemoteSession = New-PSSession -ComputerName $TargetServer -Credential $Credentials -SessionOption $PSSessionOption
+
+$TargetFolder = &quot;\\OtherServer\ShareName\Pathy\Path&quot;
+
+
+write-host &quot;HOW ABOUT THESE APPLES...&quot; -f green
+Invoke-Command -Session $RemoteSession {
+	# This still works: we can view local folders on machine
+	dir; 
+	
+	# NOW, we create a new PS-Drive to the share. (You can give it a nice name, not just one letter). 
+	# And provide the credential to it!
+	new-psdrive  -name &quot;MyNewDrive&quot; -root $using:TargetFolder -PSProvider &quot;FileSystem&quot; -Credential $using:Credentials | out-null
+	dir &quot;MyNewDrive:\&quot;
+	remove-psdrive &quot;MyNewDrive&quot;
+	# ^^ Remember to remove it... (though it will dissappear anyway if it doesn't have a &quot;-persist&quot; flag)
+}
+</code></pre>
+<p>...i.e. create a new drive, and pass the credentials in when creating that drive... and then use that new drive name, instead of the UNC path of the share.</p>
+<h2 id="historical-note">Historical Note</h2>
+<p>We were actually trying to copy a file, not just view a directory.</p>
+<p>And here's something we tried along the way that failed -- but gave an error message with a hint that taught us the ps drive trick!!</p>
+<pre><code>Invoke-Command -Session $remoteSession {
+	copy $using:SourceFile $using:TargetFolder -credential $using:Credentials
+}
+</code></pre>
+<p>...the error message said</p>
+<pre><code>The FileSystem provider supports credentials only on the New-PSDrive cmdlet. Perform the operation again without specifying credentials.
+	+ CategoryInfo          : NotImplemented: (:) [], PSNotSupportedException
+	+ FullyQualifiedErrorId : NotSupported
+	+ PSComputerName        : YourServer.YourDomain.com
+</code></pre>
+<p>What a sneaky message!</p>
+<p>The command we're using (copy... really it's copy-item) <em>has</em> a <code>credential</code> parameter. But with the underlying provider (<code>FileSystem</code>) -- it throws this message.</p>
+<p>It's really giving you a clue about how to achieve the workaround. So even though they say</p>
+<blockquote>
+<p>Perform the operation again without specifying credentials</p>
+</blockquote>
+<p>...what they've helped us to &quot;think&quot; is:</p>
+<blockquote>
+<p>Use <code>New-PsDrive</code> with your credential to make a new, temporary, PsDrive, and then use <em>that</em> PsDrive to achieve your File Operation!</p>
+</blockquote>
+<h2 id="credits">Credits</h2>
+<p>Big thanks to Paul Gaske for developing this as we paired on it. He has a lot of very neat powershell bits n pieces.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="interactive_remote_script.html">Want to prompt user for credentials and then run a script on a remote machine?</a></li>
+<li><a href="resolve_502_proxy_issue_when_remoting.html">Resolve 502 error (proxy issue) when using Powershell Remoting</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>resolve 502 proxy issue when remoting . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="resolve-502-error-proxy-issue-when-using-powershell-remoting">Resolve 502 error (proxy issue) when using Powershell Remoting</h1>
+<p>You try to use powershell remoting to connect to a machine.
+- You've done everything right.
+- You've got the right credentials and permissions
+- The remote WS-Management service is enabled on the machine
+- Firewalls are not stopping you...
+- You have a fresh hot cup of coffee ready.</p>
+<p>You receive this message:</p>
+<pre><code>New-PSSession : [YourServer] Connecting to remote server failed with the following error message :
+The WinRM client received an HTTP status code of 502 from the remote WS-Management service.
+For more information, see the about_Remote_Troubleshooting Help topic.
+</code></pre>
+<p>502 means <code>502 Bad Gateway</code> -- and I tend to think &quot;Hmmmm, proxy?&quot;</p>
+<p>Here's the code that failed...</p>
+<pre><code>$Credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; # prompts for credentials
+$TargetServer = &quot;YourServer.YourDomain&quot;
+$RemoteSession = New-PSSession -ComputerName $TargetServer -Credential $Credentials
+
+Invoke-Command -Session $RemoteSession {
+
+	# We never get this far
+	dir;
+
+}
+</code></pre>
+<p>What we will do is specify &quot;No Proxy&quot;. To do that we need to create a <code>PSSessionOption</code> and add that to the call to <code>New-PSSession</code>, like so</p>
+<pre><code>$Credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; # prompts for credentials
+$TargetServer = &quot;YourServer.YourDomain&quot;
+$PSSessionOption = New-PSSessionOption -ProxyAccessType NoProxyServer
+$RemoteSession = New-PSSession -ComputerName $TargetServer -Credential $Credentials -SessionOption $PSSessionOption
+
+Invoke-Command -Session $RemoteSession {
+	# Now it works...
+	dir;
+}
+</code></pre>
+<p>i.e.</p>
+<pre><code>$PSSessionOption = New-PSSessionOption -ProxyAccessType NoProxyServer
+</code></pre>
+<p>And don't forget to append it to the <code>New-PSSession</code> call:</p>
+<pre><code>-SessionOption $PSSessionOption
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="avoid_access_is_denied_when_remoting_talking_to_share.html">Avoid 'access is denied' when using Powershell Remoting to Copy to a Shared Network Folder (i.e. Defeating Kerberos)</a></li>
+<li><a href="interactive_remote_script.html">Want to prompt user for credentials and then run a script on a remote machine?</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
