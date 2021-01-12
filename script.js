@@ -46,6 +46,7 @@ function copyPreCodeOnClick() {
 }
 
 /* on start... */
+hljs.initHighlightingOnLoad();
 configureBreadcrumb();
 copyPreCodeOnClick();
 

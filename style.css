@@ -28,10 +28,10 @@
   --link: blue;
   --link-hover: #000;
   --link-visited: purple;
-  --btn-background: #ddd;
-  --btn-background-active: #fca;
-  --btn-background-hover: #eee;
-  --btn-active: #fff;
+  --btn-background: #f6f8fa;
+  --btn-background-active: #ffa;
+  --btn-background-hover: #fff;
+  --btn-active: #ffc;
 }
 
 /* this @media query will apply to those who have
@@ -102,7 +102,7 @@ a:hover {
 body,
 html {
   color: var(--main);
-  font-size: 1.2em;
+  font-size: 1.1em;
   background-color: var(--main-bg);
   padding: 0;
   margin: 0;
@@ -120,20 +120,22 @@ footer {
   margin: auto;
 }
 
+.hljs {
+  /* override background color of both light/dark highlight.js themes. */
+  background-color: var(--code-bg);
+}
+
 pre {
   white-space: pre-wrap;
-  margin-left: 4ch;
+  margin-left: 0; /* controversial */
   background-color: var(--code-bg);
   padding: 1ch;
   border-radius: 4px;
   overflow: auto;
-}
-
-pre {
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
-  word-break: break-all;
+  /*word-break: break-all;*/
   word-break: break-word;
   -ms-hyphens: auto;
   -moz-hyphens: auto;
@@ -283,7 +285,7 @@ blockquote {
   background-color: var(--code-bg);
   border: none;
   border-left: 1ch solid var(--table-border);
-  padding: 1ch 4ch;
+  padding: 1ch 1ch 1ch 2ch;
   margin: 0;
   border-radius: 0 1ch 1ch 0;
 }
@@ -343,7 +345,6 @@ pre {
   padding: 10px;
   background-color: var(--btn-background);
   border: 1px solid var(--code-shadow); /*#333; var(--code-shadow);*/
-  xborder-left: none;
   box-shadow: 0 -2px 3px inset var(--search-btn-shadow);
   color: var(--main);
   font-size: 0.9em;
@@ -352,6 +353,7 @@ pre {
 .btn:hover {
   background-color: var(--btn-background-hover);
 }
+
 .btn:active {
   background-color: var(--btn-background-active);
   color: var(--btn-active);
