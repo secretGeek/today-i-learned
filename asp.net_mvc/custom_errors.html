@@ -69,8 +69,8 @@
 </code></pre>
 </li>
 </ol>
-<p>In an action where you look for a resource but can't find it... don't do this:</p>
-<pre><code>return this.HttpNotFound();
+<p>In an action where you look for a resource but can't find it... <strong>don't do this</strong>:</p>
+<pre><code>return this.HttpNotFound(); // don't do this! see below...
 </code></pre>
 <p>...as that will end up at the IIS error page, not your custom error page.
 instead do this:</p>

@@ -4,6 +4,7 @@
 }
 
 :root {
+	--body-width: 80ch;
   --main: #333;
   --main-bg: #fff;
   --code-bg: #f6f8fa;
@@ -115,7 +116,7 @@ hmtl {
 
 article,
 footer {
-  max-width: 70ch;
+  max-width: var(--body-width);
   padding: 2ch;
   margin: auto;
 }
@@ -177,7 +178,7 @@ footer {
 }
 
 header div.nav {
-  max-width: 70ch;
+  max-width:  var(--body-width);
   margin: auto;
   padding: 2ch;
   /* padding:0; at widths */
@@ -206,7 +207,7 @@ header div.nav a:active {
 }
 
 div.breadcrumb {
-  max-width: 70ch;
+  max-width: var(--body-width);
   margin: auto;
   margin-top: 1px;
   padding: 0.5ch 2ch 0.75ch 2ch;
@@ -419,6 +420,9 @@ html::-webkit-scrollbar {
 }
 
 @media screen and (max-width: 720px) {
+	:root {
+	--body-width: 70ch;
+	}
   header div.nav {
     padding: 0;
   }
