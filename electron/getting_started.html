@@ -75,9 +75,10 @@ error An unexpected error occurred: &quot;C:\\users\\MyLeon\\dropbox\\secretgeek
 </code></pre>
 <p>Done in 7.46s. That's nice.</p>
 <p>Now added a <code>main.js</code> and a <code>index.html</code> based on the tutorial i'm following -- this one.</p>
-<p>// Open the DevTools.
-win.webContents.openDevTools()</p>
-<p>^ I like that.</p>
+<pre><code>// Open the DevTools.
+win.webContents.openDevTools()
+</code></pre>
+<p><code>^</code> I like that.</p>
 <p>I don't like this warning:</p>
 <pre><code>webFrame.executeJavaScript was called without worldSafeExecuteJavaScript enabled. This is considered unsafe. worldSafeExecuteJavaScript will be enabled by default in Electron 12.
 </code></pre>
@@ -96,16 +97,17 @@ Chrome &lt;script&gt;document.write(process.versions.chrome)&lt;/script&gt;,
 and Electron &lt;script&gt;document.write(process.versions.electron)&lt;/script&gt;.
 </code></pre>
 <p>...and now that failed to run <em>and</em> I got this massive error message....</p>
-<pre><code>Refused to execute inline script because it violates the following Content Security Policy directive: &quot;default-src 'self' script-src 'self'&quot;. Either the 'unsafe-inline' keyword, a hash ('sha256-I/aHv1UwJJBBNPzXh7y8431zWAJCeFzsD1fvSu1KqMw='), or a nonce ('nonce-...') is required to enable inline execution. Note also that 'script-src' was not explicitly set, so 'default-src' is used as a fallback.
-
-https://www.electronjs.org/docs/tutorial/boilerplates-and-clis
-</code></pre>
+<blockquote>
+<p>Refused to execute inline script because it violates the following Content Security Policy directive: &quot;default-src 'self' script-src 'self'&quot;. Either the 'unsafe-inline' keyword, a hash ('sha256-I/aHv1UwJJBBNPzXh7y8431zWAJCeFzsD1fvSu1KqMw='), or a nonce ('nonce-...') is required to enable inline execution. Note also that 'script-src' was not explicitly set, so 'default-src' is used as a fallback.</p>
+</blockquote>
+<p>See <a href="https://www.electronjs.org/docs/tutorial/boilerplates-and-clis">https://www.electronjs.org/docs/tutorial/boilerplates-and-clis</a></p>
 <h2 id="source">Source</h2>
 <ul>
-<li><a href="https://www.electronjs.org/docs/tutorial/first-app">electron first app</a></li>
-</ul>
+<li><p><a href="https://www.electronjs.org/docs/tutorial/first-app">electron first app</a></p>
 <p>/EOF</p>
-<h1 id="everything-after-here-is-a-historical-note.eof">Everything after here is a historical note. /EOF</h1>
+</li>
+</ul>
+<h2 id="everything-after-here-is-a-historical-note">Everything after here is a historical note.</h2>
 <p>Getting started is as easy as:</p>
 <ol>
 <li>Create a package for the application you wish to build.</li>
@@ -138,7 +140,7 @@ npm ERR!     C:\Users\MyUser\AppData\Roaming\npm-cache\_logs\2020-09-22T05_33_56
 <pre><code>npm install --save-dev electron
 </code></pre>
 <p>This goes horribly because <code>npm</code> is useless on my machine.</p>
-<h1 id="historical-note">Historical Note</h1>
+<h2 id="historical-note">Historical Note</h2>
 <p>Previous Version of this file read:</p>
 <p>Get started is as easy as:</p>
 <pre><code># Clone the Quick Start repository
@@ -172,7 +174,7 @@ npm ERR!     C:\Users\MyUser\AppData\Roaming\npm-cache\_logs\2020-09-22T05_33_56
 <li><a href="http://electron.atom.io/docs/latest/tutorial/quick-start/">http://electron.atom.io/docs/latest/tutorial/quick-start/</a></li>
 </ul>
 <p>Please watch this 9 min video. <a href="https://m.youtube.com/watch?v=ojX5yz35v4M">https://m.youtube.com/watch?v=ojX5yz35v4M</a></p>
-<h1 id="end-of-historical-note">end of historical note.</h1>
+<h2 id="end-of-historical-note">end of historical note.</h2>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

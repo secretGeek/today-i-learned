@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>dump dynamic . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.min.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,15 +22,26 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="csharp" class="chapter">csharp</h1>
-<h3 id="content">content</h3>
+<h1 id="how-to-dump-a-dynamic-object-in-linqpad">How to &quot;Dump()&quot; a dynamic object in Linqpad</h1>
+<p>Trying to .Dump() an expando or other dynamic object in Linqpad?</p>
+<p>It will fail at runtime with this error:</p>
+<pre><code>RunTimeBinderException: 'System.Dynamic.ExpandoObject' does not contain a definition for 'Dump'
+</code></pre>
+<p>The workaround is simple -- cast it to <code>object</code>!</p>
+<pre><code>//This Fails with: 'string' does not contain a definition for 'Dump'
+dynamic d = &quot;hello&quot;;
+//d.Dump();
+
+//But This works!
+((object)d).Dump();
+
+// as does this)
+(d as Object).Dump();
+</code></pre>
+<h2 id="see-also">see also</h2>
 <ul>
-<li><a href="version4.html">C# Version 4</a></li>
-<li><a href="version5.html">C# version 5</a></li>
-<li><a href="version6.html">C# version 6</a></li>
-<li><a href="version7.html">C# version 7</a></li>
-<li><a href="version8.html">C# version 8</a></li>
-<li><a href="object_to_dynamic.html">Convert object to dynamic</a></li>
+<li><a href="../csharp/version4.html#dynamic-binding">Csharp version 4 adds the &quot;Dynamic&quot; feature</a></li>
+<li><a href="../csharp/object_to_dynamic.html">Convert object to dynamic</a></li>
 </ul>
 
 </article>

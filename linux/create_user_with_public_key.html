@@ -26,21 +26,41 @@
 <ul>
 <li>create a new user</li>
 <li>give that user sudo privileges</li>
-<li>test that the new user can connect through SSH.</li>
 <li>test that the new user can use sudo privileges.</li>
+<li>test that the new user can connect through SSH.</li>
 </ul>
-<h1 id="create-a-new-user">create a new user</h1>
+<h2 id="create-a-new-user">create a new user</h2>
 <pre><code>useradd fred
 </code></pre>
 <p>and set password:</p>
 <pre><code>password fred
 </code></pre>
-<h1 id="give-that-user-sudo-privileges">give that user sudo privileges</h1>
-<h1 id="test-that-the-new-user-can-connect-through-ssh">test that the new user can connect through SSH.</h1>
-<h1 id="test-that-the-new-user-can-use-sudo-privileges">test that the new user can use sudo privileges.</h1>
+<h2 id="give-that-user-sudo-privileges">give that user sudo privileges</h2>
+<p>Add a user to the sudo group with:</p>
+<pre><code>gpasswd -a fred sudo
+</code></pre>
+<p>(here's another way... <code>usermod -aG sudo fred</code> ...?)</p>
+<p>You must be root or have sudo privileges in order to do this.</p>
+<h2 id="test-that-the-new-user-can-use-sudo-privileges">test that the new user can use sudo privileges.</h2>
+<p>use <code>su</code> (switch user) to switch to the new user...</p>
+<pre><code>su - fred
+</code></pre>
+<p>(you will need to use their password to do this)</p>
+<p>Try and do this... (it shouldn't let you...)</p>
+<pre><code>ls -la /root
+</code></pre>
+<p>Now sudo do it!</p>
+<pre><code>sudo ls -la /root
+</code></pre>
+<p>(and enter fred's password...)</p>
+<h2 id="test-that-the-new-user-can-connect-through-ssh">test that the new user can connect through SSH.</h2>
+<pre><code>//TODO:
+</code></pre>
 <h2 id="sources">sources</h2>
 <ul>
 <li><a href="https://www.tecmint.com/add-users-in-linux">add users in linux</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart">How To Create a Sudo User on Ubuntu [Quickstart]</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-sudo-enabled-user-on-ubuntu-18-04-quickstart">How To Create a New Sudo-enabled User on Ubuntu 18.04 [Quickstart]</a></li>
 </ul>
 
 </article>

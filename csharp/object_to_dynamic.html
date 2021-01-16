@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>object to dynamic . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.min.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="convert-object-to-dynamic">Convert object to dynamic</h1>
+<p>When you want an object that is not <a href="version4.html#dynamic-binding">dynamic</a> to take on dynamic capabilities, this extension method is your friend:</p>
+<pre><code>//Using System.Dynamic and System.ComponentModel
+public static class Extensions
+{
+	public static dynamic ToDynamic(this object value)
+	{
+		if (value.IsListOrArray())
+		{
+
+			var list = new List&lt;ExpandoObject&gt;();
+			IEnumerable enumerable = value as IEnumerable;
+			foreach (object o in enumerable)
+			{
+				list.Add(o.ToDynamic());
+			}
+
+			return (dynamic)list;
+		}
+
+		IDictionary&lt;string, object&gt; expando = new ExpandoObject();
+
+		foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(value.GetType()))
+		{
+			expando.Add(property.Name, property.GetValue(value));
+		}
+
+		return (dynamic)expando;
+	}
+
+	public static bool IsListOrArray(this object value)
+	{
+		if (value is IList &amp;&amp; value.GetType().IsGenericType)
+		{
+			return true;
+		}
+
+		var valueType = value.GetType();
+		if (valueType.IsArray)
+		{
+			return true;
+		}
+
+		return false;
+	}
+}
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li>From <a href="https://gist.github.com/asmodeus74/0f4cbc23b7a168f16c84">asmodeus74's gist </a> ... which is from a now 404'ing blog post <a href="http://blog.jorgef.net/2011/06/converting-any-object-to-dynamic.html">http://blog.jorgef.net/2011/06/converting-any-object-to-dynamic.html</a> by <a href="http://jorgef.net/">Jorge Fioranelli</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="version4.html#dynamic-binding">Csharp version 4 adds the &quot;Dynamic&quot; feature</a></li>
+<li><a href="../linqpad%5Cdump_dynamic.html">Linqpad Dump Dynamic</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

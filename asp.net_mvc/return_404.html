@@ -38,7 +38,7 @@
 <p>And there's this as well...</p>
 <pre><code>return new HttpStatusCodeResult((int)HttpStatusCode.OK);
 </code></pre>
-<h1 id="breaking-news">Breaking news...</h1>
+<h2 id="breaking-news">Breaking news...</h2>
 <p>In .net core you do this:</p>
 <pre><code>return NotFound();
 </code></pre>
@@ -46,9 +46,9 @@
 <pre><code>return NotFound(&quot;No such kitten&quot;);
 </code></pre>
 <p>The comment on this is funny (the comment you see in a tooltip in visual studio)</p>
-<pre><code>    // Summary:
-    //     Creates an Microsoft.AspNetCore.Mvc.NotFoundResult that produces a Not Found
-    //     (404) response.
+<pre><code>// Summary:
+//     Creates an Microsoft.AspNetCore.Mvc.NotFoundResult that produces a Not Found
+//     (404) response.
 </code></pre>
 <p>So on the one hand we're trying to be transport-agnostic, removing 'Http' from the name... on the other hand we still need to let the developer know that this is really 404. So we embed it in the comment. Wink wink.</p>
 

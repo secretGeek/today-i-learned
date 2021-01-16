@@ -59,7 +59,7 @@ WHERE
 	AND NOT [System.State] CONTAINS 'Closed'
 ORDER BY [System.BoardColumn]
 </code></pre>
-<h1 id="avoiding-socket-exceptions-when-using-workitemtrackinghttpclient">Avoiding Socket Exceptions when using WorkItemTrackingHttpClient</h1>
+<h2 id="avoiding-socket-exceptions-when-using-workitemtrackinghttpclient">Avoiding Socket Exceptions when using WorkItemTrackingHttpClient</h2>
 <p>When writing a C# asp.net MVC app that queries azure devops with the <code>WorkItemTrackingHttpClient</code> -- I found I was receiving</p>
 <pre><code>SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 11.111.11.11:443
 </code></pre>

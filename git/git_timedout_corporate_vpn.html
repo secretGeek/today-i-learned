@@ -52,7 +52,7 @@ proxy = http://myusername:mypassword@myproxy.domain.com:8080
 
 	if(tmpURL.indexOf('://') == -1)
 	{
-			 url='http://' + url;
+		url='http://' + url;
 	}
 </code></pre>
 <p>Near the end it told you the general proxy settings to use....</p>
@@ -67,7 +67,7 @@ else
 </code></pre>
 <p>(Names have been changed to protect the LAN)</p>
 <p>So I took one of the proxy addresses from there</p>
-<h1 id="what-if-you-dont-have-a-password">What if you don't have a password?</h1>
+<h2 id="what-if-you-dont-have-a-password">What if you don't have a password?</h2>
 <p>Some users use some kind of single-sign on token system where they don't really have a password. That's great and modern... but what do you stick in the config?</p>
 <p>In visual studio .com you can create a token, called a private access token -- then use the token here:</p>
 <pre><code>[http]

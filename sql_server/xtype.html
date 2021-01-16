@@ -143,7 +143,7 @@ FROM master..spt_values
 WHERE type = 'O9T'
 </code></pre>
 <p>...<a href="https://stackoverflow.com/a/16243935">see stackoverflow</a></p>
-<h1 id="query-to-filter-by-type-of-object">Query to filter by type of object</h1>
+<h2 id="query-to-filter-by-type-of-object">Query to filter by type of object</h2>
 <pre><code>$x = &quot;Select Schema_Name(o.UID) + '.' + o.Name , o.Xtype, tt.[name]
 from sysobjects o inner join  master..spt_values tt 
 on tt.type = 'O9T' and tt.name like o.xtype + '%' collate database_default

@@ -39,7 +39,7 @@ Alias           cls -&gt; Clear-Host
 <p>Wonder what aliases exist for a command (or commands)? add the <code>-def</code> parameter to <code>get-alias</code></p>
 <pre><code>get-alias -def &quot;push-location&quot;
 </code></pre>
-<h1 id="aliases-cant-have-parameters-make-little-functions-instead">Aliases can't have parameters: make little functions instead</h1>
+<h2 id="aliases-cant-have-parameters-make-little-functions-instead">Aliases <em>can't</em> have parameters: make little functions instead</h2>
 <p>in bash, an alias can include parameters. Not so in PowerShell. It's just an abbreviation.</p>
 <p>set-alias tf &quot;tree /f&quot; # this doesn't work! (bash allows that kind of thing)</p>
 <p>To create an alias with parameters you're advised to create a tiny function in your <code>$PROFILE</code>.</p>

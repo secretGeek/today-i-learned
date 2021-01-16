@@ -28,7 +28,7 @@
 </code></pre>
 <p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique.</p>
 <p>Or if you have 3 different web applications that all want the same config for just part of their config file, you can use this trick.</p>
-<h1 id="or-dynamically-load-connection-string-info">Or dynamically load connection string info...</h1>
+<h2 id="or-dynamically-load-connection-string-info">Or dynamically load connection string info...</h2>
 <p>More extremem is this method:</p>
 <p>Make your own connection string object:</p>
 <pre><code>public class ConnectionInfo
