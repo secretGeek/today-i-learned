@@ -26,11 +26,11 @@
 <p>Loading a CSV file and turning it into an IEnumerable<T> needs to be a simple activity.</p>
 <p>Below are five different implementations, all pretty simple. They use, in order</p>
 <ul>
-<li>Microsoft.VisualBasic.dll</li>
-<li>ServiceStack</li>
-<li>LinqToCsv</li>
-<li>FileHelpers.net</li>
-<li>Powershell (Import-CSV)</li>
+<li><a href="#using-microsoft.visualbasic.dll-to-load-a-csv-file">Microsoft.VisualBasic.dll</a></li>
+<li><a href="#using-servicestack-to-load-a-csv-file">ServiceStack</a></li>
+<li><a href="#using-linqtocsv-to-load-a-csv-file">LinqToCsv</a></li>
+<li><a href="#using-filehelpers-to-read-a-csv-file-from-linqpad">FileHelpers.net</a></li>
+<li><a href="#powershell-import-csv">Powershell (Import-CSV)</a></li>
 </ul>
 <p>Given a CSV (of crime data) with header row like this:</p>
 <pre><code>Offence Description,Start Date,End Date,Suburb,Postcode
@@ -38,11 +38,11 @@
 <p>...and for which I've manually created a similar looking POCO/DTO.</p>
 <pre><code>public class Crime
 {
-    public string Offence { get; set; }
-    public DateTime? Start { get; set; }
-    public DateTime? End { get; set; }
-    public string Suburb { get; set; }
-    public int? Postcode { get; set; }
+	public string Offence { get; set; }
+	public DateTime? Start { get; set; }
+	public DateTime? End { get; set; }
+	public string Suburb { get; set; }
+	public int? Postcode { get; set; }
 }
 </code></pre>
 <h2 id="using-microsoft.visualbasic.dll-to-load-a-csv-file">Using Microsoft.VisualBasic.dll to load a CSV file</h2>
@@ -53,45 +53,45 @@ System.Globalization
 <p>The code to load and convert to List<Crime> code is....</p>
 <pre><code>void Main()
 {
-    var crimes = new List&lt;Crime&gt;();
-    var au = new CultureInfo(&quot;en-AU&quot;);
-    var skipped = false;
-    using (var parser = new TextFieldParser(@&quot;C:\Temp\Crime_Data.csv&quot;))
-    {
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(&quot;,&quot;);
-        while (!parser.EndOfData)
-        {
-            string[] fields = parser.ReadFields();
+	var crimes = new List&lt;Crime&gt;();
+	var au = new CultureInfo(&quot;en-AU&quot;);
+	var skipped = false;
+	using (var parser = new TextFieldParser(@&quot;C:\Temp\Crime_Data.csv&quot;))
+	{
+		parser.TextFieldType = FieldType.Delimited;
+		parser.SetDelimiters(&quot;,&quot;);
+		while (!parser.EndOfData)
+		{
+			string[] fields = parser.ReadFields();
 
-            if (!skipped) {
-                // Skip header.
-                skipped = true;
-                continue;
-            }
+			if (!skipped) {
+				// Skip header.
+				skipped = true;
+				continue;
+			}
 
-            crimes.Add(new crime {
-              Offence = fields[0],
-              Start 	 = fields[1] == &quot;&quot; ? (DateTime?)null : DateTime.ParseExact(fields[1], &quot;yyyy-MM-dd HH:mm&quot;, au),
-              End 	 = fields[2] == &quot;&quot; ? (DateTime?)null : DateTime.ParseExact(fields[2], &quot;yyyy-MM-dd HH:mm&quot;, au),
-              Suburb = fields[3],
-              Postcode = fields[4] == &quot;&quot; ? (int?)null : int.Parse(fields[4])
-            });
-        }
-    }
+			crimes.Add(new crime {
+				Offence = fields[0],
+				Start 	 = fields[1] == &quot;&quot; ? (DateTime?)null : DateTime.ParseExact(fields[1], &quot;yyyy-MM-dd HH:mm&quot;, au),
+				End 	 = fields[2] == &quot;&quot; ? (DateTime?)null : DateTime.ParseExact(fields[2], &quot;yyyy-MM-dd HH:mm&quot;, au),
+				Suburb = fields[3],
+				Postcode = fields[4] == &quot;&quot; ? (int?)null : int.Parse(fields[4])
+			});
+		}
+	}
 
-    crimes.Dump();
-    //Do whatever you really need to do, to Fight Crime etc.
+	crimes.Dump();
+	//Do whatever you really need to do, to Fight Crime etc.
 }
 </code></pre>
 <p>A different approach is to use a 3rd party library, imported via <code>nuget</code>. I've tried three. Here's ServiceStack, LinqToCsv and FileHelpers.net</p>
 <h2 id="using-servicestack-to-load-a-csv-file">Using ServiceStack to load a CSV File</h2>
 <pre><code>void Main()
 {
-    var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
-    var crimes = File.ReadAllText(fileName).FromCsv&lt;List&lt;Crime&gt;&gt;();
-    //Null end dates become  31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
-    crimes.Dump();
+	var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
+	var crimes = File.ReadAllText(fileName).FromCsv&lt;List&lt;Crime&gt;&gt;();
+	//Null end dates become  31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
+	crimes.Dump();
 }
 </code></pre>
 <p>Requires the nuget package <code>ServiceStack.Text.Signed</code> and these namespaces:</p>
@@ -102,56 +102,56 @@ System.Runtime.Serialization
 <pre><code>[DataContract]
 public class Crime
 {
-    [DataMember(Name=&quot;Offence Description&quot;)]
-    public string Offence { get; set; }
-    [DataMember(Name=&quot;Start Date&quot;)]
-    public DateTime? Start { get; set; }
-    [DataMember(Name=&quot;End Date&quot;)]
-    public DateTime? End { get; set; }
-    [DataMember]
-    public string Suburb { get; set; }
-    [DataMember]
-    public string Postcode { get; set; } //I could *not* get this to work as a nullable int.
+	[DataMember(Name=&quot;Offence Description&quot;)]
+	public string Offence { get; set; }
+	[DataMember(Name=&quot;Start Date&quot;)]
+	public DateTime? Start { get; set; }
+	[DataMember(Name=&quot;End Date&quot;)]
+	public DateTime? End { get; set; }
+	[DataMember]
+	public string Suburb { get; set; }
+	[DataMember]
+	public string Postcode { get; set; } //I could *not* get this to work as a nullable int.
 }
 </code></pre>
 <h2 id="using-linqtocsv-to-load-a-csv-file">Using LinqToCsv to load a csv file</h2>
 <p>(For more on this one see <a href="http://www.aspnetperformance.com/post/LINQ-to-CSV-library.aspx#How_to_use">http://www.aspnetperformance.com/post/LINQ-to-CSV-library.aspx#How_to_use</a>)</p>
 <pre><code>void Main()
 {
-    var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
-    var crimes = new CsvContext().Read&lt;Crime&gt;(fileName);
-    //Null end dates becomes: 31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
-    crimes.Dump();
+	var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
+	var crimes = new CsvContext().Read&lt;Crime&gt;(fileName);
+	//Null end dates becomes: 31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
+	crimes.Dump();
 }
 </code></pre>
 <p>Here's our annotated DTO...</p>
 <pre><code>// Define other methods and classes here
 public class Crime
 {
-    [CsvColumn(Name = &quot;Offence Description&quot;)]
-    public string Offence { get; set; }
-    
-    [CsvColumn(Name = &quot;Start Date&quot;)]
-    public DateTime? Start { get; set; }
-    
-    [CsvColumn(Name = &quot;End Date&quot;)]
-    public DateTime? End { get; set; }
-    
-    [CsvColumn(Name = &quot;Suburb&quot;)]
-    public string Suburb { get; set; }
-    
-    [CsvColumn(Name = &quot;Postcode&quot;)]
-    public int? Postcode { get; set; }
+	[CsvColumn(Name = &quot;Offence Description&quot;)]
+	public string Offence { get; set; }
+
+	[CsvColumn(Name = &quot;Start Date&quot;)]
+	public DateTime? Start { get; set; }
+
+	[CsvColumn(Name = &quot;End Date&quot;)]
+	public DateTime? End { get; set; }
+
+	[CsvColumn(Name = &quot;Suburb&quot;)]
+	public string Suburb { get; set; }
+
+	[CsvColumn(Name = &quot;Postcode&quot;)]
+	public int? Postcode { get; set; }
 }
 </code></pre>
 <h2 id="using-filehelpers-to-read-a-csv-file-from-linqpad">Using FileHelpers to read a csv file (from linqpad)</h2>
 <p>For more info see <a href="http://www.filehelpers.net/example/QuickStart/ReadFileDelimited/">http://www.filehelpers.net/example/QuickStart/ReadFileDelimited/</a></p>
 <pre><code>void Main()
 {
-    var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
-    //Null end dates becomes: 31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
-    var crimes = new FileHelperEngine(typeof(Crime)).ReadFile(fileName);
-    crimes.Dump();
+	var fileName = @&quot;C:\Temp\Crime_Data.csv&quot;;
+	//Null end dates becomes: 31/12/1899 2:00:00 PM (which is the type at GMT+0, when it is 1/1/1900 12:00 here)
+	var crimes = new FileHelperEngine(typeof(Crime)).ReadFile(fileName);
+	crimes.Dump();
 }
 </code></pre>
 <p>And here's our not-so-poco DTO. Note that we now have fields not properties. And we haven't specified names... their order is assumed to match the order of the file.</p>
@@ -159,14 +159,14 @@ public class Crime
 [IgnoreFirst()]
 public class Crime
 {
-    //Offence Description,Start Date,End Date,Suburb,Postcode
-    public string Offence;
-    [FieldConverter(ConverterKind.Date, &quot;yyyy-MM-dd HH:mm&quot;)]
-    public DateTime? Start;
-    [FieldConverter(ConverterKind.Date, &quot;yyyy-MM-dd HH:mm&quot; )]
-    public DateTime? End;
-    public string Suburb;
-    public int? Postcode;
+	//Offence Description,Start Date,End Date,Suburb,Postcode
+	public string Offence;
+	[FieldConverter(ConverterKind.Date, &quot;yyyy-MM-dd HH:mm&quot;)]
+	public DateTime? Start;
+	[FieldConverter(ConverterKind.Date, &quot;yyyy-MM-dd HH:mm&quot; )]
+	public DateTime? End;
+	public string Suburb;
+	public int? Postcode;
 }
 </code></pre>
 <h2 id="powershell-import-csv">Powershell: Import-CSV</h2>
@@ -174,12 +174,12 @@ public class Crime
 <pre><code>Import-CSV &quot;C:\Temp\Crime_Data.csv&quot; | % { $_.&quot;End Date&quot; }
 </code></pre>
 <p>(This can be shortened to simply...)</p>
-<pre><code>Import-CSV &quot;C:\Temp\Crime_Data.csv&quot; | % &quot;End Date&quot; 
+<pre><code>Import-CSV &quot;C:\Temp\Crime_Data.csv&quot; | % &quot;End Date&quot;
 </code></pre>
 <p>Example of convert it into objects, sorting, and convert it back to csv for further processing</p>
-<pre><code>Import-CSV &quot;C:\Temp\Crime_Data.csv&quot; | sort -d &quot;Start Date&quot; | convertto-csv -NoTypeInformation   
+<pre><code>Import-CSV &quot;C:\Temp\Crime_Data.csv&quot; | sort -d &quot;Start Date&quot; | convertto-csv -NoTypeInformation
 </code></pre>
-<h3 id="sponsor">Sponsor</h3>
+<h2 id="sponsor">Sponsor</h2>
 <p>Love CSV? Hate CSV? Try <a href="http://NimbleText.com/">NimbleText</a> for your CSV transforming needs.</p>
 <h2 id="sources">Sources</h2>
 <ul>
