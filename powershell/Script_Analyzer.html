@@ -36,17 +36,20 @@
 </code></pre>
 <p>or against an entire path... and you can include subfolders by using -recurse</p>
 <pre><code>Invoke-ScriptAnalyzer -Path ($pwd).Path -recurse
-</code></pre>
-<p>RuleName                            Severity     FileName   Line  Message</p>
-<hr />
-<p>PSAvoidUsingCmdletAliases           Warning      Microsoft. 11    'cd' is an alias of 'Set-Location'. Alias can introduce
-PowerShell       possible problems and make scripts hard to maintain. Please
-_profile.p       consider changing alias to its full content.
-s1
+
+
+
+RuleName                            Severity     FileName   Line  Message
+--------                            --------     --------   ----  -------
+PSAvoidUsingCmdletAliases           Warning      Microsoft. 11    'cd' is an alias of 'Set-Location'. Alias can introduce
+																								 PowerShell       possible problems and make scripts hard to maintain. Please
+																								 _profile.p       consider changing alias to its full content.
+																								 s1
 PSAvoidUsingCmdletAliases           Warning      Microsoft. 12    'dir' is an alias of 'Get-ChildItem'. Alias can introduce
-PowerShell       possible problems and make scripts hard to maintain. Please
-_profile.p       consider changing alias to its full content.
-s1</p>
+																								 PowerShell       possible problems and make scripts hard to maintain. Please
+																								 _profile.p       consider changing alias to its full content.
+																								 s1
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

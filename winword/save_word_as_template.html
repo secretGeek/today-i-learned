@@ -25,24 +25,34 @@
 <h1 id="save-word-document-as-a-template">Save word document as a template</h1>
 <ul>
 <li>Create a document you wish was a usable template.</li>
-<li>File &gt; &quot;Save as&quot;</li>
-<li>Choose type of &quot;Word Template (*.dotx)&quot;</li>
-<li>It will want to save in a weird folder
+<li>File &gt; &quot;Save as&quot;
 <ul>
-<li>(C:\Users\YourUser\OneDrive\Documents\Custom Office Templates)
-<ul>
-<li><code>($env:userprofile + &quot;\OneDrive\Documents\Custom Office Templates&quot;)</code></li>
+<li>Choose the type of <code>Word Template (*.dotx)</code></li>
 </ul>
 </li>
-<li>But that will only mean they are usable on the current machine.</li>
+<li>It will want to save in a weird folder
+<ul>
+<li><code>C:\Users\YourUser\OneDrive\Documents\Custom Office Templates</code>
+<ul>
+<li>(<code>&quot;$($env:userprofile)\OneDrive\Documents\Custom Office Templates&quot;</code> in powershell)</li>
+</ul>
+</li>
+<li>But that will only mean they are usable on the <strong>current</strong> machine.</li>
 </ul>
 </li>
 <li>Save it wherever you want. Exit word.</li>
+</ul>
+<p>When you want to use that template:</p>
+<ul>
 <li>Double click the file:
 <ul>
-<li>It will create a new document, <code>Document1</code>, using that template as the basis.</li>
+<li>It will create a new document, <code>Document1</code>, using that template as the basis for the document.</li>
 </ul>
 </li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../office/word_templates.html">How to edit an MS Word Template</a></li>
 </ul>
 
 </article>

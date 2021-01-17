@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>word templates . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.min.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-edit-an-ms-word-template">How to edit an MS Word Template</h1>
+<p>Your personal custom MS Word Templates are saved here:</p>
+<pre><code>%userprofile%\OneDrive\Documents\Custom Office Templates
+</code></pre>
+<p>(Paste that address into Windows Explorer, and you will be taken to the correct folder.)</p>
+<p>That path will be different for everyone (becayse of the user name) but may look like this:</p>
+<pre><code>C:\Users\MY_USER_NAME\OneDrive\Documents\Custom Office Templates
+</code></pre>
+<p>You can access it in powershell like this:</p>
+<pre><code>&quot;$($env:userprofile)\OneDrive\Documents\Custom Office Templates&quot;
+</code></pre>
+<p>That folder may contain some of your previously created <code>.dotx</code> templates for Word.</p>
+<p>If you click on one of those to &quot;edit&quot; it -- it will instead try to create a new document based on that template.</p>
+<p>So make the changes you want, and when you are ready to save choose &quot;save as...&quot; and set the type to template. Then write over the template you are updating.</p>
+<h2 id="how-to-create-a-word-template">How to Create a Word Template</h2>
+<blockquote>
+<p>create a template by saving a document as a .dotx file</p>
+</blockquote>
+<p>But does that make it available for use?</p>
+<p>When you use &quot;New&quot; to create a new document, you will see your pinned templates and some &quot;Office&quot; templates from the world. Click on the &quot;Personal&quot; tab, next to office to see your own templates.</p>
+<p>If you want one to be shown at the top of the screen, <em>pin</em> it, by hovering over it and then clicking the &quot;pin&quot; button.</p>
+<h2 id="external-sources">External sources</h2>
+<ul>
+<li><a href="https://support.microsoft.com/en-us/office/edit-templates-b2cb7adb-aec2-429f-81fd-3d5bd33cf264">Edit templates</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../winword/save_word_as_template.html">Save word document as a template</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
