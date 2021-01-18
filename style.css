@@ -439,3 +439,17 @@ html::-webkit-scrollbar {
 h1.chapter {
   font-variant: small-caps;
 }
+
+.hover-link {
+	opacity:0.01;
+	text-decoration:none;
+	font-size:0.6em;
+	margin-left:0.3ch;
+}
+
+.has-hover-link:hover .hover-link {
+	opacity:1.0;
+	text-shadow:0 2px 0 var(--link);
+	text-decoration:none;
+	box-shadow:none;
+}

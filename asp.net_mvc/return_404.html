@@ -27,30 +27,40 @@
 <pre><code>return HttpNotFound();
 </code></pre>
 <p>Can also put a message in</p>
-<pre><code>return HttpNotFound(&quot;No such puppy&quot;);
+<pre><code>return HttpNotFound(&quot;No such puppy!&quot;);
 </code></pre>
-<p>For other errors, you can throw an exception, e.g.</p>
-<pre><code>throw new HttpException(403, &quot;Disallowed file extension. Only image files are permitted.&quot;);
+<p>And for 403 — try this:</p>
+<pre><code>return new HttpUnauthorizedResult(&quot;Forbidden biscuits.&quot;);
 </code></pre>
-<p>Or for 403 — try this:</p>
-<pre><code>return new HttpUnauthorizedResult(message);
+<p><strong>But</strong> all of those will probably end up displaying the IIS-level error page, not the custom error page if you have one.</p>
+<p>A more general method -- that <em>can</em> end up at your custom 404 error page inside asp.ent mvc, if you have one, is:</p>
+<pre><code>throw new HttpException(404, &quot;KITTEN MISSING&quot;);
 </code></pre>
-<p>And there's this as well...</p>
-<pre><code>return new HttpStatusCodeResult((int)HttpStatusCode.OK);
+<p>and</p>
+<pre><code>throw new HttpException(403, &quot;FORBIDDEN KITTEN!&quot;);
 </code></pre>
+<p>And more generally try this:</p>
+<pre><code>throw new HttpException((int)HttpStatusCode.OK);
+</code></pre>
+<p>etc... for each <code>http code</code></p>
+<p>See <a href="custom_errors.html">Custom Errors in asp.net mvc 5</a> -- to get this perfected!</p>
 <h2 id="breaking-news">Breaking news...</h2>
-<p>In .net core you do this:</p>
+<p>In <code>asp.net core</code> you do this:</p>
 <pre><code>return NotFound();
 </code></pre>
 <p>Or even:</p>
-<pre><code>return NotFound(&quot;No such kitten&quot;);
+<pre><code>return NotFound(&quot;No such kitten!&quot;);
 </code></pre>
 <p>The comment on this is funny (the comment you see in a tooltip in visual studio)</p>
 <pre><code>// Summary:
 //     Creates an Microsoft.AspNetCore.Mvc.NotFoundResult that produces a Not Found
 //     (404) response.
 </code></pre>
-<p>So on the one hand we're trying to be transport-agnostic, removing 'Http' from the name... on the other hand we still need to let the developer know that this is really 404. So we embed it in the comment. Wink wink.</p>
+<p>So on the one hand we're trying to be &quot;transport-agnostic&quot;, removing <code>Http</code> from the name... but on the other hand we still need to let the developer know that this is <em>really</em> a <code>404</code>. So we embed it in the comment. <em>Wink</em> <em>wink</em>.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="custom_errors.html">Custom Errors in asp.net mvc 5</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

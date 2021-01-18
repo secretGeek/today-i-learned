@@ -32,15 +32,14 @@
 function copytext(copyText) {
 	const textArea = document.createElement('textarea');
 	textArea.style.position = &quot;absolute&quot;;
-	// to prevent scrolling on IE/Safari, place the element beside us...
+	// to prevent scrolling on IE/Safari, place the element beside us... (not a perfect solution)
 	textArea.style.top = &quot;&quot; + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) ||  document.body.scrollTop) + &quot;px&quot;;
 	textArea.style.left = &quot;-100%&quot;;
 	textArea.textContent = copyText.trim();
 	document.body.appendChild(textArea);
 	textArea.select();
 	document.execCommand(&quot;copy&quot;);
-	//Consider: visually indicate success...
-	//alert(copyText);
+	// Consider: visually indicate success... (see example below)
 	textArea.parentNode.removeChild(textArea);
 }
 &lt;/script&gt;
@@ -151,11 +150,8 @@ function showFloatingMessage(message, element) {
 <pre><code>function copyToClipboard(value, element) {
 	const textArea = document.createElement('textarea');
 	textArea.style.position = &quot;absolute&quot;;
-	var rect = element.getBoundingClientRect();
-
 	// top is at current height, to avoid causing a scroll on IE/Safari.
-	var top = rect.top + ((document.documentElement &amp;&amp; document.documentElement.scrollTop) || document.body.scrollTop);
-	textArea.style.top = top + &quot;px&quot;;
+	var lastScrollHeight = element.scrollHeight; // this is used to prevent any unwanted scrolling (particularly in IE and Safari)
 	textArea.style.left = &quot;-100%&quot;; // off screen
 	textArea.style.width = &quot;200px&quot;;
 	textArea.textContent = value.trim();
@@ -164,6 +160,9 @@ function showFloatingMessage(message, element) {
 	document.execCommand(&quot;copy&quot;);
 	textArea.parentNode.removeChild(textArea);
 	showFloatingMessage(&quot;copied to clipboard.&quot;, element);
+	var scrollDiff = element.scrollHeight - lastScrollHeight;
+	element.scrollTop += scrollDiff; // scroll us back where we were... if there has been any change.
+
 }
 </code></pre>
 <p>And I call it via this helper method:</p>
@@ -198,7 +197,7 @@ $(&quot;.copy-text&quot;).click(function (e) {
 	background-color: #F5F5F5; /* same as pre */
 	box-shadow: 0 0 3px #AAA, 0 0 3px #AAA;
 	margin-top: 5px;
-	margin-right:5px;
+	margin-right: 5px;
 }
 </code></pre>
 

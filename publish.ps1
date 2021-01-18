@@ -1,8 +1,8 @@
 param(
 	[Parameter(Mandatory,
-                ValueFromPipeline=$false,
-                HelpMessage='Commit message',
-                Position=0)]
+		ValueFromPipeline=$false,
+		HelpMessage='Commit message',
+		Position=0)]
   [string]
 	$message
 );

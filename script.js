@@ -1,3 +1,22 @@
+function onStart() {
+	hljs.initHighlightingOnLoad();
+	configureBreadcrumb();
+	copyPreCodeOnClick();
+	configureLinks();
+}
+
+function configureLinks() {
+	for (let hEl of $("h1, h2, h3, h4, h5, h6")) {
+		const id = hEl.getAttribute("id");
+		if (id) {
+			const icon = htmlToElement('<a href="#" class="hover-link">🔗</a>');
+			hEl.appendChild(icon);
+			icon.setAttribute("href", "#" + id);
+			hEl.classList.add("has-hover-link");
+		}
+	}
+}
+
 function configureBreadcrumb() {
   var currentUrl = location.pathname;
   var currentPage = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
@@ -46,9 +65,6 @@ function copyPreCodeOnClick() {
 }
 
 /* on start... */
-hljs.initHighlightingOnLoad();
-configureBreadcrumb();
-copyPreCodeOnClick();
 
 function copyNextElement(item) {
   var nextElement = item.nextSibling;
@@ -171,3 +187,5 @@ function htmlToElement(html) {
 /* ## utility functions ## */
 /* ####################### */
 /* ####################### */
+
+onStart();
