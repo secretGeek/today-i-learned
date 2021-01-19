@@ -1,8 +1,78 @@
 function onStart() {
+	applyLanguageClassesToPre();
 	hljs.initHighlightingOnLoad();
 	configureBreadcrumb();
 	copyPreCodeOnClick();
 	configureLinks();
+}
+
+
+function applyLanguageClassesToPre() {
+
+	//this is the default language of pre blocks in each topic category.
+	var topicLangs = {
+		'powershell': 'powershell',
+		'net': 'csharp',
+		'net_core_MVC': 'csharp',
+		'7z': '7z',
+		'active_directory': 'active_directory',
+		'airtable': 'powershell',
+		'angular': 'javascript',
+		'asp.net_mvc': 'csharp',
+		'azure_devops': 'sql',
+		'bower': 'javascript',
+		'chocolatey': 'powershell',
+		'cpu_analyzer': 'csharp',
+		'csharp': 'csharp',
+		'css': 'css',
+		'csv': 'csv',
+		'electron': 'javascript',
+		'firebird': 'sql',
+		'git': 'powershell',
+		'go': 'go',
+		'gulp': 'javascript',
+		'html': 'html',
+		'javascript': 'javascript',
+		'jekyll': 'javascript',
+		'jquery': 'javascript',
+		'json': 'javascript',
+		'linqpad': 'csharp',
+		'linux': 'bash',
+		'mercurial': 'powershell',
+		'microsoft_terminal': 'powershell',
+		'minecraft': 'python',
+		'node': 'javascript',
+		'npm': 'javascript',
+		'nuget': 'powershell',
+		'oracle': 'sql',
+		'powershell': 'powershell',
+		'python': 'python',
+		'react': 'javascript',
+		'robocopy': 'powershell',
+		'r_language': 'r',
+		'smallbasic': 'vbnet',
+		'speech': 'powershell',
+		'sqlite': 'sql',
+		'sql_server': 'sql',
+		'sql_server_reporting_services': 'sql',
+		'sql_spatial': 'sql',
+		'typescript': 'javascript',
+		'usql': 'sql',
+		'wordpress': 'php',
+		'yarn': 'javascript',
+	};
+
+	var currentUrl = location.pathname;
+	var parentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
+	var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
+
+  if (topicLangs[topicTitle]) {
+		for (let pre of $("pre")) {
+			if (!pre.classList.contains("plaintext") && !hasClassWithPrefix(pre, "lang-")) {
+				pre.classList.add("lang-" + topicLangs[topicTitle]); //powershell");
+			}
+		}
+	}
 }
 
 function configureLinks() {
@@ -17,11 +87,14 @@ function configureLinks() {
 	}
 }
 
+
+
 function configureBreadcrumb() {
   var currentUrl = location.pathname;
   var currentPage = currentUrl.substring(currentUrl.lastIndexOf("/") + 1);
   var parentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
   var currentTitle = currentPage.substring(0, currentPage.lastIndexOf("."));
+
   var topicTOC = parentUrl + "/01_summary.html";
   var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
   if (currentTitle == "01_summary") currentTitle = "contents";
@@ -171,6 +244,17 @@ function removeAllClass(className) {
     example.classList.remove(className);
   }
 }
+
+
+// true if the element has a class name starting with prefix, eg. "has(el, 'lang-')" -- do any classes start with "lang-" ?
+function hasClassWithPrefix(element, prefix) {
+  for (var c of element.classList) {
+    if (c.indexOf(prefix) == 0) return true;
+  }
+	return false;
+}
+
+
 
 function htmlToElement(html) {
   var template = document.createElement("template");

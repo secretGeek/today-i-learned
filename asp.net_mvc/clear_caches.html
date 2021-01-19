@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>clear caches . Today I Learned (secretGeek)</title>
-<script type="text/javascript" src="/highlight.min.js" defer></script>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -24,9 +24,10 @@
 <article>
 <h1 id="clear-caches">Clear Caches</h1>
 <p>It's not as simple as:</p>
-<pre><code>MemoryCache.Default.Dispose();
+<pre><code>MemoryCache.Default.Dispose(); //DON'T DO THIS!
 </code></pre>
 <p>Once you've done that, subsequently adding items to the cache will silently fail.</p>
+<p>All you've done is <em>murder</em> the cache.</p>
 <p>A method that <em>does</em> work — but is reportedly too drastic as it is:</p>
 <ol>
 <li><p>slow and</p>
@@ -41,7 +42,7 @@ MemoryCache.Default.Remove(element.Key);
 }</p>
 </li>
 </ol>
-<p>For the small-scale sites I'm used to, that is adequate.</p>
+<p>For most of the small-scale sites I'm used to, <strong>that is perfectly adequate</strong>.</p>
 <p>An actually correct method, from <a href="http://stackoverflow.com/a/22388943/49">http://stackoverflow.com/a/22388943/49</a></p>
 <pre><code>// By Thomas F. Abraham (http://www.tfabraham.com)
 namespace CacheTest
@@ -140,10 +141,14 @@ namespace CacheTest
 }
 </code></pre>
 <p>I hate this, but haven't found anything better.</p>
-<h2 id="see-also">See Also</h2>
+<h2 id="sources">Sources</h2>
 <ul>
 <li><a href="http://stackoverflow.com/questions/4183270/how-to-clear-the-net-4-memorycache">http://stackoverflow.com/questions/4183270/how-to-clear-the-net-4-memorycache</a></li>
 <li><a href="http://stackoverflow.com/questions/8043381/how-do-i-clear-a-system-runtime-caching-memorycache/8043556#8043556">http://stackoverflow.com/questions/8043381/how-do-i-clear-a-system-runtime-caching-memorycache/8043556#8043556</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="from_memory.html">Handy Cache helper method</a></li>
 </ul>
 
 </article>

@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>getting started . Today I Learned (secretGeek)</title>
-<script type="text/javascript" src="/highlight.min.js" defer></script>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -71,7 +71,7 @@ Options:
 <p>So i load it up in visual studio code, by running &quot;code.exe .&quot; from the commandline, i.e.</p>
 <pre><code>code .
 </code></pre>
-<h2 id="problem-running-old-version-despite-installing-new-version">Problem: running old version despite installing new version.</h2>
+<h2 id="problem-running-old-version-despite-installing-new-version">Problem: running old version despite installing new version</h2>
 <p>The output from <code>tsc --help</code> above said my tsc version was <code>1.0.3.0</code>, even though the installer said &quot;<code>typescript@2.0.10</code>&quot;</p>
 <p>When I started vs code it straight away gave me this warning:</p>
 <blockquote>
@@ -85,7 +85,7 @@ Options:
 <pre><code>C:\Users\Leon\AppData\Roaming\npm\tsc.cmd
 </code></pre>
 <p>So I edited my path to <em>remove</em> that folder from it (notes on <a href="../windows/environment_variables.html">editing environment variables here...</a>)</p>
-<h2 id="resume-getting-started">Resume getting started....</h2>
+<h2 id="resume-getting-started">Resume getting started</h2>
 <p>You can compile multiple files at once:</p>
 <pre><code>tsc *.ts
 </code></pre>
@@ -96,7 +96,7 @@ Options:
 <p>But howbout this for clever... you can tell typescript to watch files and recompile as soon as 1 changes...</p>
 <pre><code>tsc *.ts --out example.js --watch
 </code></pre>
-<h2 id="doing-more-with-visual-studio-code">Doing more with visual studio code.</h2>
+<h2 id="doing-more-with-visual-studio-code">Doing more with visual studio code</h2>
 <p>The first step in working on a TypeScript project in visual studio code is to add a <code>tsconfig.json</code> file to the root of the project.</p>
 <p>It can be an empty object, like this:</p>
 <pre><code>{
@@ -121,7 +121,7 @@ Options:
 <li>ESNext</li>
 </ul>
 <p>Knowing what these mysterious things mean is part of the magic of being a web developer in 2017. Know one knows the whole path around the elephant.</p>
-<h2 id="configure-a-task-runner-in-vs-code">Configure a task runner in vs code...</h2>
+<h2 id="configure-a-task-runner-in-vs-code">Configure a task runner in vs code</h2>
 <p>Press <code>ctrl shift P</code> (and do it sort of casually, like you knew that was the right thing to do all along)</p>
 <p>That brings up what is known as the command palette. (You can also find it under the 'View' menu, where it helpfully reminds you that <code>ctrl shift p</code> is the key combo to know)</p>
 <p>Type: <code>tasks: Configure Task Runner</code> (or any shortest unique substring of that command)...</p>

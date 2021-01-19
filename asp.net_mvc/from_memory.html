@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
 <title>from memory . Today I Learned (secretGeek)</title>
-<script type="text/javascript" src="/highlight.min.js" defer></script>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
 </head>
@@ -26,32 +26,43 @@
 <p>I love this little thing.</p>
 <pre><code>public static T FromMemory&lt;T&gt;(string Key, Func&lt;T&gt; func, double days = 7) where T : class
 {
-    var value = MemoryCache.Default.Get(Key) as T;
-    if (value == null)
-    {
-        value = func();
-        if (value != null)
-        {
-            MemoryCache.Default.Add(Key, value, DateTime.Now.AddDays(days));
-        }
-    }
+	var value = MemoryCache.Default.Get(Key) as T;
+	if (value == null)
+	{
+		value = func();
 
-    return value;
+		if (value != null)
+		{
+			MemoryCache.Default.Add(Key, value, DateTime.Now.AddDays(days));
+		}
+	}
+
+	return value;
 }
 </code></pre>
 <p>Then, instead of simply retrieving something from storage, e.g.</p>
 <pre><code>var items = LoadSiteMap();
 </code></pre>
 <p>You do this slightly awkward, but fairly clean alternative:</p>
-<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, () =&gt; LoadSiteMap());
+<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, LoadSiteMap);
 </code></pre>
-<p>You do have to tell it the cache_key to use.</p>
-<p>You can override the default duration to hold it in memory...</p>
-<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, () =&gt; LoadSiteMap(), 0.1);
+<p>You <em>do</em> have to tell it the cache_key to use.</p>
+<p>You can override the default duration to hold it in memory (in days)...</p>
+<pre><code>var items = Latest.FromMemory(&quot;SiteMap&quot;, LoadSiteMap, 0.1);
 </code></pre>
 <p>And if things go really pear shaped, and it can't infer the types, you might need to specify them, for example here:</p>
-<pre><code>var items = Latest.FromMemory&lt;List&lt;ISitemapItem&gt;&gt;(&quot;SiteMap&quot;, () =&gt; LoadSiteMap(), 0.1);
+<pre><code>var items = Latest.FromMemory&lt;List&lt;ISitemapItem&gt;&gt;(&quot;SiteMap&quot;, LoadSiteMap, 0.1);
 </code></pre>
+<h2 id="note-on-lambdas">Note on Lambdas</h2>
+<p><code>tip</code> Note that <a href="../csharp/version6.html#improved-overload-resolution">prior to C# version 6 we had to write those lambdas more explicitly</a>....</p>
+<pre><code>() =&gt; LoadSiteMap()
+</code></pre>
+<p>...using &quot;Full Lambda&quot; instead of &quot;Method Group&quot; syntax.</p>
+<h1 id="see-also">See also</h1>
+<ul>
+<li><a href="../csharp/version6.html#improved-overload-resolution">C#6 Improved overload resoluton</a></li>
+<li><a href="clear_caches.html">Clear Caches</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
