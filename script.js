@@ -68,8 +68,8 @@ function applyLanguageClassesToPre() {
 
   if (topicLangs[topicTitle]) {
 		for (let pre of $("pre")) {
-			if (!pre.classList.contains("plaintext") && !hasClassWithPrefix(pre, "lang-")) {
-				pre.classList.add("lang-" + topicLangs[topicTitle]); //powershell");
+			if (!pre.classList.contains("plaintext") && !hasClassWithPrefix(pre, "language-")) {
+				pre.classList.add("language-" + topicLangs[topicTitle]); //powershell");
 			}
 		}
 	}

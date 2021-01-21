@@ -27,10 +27,10 @@
 <p>First, this only happens with adhoc tables that have no primary key and no uniqueness constraints. But such tables do exist at times... and it can be the devil to correct it.</p>
 <p>How do you construct a query that will delete one of the duplicates and not the other?</p>
 <p>If you try to delete the rows by right-clicking on the table and choosing &quot;Edit top 200 rows&quot; ... it will look like it's about to work:</p>
-<pre><code>Click Yes to permanently delete these rows. You won't be able to undo those changes.
+<pre><code class="language-plaintext">Click Yes to permanently delete these rows. You won't be able to undo those changes.
 </code></pre>
 <p>But will fail with this message:</p>
-<pre><code>No rows were deleted.
+<pre><code class="language-plaintext">No rows were deleted.
 
 A problem occurred attempting to delete row 101.
 Error Source: Microsoft.SqlServer.Management.DataTools.
@@ -47,12 +47,12 @@ Correct the errors and attempt to delete the row again or press ESC to cancel th
 		 where category = 'SSRS' and Unit = 'Reports' )
 SELECT * FROM CTE
 --DELETE FROM cte
-WHERE  RN &gt; 1;         
+WHERE  RN &gt; 1;
 </code></pre>
 <p>Once you're looking at just the right rows to obliterate,</p>
-<p>Comment out the 'SELECT * FROM CTE' and uncomment the <code>DELETE FROM CTE</code></p>
+<p>Comment out the <code>SELECT * FROM CTE</code> and uncomment the <code>DELETE FROM CTE</code></p>
 <p>Boya!</p>
-<pre><code>(8 row(s) affected)
+<pre><code class="language-plaintext">(8 row(s) affected)
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>
