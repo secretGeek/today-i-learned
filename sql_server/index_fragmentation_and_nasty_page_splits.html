@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="index-fragmentation-and-nasty-page-splits">Index fragmentation and nasty page splits</h1>
-<p>I learned most about index fragmentation and 'nasty' page splits from Paul Randal in his pluralsight course '[SQL Server: Index Fragmentation Internals, Analysis, and Solutions]'(<a href="https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents">https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents</a>)</p>
+<p>I learned most about index fragmentation and 'nasty' page splits from Paul Randal in his pluralsight course '<a href="https://app.pluralsight.com/library/courses/sqlserver-index-fragmentation-internals-analysis-solutions/table-of-contents">SQL Server: Index Fragmentation Internals, Analysis, and Solutions</a>'</p>
 <p>There's no point looking at every page split as some are &quot;good page splits&quot; -- e.g. when an append happens at the end of a table, and others are &quot;nasty&quot; e.g. inserts, updates deletes within an index that cause page splits.</p>
 <p>You can see nasty page splits occur though by looking for a specific event in the transaction log. (<a href="https://www.sqlskills.com/blogs/paul/tracking-page-splits-using-the-transaction-log/">read more</a>)</p>
 <p>How can you see fragmentation of your indexes?</p>
@@ -74,13 +74,13 @@ GO
 <p>One of the conclusions at the end of the course by Paul Randall was that the Index maintenance scripts from Ola Hallengren <a href="https://ola.hallengren.com">https://ola.hallengren.com</a> are really the gold standard and do all of the work that would need to do if you built your own solution.</p>
 <p>Alter index reorganize</p>
 <p>Checking fragmentation of a column store index is quite different:</p>
-<p>From <a href="https://docs.microsoft.com/en-us/sql/relational-databases/indexes/reorganize-and-rebuild-indexes?view=sql-server-ver15#to-check-the-fragmentation-of-a-columnstore-index-using-">https://docs.microsoft.com/en-us/sql/relational-databases/indexes/reorganize-and-rebuild-indexes?view=sql-server-ver15#to-check-the-fragmentation-of-a-columnstore-index-using-</a></p>
+<p>From <a href="https://docs.microsoft.com/en-us/sql/relational-databases/indexes/reorganize-and-rebuild-indexes?view=sql-server-ver15#to-check-the-fragmentation-of-a-columnstore-index-using-">Resolve index fragmentation by reorganizing or rebuilding indexes</a> —</p>
 <pre><code>SELECT i.object_id,
 	object_name(i.object_id) AS TableName,
 	i.index_id,
 	i.name AS IndexName,
 	100*(ISNULL(SUM(CSRowGroups.deleted_rows),0))/NULLIF(SUM(CSRowGroups.total_rows),0) AS 'Fragmentation'
-FROM sys.indexes AS i  
+FROM sys.indexes AS i
 INNER JOIN sys.dm_db_column_store_row_group_physical_stats AS CSRowGroups
 	ON i.object_id = CSRowGroups.object_id
 	AND i.index_id = CSRowGroups.index_id
@@ -100,7 +100,7 @@ ORDER BY object_name(i.object_id), i.name;
 <li><a href="https://ola.hallengren.com/sql-server-index-and-statistics-maintenance.html">IndexOptimize</a>: SQL Server Index and Statistics Maintenance</li>
 <li>The SQL Server Maintenance Solution is available on <a href="https://github.com/olahallengren/sql-server-maintenance-solution">GitHub</a>.</li>
 </ul>
-<p>from <a href="https://ola.hallengren.com/">Ola Hallengren's SQL Server Maintenance Solution</a></p>
+<p>—from <a href="https://ola.hallengren.com/">Ola Hallengren's SQL Server Maintenance Solution</a></p>
 </blockquote>
 
 </article>
