@@ -24,11 +24,12 @@
 <article>
 <h1 id="get-adgroup-in-powershell-via-rsat-remote-server-administration-tools">Get-AdGroup in powershell via RSAT (Remote server administration tools)</h1>
 <p>Traditionally I use some C# Linq files to query active directory, but they're a bit of a mess. I was trying to get some help online and most articles talked about using powershell cmdlets like <code>Get-ADGroup</code></p>
+<p>(Other people use <code>ADSI Edit</code>, <code>C:\windows\system32\adsiedit.msc</code>)</p>
 <p>To get this module you need to install &quot;RSAT&quot; or &quot;Remote Server Administration Tools&quot;. In Windows 10, this is available as an optional feature.</p>
-<pre><code>Start Menu | 
-	Apps &amp; Features | 
-		Manage Optional Features | 
-			Add a feature | 
+<pre><code>Start Menu |
+	Apps &amp; Features |
+		Manage Optional Features |
+			Add a feature |
 				&quot;RSAT: Active Directory Domain Services and Lightweight Directory Services Tools&quot;
 </code></pre>
 <p>...bit of a mouthful. (There are a lot of other RSAT features to pick from.)</p>
@@ -77,6 +78,22 @@
 <pre><code>(Get-ADUser &quot;leon.bambrick-b&quot; –Properties &quot;*&quot;) | get-member | ? { $_.MemberType -eq &quot;Property&quot; -and $_.Name -like &quot;*pass*&quot; }
 </code></pre>
 <p>Then we use the syntax in the examples above to fetch and return that property.</p>
+<h2 id="find-user-details-of-a-user-from-a-different-domain-controller">Find user details of a user from a different Domain Controller</h2>
+<p>Say I'm on a subnet called <code>Australia.Company.Example.Com</code> and the user account I want to inspect if from the parent domain, <code>Company.Example.Com</code> -- don't prefix the domain before the user... specifiy <code>server=</code> parameter!</p>
+<pre><code>get-aduser &quot;USER-NAME&quot; -server &quot;Company.Example.com&quot; -properties *
+</code></pre>
+<h2 id="convert-badpasswordtime-and-or-accountexpires-from-18-digit-ldap-time-to-datetime">Convert <code>badPasswordTime</code> and or accountExpires from 18 digit LDAP time to DateTime</h2>
+<p>Some dates are 18 digits long and represent &quot;the number of 100-nanosecond intervals that have elapsed since the 0 hour on January 1, 1601&quot;</p>
+<pre><code>&gt; w32tm.exe /ntte &quot;131755762378066802&quot;
+152495 02:17:17.8066802 - 9/07/2018 12:17:17 PM
+
+
+accountExpires                       : 9223372036854775807
+
+&gt;w32tm.exe /ntte &quot;9223372036854775807&quot;
+10675199 02:48:05.4775807 -
+</code></pre>
+<p>see <a href="https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/convert-datetime-attributes-to-standard-format">How to convert date/time attributes in Active Directory to standard time format</a></p>
 <h2 id="all-other-get-methods-in-rsat">All other <code>Get</code> methods in <code>RSAT</code></h2>
 <p>In fact here's all the 'get' methods that are available:</p>
 <ul>
