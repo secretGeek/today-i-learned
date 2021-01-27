@@ -23,17 +23,50 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="add-note-property-to-object-in-pipeline">Add note property to object in pipeline</h1>
+<p>Here's an example Function that add' members to an object in a pipeline.</p>
 <pre><code>function ConvertTo-Object($hashtable) 
 {
-	 $object = New-Object PSObject
-	 $hashtable.GetEnumerator() | 
-			ForEach-Object { Add-Member -inputObject $object `
-				-memberType NoteProperty -name $_.Name -value $_.Value }
+	$object = New-Object PSObject
+	$hashtable.GetEnumerator() | 
+		ForEach-Object { Add-Member -inputObject $object `
+			-memberType NoteProperty -name $_.Name -value $_.Value }
 	 $object
 }
+</code></pre>
+<p>Now imagine we have this hashtable:</p>
+<pre><code>$hash = @{Name='Richard'; Status='Online'; Color='Green'; Hat='Reversed'}
+</code></pre>
+<p>If we inspect it, here is what we see:</p>
+<pre><code>&gt; $hash | format-table
 
-$hash = @{Name='Richard'; Status='Online'}
-ConvertTo-Object $hash | Export-Csv test.csv -NoTypeInformation
+Name                           Value
+----                           -----
+Color                          Green
+Status                         Online
+Name                           Richard
+Hat                            Reversed
+</code></pre>
+<p>Now if we run it through our &quot;ConvertTo-Object&quot; function, we'll see a very different object emerge...</p>
+<pre><code>&gt; ConvertTo-Object $hash | format-table
+
+Color Status Name    Hat
+----- ------ ----    ---
+Green Online Richard Reversed
+</code></pre>
+<p>And I believe I used this particular one, to make it easier to export a hashtable to a csv file.</p>
+<pre><code>ConvertTo-Object $hash | Export-Csv test.csv -NoTypeInformation
+</code></pre>
+<p>I know I used a function (in MarkJimp) that is somewhat the reverse of this, and turns a custom object into a hash...</p>
+<pre><code># ConvertTo-Hash is used by Get-marks to convert the custom psObject into a hash table.
+function ConvertTo-Hash($i) {
+	$hash = @{ };
+
+	$names = $i | Get-Member -MemberType properties | Select-Object -ExpandProperty name
+	if ($null -ne $names) {
+		$names | ForEach-Object { $hash.Add($_, $i.$_) }
+	}
+	$hash;
+}
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>

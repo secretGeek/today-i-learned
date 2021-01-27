@@ -66,7 +66,7 @@ function applyLanguageClassesToPre() {
 	var parentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
 	var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
 
-  if (topicLangs[topicTitle]) {
+	if (topicLangs[topicTitle]) {
 		for (let pre of $("pre")) {
 			if (!pre.classList.contains("plaintext") && !hasClassWithPrefix(pre, "language-")) {
 				pre.classList.add("language-" + topicLangs[topicTitle]); //powershell");

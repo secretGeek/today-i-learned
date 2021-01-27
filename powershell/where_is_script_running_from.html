@@ -31,17 +31,17 @@
 <p>We want the script to output:</p>
 <pre><code>The script is located in C:\Scripts
 
-The script is called C:\Scripts\HelloWorld.ps1 
+The script's full name and path is C:\Scripts\HelloWorld.ps1 
 
-You are running it from C:\CurrentPath
+You are running it *from* C:\CurrentPath
 </code></pre>
 <p>How do we do it??</p>
 <pre><code>write-host &quot;The script is located in $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)&quot; 
 # e.g. C:\Scripts
-	
-write-host &quot;The script is called $($MyInvocation.MyCommand.Path)&quot;
+
+write-host &quot;The script's full name is called $($MyInvocation.MyCommand.Path)&quot;
 # e.g. C:\Scripts\HelloWorld.ps1 
-	
+
 write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
 # e.g. C:\CurrentPath
 </code></pre>
@@ -49,7 +49,7 @@ write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
 <pre><code>write-host &quot;The script is located in $PSScriptRoot&quot; 
 # e.g. C:\Scripts
 
-write-host &quot;The script is called $PSCommandPath	&quot;
+write-host &quot;The script is called $PSCommandPath&quot;
 # e.g. C:\Scripts\HelloWorld.ps1 
 </code></pre>
 <h2 id="caveat">Caveat!</h2>

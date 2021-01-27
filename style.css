@@ -453,3 +453,13 @@ h1.chapter {
 	text-decoration:none;
 	box-shadow:none;
 }
+
+.language-plaintext.hljs {
+	color:rgb(0,0,0);
+}
+
+@media (prefers-color-scheme: dark) {
+		.language-plaintext.hljs {
+		color:rgb(241,250,140);
+	}
+}

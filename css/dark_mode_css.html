@@ -88,7 +88,7 @@ html { background-color:white;} /* you *need* to set a color for html background
 	html {
 		filter: invert(100%);
 	}
-	img:not(.ignore-color-scheme) {
+	img:not(.ignore-color-scheme),video:not(.ignore-color-scheme) {
 		filter: brightness(50%) invert(100%);
 	}
 	.ignore-color-scheme {
@@ -98,6 +98,25 @@ html { background-color:white;} /* you *need* to set a color for html background
 &lt;/style&gt;
 </code></pre>
 <p>I've added this to the default built-in template used by <a href="https://github.com/secretGeek/clowncar">clowncar</a> (my static site generator)</p>
+<h2 id="poor-mans-dark-mode-stylesheet-take-2">Poor man's dark mode stylesheet, take 2:</h2>
+<p>Here's a different take on the same goal. This time instead of straight up &quot;inverting&quot; the whole thing (like a negative) - I want to only invert the &quot;lightness&quot;.</p>
+<p>So if something was very light before -- I now want it to be very dark. But the &quot;tone&quot;, the hue, should be the same.</p>
+<p>I also turn down the brightness, which to my mind makes it less saturated. But I'm no graphic designer.</p>
+<p>Try it for yourself.</p>
+<pre><code>&lt;style&gt;
+html { background-color: white;}
+
+/* dark mode support */
+@media (prefers-color-scheme: dark) {
+	html {
+		filter: invert(100%) hue-rotate(180deg) brightness(75%);
+	}
+	img:not(.ignore-color-scheme), video:not(.ignore-color-scheme), .ignore-color-scheme {
+		filter: invert(100%) hue-rotate(180deg) brightness(150%) !important;
+	}
+}
+&lt;/style&gt;
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">mdn:Using CSS custom properties (variables)</a></li>
