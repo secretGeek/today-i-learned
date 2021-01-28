@@ -25,10 +25,9 @@
 <h1 id="alias-a-guide-to-powershell-and-aliases">Alias: a guide to powershell and aliases.</h1>
 <h2 id="to-set-an-alias">To Set An Alias:</h2>
 <pre><code>set-alias -name gito -value git_off
-	
 </code></pre>
 <h2 id="to-check-an-alias">To check an alias:</h2>
-<pre><code>	get-command *cls*
+<pre><code>get-command *cls*
 </code></pre>
 <p>...produces a list of not just aliases but commands that match your pattern. (so i sometimes prefer it over <code>get-alias</code> though it can produce unwanted results.)</p>
 <pre><code>CommandType     Name
@@ -45,7 +44,7 @@ Alias           cls -&gt; Clear-Host
 <p>To create an alias with parameters you're advised to create a tiny function in your <code>$PROFILE</code>.</p>
 <p>e.g.</p>
 <pre><code>function tf() {
-    tree /f
+	tree /f
 }
 </code></pre>
 <p>...and over time: grow it into a cmdLet and eventually put it into a module.</p>

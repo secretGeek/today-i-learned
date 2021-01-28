@@ -38,7 +38,7 @@ proxy = http://myusername:mypassword@myproxy.domain.com:8080
 </code></pre>
 <p>...and because there is an '@' in myusername, i encoded that as %40</p>
 <p>and to find out my proxy... well that was tricky, but same as described in <a href="../mercurial/proxy_connection_attempt_failure.html">resolve: mercurial abort: error</a></p>
-<p>i.e........</p>
+<p>i.e.</p>
 <p>Proxy settings are found here:</p>
 <pre><code>Internet explorer &gt; Internet options &gt; Connections &gt; LAN Settings
 </code></pre>
@@ -54,15 +54,18 @@ proxy = http://myusername:mypassword@myproxy.domain.com:8080
 	{
 		url='http://' + url;
 	}
+...
 </code></pre>
-<p>Near the end it told you the general proxy settings to use....</p>
-<pre><code>if (shExpMatch(url, &quot;https://*&quot;))
-{
-	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
-}
-else
-{
-	return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+<p>Near the end it told you the general proxy settings to use...</p>
+<pre><code>	...
+	if (shExpMatch(url, &quot;https://*&quot;))
+	{
+		return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+	}
+	else
+	{
+		return &quot;PROXY machinename1.adomain:8080; PROXY machinename2.adomain:8080;&quot;;
+	}
 }
 </code></pre>
 <p>(Names have been changed to protect the LAN)</p>
@@ -73,7 +76,7 @@ else
 <pre><code>[http]
 proxy = http://anything:PAT@myproxy.domain.com:8080
 </code></pre>
-<p>Where PAT is the private access token, and the proxy is found as described above.</p>
+<p>Where <code>PAT</code> is the <code>private access token</code>, and the proxy is found as described above.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

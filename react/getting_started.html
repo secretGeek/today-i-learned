@@ -62,7 +62,7 @@ import &quot;./App.css&quot;;
 <pre><code>export default App;
 </code></pre>
 <p>Other than that it defines a function called <code>App</code> which returns... a JSX element!</p>
-<p>This stuff is compiled via Blazor.</p>
+<p>This <code>jsx</code> is compiled via Babel.</p>
 <pre><code>function App() {
 	return (
 		&lt;div className=&quot;App&quot;&gt;
@@ -333,6 +333,15 @@ move component to separate file</p>
 	]
 }
 </code></pre>
+<h2 id="deploying-to-production">Deploying to production</h2>
+<p>If you are using the <a href="https://reactjs.org/blog/2019/08/15/new-react-devtools.html">react dev tools</a> in chrome you will see an indicator that your site is in development mode.</p>
+<p>Clicking that info takes you to <a href="https://reactjs.org/docs/optimizing-performance.html#use-the-production-build">this page about what to do to get it into production</a></p>
+<blockquote>
+<p>npm run build</p>
+</blockquote>
+<blockquote>
+<p>This will create a production build of your app in the build/ folder of your project.</p>
+</blockquote>
 <h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://reactjs.org/blog/2019/08/15/new-react-devtools.html">react devtools</a></li>
