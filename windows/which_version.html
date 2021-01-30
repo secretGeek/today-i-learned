@@ -24,9 +24,9 @@
 <article>
 <h1 id="how-can-i-tell-which-version-of-windows-is-currently-running">How can I tell which version of Windows is currently running?</h1>
 <pre><code>[Environment]::OSVersion.Version
-
-
-Major  Minor  Build  Revision
+</code></pre>
+<p>returns...</p>
+<pre><code>Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      10586  0
 </code></pre>
@@ -113,17 +113,14 @@ Major  Minor  Build  Revision
 </table>
 <p>And is windows a 64 or 32 bit version??</p>
 <pre><code>[Environment]::Is64BitOperatingSystem
-True
 </code></pre>
 <p>I suspect that will be true for a long time to come.</p>
 <p>Consider also....</p>
 <pre><code>[Environment]::Is64BitProcess
-True
 </code></pre>
 <p>Which is <a href="../powershell/is_this_64_or_32_bit_powershell_today.html">described here</a></p>
 <p>You can also run <code>winver.exe</code> which produces a dialog something like this:</p>
-<p>C:\users\leon\dropbox\secretGeek\util\til\windows
-<img src="winver.png" alt="WinVer.exe" /></p>
+<p><img src="winver.png" alt="WinVer.exe" /></p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
