@@ -29,12 +29,11 @@
 <pre><code>C:\CurrentPath\&gt; C:\Scripts\HelloWorld.ps1 
 </code></pre>
 <p>We want the script to output:</p>
-<pre><code>The script is located in C:\Scripts
-
-The script's full name and path is C:\Scripts\HelloWorld.ps1 
-
-You are running it *from* C:\CurrentPath
-</code></pre>
+<blockquote>
+<p>The script is located in C:\Scripts</p>
+<p>The script's full name and path is C:\Scripts\HelloWorld.ps1</p>
+<p>You are running it <em>from</em> C:\CurrentPath</p>
+</blockquote>
 <p>How do we do it??</p>
 <pre><code>write-host &quot;The script is located in $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)&quot; 
 # e.g. C:\Scripts

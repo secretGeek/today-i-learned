@@ -27,20 +27,22 @@
 </code></pre>
 <p>That worked great, now let's try and use it....</p>
 <pre><code>&quot;White House&quot;, &quot;Eiffel Tower&quot; | Get-GeoCoding
-
-You need to register and get an API key and save it as environment variable $env:GoogleGeocode_API_Key = &quot;YOUR API KEY&quot;
-Follow this link and get the API Key - http://developers.google.com/maps/documentation/geocoding/get-api-key
 </code></pre>
+<p>result:</p>
+<blockquote>
+<p>You need to register and get an API key and save it as environment variable $env:GoogleGeocode_API_Key = &quot;YOUR API KEY&quot;</p>
+<p>Follow this link and get the API Key - <a href="http://developers.google.com/maps/documentation/geocoding/get-api-key">http://developers.google.com/maps/documentation/geocoding/get-api-key</a></p>
+</blockquote>
 <p>So I follow that link... I have to accept some terms and conditions. It sees that I have no projects with google maps, and it auto-creates one called &quot;MyProject&quot;</p>
 <p>I receive the key eventually (I have an option to limit the acceptable IPs for this key, but don't take it)</p>
 <p>Then in powershell I set the environment variable as requested.</p>
-<pre><code>$env:GoogleGeocode_API_KEY = &quot;...my API key...&quot;    
+<pre><code>$env:GoogleGeocode_API_KEY = &quot;...my API key...&quot;
 </code></pre>
 <p>Thereafter, I try again:</p>
 <pre><code>&quot;White House&quot;, &quot;Eiffel Tower&quot; | Get-GeoCoding
-
-
-InputAddress : White House
+</code></pre>
+<p>result:</p>
+<pre><code>InputAddress : White House
 Address      : The White House, 1600 Pennsylvania Ave NW, Washington, DC 20500, USA
 Country      : United States
 State        : District of Columbia
@@ -69,21 +71,20 @@ Follow this link and get the API Key - https://developers.google.com/maps/docume
 At C:\Users\Leon\Documents\WindowsPowerShell\Modules\GoogleMap\1.0.0.2\GoogleMap.psm1:703 char:9
 +         Throw &quot;You need to register and get an API key and save it as ...
 +         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : OperationStopped: (You need to reg...get-api-key
+		+ CategoryInfo          : OperationStopped: (You need to reg...get-api-key
  :String) [], RuntimeException
-    + FullyQualifiedErrorId : You need to register and get an API key and save it as environment variable $env:GoogleGeoloc_API
-   _Key = &quot;YOUR API KEY&quot;
-Follow this link and get the API Key - https://developers.google.com/maps/documentation/geolocation/get-api-key    
+		+ FullyQualifiedErrorId : You need to register and get an API key and save it as environment variable $env:GoogleGeoloc_API
+	 _Key = &quot;YOUR API KEY&quot;
+Follow this link and get the API Key - https://developers.google.com/maps/documentation/geolocation/get-api-key
 </code></pre>
-<p>i.e. This time it's</p>
-<p>GoogleGeoloc_API_Key (not GoogleGeocode_API_Key)</p>
+<p>i.e. This time it's <code>GoogleGeoloc_API_Key</code> (not <code>GoogleGeocode_API_Key</code>)</p>
 <p>Can I use my geo coding API key?</p>
 <p>I try that, but it fails.</p>
 <p>Looking at the code itself I see it is checking</p>
 <pre><code>!$env:GooglePlaces_API_Key
 </code></pre>
 <p>So I'll set that!</p>
-<p>Later in the code it mentions $env:GoogleGeoloc_API_Key -- so I think it needs BOTH set (and the reference to GooglePlaces_API_Key is a bug... you need to set it because of the bug...)</p>
+<p>Later in the code it mentions <code>$env:GoogleGeoloc_API_Key</code> -- so I think it needs BOTH set (and the reference to <code>GooglePlaces_API_Key</code> is a bug... you need to set it because of the bug...)</p>
 <p>Okay -- I went to that url <a href="https://developers.google.com/maps/documentation/geolocation/get-api-key">https://developers.google.com/maps/documentation/geolocation/get-api-key</a> and basically enabled the GeoLocation API for the project that I've created at developers.google.com.</p>
 <p>Try</p>
 <pre><code>Get-GeoLocation
@@ -113,30 +114,30 @@ API Key Link - https://developers.google.com/maps/documentation/directions/get-a
 </code></pre>
 <p>Hmmm. No space between 'St' and 'Destination' -- what is happening there?</p>
 <p>I found this method was preparing the text:</p>
-<pre><code>#To Clear unwanted data from the String
+<pre><code># To Clear unwanted data from the String
 Function Remove-UnwantedString($Str)
 {
-    $str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;','')
-    $str = $str.replace('&lt;/div&gt;','')
-    $str = $str.replace('&lt;b&gt;','')
-    $str = $str.replace('&lt;/b&gt;','')
-    $str = $str.replace('&amp;nbsp;','')
-    Return $str
+	$str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;','')
+	$str = $str.replace('&lt;/div&gt;','')
+	$str = $str.replace('&lt;b&gt;','')
+	$str = $str.replace('&lt;/b&gt;','')
+	$str = $str.replace('&amp;nbsp;','')
+	Return $str
 }
 </code></pre>
 <p>And when I bypassed that method, the result was:</p>
 <pre><code>Turn &lt;b&gt;right&lt;/b&gt; onto &lt;b&gt;Mary St&lt;/b&gt;&lt;div style=&quot;font-size:0.9em&quot;&gt;Destination will be on the right&lt;/div&gt;
 </code></pre>
-<p>So I updated that method to put a single space where that &lt;div... had been.</p>
-<pre><code>#To Clear unwanted data from the String
+<p>So I updated that method to put a single space where that <code>&amp;lt;div</code>... had been.</p>
+<pre><code># To Clear unwanted data from the String
 Function Remove-UnwantedString($Str)
 {
-    $str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;',' ') # space here
-    $str = $str.replace('&lt;/div&gt;','')
-    $str = $str.replace('&lt;b&gt;','')
-    $str = $str.replace('&lt;/b&gt;','')
-    $str = $str.replace('&amp;nbsp;',' ') # space here
-    Return $str
+		$str = $Str.replace('&lt;div style=&quot;font-size:0.9em&quot;&gt;',' ') # space here
+		$str = $str.replace('&lt;/div&gt;','')
+		$str = $str.replace('&lt;b&gt;','')
+		$str = $str.replace('&lt;/b&gt;','')
+		$str = $str.replace('&amp;nbsp;',' ') # space here
+		Return $str
 }
 </code></pre>
 <p>And then I got the result I was expecting.</p>
@@ -153,10 +154,10 @@ Function Remove-UnwantedString($Str)
 <p>And nearest beer:</p>
 <pre><code>(Get-GeoLocation -WithCoordinates).Coordinates | Get-NearbyPlace -Radius 1000 -TypeOfPlace Bar -Keyword Beer | % Name
 </code></pre>
-<p>returned:</p>
+<p>...returned:</p>
 <pre><code>Pizza Capers (658 Ipswich Road, Annerley)
 Puccini Pizza Pasta Gelati Bar (Shop 2/6 Gapap Street, Tarragindi)
-Mediterranean Flavours - Gourmet Pizza and Pasta (1A 398 Tarragindi Road, Tarragindi) 
+Mediterranean Flavours - Gourmet Pizza and Pasta (1A 398 Tarragindi Road, Tarragindi)
 </code></pre>
 <p>Fantastic!</p>
 <h2 id="source">Source</h2>
