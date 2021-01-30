@@ -23,7 +23,11 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-to-create-a-literal-array-in-powershell">How to create a literal array in powershell</h1>
+<h2 id="create-an-empty-array">Create an Empty array</h2>
+<pre><code>$data = @()
+</code></pre>
 <p>This works....</p>
+<h2 id="a-literal-array">A literal array</h2>
 <pre><code>$MyArray = @(
 	&quot;Item0&quot;;
 	&quot;Item1&quot;;
@@ -31,24 +35,61 @@
 )
 </code></pre>
 <p>Hell, even this works:</p>
+<h2 id="literal-array-easy-syntax">Literal Array Easy Syntax</h2>
 <pre><code>$MyArray = &quot;Item0&quot;, &quot;Item1&quot;, &quot;Item2&quot;;
 </code></pre>
 <p>Both have same type:</p>
 <pre><code>&gt; $MyArray.GetType()
-IsPublic IsSerial Name                                     BaseType
+</code></pre>
+<p>result:</p>
+<pre><code>IsPublic IsSerial Name                                     BaseType
 -------- -------- ----                                     --------
 True     True     Object[]                                 System.Array
 </code></pre>
 <p>And both contain strings...</p>
 <pre><code>&gt; $MyArray | % { $_.GetType() }
-
-IsPublic IsSerial Name                                     BaseType
+</code></pre>
+<p>result:</p>
+<pre><code>IsPublic IsSerial Name                                     BaseType
 -------- -------- ----                                     --------
 True     True     String                                   System.Object
 True     True     String                                   System.Object
 True     True     String                                   System.Object
 </code></pre>
 <p>So I think the second one is simpler. Go with that.</p>
+<h2 id="use-an-array">Use an array</h2>
+<p>Access items by index offset (this offset like most offsets is zero-based)</p>
+<pre><code>$MyArray[0]
+</code></pre>
+<h2 id="fancy-ways-to-access-arrays">Fancy ways to access arrays</h2>
+<pre><code>$MyArray[0,5,12]
+</code></pre>
+<p>and</p>
+<pre><code>$MyArray[1..3]
+</code></pre>
+<p>and</p>
+<pre><code>$MyArray[-1..-4]
+</code></pre>
+<h2 id="count-items-in-an-arrays">Count Items in an arrays</h2>
+<pre><code>$MyArray.count
+</code></pre>
+<h2 id="last-item-in-an-array">Last Item in an array</h2>
+<pre><code>$MyArray[-1]
+</code></pre>
+<h2 id="for-each-through-an-array-iterating">For-Each Through An Array (Iterating)</h2>
+<pre><code>$MyArray | ForEach-Object {&quot;Item: [$PSItem]&quot;}
+</code></pre>
+<p>returns</p>
+<pre><code>Item: [Zero]
+Item: [One]
+Item: [Two]
+Item: [Three]
+</code></pre>
+<h2 id="add-an-item-to-an-array">Add an item to an array</h2>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-arrays?view=powershell-7.1">Everything you wanted to know about arrays</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

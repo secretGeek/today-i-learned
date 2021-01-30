@@ -26,7 +26,7 @@
 <p>List all four like this:</p>
 <pre><code>$profile | get-member -type noteproperty | ft -prop Name, Definition
 </code></pre>
-<p>For example:</p>
+<p>result:</p>
 <pre><code>Name                   Definition
 ----                   ----------
 AllUsersAllHosts       string AllUsersAllHosts=C:\Windows\System32\WindowsPowerShell\v1.0\profile.ps1
@@ -41,13 +41,15 @@ CurrentUserCurrentHost string CurrentUserCurrentHost=C:\Users\Agatha\Documents\W
 <li>CurrentUserAllHosts   This profile applies to the current user, regardless of what shell you are using.</li>
 <li>CurrentUserCurrentHost   This profile applies to the current user and the current host (WindowsPowerShell) only. (i.e. not loaded if you are in ISE or in a third party host, unless they've gone to extra effort.)</li>
 </ul>
-<p>As mentioned -- the file (and even its containing folder) may not exist for you.</p>
-<p>So to create it, use:</p>
+<h3 id="create-new-file-use">Create new file, use:</h3>
+<p>As mentioned -- the file (and even its containing folder) may not exist for you. So you need to know how to create folder and <em>force</em> the creation of the folder it is in, if needed:</p>
 <pre><code>New-Item -path {filename} -type file -force
 </code></pre>
-<p>for example:</p>
+<h3 id="create-new-profile">Create new profile</h3>
+<p>This creates a new profile file, and folder if needed</p>
 <pre><code>New-Item -path $profile -type file -force
 </code></pre>
+<h2 id="google-for-profiles">Google for profiles</h2>
 <p>To see example profiles on the internet google for either:</p>
 <pre><code>inurl:Microsoft.PowerShell_profile.ps1
 </code></pre>
