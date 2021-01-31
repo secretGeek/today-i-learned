@@ -27,7 +27,6 @@
 $code = &quot;[System.Management.Automation.PSParser]::Tokenize((Get-Content &quot;.\.ok&quot;), [ref]$null) | ft&quot;
 [System.Management.Automation.PSParser]::Tokenize($code, [ref]$null) | ft
 
-
 &quot;dir *.*&quot; | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft
 
 &quot;dir *.* | % FullName | ? {$_.ToUpperString()}&quot;  | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft
