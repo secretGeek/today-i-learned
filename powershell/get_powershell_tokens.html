@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="get-powershell-tokens">Get Powershell Tokens</h1>
+<h1 id="get-powershell-tokens-i.e.for-parsingsyntax-highlighting">Get Powershell Tokens (i.e. for parsing/syntax highlighting)</h1>
 <pre><code># or:  $code = (Get-Content $PS1_FileName);
 $code = &quot;[System.Management.Automation.PSParser]::Tokenize((Get-Content &quot;.\.ok&quot;), [ref]$null) | ft&quot;
 [System.Management.Automation.PSParser]::Tokenize($code, [ref]$null) | ft
@@ -31,8 +31,9 @@ $code = &quot;[System.Management.Automation.PSParser]::Tokenize((Get-Content &qu
 &quot;dir *.*&quot; | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft
 
 &quot;dir *.* | % FullName | ? {$_.ToUpperString()}&quot;  | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft
+
+&quot;dir *.* | % FullName | % { $_.ToUpper()} | ?{$_ -like &quot;&quot;*UPDA*&quot;&quot;} # Comment&quot; | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft
 </code></pre>
-<p>&quot;dir <em>.</em> | % FullName | % { <span class="math">\(_.ToUpper()} | ?{\)</span>_ -like <cite><em>UPDA</em></cite>} # Comment&quot; | % {[System.Management.Automation.PSParser]::Tokenize($_, [ref]$null)} | ft</p>
 <p>There are lots of Parser Token Types.</p>
 <p>(Thanks to Doug Finke for guiding me to find this)</p>
 <h2 id="source">Source</h2>
