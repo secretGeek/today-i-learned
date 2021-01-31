@@ -37,7 +37,7 @@ In order to do the magical terrible things you must first purchase a license
 	$token = $null
 	$body = $null
 	$comment.split(&quot;`r`n&quot;) | % {
-		if ($_.StartsWith(&quot;.&quot;)) 
+		if ($_.StartsWith(&quot;.&quot;))
 		{
 			 # new token, so yield the previous one
 			 if ($token -ne $null) {
@@ -49,7 +49,7 @@ In order to do the magical terrible things you must first purchase a license
 			$body+= $_ + &quot;`r`n&quot;
 		}
 	}
-	
+
 	# yield any remaining token
 	if ($token -ne $null) {
 		New-Object psobject -property  @{token = $token.trim(); body = $body.trim()}

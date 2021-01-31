@@ -24,10 +24,10 @@
 <article>
 <h1 id="add-note-property-to-object-in-pipeline">Add note property to object in pipeline</h1>
 <p>Here's an example Function that add' members to an object in a pipeline.</p>
-<pre><code>function ConvertTo-Object($hashtable) 
+<pre><code>function ConvertTo-Object($hashtable)
 {
 	$object = New-Object PSObject
-	$hashtable.GetEnumerator() | 
+	$hashtable.GetEnumerator() |
 		ForEach-Object { Add-Member -inputObject $object `
 			-memberType NoteProperty -name $_.Name -value $_.Value }
 	 $object

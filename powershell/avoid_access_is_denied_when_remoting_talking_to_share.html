@@ -36,8 +36,8 @@ write-host &quot;THIS WON'T WORK...&quot; -f red
 Invoke-Command -Session $RemoteSession {
 
 	# This works: we can view local folders on machine
-	dir; 
-	
+	dir;
+
 	# This doesn't work: we cannot authenticate to view restricted network shares
 	dir $using:TargetFolder
 }
@@ -59,9 +59,9 @@ $TargetFolder = &quot;\\OtherServer\ShareName\Pathy\Path&quot;
 write-host &quot;HOW ABOUT THESE APPLES...&quot; -f green
 Invoke-Command -Session $RemoteSession {
 	# This still works: we can view local folders on machine
-	dir; 
-	
-	# NOW, we create a new PS-Drive to the share. (You can give it a nice name, not just one letter). 
+	dir;
+
+	# NOW, we create a new PS-Drive to the share. (You can give it a nice name, not just one letter).
 	# And provide the credential to it!
 	new-psdrive  -name &quot;MyNewDrive&quot; -root $using:TargetFolder -PSProvider &quot;FileSystem&quot; -Credential $using:Credentials | out-null
 	dir &quot;MyNewDrive:\&quot;

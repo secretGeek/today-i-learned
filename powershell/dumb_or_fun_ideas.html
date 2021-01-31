@@ -58,7 +58,7 @@
 :::-----------------------------;;;;;;;;;;;;;;;;;;;;;;;;---------------:::::::::::::
 :::::----------------------------------;;;;;;;;;;;-------------------:::::::::::::::
 :::::::::--------------------------------------------------------:::::::::::::::::::
-:::::::::::::------------------------------------------------:::::::::::::::::::::::    
+:::::::::::::------------------------------------------------:::::::::::::::::::::::
 </code></pre>
 <p>...from WaiKin Kong, in 2006, shared here: <a href="https://blogs.msdn.microsoft.com/powershell/2006/12/28/mandelbrot-one-liner/">Mandelbrot One-liner</a></p>
 <p>A less condensed version, from <a href="http://poshcode.org/5845">poshcode, by user Zefram</a> which writes colored squares.</p>
@@ -69,24 +69,24 @@ $x=[float]-16;
 $y=[float]-16;
 
 #Color Array
-$colors=&quot;Black&quot;,&quot;DarkBlue&quot;,&quot;DarkGreen&quot;,&quot;DarkCyan&quot;,&quot;DarkRed&quot;,&quot;DarkMagenta&quot;,&quot;DarkYellow&quot;,&quot;Gray&quot;,&quot;DarkGray&quot;,&quot;Blue&quot;,&quot;Green&quot;,&quot;Cyan&quot;,&quot;Red&quot;,&quot;Magenta&quot;,&quot;Yellow&quot;,&quot;White&quot; 
+$colors=&quot;Black&quot;,&quot;DarkBlue&quot;,&quot;DarkGreen&quot;,&quot;DarkCyan&quot;,&quot;DarkRed&quot;,&quot;DarkMagenta&quot;,&quot;DarkYellow&quot;,&quot;Gray&quot;,&quot;DarkGray&quot;,&quot;Blue&quot;,&quot;Green&quot;,&quot;Cyan&quot;,&quot;Red&quot;,&quot;Magenta&quot;,&quot;Yellow&quot;,&quot;White&quot;
 
-while(($y++) -lt 15) 
-{ 
-    for($x=0; ($x++) -lt 70; Write-Host &quot; &quot; -BackgroundColor ($colors[$k -band 15]) -NoNewline) 
-        { 
+while(($y++) -lt 15)
+{
+    for($x=0; ($x++) -lt 70; Write-Host &quot; &quot; -BackgroundColor ($colors[$k -band 15]) -NoNewline)
+        {
             #Zero
             $i=[float]0;
             $k=[float]0;
-            $r=[float]0; 
+            $r=[float]0;
             do
             {
                 #Explain to PowerShell what a complex number looks like because computers are basally stupid.
                 $j=$r*$r-$i*$i-2+$x/25; $i=2*$r*$i+$y/10; $r=$j
             }
             #Make sure the fractal doesn't draw to infinity
-            while (($j*$j+$i*$i) -lt 4 -band ($k++) -lt 111) 
-        } 
+            while (($j*$j+$i*$i) -lt 4 -band ($k++) -lt 111)
+        }
     Write-Host &quot; &quot;
 }
 </code></pre>
@@ -113,23 +113,23 @@ $synth.Dispose();
 </code></pre>
 <h2 id="beautiful-music">Beautiful music</h2>
 <p>From <a href="https://blogs.technet.microsoft.com/wikininjas/2013/11/13/wiki-life-geek/">Luiz Henrique Lima Campos</a>, quoted here: <a href="http://social.technet.microsoft.com/wiki/contents/articles/20989.music-from-the-command-line-performed-by-powershell.aspx">&quot;Music from the Command Line&quot;: Performed by Powershell</a>, though maybe previously from <a href="http://jeffwouters.nl/index.php/2012/03/get-your-geek-on-with-powershell-and-some-music/">Jeff Wouters</a></p>
-<pre><code>[console]::beep(440,500)       
-[console]::beep(440,500) 
-[console]::beep(440,500)        
-[console]::beep(349,350)        
-[console]::beep(523,150)        
-[console]::beep(440,500)        
-[console]::beep(349,350)        
-[console]::beep(523,150)        
-[console]::beep(440,1000) 
-[console]::beep(659,500)        
-[console]::beep(659,500)        
-[console]::beep(659,500)        
-[console]::beep(698,350)        
-[console]::beep(523,150)        
-[console]::beep(415,500)        
-[console]::beep(349,350)        
-[console]::beep(523,150)        
+<pre><code>[console]::beep(440,500)
+[console]::beep(440,500)
+[console]::beep(440,500)
+[console]::beep(349,350)
+[console]::beep(523,150)
+[console]::beep(440,500)
+[console]::beep(349,350)
+[console]::beep(523,150)
+[console]::beep(440,1000)
+[console]::beep(659,500)
+[console]::beep(659,500)
+[console]::beep(659,500)
+[console]::beep(698,350)
+[console]::beep(523,150)
+[console]::beep(415,500)
+[console]::beep(349,350)
+[console]::beep(523,150)
 [console]::beep(440,1000)
 </code></pre>
 

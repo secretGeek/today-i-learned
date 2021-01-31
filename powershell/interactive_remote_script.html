@@ -24,11 +24,11 @@
 <article>
 <h1 id="want-to-prompt-user-for-credentials-and-then-run-a-script-on-a-remote-machine">Want to prompt user for credentials and then run a script on a remote machine?</h1>
 <p>Assuming the Remote Computer Name is stored in a variable <code>$remoteComputerName</code></p>
-<pre><code>$credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; -UserName $env:username 
+<pre><code>$credentials = Get-Credential -Message &quot;Provide the credentials for remote access&quot; -UserName $env:username
 $TargetServer = &quot;YourServer&quot;
 $remoteSession = New-PSSession -ComputerName $TargetServer = &quot;YourServer&quot; -Credential $credentials
 
-Invoke-Command -ComputerName $remoteComputerName -ScriptBlock { 
+Invoke-Command -ComputerName $remoteComputerName -ScriptBlock {
 # Commands in here are remote executed, hence relative to $remoteComputerName
 # Note that if referring to a variable from outside this block, preface it with 'using'
 # e.g. '$using:TargetServer' has a value of 'YourServer'

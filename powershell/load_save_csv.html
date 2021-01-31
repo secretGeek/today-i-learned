@@ -47,8 +47,11 @@ Equals      Method       bool Equals(System.Object obj)
 GetHashCode Method       int GetHashCode()
 GetType     Method       type GetType()
 ToString    Method       string ToString()
-Length      NoteProperty string Length=0
-Name        NoteProperty string Name=.md	
+Length      NoteProperty string Length=12
+Name        NoteProperty string Name=fred.md
+</code></pre>
+<h2 id="group-csv">Group CSV</h2>
+<pre><code>import-csv &quot;dirinfo.csv&quot; | group -property Name | sort -desc count
 </code></pre>
 
 </article>

@@ -26,16 +26,16 @@
 <p>This recursive function will find all the repositories in a given location, and output their names/locations.</p>
 <pre><code>function SearchForRepos($fullPath) {
 	$isRepo = (gci $fullpath &quot;.hg&quot; | measure-object | % { $_.Count })
-	
+
 	if ($isRepo -eq 1) {
 		$fullPath
 	} else {
-		get-childitem $fullPath 	| ?{ $_.PSIsContainer } | 
+		get-childitem $fullPath 	| ?{ $_.PSIsContainer } |
 		% { SearchForRepos $_.FullName }
 	}
-}	
-	
-SearchForRepos &quot;X:\Repositories\&quot; | ? { $_ -notlike '*\Legacy\*' } | out-file &quot;C:\wip\Repositories.csv&quot; 
+}
+
+SearchForRepos &quot;X:\Repositories\&quot; | ? { $_ -notlike '*\Legacy\*' } | out-file &quot;C:\wip\Repositories.csv&quot;
 </code></pre>
 
 </article>

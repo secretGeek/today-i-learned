@@ -24,8 +24,8 @@
 <article>
 <h1 id="group-objects-in-powershell">Group objects in powershell</h1>
 <p>Grouping is useful. I've mentioned it also in <a href="count_distinct_rows.html">Count distinct rows</a>, <a href="file_types.html">Count Files by Type</a> and <a href="histogram.html">histogram</a>.</p>
-<pre><code>dir -rec | 
-group-object -property { ($_.extension) } | 
+<pre><code>dir -rec |
+group-object -property { ($_.extension) } |
 % {
 	[PSCustomObject]@{
 		Id = $_.Name
@@ -36,8 +36,8 @@ group-object -property { ($_.extension) } |
 } | sort -desc Size
 
 
-dir -rec | 
-group-object -property { ($_.extension) } | 
+dir -rec |
+group-object -property { ($_.extension) } |
 % {
 	[PSCustomObject]@{
 		Id = $_.Name

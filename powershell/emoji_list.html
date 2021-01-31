@@ -8430,12 +8430,12 @@
 $emojiPath = Join-Path $emojiPath &quot;Unicode-Emojis.json&quot;
 $json = Get-Content $emojiPath | Out-String | ConvertFrom-Json
 
-$json | % { 
-&quot;|&quot; + (get-emoji -Name $_.Name) + 
-&quot;|&quot; + $_.Name + 
-&quot;|&quot; + $_.Code + 
+$json | % {
+&quot;|&quot; + (get-emoji -Name $_.Name) +
+&quot;|&quot; + $_.Name +
+&quot;|&quot; + $_.Code +
 &quot;|&quot; + (($_.code -replace &quot;U[+]&quot;, &quot;&amp;amp;#&quot;) -replace &quot; &quot;,&quot;;&quot;) + &quot;;&quot; +
-&quot;|&quot; + $_.Annotations + &quot;|&quot; 
+&quot;|&quot; + $_.Annotations + &quot;|&quot;
 } | set-clipboard
 </code></pre>
 <h2 id="source">Source</h2>

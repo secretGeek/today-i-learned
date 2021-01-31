@@ -34,22 +34,22 @@
 <pre><code>while($true) { dir *wellsrv* | % { $_.Length / 1gb; sleep 1} }
 </code></pre>
 <p>Here's one that shows the current time, the file name and size every 20 seconds</p>
-<pre><code>while($true) { dir outputlog.txt | % { 
-			&quot;&quot; +  (get-date -f &quot;yyyy-MM-dd HH:mm:ss&quot;) + 
-			&quot;: &quot; + ($_.Name) + 
-			&quot;, &quot; + ($_.Length / 1gb) + 
-			&quot; GB&quot;; 
+<pre><code>while($true) { dir outputlog.txt | % {
+			&quot;&quot; +  (get-date -f &quot;yyyy-MM-dd HH:mm:ss&quot;) +
+			&quot;: &quot; + ($_.Name) +
+			&quot;, &quot; + ($_.Length / 1gb) +
+			&quot; GB&quot;;
 			sleep 30
-			} 
+			}
 }
 </code></pre>
 <p>Here's one that shows how much space is left on the drive...</p>
-<pre><code>while (1) { 
-	get-psdrive C | 
-		% { 
-			&quot;&quot; + &quot;{0:0.00}&quot; -f ($_.Used/1GB) + &quot; used, &quot; + 
+<pre><code>while (1) {
+	get-psdrive C |
+		% {
+			&quot;&quot; + &quot;{0:0.00}&quot; -f ($_.Used/1GB) + &quot; used, &quot; +
 			&quot;{0:0.00}&quot; -f ($_.Free/1GB)   + &quot; free&quot;
-		}; 
+		};
 		sleep 3;
 }
 </code></pre>

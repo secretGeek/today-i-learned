@@ -25,10 +25,10 @@
 <h1 id="powershell-prompt">Powershell prompt</h1>
 <p>This is a powershell prompt i've been using for a while.
 you put this in your <a href="create_profile.html">$PROFILE</a></p>
-<pre><code>function prompt { 
+<pre><code>function prompt {
     # LEON prompt in progress
-    $cdelim = [ConsoleColor]::DarkCyan 
-    $chost = [ConsoleColor]::DarkMagenta 
+    $cdelim = [ConsoleColor]::DarkCyan
+    $chost = [ConsoleColor]::DarkMagenta
     $cloc = [ConsoleColor]::Cyan
 
     #
@@ -38,20 +38,20 @@ you put this in your <a href="create_profile.html">$PROFILE</a></p>
     {
         Write-Host
     }
-    
-    write-host (&quot;$env:computername &quot;) -n -f $chost 
+
+    write-host (&quot;$env:computername &quot;) -n -f $chost
 
     if ($HOME -ne &quot;&quot;) {
         $path = ((pwd).Path) -replace [regex]::escape($HOME), '~'  # substitute tilde for home. case-insensitive
     } else {
         $path = ((pwd).Path)
     }
-    
-    $path = $path -replace '^[^:]+::', ''      # remove prefix for UNC paths 
 
-    write-host $path -n -f $cloc 
-    write-host '&gt;' -n -f $cdelim 
-    return ' ' 
+    $path = $path -replace '^[^:]+::', ''      # remove prefix for UNC paths
+
+    write-host $path -n -f $cloc
+    write-host '&gt;' -n -f $cdelim
+    return ' '
 }
 </code></pre>
 

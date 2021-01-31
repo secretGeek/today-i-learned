@@ -28,7 +28,7 @@
 <pre><code>Get-WmiObject win32_operatingsystem | select csname, @{LABEL='LastBootUpTime';EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 </code></pre>
 <p>In Powershell 3+</p>
-<pre><code>Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime    
+<pre><code>Get-CimInstance -ClassName win32_operatingsystem | select csname, lastbootuptime
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>

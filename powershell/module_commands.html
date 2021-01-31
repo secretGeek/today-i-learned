@@ -25,23 +25,23 @@
 <h1 id="module-and-package-commands">Module and Package Commands</h1>
 <p>(A module is one type of &quot;package&quot; — a package which exports a bunch of cmdlets.)</p>
 <ol>
-<li><code>Get-PackageProvider</code><br />
+<li><code>Get-PackageProvider</code>
 Lists all package providers. Currently: Chocolatey, msi, msu, NuGet, PowerShellGet, Programs</li>
-<li><code>Install-PackageProvider -Name Chocolatey</code><br />
+<li><code>Install-PackageProvider -Name Chocolatey</code>
 Installs the named package provider.</li>
-<li><code>Find-Package</code><br />
+<li><code>Find-Package</code>
 Use <code>PackageManagement</code> to search all package providers for a package.</li>
-<li><code>Find-Module</code><br />
+<li><code>Find-Module</code>
 Use the <code>PowershellGet</code> package provider to search for a module (includes looking at the <a href="https://www.powershellgallery.com/">PsGallery</a>.</li>
-<li><code>Find-Script</code><br />
+<li><code>Find-Script</code>
 Use the <code>PowershellGet</code> package provider to search for a script (includes looking at the <a href="https://www.powershellgallery.com/">PsGallery</a>.</li>
-<li><code>Install-Module</code><br />
+<li><code>Install-Module</code>
 Installs a module but does not load it. <strong>Requires elevation.</strong></li>
-<li><code>Import-Module</code><br />
+<li><code>Import-Module</code>
 Loads a module that is already installed or available on your machine.</li>
-<li><code>get-module -listAvailable</code><br />
+<li><code>get-module -listAvailable</code>
 lists installed (i.e. available) modules. They <strong>may not</strong> have been imported (i.e. loaded)</li>
-<li><code>get-module</code><br />
+<li><code>get-module</code>
 lists installed (i.e. available) and imported (i.e. loaded) modules.</li>
 </ol>
 <p>TODO: How to add a path such that it shows up in <code>$env:PSModulePath</code></p>

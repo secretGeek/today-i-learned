@@ -55,14 +55,14 @@ Each bucket is 1000 bytes.</p>
                         }
                     }
                 }
-                
+
             }*/
 </code></pre>
 <p Expression="{$_.Group">_.Count};Label=&quot;Count&quot;;width=10},
 @;Label=&quot;Members&quot;;width=50} -autosize</p>
 <p><em>Consider</em> running the initial <code>dir</code> recursively with <code>-rec</code></p>
 <p>Group by file type:</p>
-<pre><code>dir -rec | group-object -property { ($_.extension) } | sort @{e={$_.Name -as [int]}} 
+<pre><code>dir -rec | group-object -property { ($_.extension) } | sort @{e={$_.Name -as [int]}}
 </code></pre>
 <p>Exclude directories (but include their files)</p>
 <pre><code>dir -rec | ?{ $_.PSIsContainer -ne $true } | group-object -property { ($_.extension) } | sort

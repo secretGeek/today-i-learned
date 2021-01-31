@@ -33,15 +33,15 @@
 Start-Sleep -Seconds 5 # give it time to load
 $Result = Receive-Job -Job $JobObject
 
-$Result.Readings | 
+$Result.Readings |
 	Foreach-Object { ($_ -split ':')[-1].Trim() } |
-	Measure-Object -Average | 
+	Measure-Object -Average |
 	Select-Object @{n='Average';e={&quot;{0:f2}&quot; -f $_.Average}}
 </code></pre>
 <p>From <a href="https://stackoverflow.com/questions/59051743/retrieve-average-cpu-workload-with-get-counter">Retrieve average CPU-workload with Get-Counter</a> (by Duke Donnovan and AdminOfThings)</p>
 <h2 id="checking-cpu-percentage-with-wmi">Checking CPU Percentage with WMI...</h2>
-<pre><code>Get-WmiObject -computer $env:computername -class win32_processor | 
-	Measure-Object -property LoadPercentage -Average | 
+<pre><code>Get-WmiObject -computer $env:computername -class win32_processor |
+	Measure-Object -property LoadPercentage -Average |
 	Select-Object -ExpandProperty Average
 </code></pre>
 

@@ -31,8 +31,8 @@
 <pre><code>dir -rec -Exclude .git | ?{ $_.PSIsContainer -ne $true } | ? { $_.DirectoryName -notmatch &quot;\.git&quot; } | group-object -property { ($_.extension) } | sort -desc Count
 </code></pre>
 <p>Here's another version with a Size property (which is a sum of the length)</p>
-<pre><code>dir -rec | 
-group-object -property { ($_.extension) } | 
+<pre><code>dir -rec |
+group-object -property { ($_.extension) } |
 % {
 	[PSCustomObject]@{
 		Id = $_.Name
@@ -43,9 +43,9 @@ group-object -property { ($_.extension) } |
 } | sort -desc Size
 </code></pre>
 <p>Here's same, explicitly excluding <code>.git</code> and <code>node_modules</code> again.</p>
-<pre><code>dir -rec -Exclude .git,*node_modules*,.hg | 
+<pre><code>dir -rec -Exclude .git,*node_modules*,.hg |
 ? { $_.PSIsContainer -ne $true } | ? { $_.DirectoryName -notmatch &quot;node_modules|\.git|\.hg&quot; } |
-group-object -property { ($_.extension) } | 
+group-object -property { ($_.extension) } |
 % {
 	[PSCustomObject]@{
 		Id = $_.Name

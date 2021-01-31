@@ -32,14 +32,14 @@
 </code></pre>
 <p>For the folders....</p>
 <pre><code>#Get the directories / sub directories and rename to lowercase
-Get-ChildItem -recurse | 
-    ?{ $_.PSIsContainer -And $_.Name -CMatch &quot;[A-Z]&quot; } | 
+Get-ChildItem -recurse |
+    ?{ $_.PSIsContainer -And $_.Name -CMatch &quot;[A-Z]&quot; } |
     %{
         $NName = $_.Name.ToLowerInvariant()
 
         # Set temporary name to enable rename to the same name; Windows is not case sensitive
         $TempItem = Rename-Item -Path $_.FullName -NewName &quot;x$NName&quot; -PassThru
-        
+
         Rename-Item -Path $TempItem.FullName -NewName $NName
     }
 </code></pre>

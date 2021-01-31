@@ -51,8 +51,8 @@
 &quot;.\script1.ps1 -isGood:$false&quot;  #  $IsGood = $false
 </code></pre>
 <h2 id="dont-like-named-parameters-fine-use-positional">Don't like named parameters? Fine! Use positional...</h2>
-<pre><code>$name=$args[0]    
-$height=$args[1]    
+<pre><code>$name=$args[0]
+$height=$args[1]
 </code></pre>
 <p>...like it's 1999.</p>
 <h2 id="validate-the-parameters">Validate the parameters...</h2>
@@ -69,7 +69,7 @@ $height=$args[1]
 <p>What about -- a filename that must be an existing file...</p>
 <pre><code>Param(
     [ValidateScript({Test-Path $_})][string]$smolibrary
-)    
+)
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>

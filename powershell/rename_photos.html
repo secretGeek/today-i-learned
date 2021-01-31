@@ -32,7 +32,7 @@ $pic = New-Object System.Drawing.Bitmap($fileName)
 $bytearr = $pic.GetPropertyItem(36867).Value # Date Taken
 $pic.Dispose() # note... must dispose of the pic, if you wish to be able to rename the file! Otherwise get a fil in use error.
 
-$string = [System.Text.Encoding]::ASCII.GetString($bytearr) 
+$string = [System.Text.Encoding]::ASCII.GetString($bytearr)
 $exactDate = [datetime]::ParseExact($string,&quot;yyyy:MM:dd HH:mm:ss`0&quot;,$Null)
 $length = (dir $fileName | % length )
 $extensionWithDot = [io.path]::GetExtension($FileName)
@@ -46,7 +46,7 @@ rename-item $fileName $newName
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://exif.regex.info/exif.cgi">http://exif.regex.info/exif.cgi</a></li>
-<li><a href="http://stackoverflow.com/questions/6834259/how-can-i-get-programmatic-access-to-the-date-taken-field-of-an-image-or-video">StackOverflow: How can I get programmatic access to the “Date taken” field of an image or video using powershell?</a></li>
+<li><a href="http://stackoverflow.com/questions/6834259/how-can-i-get-programmatic-access-to-the-date-taken-field-of-an-image-or-video">StackOverflow: How can I get programmatic access to the â€œDate takenâ€ field of an image or video using powershell?</a></li>
 </ul>
 
 </article>

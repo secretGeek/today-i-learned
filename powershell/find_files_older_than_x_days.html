@@ -32,11 +32,11 @@
 <pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} |  format-table -property Length, LastWriteTime, FullName
 </code></pre>
 <p>To a tab separated string (columns are &quot;Size (Bytes)&quot;, &quot;Days Old&quot;, &quot;Full Name&quot;)</p>
-<pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} | 
+<pre><code>dir -rec | ? {$_.LastWriteTime -lt (Get-Date).AddDays(-30)} |
 	% { &quot;&quot; +$_.Length + &quot;`t&quot; + $(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days + &quot;`t&quot; + $_.FullName } | clipp
 </code></pre>
 <p>Or just find the 10 oldest files</p>
-<pre><code>dir -rec | sort lastwritetime | select -first 10 
+<pre><code>dir -rec | sort lastwritetime | select -first 10
 </code></pre>
 <p>Or find the 10 oldest files and show them in a neat table</p>
 <pre><code>dir -rec | sort lastwritetime | select -first 10 |format-table -property @{Expression={(New-TimeSpan -start $_.LastWriteTime -End (Get-Date)).Days};Label=&quot;Days&quot;},Length, FullName
