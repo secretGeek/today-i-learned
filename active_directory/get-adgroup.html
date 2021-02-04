@@ -50,13 +50,13 @@
 <li><a href="#when-was-the-users-password-last-set">When was the user's password last set?</a></li>
 </ul>
 <h2 id="which-groups-is-a-user-in">Which groups is a user in?</h2>
-<pre><code>(Get-ADUser &quot;MyUser&quot; –Properties MemberOf).MemberOf
+<pre><code>(Get-ADUser &quot;MyUser&quot; -Properties MemberOf).MemberOf
 </code></pre>
 <p>But since the results are in &quot;X.500 Directory Specification&quot; which looks like this....</p>
 <pre><code>CN=GroupNameHere,OU=AnOrgUnit3,OU=AnOrgUnit2,OU=AnOrgUnit1,DC=aDomainComponent3,DC=aDomainComponent2,DC=aDomainComponent1
 </code></pre>
 <p>...and we only want the group name (say) -- we can split it by the commas, then keep only the bits that start with &quot;CN=&quot; and then split that on the equals sign and keep the values of the first item in the result.</p>
-<pre><code>(Get-ADUser &quot;leon.bambrick-b&quot; –Properties MemberOf).MemberOf | % { ($_ -split &quot;,&quot; -like &quot;CN=*&quot; -split &quot;=&quot; )[1] }
+<pre><code>(Get-ADUser &quot;leon.bambrick&quot; -Properties MemberOf).MemberOf | % { ($_ -split &quot;,&quot; -like &quot;CN=*&quot; -split &quot;=&quot; )[1] }
 </code></pre>
 <p>(I did like this alternative form <a href="https://serverfault.com/a/594724/17154">at serverfault from user Canoas</a> which doesn't rely on RSAT....</p>
 <pre><code>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=User)(samAccountName=$($env:username)))&quot;)).FindOne().GetDirectoryEntry().memberOf
@@ -70,12 +70,12 @@
 </code></pre>
 <h2 id="when-was-the-users-password-last-set">When was the user's password last set?</h2>
 <pre><code>$userName = &quot;my-user-name&quot;
-(Get-ADUser –Identity $userName -Properties &quot;PasswordLastSet&quot;).&quot;PasswordLastSet&quot;
+(Get-ADUser -Identity $userName -Properties &quot;PasswordLastSet&quot;).&quot;PasswordLastSet&quot;
 </code></pre>
 <p>(Can be the best way to guess when it will be reset/expire..)</p>
 <h2 id="try-to-find-the-property-you-want-to-find">Try to find the property you want to find...</h2>
 <p>What if we want to find all properties that mention &quot;pass&quot; -- we can do it like this:</p>
-<pre><code>(Get-ADUser &quot;leon.bambrick-b&quot; –Properties &quot;*&quot;) | get-member | ? { $_.MemberType -eq &quot;Property&quot; -and $_.Name -like &quot;*pass*&quot; }
+<pre><code>(Get-ADUser &quot;leon.bambrick&quot; -Properties &quot;*&quot;) | get-member | ? { $_.MemberType -eq &quot;Property&quot; -and $_.Name -like &quot;*pass*&quot; }
 </code></pre>
 <p>Then we use the syntax in the examples above to fetch and return that property.</p>
 <h2 id="find-user-details-of-a-user-from-a-different-domain-controller">Find user details of a user from a different Domain Controller</h2>
@@ -1483,11 +1483,16 @@ Application     Dism.exe    10.0.17... C:\windows\system32\Dism.exe
 <p>You can find out more about any one of those via:</p>
 <pre><code>DISM /Online /Get-CapabilityInfo /CapabilityName:Language.Basic~~~en-US~0.0.1.0
 </code></pre>
+<p>...from an elevated console.</p>
 <p>Read <a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-capabilities-package-servicing-command-line-options">More about DISM.</a></p>
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat">All RSAT Components</a></li>
 <li><a href="https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities#using-dism-add-capability-to-add-or-remove-fods">DISM: Add Capability</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../powershell/get_aduser.html">get-aduser is useful to get info about a user account</a></li>
 </ul>
 
 </article>
