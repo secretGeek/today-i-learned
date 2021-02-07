@@ -23,12 +23,15 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-to-find-how-much-free-space-is-left-on-a-drive">How to find how much free space is left on a drive</h1>
+<h2 id="space-remaining">Space remaining:</h2>
 <p>In short:</p>
 <pre><code>get-psdrive C
 </code></pre>
+<h2 id="space-remaining-gold-edition">Space remaining (gold edition)</h2>
 <p>Bit lengthier...</p>
 <pre><code>get-psdrive C | % { &quot;&quot; + $_.Used/1GB + &quot; GB used, &quot; + $_.Free/1GB  + &quot; GB free&quot;}
 </code></pre>
+<h2 id="space-remaining-platinum-edition">Space remaining (platinum edition)</h2>
 <p>Or lengthier still:</p>
 <pre><code>get-psdrive C | % { &quot;&quot; + &quot;{0:0.00}&quot; -f ($_.Used/1GB) + &quot; GB used, &quot; + &quot;{0:0.00}&quot; -f ($_.Free/1GB)   + &quot; GB free&quot;}
 </code></pre>
