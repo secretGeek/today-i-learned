@@ -115,21 +115,21 @@ npm install # because we skipped install earlier. I did that because installing 
 <pre><code>ng generate component xyz
 </code></pre>
 <p>In fact we can generate any of these:</p>
-<pre><code>	appShell
-	application
-	class
-	component
-	directive
-	enum
-	guard
-	interceptor
-	interface
-	library
-	module
-	pipe
-	service
-	serviceWorker
-	webWorker
+<pre><code class="language-plaintext">appShell
+application
+class
+component
+directive
+enum
+guard
+interceptor
+interface
+library
+module
+pipe
+service
+serviceWorker
+webWorker
 </code></pre>
 <p>(This is just what we get from the <code>Collection</code> <code>@schematics/angular</code> ok.</p>
 <p>As a scientist you can commit everything to your repo. Generate one of those. Then inspect what was added.</p>
@@ -166,14 +166,14 @@ npm install # because we skipped install earlier. I did that because installing 
 <p>...it starts and I get to the welcome screen:</p>
 <p>When we run <code>npm start</code> we are <code>run</code>ning an npm <code>script</code> like this:</p>
 <p>if you look inside the file <code>package.json</code> you will find a node like this:</p>
-<pre><code>	&quot;scripts&quot;: {
-		&quot;ng&quot;: &quot;ng&quot;,
-		&quot;start&quot;: &quot;ng serve -o&quot;,
-		&quot;build&quot;: &quot;ng build&quot;,
-		&quot;test&quot;: &quot;ng test&quot;,
-		&quot;lint&quot;: &quot;ng lint&quot;,
-		&quot;e2e&quot;: &quot;ng e2e&quot;
-	},
+<pre><code>&quot;scripts&quot;: {
+	&quot;ng&quot;: &quot;ng&quot;,
+	&quot;start&quot;: &quot;ng serve -o&quot;,
+	&quot;build&quot;: &quot;ng build&quot;,
+	&quot;test&quot;: &quot;ng test&quot;,
+	&quot;lint&quot;: &quot;ng lint&quot;,
+	&quot;e2e&quot;: &quot;ng e2e&quot;
+},
 </code></pre>
 <p>Those scripts are a map of friendly little names on the left to 'complex' commands on the right.</p>
 <p>So, for this project, when we run <code>npm start</code> it is a shortcut to running:  <code>npm run ng serve -o</code></p>
