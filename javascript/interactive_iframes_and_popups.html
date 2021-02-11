@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>interactive iframes and popups . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-perform-two-way-interaction-with-a-hosted-iframe-or-a-popup">How to perform two way interaction with a hosted iframe or a popup</h1>
+<p>Use <code>window.postMessage</code> to talk to the embedded guest page (or the popup) from the host page.</p>
+<p>And <code>window.opener.postMessage</code> to talk to the host page, from the embedded guest page.</p>
+<p>e.g.</p>
+<h2 id="sending-message-to-popup">Sending message to popup...</h2>
+<pre><code>var popup = window.open(/* popup details */);
+/* wait for the popup to load, then */
+popup.postMessage(&quot;The user is 'bob' and the password is 'secret'&quot;,&quot;https://secure.example.net&quot;);
+</code></pre>
+<h2 id="sending-message-to-iframe">Sending message to iFrame...</h2>
+<pre><code>document.getElementById('cross_domain_page').contentWindow.postMessage(&quot;The user is 'bob' and the password is 'terces'&quot;,&quot;https://secure.example.net&quot;)
+</code></pre>
+<h2 id="receiving-messages-in-the-guest-page">Receiving messages in the guest page...</h2>
+<pre><code>window.addEventListener(&quot;message&quot;, (event) =&gt; {
+  // Do we trust the sender of this message?
+  if (event.origin !== &quot;http://example.com:8080&quot;)
+	return;
+
+  // event.source is window.opener
+  // event.data is &quot;hello there!&quot;
+
+  // Assuming you've verified the origin of the received message (which
+  // you must do in any case), a convenient idiom for replying to a
+  // message is to call postMessage on event.source and provide
+  // event.origin as the targetOrigin.
+  event.source.postMessage(&quot;hi there yourself!  the secret response &quot; +
+						   &quot;is: rheeeeet!&quot;,
+						   event.origin);
+}, false);
+</code></pre>
+<h2 id="receiving-messages-in-the-host">Receiving messages in the host...</h2>
+<p>We can also receive events <em>back</em> from the guest page (the popup/iframe) -- provided it has a way to call &quot;postMessage&quot; on this window's window object.</p>
+<pre><code>window.addEventListener(&quot;message&quot;, (event) =&gt; {
+  // Do we trust the sender of this message?  (might be
+  // different from what we originally opened, for example).
+  if (event.origin !== &quot;http://example.com&quot;)
+	return;
+
+  // event.source is popup
+  // event.data is &quot;hi there yourself!  the secret response is: rheeeeet!&quot;
+}, false);
+</code></pre>
+<h2 id="external-references">External references</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#example">Example</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
