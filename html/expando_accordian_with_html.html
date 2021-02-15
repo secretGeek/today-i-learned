@@ -27,13 +27,46 @@
 <p>You can create expand/collapse regions with plain html using the <code>details</code> tag (and the <code>summary</code> tag)</p>
 <p>e.g. this code:</p>
 <h2 id="text-below-can-expand">Text below can expand...</h2>
+<p>Html like this:</p>
+<pre><code>&lt;details&gt;Once expanded, this is the details you will see.&lt;/details&gt;
+</code></pre>
+<p>Behaves like this:</p>
 <details>Once expanded, this is the details you will see.</details>
 <h2 id="text-below-can-expand-1">Text below can expand...</h2>
-<details>This text can expand</details>
+<p>And Html like this:</p>
+<pre><code>&lt;details&gt;
+&lt;summary&gt;Expand to see the details....&lt;/summary&gt;
+Once expanded, this is the details you will see.
+&lt;/details&gt;
+</code></pre>
+<p>Behaves like this:</p>
 <details>
 <summary>Expand to see the details....</summary>
 Once expanded, this is the details you will see.
 </details>
+<p>Note that the summary text is visible both before and after the details are expanded.</p>
+<p>You can alter that behaviour with css that checks if the boolean &quot;open&quot; attribute is defined on the details element, for example&gt;</p>
+<p>This style:</p>
+<pre><code>details.example3[open] &gt; summary { 
+	background-color:red;
+	color:black;
+	outline:none;
+}
+</code></pre>
+<p>ANd this html...</p>
+<pre><code>&lt;details class='example3'&gt;
+&lt;summary&gt;Expand to see the details....&lt;/summary&gt;
+Once expanded, this is the details you will see.
+&lt;/details&gt;
+</code></pre>
+<p>Behaves like this:</p>
+<details class='example3'>
+<summary>Expand to see the details....</summary>
+Once expanded, this is the details you will see.
+</details>
+<style>
+details.example3[open] > summary { background-color:red;color:black;outline:none;}
+</style>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://css-tricks.com/quick-reminder-that-details-summary-is-the-easiest-way-ever-to-make-an-accordion/">Quick Reminder that Details/Summary is the Easiest Way Ever to Make an Accordion</a></li>
