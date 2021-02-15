@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>custom objects . Today I Learned (secretGeek)</title>
+<title>expando accordian with html . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,27 +22,21 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="create-dynamic-custom-objects">Create dynamic custom objects</h1>
-<p>(To define an actual class see <a href="how_to_make_a_custom_class.html">How to make a custom class</a>)</p>
-<p>Say you have two variables, <code>$name</code> and <code>$count</code> -- and you want to create a custom object that contains just those two properies....</p>
-<pre><code>$myObject = New-Object psobject -property  @{name = $name; count = $count}
-</code></pre>
-<p>Or say you are in a pipeline, within which <code>$name</code> and <code>$count</code> become available... you want to pipe out a custom object with those two properties...</p>
-<pre><code>dir *.xml | % {
-	$name = $_.FullPath
-	$count = $_.Length
-	# ^^ just for example
-
-	New-Object psobject -property  @{name = $name; count = $count}
-
-	# ^^ Return our custom object... for the next actor in the pipeline to deal with...
-
-} | ConvertTo-CSV  -NoTypeInformation | out-file &quot;Name_And_Count.csv&quot;
-</code></pre>
-<h2 id="see-also">See also</h2>
+<h1 id="making-expandoaccordian-with-plain-html">Making Expando/Accordian with Plain Html</h1>
+<p>Here's something that escaped me for far too long.</p>
+<p>You can create expand/collapse regions with plain html using the <code>details</code> tag (and the <code>summary</code> tag)</p>
+<p>e.g. this code:</p>
+<h2 id="text-below-can-expand">Text below can expand...</h2>
+<details>Once expanded, this is the details you will see.</details>
+<h2 id="text-below-can-expand-1">Text below can expand...</h2>
+<details>This text can expand</details>
+<details>
+<summary>Expand to see the details....</summary>
+Once expanded, this is the details you will see.
+</details>
+<h2 id="source">Source</h2>
 <ul>
-<li><a href="add_property_to_object_along_pipeline.html">Add note property to object in pipeline</a></li>
-<li><a href="how_to_make_a_custom_class.html">How to make a custom class</a></li>
+<li><a href="https://css-tricks.com/quick-reminder-that-details-summary-is-the-easiest-way-ever-to-make-an-accordion/">Quick Reminder that Details/Summary is the Easiest Way Ever to Make an Accordion</a></li>
 </ul>
 
 </article>

@@ -28,8 +28,7 @@
 {
 	$object = New-Object PSObject
 	$hashtable.GetEnumerator() |
-		ForEach-Object { Add-Member -inputObject $object `
-			-memberType NoteProperty -name $_.Name -value $_.Value }
+		ForEach-Object { Add-Member -inputObject $object -memberType NoteProperty -name $_.Name -value $_.Value }
 	 $object
 }
 </code></pre>
@@ -71,6 +70,11 @@ function ConvertTo-Hash($i) {
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://community.idera.com/database-tools/powershell/ask_the_experts/f/learn_powershell_from_don_jones-24/2824/exporting-key-value-pair-using-export-csv-cmdlet">convert hash to PS objects in pipeline</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="how_to_make_a_custom_class.html">How to make a custom class</a></li>
+<li><a href="custom_objects.html">Create custom objects</a></li>
 </ul>
 
 </article>
