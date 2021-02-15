@@ -26,13 +26,13 @@
 <p>Here's something that escaped me for far too long.</p>
 <p>You can create expand/collapse regions with plain html using the <code>details</code> tag (and the <code>summary</code> tag)</p>
 <p>e.g. this code:</p>
-<h2 id="text-below-can-expand">Text below can expand...</h2>
+<h2 id="simplest-example">Simplest example</h2>
 <p>Html like this:</p>
 <pre><code>&lt;details&gt;Once expanded, this is the details you will see.&lt;/details&gt;
 </code></pre>
 <p>Behaves like this:</p>
 <details>Once expanded, this is the details you will see.</details>
-<h2 id="text-below-can-expand-1">Text below can expand...</h2>
+<h2 id="example-with-summary">Example with Summary</h2>
 <p>And Html like this:</p>
 <pre><code>&lt;details&gt;
 &lt;summary&gt;Expand to see the details....&lt;/summary&gt;
@@ -53,7 +53,7 @@ Once expanded, this is the details you will see.
 	outline:none;
 }
 </code></pre>
-<p>ANd this html...</p>
+<p>And this html...</p>
 <pre><code>&lt;details class='example3'&gt;
 &lt;summary&gt;Expand to see the details....&lt;/summary&gt;
 Once expanded, this is the details you will see.
@@ -67,9 +67,88 @@ Once expanded, this is the details you will see.
 <style>
 details.example3[open] > summary { background-color:red;color:black;outline:none;}
 </style>
+<ul>
+<li>It's not supported in IE. We're finally getting to a point where those words don't mean so much. 😅.</li>
+<li>There's no standard CSS animation/transition that works with it.</li>
+</ul>
+<h2 id="animation-example">Animation example....</h2>
+<p>This example uses this style:</p>
+<pre><code>&lt;style&gt;
+details.example4[open] p {
+	animation: animateDown 0.2s linear forwards;
+}
+
+@keyframes animateDown {
+	0% {
+		opacity: 0;
+		transform: translatey(-15px);
+	}
+	100% {
+		opacity: 1;
+		transform: translatey(0);
+	}
+}
+&lt;/style&gt;
+</code></pre>
+<style>
+details.example4[open] p {
+  animation: animateDown 0.2s linear forwards;
+}
+
+@keyframes animateDown {
+  0% {
+    opacity: 0;
+    transform: translatey(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translatey(0);
+  }
+}
+</style>
+<details class='example4'>
+<summary>Watch this paragraph expand over 0.2 of a second...</summary>
+<p>Once expanded, this is the details you will see. I've made this text detail a bit bigger than some of the others. I hope that it is ok. Also, it includes a paragraph tag that is used for selecting the section to which the animation is applied.</p>
+</details>
+<h2 id="consider-before-and-after-pseudo-elements">Consider &quot;::before&quot; and &quot;::after&quot; pseudo elements...</h2>
+<p>This article <a href="https://shkspr.mobi/blog/2020/12/a-terrible-way-to-do-footnotes-in-html/">A (terrible?) way to do footnotes in HTML</a> includes some before/after pseudo elements... in some cases that might be a useful idea.</p>
+<pre><code>details[open]::before {
+	content: &quot; [&quot;;
+}
+details[open]::after {
+	content: &quot;]&quot;;
+}
+</code></pre>
+<p>Some other selectors/pseudo elements to consider are:</p>
+<pre><code>details:not([open])::before
+details:not([open])::after
+details:not([open]) summary::before
+details:not([open]) summary::after
+</code></pre>
+<p>...For styling details or summary when the detail is <em>not</em> open.</p>
+<h2 id="remove-the-list-style-with">Remove the list style with...</h2>
+<p>...and you may wish to change the list style. Remove it like this...</p>
+<pre><code>summary {
+	 list-style: none;
+}
+details &gt; summary::-webkit-details-marker {
+	display: none;
+}
+</code></pre>
+<p>...and replace that with something awesome.</p>
+<h2 id="and-add-a-cursor-pointer-to-the-summary">And add a cursor pointer to the summary</h2>
+<p>Generally a good idea... (not useful for mobile)</p>
+<pre><code>summary {
+	cursor: pointer;
+}
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
-<li><a href="https://css-tricks.com/quick-reminder-that-details-summary-is-the-easiest-way-ever-to-make-an-accordion/">Quick Reminder that Details/Summary is the Easiest Way Ever to Make an Accordion</a></li>
+<li><a href="https://css-tricks.com/quick-reminder-that-details-summary-is-the-easiest-way-ever-to-make-an-accordion/">Css-tricks: Quick Reminder that Details/Summary is the Easiest Way Ever to Make an Accordion</a> -- found via <a href="https://chasem.co/notes/css-recipes/#accordions">Chase McCoy / Notes / Css-recipes</a></li>
+<li><a href="https://css-tricks.com/using-details-for-menus-and-dialogs-is-an-interesting-idea/">Css-tricks: Using &lt;details&gt; for Menus and Dialogs is an Interesting Idea</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details">Mozilla docs: details</a> &amp; <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary">Summary</a></li>
+<li><a href="https://css-tricks.com/exploring-what-the-details-and-summary-elements-can-do/">Css-Tricks: Exploring What the Details and Summary Elements Can Do</a></li>
+<li><a href="https://css-tricks.com/tag/details-summary/"><code>details-summary</code> category at Css-Tricks</a></li>
 </ul>
 
 </article>
