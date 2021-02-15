@@ -45,7 +45,7 @@ Once expanded, this is the details you will see.
 Once expanded, this is the details you will see.
 </details>
 <p>Note that the summary text is visible both before and after the details are expanded.</p>
-<p>You can alter that behaviour with css that checks if the boolean &quot;open&quot; attribute is defined on the details element, for example&gt;</p>
+<p>You can alter that behaviour with css that checks if the boolean &quot;open&quot; attribute is defined on the details element, for example:</p>
 <p>This style:</p>
 <pre><code>details.example3[open] &gt; summary { 
 	background-color:red;
@@ -67,10 +67,6 @@ Once expanded, this is the details you will see.
 <style>
 details.example3[open] > summary { background-color:red;color:black;outline:none;}
 </style>
-<ul>
-<li>It's not supported in IE. We're finally getting to a point where those words don't mean so much. 😅.</li>
-<li>There's no standard CSS animation/transition that works with it.</li>
-</ul>
 <h2 id="animation-example">Animation example....</h2>
 <p>This example uses this style:</p>
 <pre><code>&lt;style&gt;
@@ -137,11 +133,15 @@ details &gt; summary::-webkit-details-marker {
 </code></pre>
 <p>...and replace that with something awesome.</p>
 <h2 id="and-add-a-cursor-pointer-to-the-summary">And add a cursor pointer to the summary</h2>
-<p>Generally a good idea... (not useful for mobile)</p>
+<p>Generally a good idea... (though not useful for mobile)</p>
 <pre><code>summary {
 	cursor: pointer;
 }
 </code></pre>
+<h2 id="caveat">Caveat...</h2>
+<ul>
+<li>It's not supported in IE. We're finally getting to a point where those words don't mean so much. 😅.</li>
+</ul>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://css-tricks.com/quick-reminder-that-details-summary-is-the-easiest-way-ever-to-make-an-accordion/">Css-tricks: Quick Reminder that Details/Summary is the Easiest Way Ever to Make an Accordion</a> -- found via <a href="https://chasem.co/notes/css-recipes/#accordions">Chase McCoy / Notes / Css-recipes</a></li>
