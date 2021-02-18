@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>find current user in linqpad . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,24 +22,12 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="linqpad" class="chapter">linqpad</h1>
-<h3 id="content">content</h3>
-<ul>
-<li><a href="clear_results.html">Clear results....</a></li>
-<li><a href="connect_to_oracle.html">Connect Linqpad to Oracle</a></li>
-<li><a href="csv_to_array.html">CSV to IEnumerable<T> (or Array<T>) in Linqpad</a></li>
-<li><a href="Custom_Dumper_Per_Type.html">Customize Dump Style and Colors in Linqpad using MyExtensions</a></li>
-<li><a href="datatable_to_csv.html">Data Table to CSV</a></li>
-<li><a href="find_current_user_in_linqpad.html">Find current user in linqpad</a></li>
-<li><a href="group_by.html">Group by...</a></li>
-<li><a href="set_breakpoint.html">How do I launch the debugger and set a breakpoint in a linqpad script?</a></li>
-<li><a href="dump_dynamic.html">How to &quot;Dump()&quot; a dynamic object in Linqpad</a></li>
-<li><a href="inspect_clipboard.html">Inspect clipboard with linqpad</a></li>
-<li><a href="invoke_linqpad_commandlet.html">Invoke a LinqPad Script with Invoke-LinqPadScript CommandLet</a></li>
-<li><a href="log_helper_for_linqpad.html">Log Helper for Linqpad</a></li>
-<li><a href="offline_registration.html">Offline registration</a></li>
-<li><a href="run_linqpad_scripts_from_commandline.html">Run Linqpad scripts from the command-line</a></li>
-</ul>
+<h1 id="find-current-user-in-linqpad">Find current user in linqpad</h1>
+<pre><code>public static string CurrentUser()
+{
+	return System.IO.Path.Combine(Environment.UserDomainName, Environment.UserName);
+}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

@@ -1,0 +1,20 @@
+# Allow images to stretch om hover
+
+This is yet another Paul Gaske special, allowing images to grow their full size when you hover over them.
+
+	<style type="text/css">
+		.stretch { overflow: auto; margin-bottom: 1em; }
+		.stretch img {
+		  max-width: 25em;
+		  max-height: 25em;
+		  transition-duration: .1s;
+		  transition-delay: 0s;
+		}
+		.stretch img:hover {
+		  max-width: 80%;
+		  max-height: 80%;
+		  transition-duration: .2s;
+		  transition-delay: .3s;
+		  transition-timing-function: ease-in;
+		}
+	</style>
