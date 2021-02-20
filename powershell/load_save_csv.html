@@ -33,6 +33,10 @@
 <p>Can also convert any object to csv before doing something with it, such as writing to a file...</p>
 <pre><code>dir | select Name, Length | convertto-csv -notypeinformation | out-file -append dirinfo.csv -encoding utf8;
 </code></pre>
+<h2 id="append-to-a-file-skip-header">Append to a file - skip header!</h2>
+<p>If you're appending to a file you'll also want to skip the header row (apart from on the first write...)</p>
+<pre><code>dir | select Name, Length | convertto-csv -notypeinformation | Select-Object -Skip 1 | out-file -append dirinfo.csv -encoding utf8;
+</code></pre>
 <h2 id="load-csv-from-a-file">Load CSV from a file</h2>
 <pre><code>$myDir = import-csv &quot;dirinfo.csv&quot;;
 </code></pre>

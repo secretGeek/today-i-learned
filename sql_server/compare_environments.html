@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>compare environments . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h2 id="compare-environments">Compare environments</h2>
+<h2 id="to-compare-object-names-between-environments-compare-the-result-of-a-query-such-as">To compare object names between environments, compare the result of a query such as:</h2>
+<pre><code>SELECT top(400)
+	schema_name(so.[schema_id]) + '.' + so.[name] as [FullName],
+	schema_name(so.[schema_id]) as [Schema],
+	so.[name] AS [Table],
+	so.[type]
+FROM
+	sys.objects so 
+WHERE 
+	so.type not in ('S','PK','IT')
+AND schema_name(so.[schema_id])	in ('Schema1', 'Schema2') -- e.g. where focusing on only some schemas
+AND so.[name] not like '%zz%' -- e.g. where ignoring certain object names
+ORDER BY 1
+</code></pre>
+<h2 id="to-compare-column-details-between-environments-compare-the-result-of-a-query-such-as">To compare column details between environments, compare the result of a query such as:</h2>
+<pre><code>SELECT top(800)
+	schema_name(so.[schema_id]) + '.' + so.[name] + '.' + sc.[name] AS [ID],
+	schema_name(so.[schema_id]) as [Schema],
+	so.[name] AS [Table],
+	sc.[name] AS [Column],
+	st.[name] AS [Type],
+	sc.[max_length] AS [Size],
+	so.type as [Object Type]
+FROM
+	sys.objects so INNER JOIN sys.columns sc 
+ON 	so.object_id = sc.object_id INNER JOIN sys.types st 
+ON 	st.system_type_id = sc.system_type_id 
+AND	st.name != 'sysname'
+WHERE 
+	so.type in ('U','V')
+AND NOT st.[name] in ('hierarchyid','geometry')
+AND schema_name(so.[schema_id])	in ('Schema1', 'Schema2') -- e.g. where focusing on only some schemas
+AND so.[name] not like '%zz%' -- e.g. where ignoring certain object names
+ORDER BY 
+	1,2,3
+</code></pre>
+<h2 id="to-compare-hashes-of-viewssprocsfunctions-between-environments-use-a-query-such-as">To compare hashes of views/sprocs/functions between environments, use a query such as:</h2>
+<p>(These rely on <a href="find_whitespace.html">TrimWhiteSpace, LTrimWhiteSpace, RTrimWhiteSpace...</a>)</p>
+<pre><code>Select 	'zonk://objectname/' + schema_name(so.uid) + '.' + so.[name] + '|' + schema_name(so.uid) + '.' + so.[name]  AS [Schema.Object], 
+	so.xtype,
+	len(Definitions.Definition) as [Length of definition],
+master.dbo.fn_varbintohexstr(hashbytes('MD5', Definitions.Definition)) as Hasho
+from 
+sysobjects so
+outer apply (Select stuff(	(select dbo.TRIMWHITESPACE(sc.text)
+					from syscomments  sc
+				where sc.id = so.id
+				order by colid
+				for xml path , TYPE).value('.[1]','nvarchar(max)' 
+			), 1, 0, '') as Definition) as Definitions
+where Definitions.Definition is not null
+AND schema_name(so.[schema_id])	in ('Schema1', 'Schema2') -- e.g. where focusing on only some schemas
+AND so.[name] not like '%zz%' -- e.g. where ignoring certain object names
+order by  3 desc
+</code></pre>
+<h2 id="to-compare-actual-viewssprocsfunctions-use-a-query-such-as">To compare actual views/sprocs/functions - use a query such as:</h2>
+<pre><code>Select 
+	Definitions.Definition as 'View definition'
+from 
+sysobjects so
+outer apply (Select stuff(	(select ' ' + sc.text
+					from syscomments  sc
+				where sc.id = so.id
+				order by colid
+				for xml path , TYPE).value('.[1]','nvarchar(max)' 
+			), 1, 1, '') as Definition) as Definitions
+where Definitions.Definition is not null
+and 
+	schema_name(so.[uid]) + '.' + so.[name]  = @objectname
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="data_dictionary.html">Basic data dictionary</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
