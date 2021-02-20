@@ -30,7 +30,7 @@
 <li>with <code>cmder</code> which I think is using OpenSSH by way of gitbash.</li>
 </ol>
 <p>Soon I think windows will have better ssh features built in. Powershell will get them for example.)</p>
-<h2 id="creating-privatepublic-key-pair-for-use-in-ssh-using-puttygen">Creating private/public key pair for use in SSH, using PuTTYgen.</h2>
+<h2 id="creating-privatepublic-key-pair-for-use-in-ssh-using-puttygen">Creating private/public key pair for use in SSH, using PuTTYgen</h2>
 <p>First need to generate private/public key pair, using PuTTYgen.</p>
 <p>Guide I followed for this is: <a href="https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users">https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-PuTTY-on-digitalocean-droplets-windows-users</a></p>
 <p>Download complete PuTTY installer (msi) from this page: <a href="http://www.chiark.greenend.org.uk/%7Esgtatham/PuTTY/download.html">http://www.chiark.greenend.org.uk/~sgtatham/PuTTY/download.html</a></p>
@@ -39,7 +39,7 @@
 <p>Then run PuTTYgen, and generate a private/public key pair. Save the public key as a .txt file and the private key as a .ppk file.</p>
 <p>Store the passphrase in your password manager. Note that the passphrase is something you are expected to type, so make it an actual passphrase: easy to type but quite long.</p>
 <p>(Originally I created a long and complex password... but then it was too hard to type. I found I could change the passphrase, using PuTTYgen -- I just had to re-save the private key afterwards.)</p>
-<h2 id="add-your-public-key-to-digital-ocean">Add your public key to digital ocean...</h2>
+<h2 id="add-your-public-key-to-digital-ocean">Add your public key to digital ocean</h2>
 <p>Go to your profile: <a href="https://cloud.digitalocean.com/settings/profile">https://cloud.digitalocean.com/settings/profile</a></p>
 <p>Click &quot;Security&quot; on the left hand side...</p>
 <p>Click &quot;Add SSH Key&quot;</p>
@@ -83,7 +83,7 @@ Create the RFC 4716 version of the public key using  ssh-keygen</p>
 </li>
 </ol>
 <p>Simple right!? No, not simple.</p>
-<h2 id="host-identification-has-changed">Host Identification has changed.</h2>
+<h2 id="host-identification-has-changed">Host Identification has changed</h2>
 <pre><code>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -91,11 +91,11 @@ IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
 Someone could be eavesdropping on you right now (man-in-the-middle attack)!
 It is also possible that a host key has just been changed.
 The fingerprint for the ECDSA key sent by the remote host is
-7e:5e:42:31:34:82:c7:97:e3:3a:f2:e1:b4:4f:d4:56.
+7e:3e:42:31:34:82:47:97:e3:3f:f2:e1:c1:8c:d4:56.
 Please contact your system administrator.
 Add correct host key in /home/user1/.ssh/known_hosts to get rid of this message.
 Offending ECDSA key in /home/user1/.ssh/known_hosts:2
-  remove with: ssh-keygen -f &quot;/home/user1/.ssh/known_hosts&quot; -R 555.55.55.555
+	remove with: ssh-keygen -f &quot;/home/user1/.ssh/known_hosts&quot; -R 555.55.55.555
 ECDSA host key for 555.55.55.555 has changed and you have requested strict checking.
 Host key verification failed.
 

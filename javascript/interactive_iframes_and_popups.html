@@ -26,15 +26,15 @@
 <p>Use <code>window.postMessage</code> to talk to the embedded guest page (or the popup) from the host page.</p>
 <p>And <code>window.opener.postMessage</code> to talk to the host page, from the embedded guest page.</p>
 <p>e.g.</p>
-<h2 id="sending-message-to-popup">Sending message to popup...</h2>
+<h2 id="sending-message-to-popup">Sending message to popup</h2>
 <pre><code>var popup = window.open(/* popup details */);
 /* wait for the popup to load, then */
 popup.postMessage(&quot;The user is 'bob' and the password is 'secret'&quot;,&quot;https://secure.example.net&quot;);
 </code></pre>
-<h2 id="sending-message-to-iframe">Sending message to iFrame...</h2>
+<h2 id="sending-message-to-iframe">Sending message to iFrame</h2>
 <pre><code>document.getElementById('cross_domain_page').contentWindow.postMessage(&quot;The user is 'bob' and the password is 'terces'&quot;,&quot;https://secure.example.net&quot;)
 </code></pre>
-<h2 id="receiving-messages-in-the-guest-page">Receiving messages in the guest page...</h2>
+<h2 id="receiving-messages-in-the-guest-page">Receiving messages in the guest page</h2>
 <pre><code>window.addEventListener(&quot;message&quot;, (event) =&gt; {
   // Do we trust the sender of this message?
   if (event.origin !== &quot;http://example.com:8080&quot;)
@@ -52,7 +52,7 @@ popup.postMessage(&quot;The user is 'bob' and the password is 'secret'&quot;,&qu
 						   event.origin);
 }, false);
 </code></pre>
-<h2 id="receiving-messages-in-the-host">Receiving messages in the host...</h2>
+<h2 id="receiving-messages-in-the-host">Receiving messages in the host</h2>
 <p>We can also receive events <em>back</em> from the guest page (the popup/iframe) -- provided it has a way to call &quot;postMessage&quot; on this window's window object.</p>
 <pre><code>window.addEventListener(&quot;message&quot;, (event) =&gt; {
   // Do we trust the sender of this message?  (might be

@@ -22,15 +22,19 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="find-headings-in-markdown">Find headings in markdown...</h1>
+<h1 id="find-headings-in-markdown">Find headings in markdown</h1>
 <p>To list the headings from a markdown document</p>
-<pre><code>cat .\20_Find_Your_Product.md | select-string -pattern &quot;^( )*#.*&quot;
+<pre><code>cat .\20_Find_Your_Product.md | select-string -pattern &quot;^#.*&quot;
 </code></pre>
-<p>(Assuming it's pure markdown, no mixed in html)</p>
-<pre><code>And the common alias for `select-string` is `sls`, so for brevity:
-
-cat .\20_Find_Your_Product.md | sls &quot;^( )*#.*&quot;
+<p>(Assuming it's pure markdown, not mixed in html)</p>
+<p>And the common alias for <code>select-string</code> is <code>sls</code>, so for brevity:</p>
+<pre><code>cat .\20_Find_Your_Product.md | sls &quot;^#.*&quot;
 </code></pre>
+<hr />
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../markdown/syntax.html">Markdown Syntax</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

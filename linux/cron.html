@@ -75,7 +75,7 @@ Choose 1-4 [2]: 2
 <pre><code>15 3 * * * /usr/bin/certbot renew --quiet
 @reboot /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 2&gt;&amp;1
 </code></pre>
-<h2 id="check-cron-logs">check cron logs....</h2>
+<h2 id="check-cron-logs">check cron logs</h2>
 <pre><code>sudo grep CRON /var/log/syslog
 </code></pre>
 <p>If you see this in your cron logs:</p>

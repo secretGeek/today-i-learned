@@ -73,7 +73,7 @@
 (Get-ADUser -Identity $userName -Properties &quot;PasswordLastSet&quot;).&quot;PasswordLastSet&quot;
 </code></pre>
 <p>(Can be the best way to guess when it will be reset/expire..)</p>
-<h2 id="try-to-find-the-property-you-want-to-find">Try to find the property you want to find...</h2>
+<h2 id="try-to-find-the-property-you-want-to-find">Try to find the property you want to find</h2>
 <p>What if we want to find all properties that mention &quot;pass&quot; -- we can do it like this:</p>
 <pre><code>(Get-ADUser &quot;leon.bambrick&quot; -Properties &quot;*&quot;) | get-member | ? { $_.MemberType -eq &quot;Property&quot; -and $_.Name -like &quot;*pass*&quot; }
 </code></pre>
@@ -141,7 +141,7 @@ accountExpires                       : 9223372036854775807
 <li><code>Get-ADUser</code></li>
 <li><code>Get-ADUserResultantPasswordPolicy</code></li>
 </ul>
-<h2 id="optional-features">Optional Features...</h2>
+<h2 id="optional-features">Optional Features</h2>
 <p>Optional features, also known as FODs - Feature On Demand  - can also be installed via <code>DISM /add-capability</code>.</p>
 <p>What is <code>DISM</code> ??</p>
 <pre><code>&gt; get-command DISM.exe

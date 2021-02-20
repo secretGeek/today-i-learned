@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="histogram">Histogram</h1>
+<h1 id="histograms-in-powershell">Histograms in Powershell</h1>
 <p>You can use the group-object to do standard grouping.</p>
 <p>This shows all of the files in the current folder, grouped into buckets according to their size.
 Each bucket is 1000 bytes.</p>
@@ -33,7 +33,7 @@ Each bucket is 1000 bytes.</p>
 			@{Expression={$_.Group};Label=&quot;Members&quot;;width=50} -autosize
 </code></pre>
 <p><em>Consider</em> running the initial <code>dir</code> recursively with <code>-rec</code></p>
-<h2 id="group-by-file-type">Group by file type...</h2>
+<h2 id="group-by-file-type">Group by file type</h2>
 <p>Exclude directories (but include their files)</p>
 <pre><code>dir -rec -file | group-object -property extension | sort count -desc
 </code></pre>
@@ -46,6 +46,11 @@ group -property { [int]($_.length / $bucketSize) } | sort @{e={$_.Name -as [int]
 		@{Expression={$_.Count};Label=&quot;Count&quot;;width=10},
 		@{Expression={$_.Group};Label=&quot;Members&quot;;width=50} -autosize
 </code></pre>
+<hr />
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../sql_server/histogram.html">SQL Server: Example query for bucketing up a bunch of values</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

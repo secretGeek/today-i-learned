@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="format-table-with-expressions">Format-Table with Expressions.</h1>
+<h1 id="format-table-with-expressions">Format-Table with Expressions</h1>
 <p>This is a custom Get-ChildItem command, for use with the TIL folder.</p>
 <p>But it also demonstrates use of Format-Table with expressions.</p>
 <pre><code>dir . *.md -recurse | format-table @{Expression={$_.Name};Label=&quot;Name&quot;;width=50},@{Expression={$_.DirectoryName.Split(&quot;\&quot;)[-1]};Label=&quot;Topic&quot;;width=25}

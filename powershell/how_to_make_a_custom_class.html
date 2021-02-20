@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-to-make-a-custom-class">How to make a custom class</h1>
-<h2 id="define-a-new-class-like-that">Define a new class like that...</h2>
+<h2 id="define-a-new-class-like-that">Define a new class like that</h2>
 <pre><code>class JournalNode {
 	[string]$NodeType;
 	[Datetime]$Date;
@@ -34,14 +34,15 @@
 </code></pre>
 <h2 id="construct-an-instance-with-new">Construct an instance with ::new()</h2>
 <p>And then you can create it like this:</p>
-<pre><code>	$journalNode = [JournalNode]::new();
-	$journalNode.NodeType = $nodeType;
-	$journalNode.Date = $dateTime;
-	$journalNode.Text = $text;
-	$journalNode.LineNumber = $lineNumber;
-	$journalNode.SourceFile = $fileName
-	$journalNode;
+<pre><code>$journalNode = [JournalNode]::new();
+$journalNode.NodeType = $nodeType;
+$journalNode.Date = $dateTime;
+$journalNode.Text = $text;
+$journalNode.LineNumber = $lineNumber;
+$journalNode.SourceFile = $fileName
+$journalNode;
 </code></pre>
+<hr />
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="add_property_to_object_along_pipeline.html">Add note property to object in pipeline</a></li>

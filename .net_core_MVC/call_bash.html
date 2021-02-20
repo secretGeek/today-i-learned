@@ -22,21 +22,20 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="how-to-call-native-commands-from.net-core">How to call native commands from .net core.</h1>
+<h1 id="how-to-call-native-commands-from.net-core">How to call native commands from .net core</h1>
 <p>SOOOO easy!</p>
 <pre><code>using System;
 
 namespace ConsoleApplication
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine(&quot;Hello World!&quot;);
-            System.Diagnostics.Process.Start(&quot;ls&quot;); // This works!
-
-        }
-    }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			Console.WriteLine(&quot;Hello World!&quot;);
+			System.Diagnostics.Process.Start(&quot;ls&quot;); // This works!
+		}
+	}
 }
 </code></pre>
 <p>No need for any extra references or anything.</p>

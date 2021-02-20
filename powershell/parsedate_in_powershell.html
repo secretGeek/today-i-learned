@@ -23,7 +23,6 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-do-you-parse-a-date-in-powershell">How do you parse a date in powershell?</h1>
-<h2 id="dirdate-will-be-defined">$dirDate will be defined....</h2>
 <h2 id="use-tryparseexact.not-easy-from-powershell">Use TryParseExact... not easy from powershell</h2>
 <pre><code>$DateAsAString = &quot;30-12-1905&quot;;
 $parseddate4 = get-date; # seem to have to initialize this variable...
@@ -44,6 +43,7 @@ if ([DateTime]::TryParseExact(
 $exactDate = [datetime]::ParseExact($DateAsAString,&quot;dd-MM-yyyy&quot;,$Null)
 write-host $exactDate -f blue;
 </code></pre>
+<hr />
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="date_format.html">Date format in powershell</a></li>

@@ -30,21 +30,21 @@ Find-Module NPMTabCompletion -repository PsGallery | Install-Module -Scope AllUs
 </code></pre>
 <p>From a freshly opened prompt (that does not need to be elevated)</p>
 <pre><code>Import-Module TabExpansionPlusPlus
-Import-Module NPMTabCompletion    
+Import-Module NPMTabCompletion
 </code></pre>
 <p>You will also need to either add those commands to your <a href="../powershell/create_profile.html">profile</a>, or run them in every powershell session where you want <code>npm</code> tab completion to work.</p>
 <p>This not only gives you intellisense-style completion for <code>npm</code> commands, it also looks in a local package.json file to see if there are any commands you've specified locally.</p>
 <p><img src="NPMTabRun2.gif" alt="npm tab completion" title="npm tab completion" /></p>
-<h2 id="trouble-shooting">Trouble-shooting....</h2>
+<h2 id="trouble-shooting">Trouble-shooting</h2>
 <ol>
-<li>Did you get this error from Install-Module ?</li>
+<li>Did you get this error from <code>Install-Module</code> ?</li>
 </ol>
 <blockquote>
 <p>Install-Module : A parameter cannot be found that matches parameter name 'Name'.</p>
 </blockquote>
 <p>It may be that you have <a href="../powershell/psget_conflicts_with_PowerShellGet.html">the wrong Install-Module</a>!</p>
 <ol start="2">
-<li>Did you get this error from Find-Module ?</li>
+<li>Did you get this error from <code>Find-Module</code> ?</li>
 </ol>
 <blockquote>
 <p>NuGet provider is required to continue</p>

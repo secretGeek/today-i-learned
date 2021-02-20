@@ -67,7 +67,7 @@ Once expanded, this is the details you will see.
 <style>
 details.example3[open] > summary { background-color:red;color:black;outline:none;}
 </style>
-<h2 id="animation-example">Animation example....</h2>
+<h2 id="animation-example">Animation example</h2>
 <p>This example uses this style:</p>
 <pre><code>&lt;style&gt;
 details.example4[open] p {
@@ -106,7 +106,7 @@ details.example4[open] p {
 <summary>Watch this paragraph expand over 0.2 of a second...</summary>
 <p>Once expanded, this is the details you will see. I've made this text detail a bit bigger than some of the others. I hope that it is ok. Also, it includes a paragraph tag that is used for selecting the section to which the animation is applied.</p>
 </details>
-<h2 id="consider-before-and-after-pseudo-elements">Consider &quot;::before&quot; and &quot;::after&quot; pseudo elements...</h2>
+<h2 id="consider-before-and-after-pseudo-elements">Consider &quot;::before&quot; and &quot;::after&quot; pseudo elements</h2>
 <p>This article <a href="https://shkspr.mobi/blog/2020/12/a-terrible-way-to-do-footnotes-in-html/">A (terrible?) way to do footnotes in HTML</a> includes some before/after pseudo elements... in some cases that might be a useful idea.</p>
 <pre><code>details[open]::before {
 	content: &quot; [&quot;;
@@ -122,7 +122,7 @@ details:not([open]) summary::before
 details:not([open]) summary::after
 </code></pre>
 <p>...For styling details or summary when the detail is <em>not</em> open.</p>
-<h2 id="remove-the-list-style-with">Remove the list style with...</h2>
+<h2 id="remove-the-list-style">Remove the list style</h2>
 <p>...and you may wish to change the list style. Remove it like this...</p>
 <pre><code>summary {
 	 list-style: none;
@@ -138,10 +138,8 @@ details &gt; summary::-webkit-details-marker {
 	cursor: pointer;
 }
 </code></pre>
-<h2 id="caveat">Caveat...</h2>
-<ul>
-<li>It's not supported in IE. We're finally getting to a point where those words don't mean so much. 😅.</li>
-</ul>
+<h2 id="caveat">Caveat</h2>
+<p>Details/Summary are not supported in IE. And we're finally getting to a point where those words don't mean so much. 😅.</p>
 <h2 id="history">History</h2>
 <p>Expand/collapse sections are <em>similar</em> to Ted Nelson's 1967 idea &quot;Stretch-Text&quot;, which I first learned about from <a href="http://codinginparadise.org/ebooks/html/blog/stretchtext.html">Brad Neuberg's stretchtext.js</a>.</p>
 <p>&quot;Similar&quot; is doing a lot of work in the previous paragraph. The stretch-text idea is pretty interesting and more nuanced than the common expand/collapse region.</p>

@@ -50,12 +50,12 @@
 &quot;.\script1.ps1 -isGood:$true&quot;   #  $IsGood = $true
 &quot;.\script1.ps1 -isGood:$false&quot;  #  $IsGood = $false
 </code></pre>
-<h2 id="dont-like-named-parameters-fine-use-positional">Don't like named parameters? Fine! Use positional...</h2>
+<h2 id="dont-like-named-parameters-fine-use-positional">Don't like named parameters? Fine! Use positional</h2>
 <pre><code>$name=$args[0]
 $height=$args[1]
 </code></pre>
 <p>...like it's 1999.</p>
-<h2 id="validate-the-parameters">Validate the parameters...</h2>
+<h2 id="validate-the-parameters">Validate the parameters</h2>
 <p>But if you do use real <code>params</code> you can also enforce simple validation:</p>
 <p>For example -- string, length from 1 to 10...</p>
 <pre><code>Param(

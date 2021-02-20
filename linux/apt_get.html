@@ -45,11 +45,11 @@ sudo apt-get install unzip
 <pre><code>sudo apt-get upgrade
 </code></pre>
 <p>When asked:</p>
-<pre><code>Do you want to continue [Y/n]
+<pre><code class="language-plaintext">Do you want to continue [Y/n]
 </code></pre>
 <p>The capital 'Y' means it is the default. So for 'Yes' just press enter.</p>
 <p>If your machine says something like:</p>
-<pre><code>27 packages can be updated.
+<pre><code class="language-plaintext">27 packages can be updated.
 14 updates are security updates.
 </code></pre>
 <p>Then you can see which packages need to be upgraded, with:</p>
@@ -62,8 +62,8 @@ sudo apt-get upgrade
 </code></pre>
 <p>After performing an upgrade, you may have messages like this:</p>
 <pre><code>The following packages have been kept back:
-  linux-headers-generic linux-headers-virtual linux-image-virtual linux-virtual snapd
-  ubuntu-core-launcher
+	linux-headers-generic linux-headers-virtual linux-image-virtual linux-virtual snapd
+	ubuntu-core-launcher
 0 upgraded, 0 newly installed, 0 to remove and 6 not upgraded.
 </code></pre>
 <p>What is this 'kept back' business?</p>
@@ -86,10 +86,10 @@ apt-get install --only-upgrade &lt;packagename&gt;
 <pre><code>sudo apt-get update
 sudo apt-get install --only-upgrade python-certbot-nginx
 </code></pre>
-<h2 id="removing-unwanted-packages">Removing unwanted packages....</h2>
-<p>You may see a message like this....</p>
+<h2 id="removing-unwanted-packages">Removing unwanted packages</h2>
+<p>You may see a message like this...</p>
 <pre><code>The following package was automatically installed and is no longer required:
-  libllvm3.8
+	libllvm3.8
 Use 'sudo apt autoremove' to remove it.
 </code></pre>
 <p>Example of the output:</p>
@@ -98,7 +98,7 @@ Reading package lists... Done
 Building dependency tree
 Reading state information... Done
 The following packages will be REMOVED:
-  libllvm3.8
+	libllvm3.8
 0 upgraded, 0 newly installed, 1 to remove and 0 not upgraded.
 After this operation, 41.6 MB disk space will be freed.
 Do you want to continue? [Y/n]

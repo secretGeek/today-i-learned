@@ -53,7 +53,7 @@ write-host &quot;The script is called $PSCommandPath&quot;
 </code></pre>
 <h2 id="caveat">Caveat!</h2>
 <p>One caveat with these scripts... they are unlike most powershell scripts because they only work properly when they are inside a script. They don't behave the same if you just paste them into the commandline.</p>
-<h2 id="bonus-questions">Bonus questions...</h2>
+<h2 id="bonus-questions">Bonus questions</h2>
 <p>What if one script is invoked from another? How do you indication that chain? Good question. I don't know the answer yet. Do you?</p>
 <p>(I think the -Scope in this old code might've been put there for that reason...)</p>
 <pre><code>$scriptpath = (split-path (Get-Variable MyInvocation -Scope Script).Value.MyCommand.Path)
