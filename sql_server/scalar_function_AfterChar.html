@@ -22,21 +22,21 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="scalar-function-in-sql-that-returns-everything-after-a-specified-character">Scalar Function in SQL that returns everything After a specified character.</h1>
+<h1 id="scalar-function-in-sql-that-returns-everything-after-a-specified-character">Scalar Function in SQL that returns everything After a specified character</h1>
 <p>Return the substring after the given character.
 e.g.</p>
 <pre><code>select dbo.AfterChar('Jim@gmail.com','@')
-...returns 'gmail.com'.
-
-select dbo.AfterChar('Jim#2315','#')
-...returns '2315'.
 </code></pre>
+<p>...returns 'gmail.com'.</p>
+<pre><code>select dbo.AfterChar('Jim#2315','#')
+</code></pre>
+<p>...returns '2315'.</p>
 <p>Special cases:</p>
 <pre><code>select dbo.AfterChar('Jim#2315','@') 
-...returns 'Jim#2315', since @ is not in the string.
+</code></pre>
+<p>...returns 'Jim#2315', since @ is not in the string.</p>
+<pre><code>select dbo.AfterChar(null,'@') 
 
-
-select dbo.AfterChar(null,'@') 
 ...returns null, since @ cannot be in the string.
 
 
@@ -50,19 +50,19 @@ select dbo.AfterChar(null,'@')
 --   select dbo.AfterChar('Jim#2315','@') -- returns 'Jim#2315', since @ is not in the string.
 --   select dbo.AfterChar(null,'@') -- returns null, since @ cannot be in the string.
 Alter FUNCTION [dbo].[AfterChar]
-    (
-      @value VARCHAR(MAX) ,
-      @separator CHAR(1) 
-    )
+	(
+		@value VARCHAR(MAX) ,
+		@separator CHAR(1) 
+	)
 RETURNS VARCHAR(MAX)
 AS 
 BEGIN
-    if (@value is null) return @value
-    
-    declare @charLocation integer;
-    Set  @charLocation = CHARINDEX(@separator, @value)
-    if (@charLocation = 0) return @value
-    return SubString(@Value, @charLocation+1, Len(@Value))
+	if (@value is null) return @value
+	
+	declare @charLocation integer;
+	Set  @charLocation = CHARINDEX(@separator, @value)
+	if (@charLocation = 0) return @value
+	return SubString(@Value, @charLocation+1, Len(@Value))
 END
 </code></pre>
 

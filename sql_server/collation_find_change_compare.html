@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="collation">Collation....</h1>
+<h1 id="collation-find-it-compare-it-change-it">Collation: find it, compare it, change it</h1>
 <h2 id="find-default-collation-of-the-database">Find default collation of the database</h2>
 <pre><code>Select DatabasePropertyEx('DATABASE_NAME','Collation')
 </code></pre>
@@ -78,28 +78,22 @@ FROM sys.columns
 GO
 ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS
 GO
-
-/*
+</code></pre>
+<pre><code class="language-plaintext">/*
 Msg 5030, Level 16, State 5, Line 5
 The database could not be exclusively locked to perform the operation.
 Msg 5072, Level 16, State 1, Line 5
 ALTER DATABASE failed. The default collation of database 'YOLO_DB' cannot be set to Latin1_General_CI_AS.
 */
-
-
-ALTER DATABASE [YOLO_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
-
+</code></pre>
+<pre><code>ALTER DATABASE [YOLO_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
 GO 
-
 ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS; 
-
 GO 
-
 ALTER DATABASE [YOLO_DB] SET MULTI_USER; 
-
 GO
 </code></pre>
-<p><em>Note that having a mismatch between TempDb and your collation is the shortcut to madness.</em></p>
+<p><em>Note that having a mismatch between TempDb and your database's default collation is the shortcut to madness.</em></p>
 <h2 id="mood-tracker">Mood Tracker</h2>
 <p>Here is a mood tracker I have on my wall so I can move the little yellow pointer to indicate which of the only two possible moods I am currently in:</p>
 <p><img src="TODAY_we_are_angry_about_NULLs_Collation.jpg" alt="TODAY we are angry about: NULLs or Collation" /></p>

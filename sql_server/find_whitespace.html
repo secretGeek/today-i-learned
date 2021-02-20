@@ -80,7 +80,7 @@ order by 1
 <p>To trim <code>space</code>, <code>tab</code>, <code>cr</code>, <code>lf</code>.... use this slightly odd syntax....</p>
 <pre><code>Select TRIM(CHAR(13) + CHAR(10) + CHAR(9) + ' ' FROM name) from sysobjects
 </code></pre>
-<h2 id="in-sql-server-2016-and-lower">In SQL Server 2016 and lower....</h2>
+<h2 id="in-sql-server-2016-and-lower">In SQL Server 2016 and lower</h2>
 <p>To Trim those in earlier versions, make some custom <code>LTrimWhiteSpace</code> and <code>RTrimWhiteSpace</code> functions....</p>
 <p>Left Trim White Space:</p>
 <pre><code>CREATE FUNCTION dbo.LTrimWhiteSpace(@str NVARCHAR(MAX)) RETURNS NVARCHAR(MAX)

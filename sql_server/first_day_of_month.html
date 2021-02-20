@@ -22,26 +22,26 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="first-and-last-day-of-the-month">First (and last) day of the month.</h1>
+<h1 id="first-and-last-day-of-the-month">First (and last) day of the month</h1>
 <p>Given a datetime, tells you the first day of the month.</p>
 <pre><code>CREATE FUNCTION dbo.FirstDayOfMonth(@datetime datetime)
 RETURNS DATETIME AS
 BEGIN
-    RETURN DATEADD(MONTH,DatePart(MONTH, @datetime)-1,DATEADD(YEAR,DatePart(YEAR, @datetime)-1900,0))
+	RETURN DATEADD(MONTH,DatePart(MONTH, @datetime)-1,DATEADD(YEAR,DatePart(YEAR, @datetime)-1900,0))
 END
 </code></pre>
 <p>Or even better...</p>
 <pre><code>CREATE FUNCTION dbo.FirstDayOfMonth(@datetime datetime)
 RETURNS DATETIME WITH SCHEMABINDING AS
 BEGIN
-    return DATEADD(month, DATEDIFF(month, 0, @datetime), 0)
+	return DATEADD(month, DATEDIFF(month, 0, @datetime), 0)
 END
 </code></pre>
 <p>And for good measure, here's the last day of the month</p>
 <pre><code>CREATE FUNCTION [dbo].[LastDayOfMonth](@datetime datetime)
 RETURNS DATETIME AS
 BEGIN
-    RETURN DATEADD(DAY,-1,DATEADD(MONTH,1+DatePart(MONTH, @datetime)-1,DATEADD(YEAR,DatePart(YEAR, @datetime)-1900,0)))
+	RETURN DATEADD(DAY,-1,DATEADD(MONTH,1+DatePart(MONTH, @datetime)-1,DATEADD(YEAR,DatePart(YEAR, @datetime)-1900,0)))
 END
 </code></pre>
 <h2 id="see-also">See also</h2>

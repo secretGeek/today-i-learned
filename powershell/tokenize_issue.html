@@ -33,7 +33,7 @@
 <pre><code>[System.Management.Automation.PSParser]::Tokenize('echo &quot;hello&quot;', [ref]$null) | Format-Table;
 </code></pre>
 <p>...which produces this table.</p>
-<pre><code>Content    Type Start Length StartLine StartColumn EndLine EndColumn
+<pre><code class="language-plaintext">Content    Type Start Length StartLine StartColumn EndLine EndColumn
 -------    ---- ----- ------ --------- ----------- ------- ---------
 echo    Command     0      4         1           1       1         5
 hello    String     5      7         1           6       1        13
@@ -56,7 +56,7 @@ hello    String     5      7         1           6       1        13
 [System.Management.Automation.PSParser]::Tokenize(&quot;echo '`$hello'&quot;, [ref]$null) | Format-Table;
 </code></pre>
 <p>They both produce the same tokens, with the same content.</p>
-<pre><code>Content    Type Start Length StartLine StartColumn EndLine EndColumn
+<pre><code class="language-plaintext">Content    Type Start Length StartLine StartColumn EndLine EndColumn
 -------    ---- ----- ------ --------- ----------- ------- ---------
 echo    Command     0      4         1           1       1         5
 $hello   String     5      8         1           6       1        14
@@ -81,16 +81,17 @@ echo            CommandName       Identifier    False echo
 $tokens | format-table
 </code></pre>
 <p>Gives:</p>
-<pre><code>Text             TokenFlags          Kind HasError Extent
+<pre><code class="language-plaintext">Text             TokenFlags          Kind HasError Extent
 ----             ----------          ---- -------- ------
 echo            CommandName    Identifier    False echo
 '$hello' ParseModeInvariant StringLiteral    False '$hello'
-				 ParseModeInvariant    EndOfInput    False
+         ParseModeInvariant    EndOfInput    False
 </code></pre>
 <p>Note that &quot;ParseInput&quot; directly returns an Abstract Syntax Tree (which is more than I need for this exercise, but super useful when you do need it.) and the <code>$tokens</code> variable is a reference to an array of Tokens</p>
 <p>What sort of tokens?</p>
 <p>Here's there Assembly Qualified Name:</p>
-<p>System.Management.Automation.Language.Token, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35</p>
+<pre><code>System.Management.Automation.Language.Token, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+</code></pre>
 <p>Whereas my earlier code was return an array of PSToken -- this type:</p>
 <pre><code>System.Management.Automation.PSToken, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
 </code></pre>
@@ -99,6 +100,7 @@ echo            CommandName    Identifier    False echo
 <pre><code>{echo &quot;$hello&quot;; echo '$hello'}.ast
 </code></pre>
 <p>And directly access the <code>AST</code>.</p>
+<p>TODO: use this in .ok syntax highlighter</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

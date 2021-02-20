@@ -22,8 +22,8 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="trim-or-zero-out-a-portion-of-a-datetime">Trim or zero-out a portion of a datetime....</h1>
-<p>To trim off the milliseconds.... (this was necessary when sending to XML for consumption by Excel...)</p>
+<h1 id="trim-or-zero-out-a-portion-of-a-datetime">Trim or zero-out a portion of a datetime</h1>
+<p>To trim off the milliseconds... (this was necessary when sending to XML for consumption by Excel...)</p>
 <pre><code>DATEADD(ms, -DATEPART(ms, YourDate), YourDate)
 </code></pre>
 <p>To trim off the entire time portion....

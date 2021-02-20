@@ -26,7 +26,7 @@
 <p>One way to get regular expression support in SQL Server is to use the language &quot;R&quot;.</p>
 <p>R can be used if you have R Services installed. It's available in SQL Server 2016 onward. (And Python services are in SQL Server 2017 onward)</p>
 <p>if the services are installed, you also need to configure SQL Server it allow external scripts to be enabled.</p>
-<h2 id="check-if-currently-enabled">Check if currently enabled:</h2>
+<h2 id="check-if-currently-enabled">Check if currently enabled</h2>
 <pre><code>EXEC sp_configure  'external scripts enabled'
 </code></pre>
 <table>
@@ -51,7 +51,7 @@
 </table>
 <p>The above means that it <em>is</em> enabled.</p>
 <p>However, because I didn't restart SQL Server after enabling it, it still doesn't work.</p>
-<h2 id="enable-it">Enable it....</h2>
+<h2 id="enable-it">Enable it</h2>
 <pre><code>sp_configure 'external scripts enabled', 1;
 RECONFIGURE WITH OVERRIDE; 
 </code></pre>

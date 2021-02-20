@@ -44,7 +44,7 @@
 <p>...this adds a calculated column equivalent to Brisbane time... (we don't have daylight savings so it works for us.)</p>
 <p>In SSMS, object explorer, table list, there is a &quot;(System-Versioned)&quot; text next to temporal tables. You expand that table to see the history table &quot;under it&quot;. It's wild.</p>
 <p>Adding a column is tricky -- because you want it to be inserted as null into the history tables.</p>
-<h2 id="bulk-loading">Bulk loading...</h2>
+<h2 id="bulk-loading">Bulk loading</h2>
 <p>before:</p>
 <pre><code>alter table ... set (system_versioning = off)
 alter table ... drop period for system time
