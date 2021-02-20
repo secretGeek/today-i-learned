@@ -1,15 +1,16 @@
 function onStart() {
 	applyLanguageClassesToPre();
 	hljs.initHighlightingOnLoad();
-	configureBreadcrumb();
+	configureBreadcrumb(); //include TOC
 	copyPreCodeOnClick();
-	configureLinks();
+	configureHeadingLinks();
 }
 
 
 function applyLanguageClassesToPre() {
 
-	//this is the default language of pre blocks in each topic category.
+	// this is the default language of code blocks in each topic category.
+	// to override the default, use a fenced codeblock followed by lang, e.g.  "```plaintext"
 	var topicLangs = {
 		'powershell': 'powershell',
 		'net': 'csharp',
@@ -75,19 +76,52 @@ function applyLanguageClassesToPre() {
 	}
 }
 
-function configureLinks() {
+function configureHeadingLinks() {
+	let toc = [];
+	let previousLevel = 0; //todo
 	for (let hEl of $("h1, h2, h3, h4, h5, h6")) {
 		const id = hEl.getAttribute("id");
+		currentLevel = parseInt(hEl.outerHTML[2]); //e.g. h1 is "1"
 		if (id) {
+			if (currentLevel > previousLevel) {
+				//toc.push("<ol>");
+				while(currentLevel > previousLevel) {
+					toc.push("<ol>");
+					previousLevel++;
+				}
+				
+				
+			} else if (currentLevel < previousLevel) {
+				//toc.push("</li></ol>");
+				
+				while(currentLevel < previousLevel) {
+					toc.push("</li></ol>");
+					previousLevel--;
+				}
+				
+			} else {
+				toc.push("</li>");
+			}
+			toc.push(`<li><a href="#${id}">${hEl.innerText}</a>`);
+			previousLevel = currentLevel;
+			
+			
 			const icon = htmlToElement('<a href="#" class="hover-link">🔗</a>');
+			let iconTitle = `permalink to '${hEl.innerText}'`;
 			hEl.appendChild(icon);
 			icon.setAttribute("href", "#" + id);
+			icon.setAttribute("title", iconTitle);
 			hEl.classList.add("has-hover-link");
 		}
 	}
+	while(currentLevel > 0) {
+		toc.push("</li></ol>");
+		currentLevel--;
+	}
+	console.log(toc.join("\n"));
+	let tocHtml = `<details class='toc'><summary>toc&hellip;</summary>${toc.join("\n")}</details>`;
+	$id('currentTitle').appendChild(htmlToElement(tocHtml));
 }
-
-
 
 function configureBreadcrumb() {
   var currentUrl = location.pathname;
@@ -104,10 +138,10 @@ function configureBreadcrumb() {
   var joiner = " &rsaquo; ";
   var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
   if (topicTitle == "today-i-learned" || topicTitle == "") {
-    $id("breadcrumb").innerHTML = homeLink + joiner + "index";
+    $id("breadcrumb").innerHTML = homeLink + joiner + "<span id='currentTitle'>index</span>";
   } else {
     $id("breadcrumb").innerHTML =
-      homeLink + joiner + topicLink + joiner + currentTitle;
+      homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
   }
 }
 

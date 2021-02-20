@@ -459,7 +459,74 @@ h1.chapter {
 }
 
 @media (prefers-color-scheme: dark) {
-		.language-plaintext.hljs {
+	.language-plaintext.hljs {
 		color:rgb(241,250,140);
 	}
 }
+
+
+summary {
+	cursor:pointer;
+}
+
+
+/* table of contents details/summary elements */
+
+details.toc {
+	display:inline-block;
+	padding-left:5px;
+}
+details.toc summary {
+	display:inline-block;
+	list-style: none;
+	color: var(--link-visited);
+	font-variant: small-caps;
+}
+
+details.toc[open] {
+	display:block;
+} 
+details.toc[open] summary {
+	margin-top:10px;
+}
+
+
+details.toc[open] ul {
+	animation: animateDown 0.2s linear forwards;
+}
+
+details.toc summary:hover {
+	color: var(--link-hover);
+	text-decoration: none;
+	background-size: 1px 1em;
+	display: inline;
+	box-shadow: inset 0 -0.2em var(--link);
+}
+
+@keyframes animateDown {
+	0% {
+		opacity: 0;
+		transform: translatey(-15px);
+	}
+	100% {
+		opacity: 1;
+		transform: translatey(0);
+	}
+}
+
+
+details.toc:not([open])::before {
+	content: "\203A"; /* &rsaquo; */
+	padding: 3px;
+}
+
+details.toc[open]::before {
+	content: "\2039"; /* &lsaquo; */
+	padding: 3px;
+}
+
+details.toc > summary::-webkit-details-marker {
+	display: none;
+}
+
+/* END: table of contents details/summary elements */
