@@ -31,7 +31,6 @@ The specified framework 'Microsoft.NETCore.App', version '1.0.0' was not found.
   - The following versions are installed:
       1.1.0
   - Alternatively, install the framework version '1.0.0'.
-  
 </code></pre>
 <p>When I look at what packages are installed locally (with 'dot' in their name) I find....</p>
 <pre><code>dpkg --get-selections | grep -v deinstall | grep dot
@@ -40,7 +39,6 @@ dotnet-dev-1.0.0-preview2-1-003177              install
 dotnet-host                                     install
 dotnet-hostfxr-1.1.0                            install
 dotnet-sharedframework-microsoft.netcore.app-1.1.0      install
-  
 </code></pre>
 <p>Whereas on my ancient (6 month old) linux machine I have:</p>
 <pre><code>dpkg --get-selections | grep -v deinstall | grep dot
@@ -49,7 +47,6 @@ dotnet-dev-1.0.0-preview2-003121                install
 dotnet-host                                     install
 dotnet-hostfxr-1.0.1                            install
 dotnet-sharedframework-microsoft.netcore.app-1.0.0      install
-  
 </code></pre>
 <p>(You can also use <code>dotnet --version</code> to see which <code>dotnet</code> is installed... but I like the approach above because it tells me more than I need)</p>
 <p>Looking into this some more, over at <a href="https://www.microsoft.com/net/download/linux">https://www.microsoft.com/net/download/linux</a> it says this about the supported and current versions...</p>
@@ -57,7 +54,7 @@ dotnet-sharedframework-microsoft.netcore.app-1.0.0      install
 Ubuntu 16.04:  sudo apt-get install dotnet-dev-1.0.0-preview2-003156
 </code></pre>
 <p>And</p>
-<pre><code>.NET Core 1.1 (Current)    
+<pre><code>.NET Core 1.1 (Current)
 Ubuntu 16.04:  apt-get install dotnet-dev-1.0.0-preview2-003175
 </code></pre>
 <p>(Why is current not the same as what's on the front screen? And why doesn't the current need 'sudo'? (<a href="https://twitter.com/secretGeek/status/823712625942896640">lodged it with jongalloway via twitter</a> )</p>

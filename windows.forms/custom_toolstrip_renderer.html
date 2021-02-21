@@ -42,15 +42,14 @@
 </code></pre>
 <p>And be sure to tell your control that you want to use your custom renderer, like this:</p>
 <pre><code>mainToolStrip.Renderer = new CustomToolStripRenderer();
-        
 </code></pre>
 <p>Then within the custom renderer, you can override whichever method you're unhappy with.</p>
 <p>Here's the code I wrote to draw a little blue box, and a custom tick, that should be a pixel-perfect representation of the intended one. I just know there are going to be edge cases (e.g. custom DPI) that will break this.</p>
 <pre><code>protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
 {
     var g = e.Graphics;
-    var fillColor = (e.Item.Selected ? this.ColorTable.CheckSelectedBackground : this.ColorTable.CheckBackground);  
-    g.FillRectangle(new SolidBrush(fillColor), new Rectangle(3, 1, 19, 19)); 
+    var fillColor = (e.Item.Selected ? this.ColorTable.CheckSelectedBackground : this.ColorTable.CheckBackground);
+    g.FillRectangle(new SolidBrush(fillColor), new Rectangle(3, 1, 19, 19));
     g.DrawRectangle(new Pen(new SolidBrush(this.ColorTable.ButtonCheckedHighlightBorder), 1), new Rectangle(3, 1, 19, 19));
     // Draw the check mark. (two lines)
     g.DrawLines(System.Drawing.Pens.Black, new Point[] { new Point(10, 9), new Point(12, 11), new Point(16, 7) });
@@ -86,7 +85,7 @@
         {
             g.DrawRectangle(highlightPen, rectangle);
         }
-        
+
         DrawCheckMark(g, 0 + offset);
         DrawCheckMark(g, 1 + offset);
 

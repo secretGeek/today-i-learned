@@ -60,11 +60,7 @@ ORDER BY 1, 2
 <p>And to see transaction locks on a particular object</p>
 <pre><code>SELECT * FROM sys.dm_tran_locks
   WHERE resource_database_id = DB_ID()
-  AND resource_associated_entity_id = OBJECT_ID(N'[MySchema].[MyTable]')	
-  
-  
-  
-  
+  AND resource_associated_entity_id = OBJECT_ID(N'[MySchema].[MyTable]')
 </code></pre>
 <p>And to see all of who is using this server we have the old classic:</p>
 <pre><code>sp_who

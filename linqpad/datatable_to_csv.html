@@ -57,7 +57,7 @@
 	return result.ToString();
 }
 
-public static string EscapeAndQualifyAsNeeded(string value, string fieldSeparator = &quot;,&quot;, string recordSeparator = &quot;\r\n&quot;, string fieldQualifier = &quot;\&quot;&quot;) 
+public static string EscapeAndQualifyAsNeeded(string value, string fieldSeparator = &quot;,&quot;, string recordSeparator = &quot;\r\n&quot;, string fieldQualifier = &quot;\&quot;&quot;)
 {
 	if (value.Contains(fieldSeparator) || value.Contains(recordSeparator) || value.Contains(fieldQualifier) || value.StartsWith(&quot; &quot;) || value.EndsWith(&quot; &quot;))
 	{

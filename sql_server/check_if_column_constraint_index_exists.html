@@ -27,7 +27,7 @@
 <pre><code>IF NOT EXISTS(
   SELECT *
   FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE 
+  WHERE
 	TABLE_SCHEMA = 'MySchema'
 	AND TABLE_NAME = 'MyTable'
 	AND COLUMN_NAME = 'OBJECTID')
@@ -41,13 +41,13 @@ END
 <pre><code>IF NOT EXISTS(
   SELECT *
   FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-  WHERE 
+  WHERE
 	TABLE_SCHEMA = 'MySchema'
 	AND TABLE_NAME = 'MyTable'
 	AND CONSTRAINT_NAME = 'PK_constraintname')
 BEGIN
 	ALTER TABLE MySchema.MyTable ADD CONSTRAINT
-		PK_constraintname PRIMARY KEY CLUSTERED 
+		PK_constraintname PRIMARY KEY CLUSTERED
 		(
 		OBJECTID
 		) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -55,8 +55,8 @@ END
 </code></pre>
 <p>To check if an index exists (before adding the index - a spatial index in this case)</p>
 <pre><code>IF NOT EXISTS(
-	SELECT * 
-	FROM sys.indexes 
+	SELECT *
+	FROM sys.indexes
 	WHERE name='SPATIAL_index' AND object_id = OBJECT_ID('MySchema.MyTable'))
 BEGIN
 	CREATE SPATIAL INDEX SPATIAL_index ON MySchema.MyTable(Geo) USING GEOGRAPHY_GRID

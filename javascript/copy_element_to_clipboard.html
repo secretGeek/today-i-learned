@@ -100,9 +100,9 @@ function $(selector) {
 <h2 id="fading-out-tooltip-at-copy-time">Fading out Tooltip at Copy Time</h2>
 <p>Here's another variation, this time with a fading out tooltip.</p>
 <p>To support the tooltip I have these two CSS classes:</p>
-<pre><code>/* 
-	Used for notifications that clipboard text has been copied. 
-	Can be used for other transient js messages. 
+<pre><code>/*
+	Used for notifications that clipboard text has been copied.
+	Can be used for other transient js messages.
 */
 .floating-message {
 	/* initial opacity/top margin */
@@ -186,7 +186,7 @@ $(&quot;&lt;button class='copy-text btn btn-sm' title='copy code to clipboard'&g
 // And have it call 'copy to clipboard'
 $(&quot;.copy-text&quot;).click(function (e) {
 	copyToClipboard($(this).next(&quot;pre&quot;).text(), this); // that final *this* is the DOM element.
-	// stop any other consequence fo this click from occurring. 
+	// stop any other consequence fo this click from occurring.
 	e.preventDefault();
 	return false;
 });

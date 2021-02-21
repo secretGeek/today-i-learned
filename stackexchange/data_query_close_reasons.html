@@ -58,9 +58,9 @@ where p.Id = 17335689
 
 --0 rows. No comments
 
-Select 
+Select
 p.Id as [Post Link],
- vt.* 
+ vt.*
 from Posts p
 inner join Votes v on v.PostId = p.Id
 inner join VoteTypes vt on v.VoteTypeID = vt.Id
@@ -68,7 +68,7 @@ where p.Id = 17335689
 
 --3 rows. 2 down votes 1 upvote. No clue here about off topic sub reason.
 
-Select 
+Select
 p.Id as [Post Link],
 rtt.*,
 rts.Name,
@@ -85,7 +85,7 @@ inner join ReviewTaskResults rtr on rtr.Id = rt.CompletedByReviewTaskId
 inner join ReviewTaskResultTypes rtrt on rtrt.Id = rtr.ReviewTaskResultTypeId
 where p.Id = 17335689
 
---1 row. 
+--1 row.
 </code></pre>
 <p>This shows details of a review.
 There was a review, it was completed, it has a result,

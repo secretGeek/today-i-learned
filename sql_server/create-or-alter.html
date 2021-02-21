@@ -30,9 +30,9 @@
 </code></pre>
 <p>...because: no need to test for existence before creating</p>
 <p>No more:</p>
-<pre><code>if exists ( select * 
-        from   sysobjects 
-        where  id = object_id(N'[dbo].[MySproc]') 
+<pre><code>if exists ( select *
+        from   sysobjects
+        where  id = object_id(N'[dbo].[MySproc]')
                and objectproperty(id, N'IsProcedure') = 1 )
 begin
 	--create procedure [dbo].[MySproc]

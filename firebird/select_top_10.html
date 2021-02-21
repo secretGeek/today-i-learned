@@ -26,7 +26,7 @@
 <p>How do you select <code>top 10</code> in firebird db? Is it <code>limit</code>? it it <code>rownum</code>?</p>
 <p>No it is <code>first</code>:</p>
 <pre><code>Select FIRST(10) *
-from CUSTOMER 
+from CUSTOMER
 order by ID desc
 </code></pre>
 <p>Ha!</p>

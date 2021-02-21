@@ -28,7 +28,7 @@
 	s.State
 	Sum(s.Amount) as Amount,
 	Count(*) as Number_of_Sales
-from 
+from
 	Sales s
 Group by s.State
 </code></pre>
@@ -38,8 +38,8 @@ Group by s.State
 	s.State,
 	Sum(s.Amount) as Amount,
 	Count(*) as s.Number_of_Sales,
-	BestSalesperson = (Select top(1) Salesperson from Sales where State = s.State group by Salesperson order by Sum(Amount) desc) 
-from 
+	BestSalesperson = (Select top(1) Salesperson from Sales where State = s.State group by Salesperson order by Sum(Amount) desc)
+from
 	Sales s
 Group by s.State
 </code></pre>
@@ -50,8 +50,8 @@ Group by s.State
 	Sum(s.Amount) as Amount,
 	Count(*) as s.Number_of_Sales,
 	BestSalesperson = (Select top(1) Salesperson from Sales where State = s.State group by Salesperson order by Sum(Amount) desc),
-    BestSalesperson_Sales = (Select top(1) Sum(Amount) from Sales where State = s.State group by Salesperson order by Sum(Amount) desc) 
-from 
+    BestSalesperson_Sales = (Select top(1) Sum(Amount) from Sales where State = s.State group by Salesperson order by Sum(Amount) desc)
+from
 	Sales s
 Group by s.State
 </code></pre>
@@ -64,18 +64,18 @@ Group by s.State
 	Count(*) as s.Number_of_Sales,
 	so.SalesPerson as BestSalesperson,
     so.SalesAmount as BestSalesperson_Sales
-from 
+from
 	Sales s
-outer apply (Select top (1) 
-		Salesperson, 
-		Sum(Amount) as SalesAmount 
-	from 
-		Sales 
-	where 
-		State = s.State 
-	Group by 
-		SalesPerson 
-	order by 
+outer apply (Select top (1)
+		Salesperson,
+		Sum(Amount) as SalesAmount
+	from
+		Sales
+	where
+		State = s.State
+	Group by
+		SalesPerson
+	order by
 		Sum(Amount) desc) so
 Group by State, so.SalesPerson, so.SalesAmount
 </code></pre>

@@ -120,7 +120,6 @@ else:
     del sys.argv[0]
     text = &quot; &quot;.join(sys.argv)
 mc.postToChat(text)
-	
 </code></pre>
 <h2 id="teleport-to-a-location">Teleport to a location</h2>
 <pre><code>from mine import *
@@ -205,7 +204,7 @@ from sys import argv
 mc = Minecraft()
 mc.postToChat(&quot;Placing argv[1] RANDOM blocks...&quot;)
 playerPos = mc.player.getPos()
-blocktypes = [ 
+blocktypes = [
 	block.STAINED_GLASS_BLACK,
 	block.STAINED_GLASS_BLUE,
 	block.STAINED_GLASS_BROWN,
@@ -228,7 +227,6 @@ for i in range(int(argv[1])):
 </code></pre>
 <p>Usage:</p>
 <pre><code>/py randomblocks 10
-	
 </code></pre>
 <p>....Places a row of 10 blocks in different stained glass colors.</p>
 <h2 id="make-a-pyramid">Make a pyramid</h2>

@@ -138,17 +138,17 @@
 </code></pre>
 <p>Further research....</p>
 <p>You can find the above table via:</p>
-<pre><code>SELECT name 
+<pre><code>SELECT name
 FROM master..spt_values
 WHERE type = 'O9T'
 </code></pre>
 <p>...<a href="https://stackoverflow.com/a/16243935">see stackoverflow</a></p>
 <h2 id="query-to-filter-by-type-of-object">Query to filter by type of object</h2>
 <pre><code>$x = &quot;Select Schema_Name(o.UID) + '.' + o.Name , o.Xtype, tt.[name]
-from sysobjects o inner join  master..spt_values tt 
+from sysobjects o inner join  master..spt_values tt
 on tt.type = 'O9T' and tt.name like o.xtype + '%' collate database_default
 where
-tt.[name] like 
+tt.[name] like
 '%proc%' --e.g. function table proc
 AND Schema_Name(o.UID) + '.' + o.Name like
 '%db%'&quot;

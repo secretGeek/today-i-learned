@@ -34,13 +34,13 @@ Cumulative (true or false) determines the form of the function.
 </code></pre>
 <p>Here is Weibull function for the cumulative and non-cumulative case.</p>
 <pre><code>WEIBULL(x,a,b,TRUE) = 1 - e^(-(x/b)^a)
-WEIBULL(x,a,b,FALSE) = (a/b^a)(x^(a-1))(e^(-x/b)^a) 
+WEIBULL(x,a,b,FALSE) = (a/b^a)(x^(a-1))(e^(-x/b)^a)
 </code></pre>
 <p>In Excel, there is a function WEIBULL, which you can use directly.</p>
 <p>If you need to re-implement it in SQL Server, here it is for the cumulative case...</p>
 <pre><code>ALTER function dbo.WeibullCumulative(@x float, @alpha float, @beta float)
 returns float
-as 
+as
 BEGIN
  return 1 - exp(-1 * POWER((@x / @beta), @alpha))
 END

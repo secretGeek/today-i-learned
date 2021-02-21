@@ -25,18 +25,15 @@
 <h1 id="construct-line-geography-from-two-points">Construct line geography from two points</h1>
 <p>Got two points and want to draw a straight line between them?</p>
 <pre><code>geography::STGeomFromText(
-    'LINESTRING(' 
-        + str(w1.Geo.Long,18,15) 
-        + ' ' 
-        + str(w1.Geo.Lat,18,15) 
-        + ', ' 
-        + str(w2.Geo.Long,18,15) 
-        + ' ' 
-        + str(w2.Geo.Lat,18,15) + ')', 
+    'LINESTRING('
+        + str(w1.Geo.Long,18,15)
+        + ' '
+        + str(w1.Geo.Lat,18,15)
+        + ', '
+        + str(w2.Geo.Long,18,15)
+        + ' '
+        + str(w2.Geo.Lat,18,15) + ')',
      w1.Geo.STSrid) AS NewGeo
-
-
- 
 </code></pre>
 <p>Here it is again in a single easy to copy line....</p>
 <pre><code>geography::STGeomFromText('LINESTRING(' + str(w1.Geo.Long,18,15) + ' ' + str(w1.Geo.Lat,18,15) + ', ' + str(w2.Geo.Long,18,15) + ' ' + str(w2.Geo.Lat,18,15) + ')', w1.Geo.STSrid) AS NewGeo

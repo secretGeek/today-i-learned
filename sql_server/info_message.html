@@ -34,7 +34,7 @@
 <p>where the message handler is, for example:</p>
 <pre><code>static void conn_InfoMessage(object sender, SqlInfoMessageEventArgs e)
 {
-		MessageBox.Show(&quot;InfoMessage Handled Error Level-&quot; + 	e.Errors[0].Class.ToString() + &quot;:&quot; + e.Message);           
+		MessageBox.Show(&quot;InfoMessage Handled Error Level-&quot; + 	e.Errors[0].Class.ToString() + &quot;:&quot; + e.Message);
 }
 </code></pre>
 <p>...(and it may as well be done with a local/lambda function)</p>

@@ -53,7 +53,7 @@
 <p>However, because I didn't restart SQL Server after enabling it, it still doesn't work.</p>
 <h2 id="enable-it">Enable it</h2>
 <pre><code>sp_configure 'external scripts enabled', 1;
-RECONFIGURE WITH OVERRIDE; 
+RECONFIGURE WITH OVERRIDE;
 </code></pre>
 <h2 id="test-it">Test it</h2>
 <pre><code>EXEC sp_execute_external_script  @language =N'R',

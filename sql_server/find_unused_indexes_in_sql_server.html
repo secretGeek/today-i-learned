@@ -44,7 +44,7 @@ WHERE
 	indexes.is_primary_key = 0		-- Excludes primary keys as described above
 AND indexes.is_unique = 0			-- Excludes unique constarints are described above
 ORDER BY
-	(stats.user_seeks + stats.user_scans + stats.user_lookups) asc,  
+	(stats.user_seeks + stats.user_scans + stats.user_lookups) asc,
 	stats.user_updates DESC
 </code></pre>
 <p>What do you expect to find when you run this query?</p>

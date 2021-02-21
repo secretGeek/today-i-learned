@@ -24,8 +24,8 @@
 <article>
 <h1 id="convert-a-timestamp-column-to-a-varchar">Convert a timestamp column to a varchar</h1>
 <p>To cast or convert a timestamp column to a varchar column... 2 different ways</p>
-<pre><code>SELECT 
-	MyTimeStamp, 
+<pre><code>SELECT
+	MyTimeStamp,
 	Replace(Upper(master.sys.fn_varbintohexstr(MyTimeStamp)),'0X','0x') as MyTimeStampToo,
 	CONVERT(NVARCHAR(MAX), CONVERT(BINARY(8), MyTimeStamp), 1) as MyTimeStampAlso,
 	CONVERT(NVARCHAR(MAX), CONVERT(BINARY(8), MyTimeStamp), 2) as MyTimeStampMINUS_0x

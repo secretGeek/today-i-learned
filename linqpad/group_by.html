@@ -30,7 +30,7 @@ group by SomeColumn
 order by 2 desc
 </code></pre>
 <p>Here's the equivalent in Linq:</p>
-<pre><code>var tableSummary = 
+<pre><code>var tableSummary =
 someTable.GroupBy(p=&gt; p.SomeColumn).Select(group =&gt; new {
 	Count = group.Count(),
 	SomeColumn = group.Key

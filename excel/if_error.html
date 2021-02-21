@@ -30,7 +30,7 @@
 </code></pre>
 <p>...but what happens when there is no comma!? A dirty great error that's what!</p>
 <p>So wrap it in an <code>IFERROR</code> instead my smooth friend:</p>
-<pre><code>=IFERROR(LEFT(B3, FIND(&quot;,&quot;, B3)-1),&quot;&quot;)	
+<pre><code>=IFERROR(LEFT(B3, FIND(&quot;,&quot;, B3)-1),&quot;&quot;)
 </code></pre>
 <p>Arh! That better!</p>
 <p>And for completeness, here's a sneaky formula to get everything after the first space...</p>

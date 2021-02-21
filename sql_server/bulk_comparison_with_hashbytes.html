@@ -26,9 +26,9 @@
 <p>Imagine we have two tables (or views), <code>TableNew</code> and <code>TableOld</code>, and we want to know if their data is the same or different.</p>
 <p>Assume they have the same schema.</p>
 <p>Further assume that their primary key is a composite key with two columns, <code>PK1</code> and <code>PK2</code>.</p>
-<pre><code>With 
+<pre><code>With
 NEWSET as (
-SELECT 
+SELECT
 	MBT.PK1,
 	MBT.PK2,
    hashbytes('MD5',
@@ -37,8 +37,8 @@ SELECT
 				FOR xml auto)) AS [Hash]
 FROM TableNew AS MBT)
 ,OLDSET as (
-SELECT 
-	MBT.PK1, 
+SELECT
+	MBT.PK1,
 	MBT.PK2,
    hashbytes('MD5',
 			   (SELECT MBT.*
@@ -49,7 +49,7 @@ FROM TableOld AS MBT)
 Select
 	n.PK1,
 	n.PK2,
-	Case 
+	Case
 		when o.[Hash] is null then 'Not in old set'
 		when o.[Hash] != n.[Hash] then 'Changed'
 		else 'Same'
@@ -120,9 +120,9 @@ Select Summary, Count(*) as [Count] from Comparison2 group by Summary
 <pre><code>Convert(varchar(32), master.sys.fn_repl_hash_binary(cast(SOME_NVARCHAR_MAX as varbinary(max))), 2) as Hasho
 </code></pre>
 <p>So here's our function modified to work with large nvarchar's prior to <code>SQL Server 2016</code>. (I'm writing/needing this in 2020!)</p>
-<pre><code>With 
+<pre><code>With
 NEWSET as (
-SELECT 
+SELECT
 	MBT.PK1,
 	MBT.PK2,
 	Convert(varchar(32), master.sys.fn_repl_hash_binary(cast((SELECT MBT.*
@@ -130,8 +130,8 @@ SELECT
 			FOR xml auto) as varbinary(max))), 2) as [Hash]
 	FROM TableNew AS MBT)
 ,OLDSET as (
-SELECT 
-	MBT.PK1, 
+SELECT
+	MBT.PK1,
 	MBT.PK2,
 	Convert(varchar(32), master.sys.fn_repl_hash_binary(cast((SELECT MBT.*
 			FROM (VALUES(NULL))foo(bar)
@@ -141,7 +141,7 @@ FROM TableOld AS MBT)
 Select
 	n.PK1,
 	n.PK2,
-	Case 
+	Case
 		when o.[Hash] is null then 'Not in old set'
 		when o.[Hash] != n.[Hash] then 'Changed'
 		else 'Same'

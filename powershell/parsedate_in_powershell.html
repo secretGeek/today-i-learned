@@ -27,7 +27,7 @@
 <pre><code>$DateAsAString = &quot;30-12-1905&quot;;
 $parseddate4 = get-date; # seem to have to initialize this variable...
 if ([DateTime]::TryParseExact(
-	$DateAsAString, 
+	$DateAsAString,
 	&quot;dd-MM-yyyy&quot;,
 	[System.Globalization.CultureInfo]::InvariantCulture,
 	[System.Globalization.DateTimeStyles]::None,

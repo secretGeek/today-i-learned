@@ -80,61 +80,59 @@ as
 BEGIN
 	DECLARE @cols AS NVARCHAR(MAX),
 		@query  AS NVARCHAR(MAX)
-		
-	
-	  IF EXISTS (SELECT * 
-				 FROM   dbo.sysobjects o 
-				 WHERE  o.xtype IN ( 'U' ) 
-						AND o.id = Object_id(N'dbo.CustomerPerformanceResult')) 
-		DROP TABLE dbo.CustomerPerformanceResult 
+
+
+	  IF EXISTS (SELECT *
+				 FROM   dbo.sysobjects o
+				 WHERE  o.xtype IN ( 'U' )
+						AND o.id = Object_id(N'dbo.CustomerPerformanceResult'))
+		DROP TABLE dbo.CustomerPerformanceResult
 
 
 
-	select @cols = STUFF((SELECT ',' + QUOTENAME([num]) 
+	select @cols = STUFF((SELECT ',' + QUOTENAME([num])
 						from dbo.CustomerPerformance_NumberedDays as w
 						group by [num]
 						order by [num] desc
 				FOR XML PATH(''), TYPE
-				).value('.', 'NVARCHAR(MAX)') 
+				).value('.', 'NVARCHAR(MAX)')
 			,1,1,'')
 
-	set @query = 'SELECT url_Country, url_Region, url_Postcode, url_Customer, Country, Region, Postcode, Customer, ' + @cols + ' 
+	set @query = 'SELECT url_Country, url_Region, url_Postcode, url_Customer, Country, Region, Postcode, Customer, ' + @cols + '
 				into dbo.CustomerPerformanceResult
-				from 
+				from
 				 (
-					select 
-					''/Pivotted/CustomerPerformance?countryFilter='' + Replace(country,'' '',''%20'') as url_Country, 
-					''/Pivotted/CustomerPerformance?regionFilter='' + Replace(region,'' '',''%20'') as url_Region, 
-					''/Pivotted/CustomerPerformance?postcodeFilter='' + Replace(postcode,'' '',''%20'') as url_Postcode, 
-					''/Pivotted/CustomerPerformance?customerFilter='' + Replace(customerId,'' '',''%20'') as url_Customer, 
-					Conuntry, 
-					Region, 
-					Postcode, 
-					Customer, 
-					[details] 
+					select
+					''/Pivotted/CustomerPerformance?countryFilter='' + Replace(country,'' '',''%20'') as url_Country,
+					''/Pivotted/CustomerPerformance?regionFilter='' + Replace(region,'' '',''%20'') as url_Region,
+					''/Pivotted/CustomerPerformance?postcodeFilter='' + Replace(postcode,'' '',''%20'') as url_Postcode,
+					''/Pivotted/CustomerPerformance?customerFilter='' + Replace(customerId,'' '',''%20'') as url_Customer,
+					Conuntry,
+					Region,
+					Postcode,
+					Customer,
+					[details]
 					from dbo.CustomerPerformance_NumberedDays
 				) x
-				pivot 
+				pivot
 				(
 					min([details])
 					for [num] in (' + @cols + ')
 				) p '
 
 	execute(@query)
-end	
+end
 </code></pre>
 <p>Column names are looked up from a little dictionary. So the <code>num</code> of &quot;3&quot; will be given a display label based on the date returned from this view:</p>
 <pre><code>CREATE View dbo.CustomerPerformance_DayHeadings
 as
-select 
+select
 	num,
-	DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date] 
-from 
-	nums 
-where 
+	DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date]
+from
+	nums
+where
 	num &lt;= 31 and num &gt; 1 --@NumDays
-
-	
 </code></pre>
 <p>Assuming the website receives this as a DataTable, it can be displayed via a View like this....</p>
 <p>(Not show: you'll always need a custom class for unpacking the Detail column. And you need to load</p>
@@ -144,7 +142,7 @@ where
 	public IEnumerable&lt;Filter&gt; filters { get; set; }
 }
 
-	
+
 @using System.Data
 @model PivottedReport
 
@@ -179,18 +177,18 @@ where
 	@Model.Name
 &lt;/h1&gt;
 @if (Model.yyFilter != null)
-{ 
+{
 	&lt;div class=&quot;display-label&quot;&gt;
 		Filter:
 		&lt;a class=&quot;&quot; href=&quot;/Pivotted/CustomerPerformance&quot; title=&quot;Remove yy filter&quot;&gt; @Model.yyFilter &amp;times;&lt;/a&gt;
 		@if (Model.xxFilter != null)
-		{ 
+		{
 			&lt;text&gt; &amp;rarr; &lt;/text&gt;
 			&lt;a class=&quot;&quot; href=&quot;/Pivotted/CustomerPerformance?yyFilter=@Model.yyFilter&quot; title=&quot;Remove xx filter&quot;&gt;@Model.xxFilter &amp;times;&lt;/a&gt;
 		}
 	&lt;/div&gt;
 }
-else { 
+else {
 	&lt;p&gt;Select a xx or a yy below.&lt;/p&gt;
 }
 
@@ -218,7 +216,7 @@ else {
 					} else {
 						&lt;th data-type=&quot;@column.DataType.ToString().Replace('.', '_')&quot;&gt;
 							@column.ColumnName
-						&lt;/th&gt; 
+						&lt;/th&gt;
 					}
 				}
 			&lt;/tr&gt;
@@ -233,12 +231,12 @@ else {
 					@foreach (var cell in row.ItemArray)
 					{
 						i++;
-						
+
 						if (dataTable.Columns[i].ColumnName.StartsWith(&quot;Key_&quot;)
-							|| dataTable.Columns[i].ColumnName.StartsWith(&quot;url_&quot;)) { 
-							continue; 
+							|| dataTable.Columns[i].ColumnName.StartsWith(&quot;url_&quot;)) {
+							continue;
 						}
-						
+
 						if (cell != null &amp;&amp; cell is string &amp;&amp; cell.ToString().StartsWith(&quot;http&quot;))
 						{
 							&lt;td&gt;
@@ -250,7 +248,7 @@ else {
 							// Column name is numeric? then it is part of the pivot section, and is given a nicer name and decoded here.
 							var detailCell = new DetailCell(cell.ToString());
 
-							
+
 
 							if (detailCell.SalesTotal == 0.0)
 							{
@@ -259,13 +257,13 @@ else {
 							}
 							else {
 								&lt;td  class=&quot;@detailCell.Class&quot; title=&quot;@detailCell.Title&quot; style=&quot;position:relative&quot;&gt;
-									&lt;div 
-										class='dataBar' 
+									&lt;div
+										class='dataBar'
 										style=&quot;height:@(detailCell.Height)px;&quot;&gt;
 									&lt;/div&gt;
 								&lt;/td&gt;
 							}
-						} else 
+						} else
 						{
 							&lt;td class=&quot;plain&quot;&gt;
 								@if (urlColumnNames.Contains(dataTable.Columns[i].ColumnName)) {

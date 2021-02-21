@@ -42,10 +42,10 @@
             imgType: &quot;photo&quot;
         },
         function (data) {
-            $.each(data.items, function(i,item){    
+            $.each(data.items, function(i,item){
                 $(&quot;#results&quot;).append('&lt;img class=&quot;img-responsive&quot; src=&quot;' + item.link + '&quot;&gt;');
             });
-        });        
+        });
     });
 &lt;/script&gt;
 </code></pre>

@@ -41,7 +41,7 @@ from    sysobjects
 print @CSV -- Prints 'sysrscols, sysrowsets, sysclones, sysallocunits, sysfiles1'
 </code></pre>
 <p>Return comma separated string, not as a variable though, as part of a result set.</p>
-<pre><code>select DISTINCT schema_name(UID), 
+<pre><code>select DISTINCT schema_name(UID),
 	SUBSTRING(
 		(
 			SELECT ','+ [Name]  AS [text()]

@@ -25,7 +25,7 @@
 <h1 id="giving-chocolatey-a-checksum-when-creating-a-package">Giving Chocolatey a Checksum when creating a package</h1>
 <p>My package was failing validation with chocolatey, with the error message at the foot of this article.</p>
 <p>The pertinent message being:</p>
-<pre><code>ERROR: Empty checksums are no longer allowed by default for non-secure sources. 
+<pre><code>ERROR: Empty checksums are no longer allowed by default for non-secure sources.
 Please ask the maintainer to add checksums to this package.
 </code></pre>
 <p>Since I am the maintainer I had to ask myself... &quot;How do I add checksums to this package&quot; ??</p>
@@ -48,7 +48,7 @@ Install-ChocolateyZipPackage $package 'http://nimbletext.com/download/NimbleText
 $hashy = (checksum -t sha256 -f &quot;output\NimbleText.zip&quot;)
 $hashyLine = '$checkSum = &quot;' + $hashy + '&quot;'
 $targetFile = 'Chocolatey-Packages\NimbleText\tools\ChocolateyInstall.ps1'
-$regex = '\$checkSum = &quot;[0-9A-F]+&quot;' 
+$regex = '\$checkSum = &quot;[0-9A-F]+&quot;'
 # Replace a line of &quot;ChocolateyInstall.ps1&quot; with that new hashy line
 (Get-Content $targetFile) -replace $regex, $hashyLine | Set-Content $targetFile
 </code></pre>
@@ -69,17 +69,17 @@ Please visit https://gist.github.com/...  for details.
 </code></pre>
 <p>And the gist at github had these errors... keyword to look for being 'checksum'</p>
 <pre><code>649 [DEBUG] - Verifying package provided checksum of '' for 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip'.
-680 [DEBUG] - Running Get-ChecksumValid -file 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip' -checksum '' -checksumType '' -originalUrl 'http://PACKAGENAME.com/download/PACKAGENAME.zip' 
-711 [WARN ] - WARNING: Missing package checksums are not allowed (by default for HTTP/FTP, 
- HTTPS when feature 'allowEmptyChecksumsSecure' is disabled) for 
- safety and security reasons. Although we strongly advise against it, 
- if you need this functionality, please set the feature 
- 'allowEmptyChecksums' ('choco feature enable -n 
- allowEmptyChecksums') 
- or pass in the option '--allow-empty-checksums'. You can also pass 
+680 [DEBUG] - Running Get-ChecksumValid -file 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip' -checksum '' -checksumType '' -originalUrl 'http://PACKAGENAME.com/download/PACKAGENAME.zip'
+711 [WARN ] - WARNING: Missing package checksums are not allowed (by default for HTTP/FTP,
+ HTTPS when feature 'allowEmptyChecksumsSecure' is disabled) for
+ safety and security reasons. Although we strongly advise against it,
+ if you need this functionality, please set the feature
+ 'allowEmptyChecksums' ('choco feature enable -n
+ allowEmptyChecksums')
+ or pass in the option '--allow-empty-checksums'. You can also pass
  checksums at runtime (recommended). See choco install -? for details.
-711 [DEBUG] - If you are a maintainer attempting to determine the checksum for packaging purposes, please run 
- 'choco install checksum' and run 'checksum -t sha256 -f C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip' 
+711 [DEBUG] - If you are a maintainer attempting to determine the checksum for packaging purposes, please run
+ 'choco install checksum' and run 'checksum -t sha256 -f C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip'
  Ensure you do this for all remote resources.
 851 [WARN ] - The integrity of the file 'PACKAGENAME.zip' from 'http://PACKAGENAME.com/download/PACKAGENAME.zip' has not been verified by a checksum in the package scripts.
 851 [WARN ] - Do you wish to allow the install to continue (not recommended)?
@@ -107,7 +107,6 @@ at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 1
   with checksum '4827432C0CC72960018E9B6756D8E96D'
 492 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\tools\PACKAGENAME.exe.gui'
   with checksum 'D41D8CD98F00B204E9800998ECF8427E'
-  
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>

@@ -35,11 +35,11 @@
 <p>In the repo you wish to migrate:</p>
 <ol class="contains-task-list">
 <li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> Add these to your <code>mercurial.ini</code>:</p>
-<pre><code>[git]  
+<pre><code>[git]
 branch_bookmark_suffix=_bookmark
 
 [extensions]
-hggit = 
+hggit =
 </code></pre>
 </li>
 <li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> check that <code>hggit</code> is recognised by running <code>hg help</code>; expect to see this under &quot;enabled extensions&quot;:</p>
@@ -57,7 +57,7 @@ hggit =
 </blockquote>
 </li>
 <li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> for each branch (found via <code>hg branches</code>) run this command:</p>
-<pre><code>hg bookmarks -r my_branch my_branch_bookmark  
+<pre><code>hg bookmarks -r my_branch my_branch_bookmark
 </code></pre>
 <p>(... but replacing <code>my_branch</code> with the name of <strong>your</strong> branch.)</p>
 </li>
@@ -77,7 +77,7 @@ hggit =
 <p>Make a <code>.git</code> folder in the top-level of your intended new repository location.</p>
 <p>Copy the contents of the <code>git</code> bare repository into the <code>.git</code> folder you just created. i.e. copy the repository management things (HEAD branches config description hooks info objects refs etc.) into your new folder.</p>
 <p>Run:</p>
-<pre><code>git config --local --bool core.bare false 
+<pre><code>git config --local --bool core.bare false
 </code></pre>
 <p>...to convert the local git-repository to non-bare.</p>
 <p>Stare and compare that the new git repo matches the old hg repo, until you are completely satisfied.</p>

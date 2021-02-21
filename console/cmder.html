@@ -58,7 +58,7 @@
 <pre><code>https://github.com/Microsoft/BashOnWindows/issues/111
 </code></pre>
 <p>To fix it, I added a &quot;<code>{Bash}</code>&quot; task (in Settings -&gt; Startup -&gt; Tasks) with Command equal to:</p>
-<pre><code>%windir%\system32\bash.exe -cur_console:p1   
+<pre><code>%windir%\system32\bash.exe -cur_console:p1
 </code></pre>
 <p><img src="CmdEr_Bash.png" alt="cmder bash arrows keys support" /></p>
 <p>I also added a <code>bash</code> function to my powershell <code>profile.ps1</code> which reads:</p>

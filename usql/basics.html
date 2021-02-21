@@ -37,15 +37,15 @@
 <pre><code>~\AppData\Local\USQLDataRoot
 </code></pre>
 <p>Example query:</p>
-<pre><code>@t = EXTRACT 
+<pre><code>@t = EXTRACT
         name string, age int
      FROM &quot;fred.csv&quot;
      USING Extractors.Csv(skipFirstNRows:1);
 
 @g =
-    SELECT 
-           name.ToLower().ToUpper().ToLower() AS name_lower, 
-           USQLApplication1.Udfs.Transformo(name) AS name_transformed, 
+    SELECT
+           name.ToLower().ToUpper().ToLower() AS name_lower,
+           USQLApplication1.Udfs.Transformo(name) AS name_transformed,
            *
     FROM @t;
 

@@ -40,7 +40,7 @@
 		{
 			retries++;
 			System.Threading.Thread.Sleep(sleepDelay);
-			
+
 			if (retries == maxRetries)
 			{
 				throw new Exception(&quot;Ran out of retries&quot;, ex);

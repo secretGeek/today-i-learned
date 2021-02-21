@@ -47,7 +47,7 @@ using (var da = new SqlDataAdapter(sqlCommand))
 <p>For ASP.NET Web Sites, add the following block of code to the code behind file of the Web Form where you have added Report Viewer Control:</p>
 </blockquote>
 <pre><code>Default.aspx.cs:
-    
+
 public partial class _Default : System.Web.UI.Page
 {
     static bool _isSqlTypesLoaded = false;
@@ -59,7 +59,7 @@ public partial class _Default : System.Web.UI.Page
             SqlServerTypes.Utilities.LoadNativeAssemblies(Server.MapPath(&quot;~&quot;));
             _isSqlTypesLoaded = true;
         }
-        
+
     }
 }
 </code></pre>

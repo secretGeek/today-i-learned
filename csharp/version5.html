@@ -63,11 +63,11 @@
 
 		((Control)o).Text = &quot;Thinking.....&quot;;
 		var i = await t;
-		
+
 		((Control)o).Text = &quot;The answer is &quot; + i;
 		((Control)o).Enabled = true;
 	};
-	
+
 	using(var f = new Form()) {
 		f.Controls.Add(downloadButton);
 		f.ShowDialog();
@@ -95,7 +95,7 @@
 		((Control)o).Text = &quot;Downloaded.&quot;;
 		((Control)o).Enabled = true;
 	};
-	
+
 	using(var f = new Form())
 	{
 		f.Controls.Add(downloadButton);

@@ -53,7 +53,7 @@ using (var client = new SmtpClient())
 </code></pre>
 <p>...with google reporting:</p>
 <blockquote>
-<p>Subject: Someone has your password	
+<p>Subject: Someone has your password
 Message: Someone just used your password to try to sign in to your Google Account using an application such as an email client or mobile device.</p>
 </blockquote>
 <p>And if you visit: <a href="https://security.google.com/settings/security/activity">https://security.google.com/settings/security/activity</a> you will see an &quot;Unknown device&quot; and this message:</p>
@@ -81,7 +81,6 @@ Message: Someone just used your password to try to sign in to your Google Accoun
         Scopes = new[] { &quot;https://mail.google.com/&quot; },
         User = &quot;username@gmail.com&quot;
     }.FromCertificate(certificate));
-            
 </code></pre>
 <p>But .net core doesn't yet have an implementation of 'ServiceAccountCredential' -- so you can't use OAuth2 for this yet (unless you write all the necessary plumbing code yourself)</p>
 <p>So you need to ensure your gmail account permits signin without use of a developer token. To enable this for your gmail account, you may need to (login as that user and then) visit:</p>

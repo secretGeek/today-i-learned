@@ -42,7 +42,7 @@
 <p>(Originally I tried <code>console.error</code> but I don't think it's supported on IE version=old)</p>
 <p>And in the minified version of DataTables, <code>jquery.dataTables.min.js</code> you need to...</p>
 <p>Change:</p>
-<pre><code>if(&quot;alert&quot;==j.ext.sErrMode)alert(a);else throw Error(a)    
+<pre><code>if(&quot;alert&quot;==j.ext.sErrMode)alert(a);else throw Error(a)
 </code></pre>
 <p>To:</p>
 <pre><code>if(&quot;alert&quot;==j.ext.sErrMode)console.log(a);else throw Error(a)

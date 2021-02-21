@@ -27,7 +27,7 @@
 <h2 id="part-1-over-and-over">Part 1: Over and Over</h2>
 <p>We all know that this will fail, and why...</p>
 <pre><code>Select top 3
-	VehicleCode, 
+	VehicleCode,
 	COUNT(*) as [COUNT]
 from Reporting.Vehicles
 </code></pre>
@@ -37,7 +37,7 @@ from Reporting.Vehicles
 <p>You can't mix aggregates and non aggregates, unless you use GROUP BY. Or can you!?</p>
 <p>Watch what happens when we include an <code>OVER()</code> clause...</p>
 <pre><code>Select top 3
-       VehicleCode, 
+       VehicleCode,
        COUNT(*) OVER() as [COUNT]
 from Reporting.Vehicles
 </code></pre>
@@ -66,7 +66,7 @@ from Reporting.Vehicles
 <p>Often the only place we're familiar with <code>OVER()</code> from is with the <code>ROW_NUMBER()</code> function. Honestly, most of us treat <code>ROW_NUMBER()</code> as a little bit of magic text that we copy and paste from stackoverflow each time we want to use it.</p>
 <p>Let's follow the same process, but instead of the count function we'll start with a <code>ROW_NUMBER()</code>...</p>
 <pre><code>Select top 3
-       VehicleCode, 
+       VehicleCode,
        ROW_NUMBER() as ROW_NUMBER
 from Reporting.Vehicles
 </code></pre>
@@ -76,7 +76,7 @@ from Reporting.Vehicles
 <p>Now we're told that <code>The function 'ROW_NUMBER' must have an OVER clause.</code></p>
 <p>So let's include an OVER clause...</p>
 <pre><code>Select top 3
-       VehicleCode, 
+       VehicleCode,
        ROW_NUMBER() OVER() as ROW_NUMBER
 from Reporting.Vehicles
 </code></pre>
@@ -87,8 +87,8 @@ from Reporting.Vehicles
 <p>(And you noticed that the <code>COUNT</code> function above did not require an <code>ORDER BY</code> clause. That's because ROW_NUMBER and COUNT operate under different rules.)</p>
 <p>So we'll add that in...</p>
 <pre><code>Select top 3
-	   VehicleCode, 
-	   ROW_NUMBER() OVER(order by VehicleCode) as ROW_NUMBER 
+	   VehicleCode,
+	   ROW_NUMBER() OVER(order by VehicleCode) as ROW_NUMBER
 from Reporting.Vehicles
 </code></pre>
 <table>
@@ -117,8 +117,8 @@ from Reporting.Vehicles
 <p>First we need to see exactly what the rules are.</p>
 <p>Can you guess what will happen if we order by <code>DESC</code> ?</p>
 <pre><code>Select top 3
-	   VehicleCode, 
-	   ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER 
+	   VehicleCode,
+	   ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER
 from Reporting.Vehicles
 </code></pre>
 <p>Will we now get 3,2,1 ?</p>
@@ -149,7 +149,7 @@ from Reporting.Vehicles
 <p>What if we order the outer query by VehicleCode ascending... will we <em>now</em> get 3,2,1 ?</p>
 <pre><code>Select top 3
 	   VehicleCode
-	   ,ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER 
+	   ,ROW_NUMBER() OVER(ORDER BY VehicleCode desc) as ROW_NUMBER
 from Reporting.Vehicles
 order by VehicleCode asc
 </code></pre>
@@ -176,7 +176,7 @@ order by VehicleCode asc
 </tbody>
 </table>
 <p>Can we order by an integer?</p>
-<pre><code>Select top 3 
+<pre><code>Select top 3
 	   VehicleCode
 	   ,ROW_NUMBER() OVER(ORDER BY 1 asc) as ROW_NUMBER
 from Reporting.Vehicles
@@ -186,8 +186,8 @@ order by 1 asc
 <p><strong>Error</strong> Windowed functions and NEXT VALUE FOR functions do not support integer indices as ORDER BY clause expressions.</p>
 </blockquote>
 <p>Can we order by a Windowed Function?</p>
-<pre><code>Select top 3 
-	   VehicleCode, 
+<pre><code>Select top 3
+	   VehicleCode,
 	   ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROW_NUMBER
 from Reporting.Vehicles
 order by ROW_NUMBER() OVER(ORDER BY VehicleCode desc) asc
@@ -215,9 +215,9 @@ order by ROW_NUMBER() OVER(ORDER BY VehicleCode desc) asc
 </tbody>
 </table>
 <p>Can we put a windowed function into the OVER clause???</p>
-<pre><code>Select top 3 
-	VehicleCode, 
-	ROW_NUMBER() OVER(ORDER BY 
+<pre><code>Select top 3
+	VehicleCode,
+	ROW_NUMBER() OVER(ORDER BY
 		ROW_NUMBER() OVER(ORDER BY VehicleCode desc) asc
 		) as ROW_NUMBER
 from Reporting.Vehicles
@@ -226,8 +226,8 @@ from Reporting.Vehicles
 <p><strong>Error</strong> Windowed functions cannot be used in the context of another windowed function or aggregate.</p>
 </blockquote>
 <p>Can we put a windowed function in a WHERE clause?</p>
-<pre><code>Select top 3 
-	   VehicleCode, 
+<pre><code>Select top 3
+	   VehicleCode,
 	   ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROW_NUMBER
 from Reporting.Vehicles
 where ROW_NUMBER() OVER(ORDER BY VehicleCode asc) &gt; 4
@@ -243,8 +243,8 @@ NEXT: Break all the rules</p>
 </blockquote>
 <p>Here's how we <strong>CAN</strong> put a windowed-function into a WHERE clause...</p>
 <pre><code>;with TopVehicles AS
-(Select 
-	  VehicleCode, 
+(Select
+	  VehicleCode,
 	  ROW_NUMBER() OVER(ORDER BY VehicleCode asc) as ROWNUM
 from Reporting.Vehicles)
 select top 3 * from TopVehicles
@@ -530,14 +530,14 @@ where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
 	   -- B:
 	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc  ) as [COUNT_ORDER_BY_RF],
 	   -- C:
-	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE 
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE
 					 UNBOUNDED PRECEDING) as [COUNT_RF_RANGE],
 	   -- D:
-	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE 
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc RANGE
 					 BETWEEN UNBOUNDED PRECEDING
 						   AND CURRENT ROW) as [COUNT_RF_RANGE_BETWEEN],
 	   -- E:
-	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc ROWS 
+	   COUNT(*) OVER(ORDER BY ReliabilityFactor desc ROWS
 					 BETWEEN UNBOUNDED PRECEDING
 						   AND CURRENT ROW) as [COUNT_RF_ROWS]
 
@@ -629,22 +629,22 @@ where ReliabilityFactor is not null and ReliabilityFactor &lt;= 3.50
 	   --A:
 	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc) as MIN_RF,
 	   --B:
-			  MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE 
+			  MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE
 					 UNBOUNDED PRECEDING) as MIN_RF,
 	   --B1:
-	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE 
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc RANGE
 					 BETWEEN UNBOUNDED PRECEDING
 						   AND CURRENT ROW) as MIN_RF,
 	   --C:
-	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  ROWS 
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  ROWS
 					 BETWEEN UNBOUNDED PRECEDING
 						   AND UNBOUNDED FOLLOWING) as MIN_RF_UNBOUNDED,
 	   --D:
-	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE 
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE
 					 BETWEEN UNBOUNDED PRECEDING
 						   AND UNBOUNDED FOLLOWING) as MIN_RF_RANGE_UNBOUNDED,
 	   --E:
-	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE 
+	   MIN(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc  RANGE
 					 UNBOUNDED PRECEDING) as MIN_RF_RANGE_UNBOUNDED_PREC,
 	   --F:
 	   Max(ReliabilityFactor) OVER(ORDER BY ReliabilityFactor desc
@@ -764,7 +764,7 @@ order by ReliabilityFactor desc
 <p>First, a <code>COUNT</code> with no partition...</p>
 <p>The <code>COUNT</code> is the total count...</p>
 <pre><code>Select top 9
-	   VehicleCode, 
+	   VehicleCode,
 	   Fleet,
 	   COUNT(*) OVER() as [COUNT]
 from Reporting.Vehicles
@@ -829,7 +829,7 @@ order by Fleet, Vehiclecode
 </table>
 <p>Let's add some partition... This time count will show us how many rows in each Fleet:</p>
 <pre><code>Select top 9
-	   VehicleCode, 
+	   VehicleCode,
 	   Fleet,
 	   ROW_NUMBER() OVER(PARTITION BY Fleet order by VehicleCode) as [ROW_IN_Fleet],
 	   COUNT(*) OVER(PARTITION BY Fleet) as [COUNT_IN_Fleet],
@@ -917,7 +917,7 @@ order by Fleet, Vehiclecode
 </table>
 <h2 id="part-6-leadlag">PART 6: LEAD/LAG</h2>
 <pre><code>Select top 9
-	   VehicleCode, 
+	   VehicleCode,
 	   COUNT(*) OVER(PARTITION BY Fleet) as [COUNT_IN_Fleet],
 	   Fleet,
 	   LEAD(Fleet) OVER(order by Fleet, VehicleCode) as [NEXT_Fleet],
@@ -926,8 +926,8 @@ order by Fleet, Vehiclecode
 	   LAG(Fleet,2) OVER(order by Fleet, VehicleCode) as [PREVIOUS_PREVIOUS_Fleet],
 	   LEAD(Fleet,8172) OVER(order by Fleet, VehicleCode) as [NEXT_Fleet_8172],
 	   FIRST_VALUE(VehicleCode) OVER(partition by Fleet order by Vehiclecode) as First_Vehicle_in_Fleet,
-	   LAST_VALUE(VehicleCode) OVER(partition by Fleet order by Vehiclecode 
-		   RANGE BETWEEN 
+	   LAST_VALUE(VehicleCode) OVER(partition by Fleet order by Vehiclecode
+		   RANGE BETWEEN
 		   CURRENT ROW AND UNBOUNDED FOLLOWING) as Last_Vehicle_in_Fleet
 from Reporting.Vehicles
 where not Fleet is null

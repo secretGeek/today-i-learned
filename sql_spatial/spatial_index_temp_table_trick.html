@@ -76,9 +76,9 @@ OUTER APPLY (SELECT TOP 1
         from
             #SurveyLotPlan survey WITH (INDEX(ix_surveylotplan))
         where
-            survey.Survey_GEO.STIntersects(Sl.PointGeo) = 1 
+            survey.Survey_GEO.STIntersects(Sl.PointGeo) = 1
       ) s
- 
+
 -- ^^ 4 seconds
 </code></pre>
 

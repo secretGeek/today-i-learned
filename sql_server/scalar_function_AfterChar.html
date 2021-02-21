@@ -32,10 +32,10 @@ e.g.</p>
 </code></pre>
 <p>...returns '2315'.</p>
 <p>Special cases:</p>
-<pre><code>select dbo.AfterChar('Jim#2315','@') 
+<pre><code>select dbo.AfterChar('Jim#2315','@')
 </code></pre>
 <p>...returns 'Jim#2315', since @ is not in the string.</p>
-<pre><code>select dbo.AfterChar(null,'@') 
+<pre><code>select dbo.AfterChar(null,'@')
 
 ...returns null, since @ cannot be in the string.
 
@@ -43,7 +43,7 @@ e.g.</p>
 
 
 -- Return the substring after the given character.
--- e.g. 
+-- e.g.
 --   select dbo.AfterChar('Jim@gmail.com','@') -- returns 'gmail.com'.
 --   select dbo.AfterChar('Jim#2315','#') -- returns '2315'.
 -- Special cases:
@@ -52,13 +52,13 @@ e.g.</p>
 Alter FUNCTION [dbo].[AfterChar]
 	(
 		@value VARCHAR(MAX) ,
-		@separator CHAR(1) 
+		@separator CHAR(1)
 	)
 RETURNS VARCHAR(MAX)
-AS 
+AS
 BEGIN
 	if (@value is null) return @value
-	
+
 	declare @charLocation integer;
 	Set  @charLocation = CHARINDEX(@separator, @value)
 	if (@charLocation = 0) return @value

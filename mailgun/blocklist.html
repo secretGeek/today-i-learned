@@ -28,8 +28,6 @@
 <p>I went to the <code>logs</code> page and saw more detail. It seems that some of the recipients' mail servers (particularly Microsoft ones, e.g. live.com, outlook.com, hotmail.com) refused to accept the email and said:</p>
 <pre><code>&quot;code&quot;: 550,
     &quot;message&quot;: &quot;5.7.1 Unfortunately, messages from [104.130.122.16] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [HE1EUR02FT024.eop-EUR02.prod.protection.outlook.com]&quot;
-
-	
 </code></pre>
 <p><img src="blocklist.png" alt="block list" /></p>
 <p>When I tested that ip address at <a href="https://mxtoolbox.com/blacklists.aspx">https://mxtoolbox.com/blacklists.aspx</a></p>
@@ -71,7 +69,7 @@ Note that it will be added back the next time it sends email to one of our spam 
 <p>And I found...</p>
 <pre><code>More information about Hostkarma Black can be found at their website: http://wiki.junkemailfilter.com/index.php/Spam_DNS_Lists
 
-Reason for listing - Black listed at hostkarma http://ipadmin.junkemailfilter.com/remove.php?ip=104.130.122.16	
+Reason for listing - Black listed at hostkarma http://ipadmin.junkemailfilter.com/remove.php?ip=104.130.122.16
 </code></pre>
 <p>I go to the removal page...</p>
 <pre><code>Note: This is a courtesy removal form for those who were either wrongly listed or have fixed the problem and is now ready to be delisted.
@@ -85,12 +83,12 @@ Don't email us about being removed. Just use this form.
 Your reverse DNS is correct! - mail16.static.mailgun.info
 The IP address for the reverse lookup name matches the original IP - RDNS Information
 
-This is a list from our log files showing the activity from IP address 104.130.122.16. Our system stores information for 4 days. 
+This is a list from our log files showing the activity from IP address 104.130.122.16. Our system stores information for 4 days.
 
 /ip-log/karma.log.16:black 104.130.122.16 QUIT MULTI-BLACKLIST - [S=3 - hostkarma.junkemailfilter.com] - DOB-SENDER BlList - ID=04559-24370 X=pascal H=mail16.static.mailgun.info [104.130.122.16]:26010 HELO=[mail16.static.mailgun.info] SN=[bounce+a75798.83d79-cherylh=mpropertiesinc.com@justflowe
 </code></pre>
 <p>I clicked the remove button....</p>
-<pre><code>IP address 104.130.122.16 has been scheduled to be removed from the Hostkarma Blacklist. (Generally takes 5 minutes but if others cache the lookup it might take longer to take effect.)	
+<pre><code>IP address 104.130.122.16 has been scheduled to be removed from the Hostkarma Blacklist. (Generally takes 5 minutes but if others cache the lookup it might take longer to take effect.)
 </code></pre>
 <p>Next I tried to clear us from SORBS...</p>
 <pre><code>More information about SORBS SPAM can be found at their website: http://www.sorbs.net/lookup.shtml
@@ -99,12 +97,12 @@ Reason for listing - Spam Received See: http://www.sorbs.net/lookup.shtml?104.13
 </code></pre>
 <p>After entering a captcha I found:</p>
 <pre><code>Problem Entries, (listings will cause email problems.)
-9 &quot;Spam&quot; entries [12:44:27 16 May 2018 GMT+00].	
+9 &quot;Spam&quot; entries [12:44:27 16 May 2018 GMT+00].
 104.130.122.16 - 9 entries [12:44:27 16 May 2018 GMT+00].
 </code></pre>
 <p>I couldn't delist there because:</p>
 <p><a href="http://www.sorbs.net/cgi-bin/support">http://www.sorbs.net/cgi-bin/support</a> says:</p>
-<pre><code>An account is required to proceed!	
+<pre><code>An account is required to proceed!
 </code></pre>
 <hr />
 <p>After attempting all of the above I decided to contact mailgun support.</p>
@@ -123,8 +121,8 @@ You do not have a DMARC record</p>
 	mail-tester.com; dmarc=none header.from=yourfirstproduct.com
 	mail-tester.com; dkim=pass (1024-bit key; unprotected) header.d=mg.yourfirstproduct.com header.i=@mg.yourfirstproduct.com header.b=ekymBOx4; dkim-atps=neutral
 	From Domain: yourfirstproduct.com
-	DKIM Domain: mg.yourfirstproduct.com		
-	
+	DKIM Domain: mg.yourfirstproduct.com
+
 You're listed in 1 blacklist
 	Listed in SORBS (last 28 days) ( -0.5 )
 
@@ -144,10 +142,10 @@ Your message does not contain a List-Unsubscribe head
 
 IP rotation due to blacklisting
 
-IP: 
+IP:
 104.130.122.16
 
-Message: 
+Message:
 5.7.1 Unfortunately, messages from [104.130.122.16] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [HE1EUR02FT024.eop-EUR02.prod.protection.outlook.com]
 
 I checked at mxtoolbox and found the mailgun IP on 4 separate blacklists. This pre-dated my sending of emails, it goes back weeks and weeks. I tried to get it unblocked from all of them. I may have succeeded with 2, but couldn't succeed with all of them.

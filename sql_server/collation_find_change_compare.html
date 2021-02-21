@@ -86,11 +86,11 @@ Msg 5072, Level 16, State 1, Line 5
 ALTER DATABASE failed. The default collation of database 'YOLO_DB' cannot be set to Latin1_General_CI_AS.
 */
 </code></pre>
-<pre><code>ALTER DATABASE [YOLO_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
-GO 
-ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS; 
-GO 
-ALTER DATABASE [YOLO_DB] SET MULTI_USER; 
+<pre><code>ALTER DATABASE [YOLO_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE [YOLO_DB] COLLATE Latin1_General_CI_AS;
+GO
+ALTER DATABASE [YOLO_DB] SET MULTI_USER;
 GO
 </code></pre>
 <p><em>Note that having a mismatch between TempDb and your database's default collation is the shortcut to madness.</em></p>

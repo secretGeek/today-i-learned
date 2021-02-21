@@ -28,10 +28,10 @@
 <pre><code>ALTER DATABASE MyDatabase SET RECOVERY SIMPLE;
 </code></pre>
 <p>To find the current recover model:</p>
-<pre><code>SELECT name, recovery_model_desc  
-   FROM sys.databases  
-	  WHERE name = 'MyDatabase' ;  
-GO 	
+<pre><code>SELECT name, recovery_model_desc
+   FROM sys.databases
+	  WHERE name = 'MyDatabase' ;
+GO
 </code></pre>
 <p>example:</p>
 <table>

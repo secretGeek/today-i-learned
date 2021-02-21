@@ -81,7 +81,7 @@ nginx: configuration file /etc/nginx/nginx.conf test failed
 <pre><code>$ sudo nginx -t
 nginx: [warn] conflicting server name &quot;codesmackdown.com&quot; on 0.0.0.0:80, ignored
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful	
+nginx: configuration file /etc/nginx/nginx.conf test is successful
 </code></pre>
 <p>(I had two config files that both wanted to be handlers for the <code>codesmackdown.com</code> <code>server_name</code> ...)</p>
 <p>In which case you need to edit the file and fix it. Then <code>sudo nginx -t</code> again to see if the changes are now valid.</p>
@@ -135,7 +135,7 @@ gzip_min_length 256;
 <pre><code>sudo nginx -t
 </code></pre>
 <p>And reload the nginx service with good old:</p>
-<pre><code>sudo nginx -s reload	
+<pre><code>sudo nginx -s reload
 </code></pre>
 <p>I re-run the pagespeed test and my scores are up by 3 points.</p>
 <h2 id="source">Source</h2>

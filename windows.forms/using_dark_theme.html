@@ -34,11 +34,11 @@ public bool WindowsIsUsingDarkTheme()
 	{
 		return false;
 	}
-	
+
 	if (int.TryParse(value.ToString(), out int result)){
 		return result == 0;
 	}
-	
+
 	return false;
 }
 </code></pre>

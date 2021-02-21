@@ -24,10 +24,10 @@
 <article>
 <h1 id="slow-and-long-running-queries">Slow and long running queries</h1>
 <p>Famous query to show which queries are the worst performers.</p>
-<pre><code>SELECT TOP 50 creation_time 
+<pre><code>SELECT TOP 50 creation_time
         ,last_execution_time
         ,total_physical_reads
-        ,total_logical_reads 
+        ,total_logical_reads
         ,total_logical_writes
         , execution_count
         , total_worker_time

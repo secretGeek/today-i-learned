@@ -26,17 +26,17 @@
 <pre><code>DBCC OPENTRAN;
 </code></pre>
 <p>And this more extreme example (also from <code>docs.microsoft</code>) creates a table of the results....</p>
-<pre><code>-- Create the temporary table to accept the results.  
-CREATE TABLE #OpenTranStatus (  
-   ActiveTransaction varchar(25),  
-   Details sql_variant   
-   );  
--- Execute the command, putting the results in the table.  
-INSERT INTO #OpenTranStatus   
-   EXEC ('DBCC OPENTRAN WITH TABLERESULTS, NO_INFOMSGS');  
-  
--- Display the results.  
-SELECT * FROM #OpenTranStatus;  
+<pre><code>-- Create the temporary table to accept the results.
+CREATE TABLE #OpenTranStatus (
+   ActiveTransaction varchar(25),
+   Details sql_variant
+   );
+-- Execute the command, putting the results in the table.
+INSERT INTO #OpenTranStatus
+   EXEC ('DBCC OPENTRAN WITH TABLERESULTS, NO_INFOMSGS');
+
+-- Display the results.
+SELECT * FROM #OpenTranStatus;
 GO
 </code></pre>
 <h2 id="source">Source</h2>
