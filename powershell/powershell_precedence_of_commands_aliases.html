@@ -23,13 +23,13 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="command-precedence-in-powershell">Command Precedence in Powershell</h1>
-<p>PowerShell uses the following precedence order when it runs commands for all items loaded in the current session:</p>
-<p>Powershell decides what to run based on this precedence:</p>
+<p>PowerShell uses the following precedence rules when it runs commands for all items loaded in the current session:</p>
+<p>Powershell decides what to run based on this order of precedence:</p>
 <ul>
 <li><code>Alias</code></li>
 <li><code>Function</code></li>
 <li><code>Cmdlet</code></li>
-<li>external executables, on windows ordered like:
+<li>External executables, on Windows in this order:
 <ul>
 <li><code>.com</code></li>
 <li><code>.exe</code></li>
@@ -40,15 +40,19 @@
 </ul>
 <p>If you type 'doit' at a prompt in powershell, it will look for:</p>
 <ul>
-<li>An <code>alias</code> called <code>go</code></li>
-<li>A function, <code>go</code></li>
-<li>A cmdLet called <code>go</code></li>
-<li>An exectuable on the path called <code>go.com</code></li>
-<li>An exectuable on the path called <code>go.exe</code></li>
-<li>An batch file on the path called <code>go.bat</code></li>
-<li>An batch file on the path called <code>go.cmd</code></li>
+<li>An <code>alias</code> called <code>doit</code></li>
+<li>A function, <code>doit</code></li>
+<li>A cmdLet called <code>doit</code></li>
+<li>An exectuable on the path called <code>doit.com</code></li>
+<li>An exectuable on the path called <code>doit.exe</code></li>
+<li>An batch file on the path called <code>doit.bat</code></li>
+<li>An batch file on the path called <code>doit.cmd</code></li>
 </ul>
 <p>...and it will run the first one it finds.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="alias.html">Alias: a guide to powershell and aliases</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
