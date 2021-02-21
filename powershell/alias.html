@@ -40,14 +40,22 @@ Alias           cls -&gt; Clear-Host
 </code></pre>
 <h2 id="aliases-cant-have-parameters-make-little-functions-instead">Aliases <em>can't</em> have parameters: make little functions instead</h2>
 <p>in bash, an alias can include parameters. Not so in PowerShell. It's just an abbreviation.</p>
-<p>set-alias tf &quot;tree /f&quot; # this doesn't work! (bash allows that kind of thing)</p>
-<p>To create an alias with parameters you're advised to create a tiny function in your <code>$PROFILE</code>.</p>
+<pre><code>set-alias tf &quot;tree /f&quot; # this doesn't work!
+</code></pre>
+<p>(<a href="../linux/bash.html">bash</a> allows that kind of thing, as does <a href="../git/alias.html">git</a>)</p>
+<p>To create an alias with parameters you're advised to instead create a tiny function in your <code>$PROFILE</code>.</p>
 <p>e.g.</p>
 <pre><code>function tf() {
 	tree /f
 }
 </code></pre>
 <p>...and over time: grow it into a cmdLet and eventually put it into a module.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../linux/bash.html">bash</a></li>
+<li><a href="../git/alias.html">git alias</a></li>
+<li><a href="powershell_precedence_of_commands_aliases.html">Command Precedence in Powershell</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
