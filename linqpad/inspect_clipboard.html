@@ -50,26 +50,26 @@ void WriteColor(string text, ConsoleColor color) {
 }
 </code></pre>
 <p>And another problem arose today that required clipboard inspections.</p>
-<p>Some code I'd copied from a comment at StackOverflow did not work as expected. I used a variation on the code above to inspect every byte of my cliboard. I found the snippet  contained character 8203 (U+200b -- the infamous zero width space or zwsp) and character 8204 (U+200c zero-width non joiner)</p>
+<p>Some code I'd copied from a comment at StackOverflow did not work as expected. I used a variation on the code above to inspect every byte of my cliboard. I found the snippet contained character &quot;8203&quot; (<code>U+200b</code> -- the infamous zero width space or zwsp) and character &quot;8204&quot; (<code>U+200c</code> zero-width non joiner)</p>
 <p>Here's the error message I received when trying to run the code:</p>
 <pre><code>Missing ')' in method call.
 At C:\Temp\filehash.ps1:15 char:71
 +     $stream = [System.IO.File]::Open(&quot;$someFilePath&quot;,[System.IO.Filemode] &lt;&lt;&lt;
-&lt; :â?Oâ?&lt;:Open, [System.IO.FileAccess]::Read)
+&lt; :&amp;#226;?O&amp;#226;?&lt;:Open, [System.IO.FileAccess]::Read)
 	+ CategoryInfo          : ParserError: (CloseParenToken:TokenId) [], Parse
    Exception
 	+ FullyQualifiedErrorId : MissingEndParenthesisInMethodCall
 </code></pre>
 <p>Notice in particular the:</p>
-<pre><code>:â?Oâ?
+<pre><code>:&amp;#226;?O&amp;#226;?
 </code></pre>
 <p>Here's the inspection code...</p>
 <pre><code>void Main()
 {
-    var text = Clipboard.GetText();
-    foreach(var c in text)
+	var text = Clipboard.GetText();
+	foreach(var c in text)
 	{
-		Console.Write((int)c + &quot;:&quot; + c + &quot;, &quot;);	
+		Console.Write((int)c + &quot;:&quot; + c + &quot;, &quot;);
 	}
 }
 </code></pre>

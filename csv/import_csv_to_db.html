@@ -64,9 +64,8 @@
 </li>
 <li><p><a href="https://github.com/csv2db/csv2db">csv2db</a> — &quot;The CSV command line loader.&quot;</p>
 </li>
-<li><p><a href="https://csvkit.readthedocs.io/en/1.0.2/scripts/csvsql.html">csvsql from csvkit</a></p>
-<pre><code> csvsql --db postgresql:///test --tables dogideas --insert data/pets/dogideas.csv
-</code></pre>
+<li><p><a href="https://csvkit.readthedocs.io/en/1.0.2/scripts/csvsql.html">csvsql from csvkit</a>
+csvsql --db postgresql:///test --tables dogideas --insert data/pets/dogideas.csv</p>
 </li>
 <li><p><a href="https://nimbletext.com">NimbleText</a> — <a href="https://nimbletext.com/HowTo/GenerateInsert">Generate SQL Insert Statements with NimbleText (web version)</a></p>
 </li>
@@ -108,7 +107,7 @@
 <li><p><a href="https://www.linqpad.net/">LinqPad</a> — <a href="../linqpad/csv_to_array.html">CSV to IEnumerable (or Array) in Linqpad</a></p>
 </li>
 <li><p>Microsoft Log Parser</p>
-<pre><code> Logparser -o sql -server 127.0.0.1 -database -createtable on &quot;select * into newtable from C:\Apps\Logs\Logfile.log&quot; 
+<pre><code>  Logparser -o sql -server 127.0.0.1 -database -createtable on &quot;select * into newtable from C:\Apps\Logs\Logfile.log&quot;
 </code></pre>
 </li>
 <li><p><a href="https://www.alteryx.com">Alteryx</a> ($$$)</p>
@@ -152,7 +151,7 @@
 <ul>
 <li><p><a href="https://www.sqlitetutorial.net/sqlite-import-csv/">Tutorial: Import a CSV File Into an SQLite Table</a></p>
 <p>If there are no header names in the csv, then find the column names and run:</p>
-<pre><code>  create table mytable (header_a, header_b, header_c) 
+<pre><code>  create table mytable (header_a, header_b, header_c)
 </code></pre>
 <p>Next step (do this whether you needed the previous step or not)</p>
 <pre><code>  .mode csv
@@ -163,9 +162,9 @@
 <h2 id="mysql-specific">MySQL specific</h2>
 <ul>
 <li><p><a href="http://www.mysqltutorial.org/import-csv-file-mysql-table/">Load Data Infile</a></p>
-<pre><code>  LOAD DATA INFILE 'c:/tmp/discounts.csv' 
-  INTO TABLE discounts 
-  FIELDS TERMINATED BY ',' 
+<pre><code>  LOAD DATA INFILE 'c:/tmp/discounts.csv'
+  INTO TABLE discounts
+  FIELDS TERMINATED BY ','
   ENCLOSED BY '&quot;'
   LINES TERMINATED BY '\n'
   IGNORE 1 ROWS;

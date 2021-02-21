@@ -23,19 +23,19 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="count-all-files-in-a-directory-recursively">Count all files in a directory, recursively</h1>
-<p>Count files in current folder, not recursive:</p>
+<h2 id="count-files-in-current-folder-not-recursive">Count files in current folder, not recursive:</h2>
 <pre><code>ls -1 | wc -l
 </code></pre>
-<p>Count files only:</p>
+<h2 id="count-files-only">Count files only:</h2>
 <pre><code>find . -type f | wc -l
 </code></pre>
-<p>Count files and directories:</p>
+<h2 id="count-files-and-directories">Count files and directories:</h2>
 <pre><code>find . | wc -l
 </code></pre>
-<p>Count directories only:</p>
+<h2 id="count-directories-only">Count directories only:</h2>
 <pre><code>find . -type d | wc -l
 </code></pre>
-<p>Now look at this:</p>
+<h2 id="now-look-at-this">Now look at this:</h2>
 <pre><code>~/.nuget$ find . -type f | wc -l
 5259
 ~/.nuget$ find . | wc -l

@@ -104,7 +104,7 @@
 
   SELECT *
   FROM sys.dm_db_index_physical_stats
-  		(db_id(), object_id('Charge'), 1, NULL, ‘DETAILED’)
+  		(db_id(), object_id('Charge'), 1, NULL, 'DETAILED')
   go
 </code></pre>
 </li>
@@ -113,20 +113,20 @@
 </ul>
 <h2 id="when-dont-you-want-a-covering-index">When <em>don't</em> you want a covering index?</h2>
 <ul>
-<li>Highly selective queries (returning a handful of records) do not need to be covered — as there are very few bookmark lookups performed.</li>
+<li>Highly selective queries (returning a handful of records) do not need to be covered - as there are very few bookmark lookups performed.</li>
 <li><code>Select *</code> does not need to be covered as u can't cover it anyway.</li>
 </ul>
 <p>filtered index:
 Useful example:</p>
 <p>We only  query error message when status = error</p>
-<p>So have a filtered index on status = error and also error message (particularly if it’s left only comparisons)</p>
+<p>So have a filtered index on status = error and also error message (particularly if it's left only comparisons)</p>
 <ul>
 <li><p>So small you can afford to include extra columns</p>
 </li>
-<li><p>Sql server will not query across two filtered sets (and join them) —
+<li><p>Sql server will not query across two filtered sets (and join them) -
 Eg where status in (A,B) (assuming a filtered index for status A and a filtered index for status B....</p>
 </li>
-<li><p>Sql server won’t combine those and will just scan the table instead.</p>
+<li><p>Sql server won't combine those and will just scan the table instead.</p>
 </li>
 <li><p>One trick is to change the query to be: where status =A union all ... where status = B   ! Then it will combine the two sets but you have to be repetitive to do that</p>
 </li>
@@ -138,7 +138,7 @@ Eg where status in (A,B) (assuming a filtered index for status A and a filtered 
 <p>Index consolidation....</p>
 <p>Unused indexes - get rid of those obvs</p>
 <p>Duplicates obviously only need 1. But check no one is using hints to target one of the dupes.</p>
-<p>Similar — may make a “super index” and find its still useful but less space maintenance easier to cache and stay in cache etc.</p>
+<p>Similar - may make a &quot;super index&quot; and find its still useful but less space maintenance easier to cache and stay in cache etc.</p>
 <p>TODO: Kimberly has a replacement for <code>sp_helpindex</code> - track that down.</p>
 <h2 id="external-references">External References</h2>
 <ul>
