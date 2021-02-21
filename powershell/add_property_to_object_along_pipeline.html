@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="add-note-property-to-object-in-pipeline">Add note property to object in pipeline</h1>
-<p>Here's an example Function that add' members to an object in a pipeline.</p>
+<p>Here's an example Function that adds members to an object in a pipeline.</p>
 <pre><code>function ConvertTo-Object($hashtable)
 {
 	$object = New-Object PSObject
@@ -33,29 +33,35 @@
 }
 </code></pre>
 <p>Now imagine we have this hashtable:</p>
-<pre><code>$hash = @{Name='Richard'; Status='Online'; Color='Green'; Hat='Reversed'}
+<pre><code>$hash = @{
+	Name='Richard';
+	Status='Online';
+	Color='Green';
+	Hat='Reversed'}
 </code></pre>
 <p>If we inspect it, here is what we see:</p>
 <pre><code>&gt; $hash | format-table
 
-Name                           Value
-----                           -----
-Color                          Green
-Status                         Online
-Name                           Richard
-Hat                            Reversed
+Name    Value
+----    -----
+Color   Green
+Status  Online
+Name    Richard
+Hat     Reversed
 </code></pre>
-<p>Now if we run it through our &quot;ConvertTo-Object&quot; function, we'll see a very different object emerge...</p>
+<p>Now if we run it through our <code>ConvertTo-Object</code> function, we'll see a very different object emerge...</p>
 <pre><code>&gt; ConvertTo-Object $hash | format-table
 
-Color Status Name    Hat
------ ------ ----    ---
-Green Online Richard Reversed
+Color  Status  Name     Hat
+-----  ------  ----     ---
+Green  Online  Richard  Reversed
 </code></pre>
-<p>And I believe I used this particular one, to make it easier to export a hashtable to a csv file.</p>
+<p>(Essentially it's been pivoted! see <a href="../sql_server/pivot.html">sql server pivot</a>)</p>
+<p>And I believe I used this particular one, so our hashtable can be <a href="load_save_csv.html">exported to a csv file</a>.</p>
 <pre><code>ConvertTo-Object $hash | Export-Csv test.csv -NoTypeInformation
 </code></pre>
-<p>I know I used a function (in MarkJimp) that is somewhat the reverse of this, and turns a custom object into a hash...</p>
+<h2 id="convert-custom-object-to-hash-table">Convert custom object to hash table...</h2>
+<p>And I found that in <a href="https://github.com/secretGeek/markjump">MarkJump</a> I wrote a function that is somewhat the reverse of this, and turns a custom object into a hash...</p>
 <pre><code># ConvertTo-Hash is used by Get-marks to convert the custom psObject into a hash table.
 function ConvertTo-Hash($i) {
 	$hash = @{ };
@@ -69,12 +75,14 @@ function ConvertTo-Hash($i) {
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>
-<li><a href="https://community.idera.com/database-tools/powershell/ask_the_experts/f/learn_powershell_from_don_jones-24/2824/exporting-key-value-pair-using-export-csv-cmdlet">convert hash to PS objects in pipeline</a></li>
+<li><a href="https://community.idera.com/database-tools/powershell/ask_the_experts/f/learn_powershell_from_don_jones-24/2824/exporting-key-value-pair-using-export-csv-cmdlet">Convert hash to PS objects in pipeline</a></li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="how_to_make_a_custom_class.html">How to make a custom class</a></li>
-<li><a href="custom_objects.html">Create custom objects</a></li>
+<li><a href="how_to_make_a_custom_class.html">How to Make a Custom Class</a></li>
+<li><a href="custom_objects.html">Create Custom Objects</a></li>
+<li><a href="../sql_server/pivot.html">Sql Server Pivot</a></li>
+<li><a href="load_save_csv.html">Load or Save CSV with Powershell</a></li>
 </ul>
 
 </article>
