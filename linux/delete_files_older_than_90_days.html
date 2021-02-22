@@ -23,14 +23,38 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="delete-files-older-than-90-days">Delete files older than 90 days</h1>
-<p>First, list files older than 90 days...</p>
+<h2 id="count-old-files">Count old files</h2>
+<p>First, count files older than 90 days...</p>
+<pre><code>find . -mtime +90 -type f | wc -l
+</code></pre>
+<p>Note that this is recursive... to be non-recursive:</p>
+<pre><code>find . -maxdepth 1 -mtime +90 -type f | wc -l # non-recursive version
+</code></pre>
+<h2 id="list-old-files">List old files</h2>
+<p>Next, list files older than 90 days...</p>
 <pre><code>find . -mtime +90 -type f
 </code></pre>
 <p>(note, could specify a specific/absolute folder instead of &quot;.&quot; for current folder)</p>
 <p>Note <code>-type f</code> means &quot;files&quot;</p>
+<h2 id="delete-old-files">Delete old files</h2>
 <p>Happy with the result? Add a <code>-delete</code> parameter to delete those files. So long, files!</p>
 <pre><code>find . -mtime +90 -type f -delete
 </code></pre>
+<p>Or for 20 days...</p>
+<pre><code>find . -mtime +20 -type f -delete
+</code></pre>
+<p>Cool!</p>
+<p>Now to add it to cron job, for a specific folder...</p>
+<h2 id="daily-cron-to-delete-old-files-from-a-specific-folder">Daily CRON to delete old files from a specific folder</h2>
+<p>Add the following to a new file in the folder <code>/etc/cron.daily</code> ...</p>
+<pre><code>#!/bin/sh
+
+find /opt/webapps/nimbletext2.com/app/DATA/NimbleText.com.Models.Usage -mtime +20 -type f -delete
+</code></pre>
+<p>And as described in <a href="cron.html">cron</a> we can check the cron logs with:</p>
+<pre><code>sudo grep CRON /var/log/syslog
+</code></pre>
+<h2 id="see-also">See also</h2>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
