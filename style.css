@@ -1,4 +1,4 @@
-* {
+﻿* {
 	box-sizing: border-box;
 	tab-size: 2;
 }
@@ -200,9 +200,11 @@ header div.nav a {
 header div.nav a:hover {
 	text-shadow: 0 0 2px var(--nav-hover-shadow), 0 0 4px var(--nav-hover-shadow),
 	0 0 6px var(--nav-hover-shadow);
-
-	color: black; /* todo */
-	box-shadow: none;
+	color: var(--link-hover);
+	text-decoration: none;
+	background-size: 1px 1em;
+	display: inline;
+	box-shadow: inset 0 -0.2em var(--nav-hover-shadow), inset 0 0.02em var(--nav-hover-shadow), 0 0 4px var(--nav-hover-shadow);
 }
 
 header div.nav a:active {
@@ -271,6 +273,17 @@ img {
 	box-shadow: 0 2px 3px var(--img-shadow);
 	margin: 15px auto;
 	display: block;
+}
+
+figure {
+	margin: 0 auto;
+	border: 1px solid var(--table-border);
+	width: max-content;
+}
+
+figcaption {
+	margin: 15px auto;
+	text-align: center;
 }
 
 img[src="today_i_learned.png"],
@@ -445,15 +458,18 @@ h1.chapter {
 .hover-link {
 	opacity:0.01;
 	text-decoration:none;
-	font-size:0.6em;
+	font-size:0.55em;
 	margin-left:0.3ch;
+	vertical-align:text-top;
+	transition: all 0.2s ease-in-out;
 }
 
 .has-hover-link:hover .hover-link {
-	opacity:1.0;
+	opacity:0.9;
 	text-shadow:0 2px 0 var(--link);
 	text-decoration:none;
 	box-shadow:none;
+	
 }
 
 .language-plaintext.hljs {
@@ -589,15 +605,16 @@ code[data-content='todo'] {
 /* e.g. starts with http ---> a[href^="http"] { */
 /* todo: href attribute target = "_blank" indicate the jump! */
 
-a[href^="http"]::after {
+a[href^="http:"]::after,a[href^="https:"]::after {
 	content: ' \2197';
 	font-size:0.66em;
 	text-decoration:none;
 	opacity:0.66;
+	color:var(--link-hover);
 	vertical-align:top;
 	display:inline-block;
 }
-a[href^="http"]::after:hover {
+a[href^="http:"]::after:hover,a[href^="https:"]::after:hover {
 	box-shadow:none;
 	border: 0 0 0 var(--breadcrumb-shadow-inset1);
 }
@@ -607,4 +624,30 @@ a[href^="http"]::after:hover {
 	color:transparent;
 	text-shadow: 0 0 0 var(--breadcrumb);
 	font-size:0.7em;
+}
+
+.toc li {
+	list-style:none;
+}
+.toc li::before {
+	content: ' \21DD '; /* squigglarrow */  /* harpoon barb \21C0, dotted \2911, bullet \204D */
+	margin-right:1ch;
+	color:var(--link-hover);
+}
+
+/* remove the arrow from footer links */
+footer small a[href^="http:"]::after,footer small a[href^="https:"]::after {
+	content: '';
+}
+
+footer small::before, footer small::after {
+	content: ' \203B '; /* reference mark */
+	padding: 0 2ch;
+	color:var(--link-visited);
+	transform:scale(0.8);
+	transition: all 2s ease-in-out;
+}
+footer small:hover::before, footer small:hover::after {
+	transform:scale(1.5);
+	color:var(--link-hover);
 }

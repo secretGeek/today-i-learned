@@ -5,12 +5,10 @@ function onStart() {
 	copyPreCodeOnClick();
 	let tocParent = $id('currentTitle');
 	configurePermaLinksAndToc(tocParent); //include TOC
-	
+
 	//var root = document.documentElement;
 	//root.style.setProperty('--main-hue', 0)
 }
-
-
 
 function applyLanguageClassesToPre() {
 
@@ -83,14 +81,14 @@ function applyLanguageClassesToPre() {
 
 function configurePermaLinksAndToc(tocParent) {
 	// consider: include images as indented outline/toc elements (list their caption if they have, or their title, or their alt text, or their name.)
-	
+
 	let toc = [];
 	let tocLength = 0;
 	let previousLevel = 1;
 	for (let hEl of $("h1, h2, h3, h4, h5, h6")) {
 		const id = hEl.getAttribute("id");
 		currentLevel = parseInt(hEl.outerHTML[2]); //e.g. h1 is "1"
-		
+
 		if (id && currentLevel > 1) {
 			if (currentLevel > previousLevel) {
 				while(currentLevel > previousLevel) {
@@ -108,8 +106,8 @@ function configurePermaLinksAndToc(tocParent) {
 			toc.push(`<li><a href="#${id}">${htmlEncode(hEl.innerText)}</a>`);
 			tocLength++;
 			previousLevel = currentLevel;
-			
-			
+
+
 			const icon = htmlToElement('<a href="#" class="hover-link">🔗</a>');
 			let iconTitle = `permalink to '${hEl.innerText}'`;
 			hEl.appendChild(icon);
@@ -123,7 +121,7 @@ function configurePermaLinksAndToc(tocParent) {
 		currentLevel--;
 	}
 	console.log(toc.join("\n"));
-	
+
 	// only should toc if it contains more than 1 item
 	if (tocParent != null && tocLength > 1) {
 		let tocHtml = `<details class='toc'><summary>toc&hellip;</summary>${toc.join("\n")}</details>`;
@@ -150,7 +148,7 @@ function configureBreadcrumb() {
 	var topicTOC = parentUrl + "/01_summary.html";
 	var topicTitle = parentUrl.substring(parentUrl.lastIndexOf("/") + 1);
 	topicTitle = topicTitle.replace(/_/g, " ");
-  
+
 	if (currentTitle == "01_summary") {
 		currentTitle = "content";
 	} else {
@@ -159,8 +157,7 @@ function configureBreadcrumb() {
 		var h1 = $("h1")[0];
 		currentTitle = htmlEncode(h1.innerText);
 	}
-  
-	
+
 	var joiner = " &rsaquo; ";
 	var homeLink = "<a href='/'><span class='emoji-silhouette'>🏠</span></a>" + joiner + "<a href='/index.html#topics'>Topics</a>";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
@@ -192,7 +189,7 @@ function copyPreCodeOnClick() {
 			code.setAttribute("title", "Click to copy text to clipboard.");
 			code.setAttribute("onclick", "copyItemText(this);");
 		}
-		
+
 		// this allows us to set style rules such as `code[data-content='tip']::after { content: " 💡";}
 		if (codeText.length < 100) {
 			code.setAttribute('data-content', codeText.toLowerCase());
@@ -313,7 +310,6 @@ function removeAllClass(className) {
 	}
 }
 
-
 // true if the element has a class name starting with prefix, eg. "has(el, 'lang-')" -- do any classes start with "lang-" ?
 function hasClassWithPrefix(element, prefix) {
 	for (var c of element.classList) {
@@ -321,8 +317,6 @@ function hasClassWithPrefix(element, prefix) {
 	}
 	return false;
 }
-
-
 
 function htmlToElement(html) {
 	var template = document.createElement("template");

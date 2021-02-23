@@ -56,13 +56,34 @@
 <img src="mr_t.jpg"	alt="Mr T.">
 <figcaption>This is Mr. T</figcaption>
 </figure>
+<p>It took me quite a while to find CSS that would do what I wanted for the <code>figure/img/figcaption</code> combo above.</p>
+<p>Given that I was already centering my images, with something like this:</p>
+<pre><code>img {
+	max-width: calc(100% - 30px);
+	margin: 15px auto;
+	display: block;
+}
+</code></pre>
+<p>I wanted to have the <code>figure</code> provide a border, be centered, and <em>not</em> be full-width, and for the <code>figcaption</code> to be centered under the <code>img</code>.</p>
+<pre><code>figure {
+	margin: 0 auto;
+	border: 1px solid var(--table-border);
+	width: max-content;
+}
+
+figcaption {
+	margin: 15px auto;
+	text-align: center;
+}
+</code></pre>
 <h2 id="mark-mark"><code>&lt;mark&gt;</code> - Mark</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark">mark: Mark Text Element</a></li>
 </ul>
 <p>Rather than <code>&lt;span class='hilite'&gt;highlighted text&lt;/span&gt;</code> - use <code>&lt;mark&gt;highlighted text&lt;/mark&gt;</code></p>
 <p>Let me mark a few <mark>choice phrases</mark> in this <mark>fascinating</mark> sentence.</p>
-<p>TODO: see if there is a markdig extension that let's you apply the <code>mark</code> tag?</p>
+<h3 id="indicating-mark-in-markdig-markdown">Indicating <code>&lt;mark&gt;</code> in markdig markdown</h3>
+<p>According to <a href="https://github.com/xoofx/markdig/blob/master/src/Markdig.Tests/Specs/EmphasisExtraSpecs.html">markdig test on 'emphasis'</a> we can use <code>==equals==</code> to indicate the text to <mark>mark up</mark>.</p>
 <h2 id="q-inline-quotation"><code>&lt;q&gt;</code> - Inline Quotation</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q">q: inline quotation</a></li>
