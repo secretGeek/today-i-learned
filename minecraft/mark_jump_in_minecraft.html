@@ -25,17 +25,17 @@
 <h1 id="mark-jump-implemented-in-python-for-minecraft">Mark-Jump implemented in python for Minecraft</h1>
 <p>You can run Python scripts from within minecraft, if you use the right Mods.</p>
 <p>And two of the handiest little scripts are &quot;Whereami&quot; and &quot;Teleport&quot;.</p>
-<p>I wanted to take it a step further and implement a full &quot;Mark-Jump&quot; setup.</p>
+<p>I wanted to take it a step further and implement a full <a href="https://github.com/secretGeek/markjump">&quot;Mark-Jump&quot;</a> setup.</p>
 <h2 id="what-is-mark-jump">What is mark jump?</h2>
 <p>I navigate around my windows PC by using a Powershell utility called <a href="https://github.com/secretGeek/markjump/blob/master/markjump.ps1">MarkJump</a>. It's super helpful.</p>
 <p>I use <code>Jump</code> command to go to a well-known location. I use the <code>Mark</code> command to mark my current location as a well-known location. And the <code>Marks</code> command to list all well-known locations.</p>
 <h2 id="mark-jump-in-python-for-minecraft">Mark-Jump in Python for Minecraft</h2>
 <p>Four files:</p>
 <ul>
-<li>Mark.py</li>
-<li>Jump.py</li>
-<li>Marks.py</li>
-<li>Unmark.py</li>
+<li><code>Mark.py</code></li>
+<li><code>Jump.py</code></li>
+<li><code>Marks.py</code></li>
+<li><code>Unmark.py</code></li>
 </ul>
 <h2 id="mark.py">Mark.py</h2>
 <pre><code>import json
@@ -97,11 +97,13 @@ print(&quot;unmark argv[1]&quot;)
 
 with open('marks.json') as json_file:
 	marks = json.load(json_file)
-#TODO: worry about unmark some other time...
-del marks[&quot;a&quot;]
-
-#todo: write the file now...
+# worry about 'unmark' some other time...
+del marks[argv[1]]
+# save the file (I haven't tested this)
+with open('marks.json', 'w') as outfile:
+	json.dump(marks, outfile)
 </code></pre>
+<p><code>note</code> don't trust that the above will work. I haven't tested it or used it.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://github.com/secretGeek/markjump">markjump in powershell</a></li>

@@ -3,8 +3,13 @@ function onStart() {
 	hljs.initHighlightingOnLoad();
 	configureBreadcrumb();
 	copyPreCodeOnClick();
-	configurePermaLinksAndToc(); //include TOC
+	let tocParent = $id('currentTitle');
+	configurePermaLinksAndToc(tocParent); //include TOC
+	
+	//var root = document.documentElement;
+	//root.style.setProperty('--main-hue', 0)
 }
+
 
 
 function applyLanguageClassesToPre() {
@@ -76,27 +81,32 @@ function applyLanguageClassesToPre() {
 	}
 }
 
-function configurePermaLinksAndToc() {
+function configurePermaLinksAndToc(tocParent) {
+	// consider: include images as indented outline/toc elements (list their caption if they have, or their title, or their alt text, or their name.)
+	
 	let toc = [];
-	let previousLevel = 0;
+	let tocLength = 0;
+	let previousLevel = 1;
 	for (let hEl of $("h1, h2, h3, h4, h5, h6")) {
 		const id = hEl.getAttribute("id");
 		currentLevel = parseInt(hEl.outerHTML[2]); //e.g. h1 is "1"
-		if (id) {
+		
+		if (id && currentLevel > 1) {
 			if (currentLevel > previousLevel) {
 				while(currentLevel > previousLevel) {
-					toc.push("<ol>");
+					toc.push("<ul>");
 					previousLevel++;
 				}
 			} else if (currentLevel < previousLevel) {
 				while(currentLevel < previousLevel) {
-					toc.push("</li></ol>");
+					toc.push("</li></ul>");
 					previousLevel--;
 				}
 			} else {
 				toc.push("</li>");
 			}
-			toc.push(`<li><a href="#${id}">${hEl.innerText}</a>`);
+			toc.push(`<li><a href="#${id}">${htmlEncode(hEl.innerText)}</a>`);
+			tocLength++;
 			previousLevel = currentLevel;
 			
 			
@@ -108,17 +118,28 @@ function configurePermaLinksAndToc() {
 			hEl.classList.add("has-hover-link");
 		}
 	}
-	while(currentLevel > 0) {
-		toc.push("</li></ol>");
+	while(currentLevel > 1) {
+		toc.push("</li></ul>");
 		currentLevel--;
 	}
 	console.log(toc.join("\n"));
-	let tocHtml = `<details class='toc'><summary>toc&hellip;</summary>${toc.join("\n")}</details>`;
-	let title = $id('currentTitle').innerText;
-	if (title != 'contents') {
-		$id('currentTitle').appendChild(htmlToElement(tocHtml));
+	
+	// only should toc if it contains more than 1 item
+	if (tocParent != null && tocLength > 1) {
+		let tocHtml = `<details class='toc'><summary>toc&hellip;</summary>${toc.join("\n")}</details>`;
+		let title = tocParent.innerText;
+		if (title != 'content') {
+			tocParent.appendChild(htmlToElement(tocHtml));
+		}
 	}
 }
+
+
+function htmlEncode(text) {
+	return document.createElement('a').appendChild(
+		document.createTextNode(text)).parentNode.innerHTML;
+}
+
 
 function configureBreadcrumb() {
 	var currentUrl = location.pathname;
@@ -131,19 +152,22 @@ function configureBreadcrumb() {
 	topicTitle = topicTitle.replace(/_/g, " ");
   
 	if (currentTitle == "01_summary") {
-		currentTitle = "contents";
+		currentTitle = "content";
 	} else {
 		currentTitle = currentTitle.replace(/_/g, " ");
 		//TODO: currentTitle = 'h1' of the current page....
 		var h1 = $("h1")[0];
-		currentTitle = h1.innerText;
+		currentTitle = htmlEncode(h1.innerText);
 	}
   
-	var homeLink = "<a href='/index.html#topics'>Topics</a>";
+	
 	var joiner = " &rsaquo; ";
+	var homeLink = "<a href='/'><span class='emoji-silhouette'>🏠</span></a>" + joiner + "<a href='/index.html#topics'>Topics</a>";
 	var topicLink = "<a href='" + topicTOC + "'>" + topicTitle + "</a>";
 	if (topicTitle == "today-i-learned" || topicTitle == "") {
-		$id("breadcrumb").innerHTML = homeLink + joiner + "<span id='currentTitle'>index</span>";
+		homeLink = "<a href='/'><span class='emoji-silhouette'>🏠</span></a>" + joiner + "<span id='currentTitle'><a href='/index.html#topics'>Topics</a></span>";
+		//homeLink = "<a href='/' id='currentTitle'><span class='emoji-silhouette'>🏠</span></a>";// + joiner + "";// + joiner + "<a href='/index.html#topics'>Topics</a>";
+		$id("breadcrumb").innerHTML = homeLink;// + joiner + "<span id='currentTitle'>index</span>";
 	} else {
 		$id("breadcrumb").innerHTML =
 			homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
@@ -160,14 +184,19 @@ function copyPreCodeOnClick() {
 
 		let inserted = pre.parentNode.insertBefore(el, pre);
 
-		//code.setAttribute('title', "Click to copy.");
-		//code.setAttribute('onclick', "copyItemText(this);");
 	}
 
-	//for(let preOrCode of $('pre, code')) {
 	for (let code of $("code")) {
-		code.setAttribute("title", "Click to copy text to clipboard.");
-		code.setAttribute("onclick", "copyItemText(this);");
+		let codeText = code.innerText;
+		if (codeText.length > 2) {
+			code.setAttribute("title", "Click to copy text to clipboard.");
+			code.setAttribute("onclick", "copyItemText(this);");
+		}
+		
+		// this allows us to set style rules such as `code[data-content='tip']::after { content: " 💡";}
+		if (codeText.length < 100) {
+			code.setAttribute('data-content', codeText.toLowerCase());
+		}
 	}
 
 	for (let codeInPre of $("pre code")) {

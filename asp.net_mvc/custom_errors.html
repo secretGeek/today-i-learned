@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="custom-errors-in-asp.net-mvc-5">Custom Errors in asp.net mvc 5</h1>
-<p>(This is not for .net core)</p>
+<p>(<code>note</code> This is not for <a href="../.net_core_MVC/01_summary.html">.net core</a>)</p>
 <ol>
 <li><p>Inside <code>system.web</code> element in the <code>web.config</code> file:</p>
 <pre><code> &lt;customErrors defaultRedirect=&quot;~/Error&quot; mode=&quot;On&quot;&gt;
@@ -41,32 +41,31 @@
 </code></pre>
 </li>
 <li><p>Create an Error controller.</p>
-<pre><code> public class ErrorController : Controller
+<p>public class ErrorController : Controller
+{
+public ActionResult Index()
+{
+Response.TrySkipIisCustomErrors = true;
+// This will load Views/Shared/Error.cshtml
+return View(&quot;Error&quot;);
+}</p>
+<pre><code> public ActionResult NotFound()
  {
- 	public ActionResult Index()
- 	{
- 		Response.TrySkipIisCustomErrors = true;
- 		// This will load Views/Shared/Error.cshtml
- 		return View(&quot;Error&quot;);
- 	}
+ 	Response.StatusCode = 404;
+ 	Response.TrySkipIisCustomErrors = true;
+ 	// This will load Views/Error/View.cshtml
+ 	return View();
+ }
 
- 	public ActionResult NotFound()
- 	{
- 		Response.StatusCode = 404;
- 		Response.TrySkipIisCustomErrors = true;
- 		// This will load Views/Error/View.cshtml
- 		return View();
- 	}
-
- 	public ActionResult Forbidden()
- 	{
- 		Response.StatusCode = 403;
- 		Response.TrySkipIisCustomErrors = true;
- 		// This will load Views/Error/Forbidden.cshtml
- 		return View();
- 	}
+ public ActionResult Forbidden()
+ {
+ 	Response.StatusCode = 403;
+ 	Response.TrySkipIisCustomErrors = true;
+ 	// This will load Views/Error/Forbidden.cshtml
+ 	return View();
  }
 </code></pre>
+<p>}</p>
 </li>
 </ol>
 <p>In an action where you look for a resource but can't find it... <strong>don't do this</strong>:</p>
@@ -106,11 +105,19 @@ else
 <p>Others recommend:</p>
 <pre><code>@if(Model != null &amp;&amp; HttpContext.Current.IsDebuggingEnabled)
 </code></pre>
-<h2 id="previously">Previously</h2>
+<h2 id="previouslysources">Previously/Sources</h2>
 <p>Previously I wrote this nasty article which showed a way to get very confused by custom errors in asp.net mvc (including deliberate typos)</p>
-<p><a href="https://secretgeek.net/custom_errors_mvc">Custom Errors in ASP.Net MVC: It couldn't be simpler, right?</a></p>
-<p>One comment there was very helpful, but a particular stack overflow answer was most helpful</p>
-<p><a href="https://stackoverflow.com/a/13905859/49">Pableo Romeo answer at 'How to make custom error pages work in ASP.NET MVC 4'</a></p>
+<ul>
+<li><a href="https://secretgeek.net/custom_errors_mvc">Custom Errors in ASP.Net MVC: It couldn't be simpler, right?</a></li>
+</ul>
+<p>One comment there was very helpful, but a particular stack overflow answer was most helpful.</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/13905859/49">Pableo Romeo answer at 'How to make custom error pages work in ASP.NET MVC 4'</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="helpful_error_page.html">Making a custom error page helpful for developers</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

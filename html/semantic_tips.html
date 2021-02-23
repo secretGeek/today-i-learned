@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>semantic tips . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="semantic-html-underused-text-level-elements">Semantic HTML: Underused text-level elements</h1>
+<p>Here are some elements I don't use/consider enough.</p>
+<p>These are just basic textual elements, not major structural pieces. (Ok, <code>figure</code> is structural, but not as major as section etc..)</p>
+<h2 id="abbr-abbreviation"><code>&lt;abbr&gt;</code> - Abbreviation</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr">abbr</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting#abbreviations">Advanced text formatting: Abbreviations</a></li>
+</ul>
+<h2 id="cite-citations"><code>&lt;cite&gt;</code> - Citations</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite">cite: citation</a></li>
+</ul>
+<h2 id="dfn-definition"><code>&lt;dfn&gt;</code> - Definition</h2>
+<h2 id="dl-dt-dd-definition-list-term-and-details"><code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code> - Definition list, term and details</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl">dl:Description List</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt">dt:Description Term</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd">dd:Description Details</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting#description_lists">Advanced text formatting: Description Lists</a></li>
+</ul>
+<h2 id="figure-figure-with-captions"><code>&lt;figure&gt;</code> - Figure with Captions</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure: figure with optional caption</a></li>
+</ul>
+<p>Example:</p>
+<pre><code>&lt;figure&gt;
+&lt;img src=&quot;mr_t.jpg&quot; alt=&quot;Mr T.&quot;&gt;
+&lt;figcaption&gt;This is Mr. T&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+<figure>
+<img src="mr_t.jpg"	alt="Mr T.">
+<figcaption>This is Mr. T</figcaption>
+</figure>
+<h2 id="mark-mark"><code>&lt;mark&gt;</code> - Mark</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark">mark: Mark Text Element</a></li>
+</ul>
+<p>Rather than <code>&lt;span class='hilite'&gt;highlighted text&lt;/span&gt;</code> - use <code>&lt;mark&gt;highlighted text&lt;/mark&gt;</code></p>
+<p>Let me mark a few <mark>choice phrases</mark> in this <mark>fascinating</mark> sentence.</p>
+<p>TODO: see if there is a markdig extension that let's you apply the <code>mark</code> tag?</p>
+<h2 id="q-inline-quotation"><code>&lt;q&gt;</code> - Inline Quotation</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q">q: inline quotation</a></li>
+</ul>
+<p>The inline complement to <code>blockquote</code>, for times when a quotation does not receive its own block.</p>
+<pre><code>&lt;p&gt;Mr. T says &lt;q cite='https://en.wikipedia.org/wiki/I_Pity_the_Fool_(TV_series)'&gt;I pity the fool&lt;/q&gt;&lt;/p&gt;
+</code></pre>
+<p>Mr. T says <q cite='https://en.wikipedia.org/wiki/I_Pity_the_Fool_(TV_series)'>I pity the fool</q></p>
+<p>There are probably quotes around that, provided by the user-agent stylesheet, via a <code>q::before { content: open-quote }</code> (and ... <code>close-quote</code>). <a href="https://css-tricks.com/almanac/properties/q/quotes/">Some CSS-Tricks info about that</a></p>
+<p><code>tip</code> The <code>quote</code> element should be used for <em>literal</em> quotes, not for decorative purposes such as &quot;sarcasm&quot;, &quot;air-quotes&quot; and other rhetorical instances. (i.e. use it to for <em>literal</em> quotes, but not for &quot;literal&quot; quotes.)</p>
+<p>(There is no <code>&lt;sarcasm&gt;</code> element. Or rather: <code>&lt;sarcasm&gt;</code>There <em>is</em> a sarcasm element<code>&lt;sarcasm&gt;</code>. <a href="https://lists.w3.org/Archives/Public/public-html/2014Nov/0007.html">w3c disccusion here</a>)</p>
+<h2 id="time-time-element"><code>&lt;time&gt;</code> - Time element</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time">time: Time element</a></li>
+</ul>
+<p>Example:</p>
+<pre><code>&lt;time datetime=&quot;2021-02-22&quot;&gt;22 February 2022&lt;/time&gt;
+&lt;time datetime=&quot;2021-02-22T19:30+01:00&quot;&gt;7.30pm, 22 February 2021 is 8.30pm in France&lt;/time&gt;
+</code></pre>
+<h2 id="sources">Sources</h2>
+<p>At <a href="developer.mozilla.org">developer.mozilla.org</a>:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr">abbr</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting#abbreviations">Advanced text formatting: Abbreviations</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite">cite: citation</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl">dl:Description List</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt">dt:Description Term</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd">dd:Description Details</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Advanced_text_formatting#description_lists">Advanced text formatting: Description Lists</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure">figure: figure with optional caption</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark">mark: Mark Text Element</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q">q: inline quotation</a></li>
+<li><a href="https://css-tricks.com/almanac/properties/q/quotes/">Css-Tricks: quotes</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time">time: Time element</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="expando_accordian_with_html.html">Making Expando/Accordian with Plain Html</a> featuring <code>&lt;summary&gt;</code>/<code>&lt;details&gt;</code></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
