@@ -22,15 +22,23 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="uncomplicated-firewall.how-do-we-set-that-up">Uncomplicated Firewall... how do we set that up?</h1>
+<h1 id="ufw-uncomplicated-firewall.how-do-we-set-that-up">ufw: Uncomplicated Firewall... how do we set that up?</h1>
 <p>Just before (or immediately after) you've got nginx installed, it's time to think about getting a firewall in place.</p>
-<p>ufw (Ucomplicated FireWall) is just the ticket.</p>
-<p>Enable ufw, and allow 80, for inbound http requests, and 22 for SSH, as follows:</p>
-<pre><code>sudo ufw enable;sudo ufw allow 22/tcp;sudo ufw allow 80/tcp
+<p><code>ufw</code> (Ucomplicated FireWall) is just the ticket.</p>
+<p>Enable <code>ufw</code>, and allow these ports</p>
+<ul>
+<li><p>80, for inbound http requests,</p>
+</li>
+<li><p>and 22 for SSH, as follows:</p>
+<pre><code> sudo ufw enable;sudo ufw allow 22/tcp;sudo ufw allow 80/tcp
 </code></pre>
+</li>
+</ul>
 <p>To check if <code>ufw</code> is set up as expected...</p>
-<pre><code>$ sudo ufw status
-Status: active
+<pre><code>sudo ufw status
+</code></pre>
+<p>And you should see this result:</p>
+<pre><code>Status: active
 
 To                         Action      From
 --                         ------      ----
@@ -39,9 +47,11 @@ To                         Action      From
 22/tcp (v6)                ALLOW       Anywhere (v6)
 80/tcp (v6)                ALLOW       Anywhere (v6)
 </code></pre>
-<p>And for extra info you can try:</p>
-<pre><code>$ sudo ufw status verbose
-Status: active
+<p>For extra info you can try:</p>
+<pre><code>sudo ufw status verbose
+</code></pre>
+<p>Result:</p>
+<pre><code>Status: active
 Logging: on (low)
 Default: deny (incoming), allow (outgoing), disabled (routed)
 New profiles: skip
@@ -54,14 +64,16 @@ To                         Action      From
 80/tcp (v6)                ALLOW IN    Anywhere (v6)
 </code></pre>
 <p>And to see which apps are registered with ufw...</p>
-<pre><code>$ sudo ufw app list
-Available applications:
-  Nginx Full
-  Nginx HTTP
-  Nginx HTTPS
-  OpenSSH
+<pre><code>sudo ufw app list
 </code></pre>
-<p>Considerations for later...</p>
+<p>result:</p>
+<pre><code>Available applications:
+	Nginx Full
+	Nginx HTTP
+	Nginx HTTPS
+	OpenSSH
+</code></pre>
+<h2 id="considerations-for-later">Considerations for later...</h2>
 <blockquote>
 <p>HTTPS connections can be allowed with this command:</p>
 <pre><code>sudo ufw allow https
@@ -78,11 +90,11 @@ Available applications:
 <p>You can remove those you've already allowed with, for example:</p>
 <pre><code>sudo ufw delete allow 80/tcp
 </code></pre>
-<footer>because that's superceded by 'Nginx HTTP' profile</footer>
+<p>...because that's superceded by 'Nginx HTTP' profile</p>
 <pre><code>sudo ufw delete allow 'Nginx HTTP'
 </code></pre>
-<footer>because that's superceded by 'Nginx Full' (which allow both http and https)</footer>
-<p>Might also want to allow 'OpenSSH' something like sudo ufw allow 'OpenSSH' but i'm not sure so I'd stick with</p>
+<p>...because that's superceded by 'Nginx Full' (which allow both <code>http</code> and <code>https</code>)</p>
+<p>Might also want to allow 'OpenSSH' something like <code>sudo ufw allow 'OpenSSH'</code> but i'm not sure so I'd stick with</p>
 <pre><code>sudo ufw allow 22/tcp
 </code></pre>
 <p>For now.</p>
@@ -90,10 +102,11 @@ Available applications:
 <pre><code>sudo ufw app list
 </code></pre>
 <p>I see:</p>
-<p>Nginx Full
+<pre><code>Nginx Full
 Nginx HTTP
 Nginx HTTPS
-OpenSSH</p>
+OpenSSH
+</code></pre>
 <p>So I expect if i do <code>sudo ufw allow 'OpenSSH'</code> then i would be able to delete 22/tcp and still use ssh.</p>
 <h2 id="source">Source</h2>
 <ul>
