@@ -81,14 +81,11 @@ BEGIN
 	DECLARE @cols AS NVARCHAR(MAX),
 		@query  AS NVARCHAR(MAX)
 
-
 	  IF EXISTS (SELECT *
 				 FROM   dbo.sysobjects o
 				 WHERE  o.xtype IN ( 'U' )
 						AND o.id = Object_id(N'dbo.CustomerPerformanceResult'))
 		DROP TABLE dbo.CustomerPerformanceResult
-
-
 
 	select @cols = STUFF((SELECT ',' + QUOTENAME([num])
 						from dbo.CustomerPerformance_NumberedDays as w
@@ -142,7 +139,6 @@ where
 	public IEnumerable&lt;Filter&gt; filters { get; set; }
 }
 
-
 @using System.Data
 @model PivottedReport
 
@@ -170,8 +166,6 @@ where
 &lt;/div&gt;
 
 @Html.ActionLink(&quot; &quot;, &quot;Export&quot;, &quot;PivottedReport&quot;, new { project = Model.Project.Slug, PivottedReport = Model.Slug }, new { @Class = &quot;glyphicon glyphicon-cloud-download btn pull-right&quot;, title = &quot;Export CSV&quot; })
-
-
 
 &lt;h1&gt;
 	@Model.Name
@@ -247,8 +241,6 @@ else {
 						{
 							// Column name is numeric? then it is part of the pivot section, and is given a nicer name and decoded here.
 							var detailCell = new DetailCell(cell.ToString());
-
-
 
 							if (detailCell.SalesTotal == 0.0)
 							{

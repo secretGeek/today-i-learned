@@ -122,6 +122,7 @@ Processing triggers for libc-bin (2.23-0ubuntu10) ...
 fork failed: Cannot allocate memory
 </code></pre>
 <p>Given this problem I thought I might have to increase the size of the memory.</p>
+<p>(See <a href="how_much_memory_is_free.html">How much memory is free?</a>)</p>
 <p>I found that by <a href="reboot.html">rebooting</a>, and re-running the clean up tasks I was attempting I finally succeeded.</p>
 <p>First I had to <code>sudo dpkg --configure -a</code></p>
 <h2 id="sources">Sources</h2>
@@ -131,6 +132,10 @@ fork failed: Cannot allocate memory
 <li><a href="https://askubuntu.com/questions/163200/e-dpkg-was-interrupted-run-sudo-dpkg-configure-a">E: dpkg was interrupted... run 'sudo dpkg --configure -a'</a></li>
 </ul>
 <p>I haven't accurately captured all of the sources for this.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="how_much_memory_is_free.html">How much memory is free?</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

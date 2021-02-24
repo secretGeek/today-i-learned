@@ -605,7 +605,7 @@ code[data-content='todo'] {
 /* e.g. starts with http ---> a[href^="http"] { */
 /* todo: href attribute target = "_blank" indicate the jump! */
 
-a[href^="http:"]::after,a[href^="https:"]::after {
+a[href*="://"]:not(.no-glyph)::after {
 	content: ' \2197';
 	font-size:0.66em;
 	text-decoration:none;
@@ -614,7 +614,7 @@ a[href^="http:"]::after,a[href^="https:"]::after {
 	vertical-align:top;
 	display:inline-block;
 }
-a[href^="http:"]::after:hover,a[href^="https:"]::after:hover {
+a[href*="://"]:not(.no-glyph)::after:hover {
 	box-shadow:none;
 	border: 0 0 0 var(--breadcrumb-shadow-inset1);
 }
@@ -636,7 +636,8 @@ a[href^="http:"]::after:hover,a[href^="https:"]::after:hover {
 }
 
 /* remove the arrow from footer links */
-footer small a[href^="http:"]::after,footer small a[href^="https:"]::after {
+
+footer small a[href*="://"]:not(.no-glyph)::after {
 	content: '';
 }
 

@@ -182,7 +182,6 @@ function showFloatingMessage(message, element) {
 <pre><code>// Inject a button before every pre...
 $(&quot;&lt;button class='copy-text btn btn-sm' title='copy code to clipboard'&gt;copy&lt;/button&gt;&quot;).insertBefore($(&quot;pre&quot;));
 
-
 // And have it call 'copy to clipboard'
 $(&quot;.copy-text&quot;).click(function (e) {
 	copyToClipboard($(this).next(&quot;pre&quot;).text(), this); // that final *this* is the DOM element.

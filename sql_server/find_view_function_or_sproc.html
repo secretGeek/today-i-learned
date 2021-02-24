@@ -48,13 +48,11 @@ where so.xtype in ('U','V') AND Schema_Name(so.UID) + '.' + so.Name  like
 go' from sysobjects so inner join syscomments sc on so.id = sc.id where sc.text like
 '%%'&quot;
 
-
 kv so &quot;Select Schema_Name(UID) + '.' + Name , Xtype
 from sysobjects
 where
 xtype in ('U','V','P') AND Schema_Name(UID) + '.' + Name like
 '%%'&quot;
-
 
 kv sc &quot;Select sc.Name as [Column], Schema_Name(so.UID) + '.' + so.Name as [Table], so.Xtype
 from sysobjects so
