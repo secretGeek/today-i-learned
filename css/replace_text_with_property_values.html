@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>replace text with property values . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="replace-text-with-property-values">Replace Text with Property Values</h1>
+<p>This is a strange idea I had for a web developer tool.</p>
+<p>I've written a script that will replace every piece of text on a page with the value of any css property you select.</p>
+<p><strong class="select-here">Try it out</strong></p>
+<p>For example, if you pick the property <code>font-family</code> then it will replace every heading, every paragraph, ever word, with the name of the font that is used in that part of the page.</p>
+<blockquote>
+<p>A blockquote will be selected with the values of that CSS property within the blockquote</p>
+</blockquote>
+<p>An a piece of <mark>marked</mark> text will be replaced with the values of the selected property as well.</p>
+<p>You will be able to see the different <strong>font-weight</strong> of <strong>bold</strong> text and the different <em>font-style</em> of <em>emphasized</em> text.</p>
+<table>
+<thead>
+<tr>
+<th>You</th>
+<th>can</th>
+<th>look</th>
+<th>at</th>
+<th>the</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>different</td>
+<td>borders</td>
+<td>in</td>
+<td>tables</td>
+<td>or</td>
+</tr>
+<tr>
+<td>explore</td>
+<td>padding</td>
+<td>and</td>
+<td>margins</td>
+<td>too</td>
+</tr>
+</tbody>
+</table>
+<p>I'd like to wrap this technique into a <code>bookmarklet</code> (aka <code>favelet</code>) but not tonight.</p>
+<p>There are two key pieces of code:</p>
+<ol>
+<li>A tree walker (created with <code>document.createTreeWalker</code>) for visiting every element of the page, looking particularly for text</li>
+<li>The use of <code>getComputedStyle</code> to find the array of styles that have been applied to each piece of text. (Technically: to the parent of each piece of text)</li>
+</ol>
+<p>Here's the central function:</p>
+<pre><code class="language-javascript">function replaceAllTextWithStylePropertyValue(propertyName) {
+	var walker = document.createTreeWalker(
+			document.body,  // root node
+			NodeFilter.SHOW_TEXT,  // filtering only text nodes
+			null,
+			false
+	);
+
+	while (walker.nextNode()) {
+		if (walker.currentNode.nodeValue.trim()) { // if it's not empty(whitespaced) node
+
+			// Don't alter a node if it has an ancestor with a class of 'protected'
+			if (walker.currentNode.parentNode.closest('.protected') == null) {
+				let length = walker.currentNode.nodeValue.length;
+				let newText = getComputedStyle(walker.currentNode.parentNode)[propertyName] + &quot; &quot;;
+				let newLength = newText.length;
+				walker.currentNode.parentNode.setAttribute(&quot;title&quot;, `${propertyName}: ${newText.trim()}`);
+				walker.currentNode.nodeValue = newText.repeat(Math.ceil(length / newLength)).substring(0, length);
+			}
+		}
+	}
+}
+</code></pre>
+<p>That's enough strangeness for one evening.</p>
+<script>
+
+function replaceAllTextWithStylePropertyValue(propertyName) {
+	var walker = document.createTreeWalker(
+			document.body,  // root node
+			NodeFilter.SHOW_TEXT,  // filtering only text nodes
+			null,
+			false
+	);
+
+	while (walker.nextNode()) {
+		if (walker.currentNode.nodeValue.trim()) { // if it's not empty(whitespaced) node
+			let length = walker.currentNode.nodeValue.length;
+			if (walker.currentNode.parentNode.closest('.protected') == null) {
+				let newText = getComputedStyle(walker.currentNode.parentNode)[propertyName] + " ";
+				let newLength = newText.length;
+				walker.currentNode.parentNode.setAttribute("title", `${propertyName}: ${newText.trim()}`);
+				walker.currentNode.nodeValue = newText.repeat(Math.ceil(length / newLength)).substring(0, length);
+			}
+		}
+	}
+}
+
+
+function createPropertyList() {
+	let dd = htmlToElement('<div class="protected">Select Property <select name="propertyNames" id="propertyNames"></select></div>');
+
+	$('.select-here')[0].appendChild(dd);
+	//document.body.appendChild(dd);
+	const props = $id('propertyNames');
+	addOption(props, "(pick one)");
+	for(const pp of getComputedStyle(document.body)) {
+		addOption(props, pp);
+	}
+	props.addEventListener('change', function(e) {
+		if (this.value != "(pick one)") {
+			replaceAllTextWithStylePropertyValue(this.value);
+		}
+	});
+}
+
+function addOption(props, text) {
+	let option = document.createElement("option");
+	option.text = text;
+	option.value = text;
+	props.add(option);
+}
+
+/* ####################### */
+/* ####################### */
+/* ## utility functions ## */
+/* ####################### */
+/*    #################    */
+/*       ###########       */
+/*          #####          */
+/*            #            */
+
+
+function $(selector) {
+	return document.querySelectorAll(selector);
+}
+
+function $id(id) {
+	return document.getElementById(id);
+}
+
+function htmlToElement(html) {
+	var template = document.createElement("template");
+	html = html.trim(); // Never return a text node of whitespace as the result
+	template.innerHTML = html;
+	return template.content.firstChild;
+}
+
+
+
+/*            #            */
+/*          #####          */
+/*       ###########       */
+/*    #################    */
+/* ####################### */
+/* ## utility functions ## */
+/* ####################### */
+/* ####################### */
+
+
+
+
+createPropertyList();
+
+</script>
+<style class='protected'>
+.protected {
+margin: 0 auto;
+text-align:center;
+}
+</style>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

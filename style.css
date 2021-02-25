@@ -652,3 +652,10 @@ footer small:hover::before, footer small:hover::after {
 	transform:scale(1.5);
 	color:var(--link-hover);
 }
+
+select {
+	background-color:var(--main-bg);
+	color:var(--main);
+	padding:0.5em;
+	margin:0.2em;
+}
