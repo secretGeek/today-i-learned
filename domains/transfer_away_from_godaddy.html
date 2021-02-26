@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>transfer away from godaddy . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="transfer-domain-from-godaddy-to-gandi">Transfer Domain from godaddy to gandi</h1>
+<p><code>note</code> You can't transfer a domain twice within 60 days.</p>
+<h2 id="initiate-at-the-losing-registrar-godaddy">Initiate at the losing registrar (GoDaddy)</h2>
+<ol>
+<li><p>At GoDaddy -- click on your domains, click on the specific domain, that will take you to (for example...)</p>
+<pre><code> https://dcc.godaddy.com/control/example.com/settings
+</code></pre>
+<p>Scroll down to see that the admin details are correct (particular your email address, but all of the details.)</p>
+</li>
+<li><p>Scroll down to &quot;Manage DNS&quot; - make sure it only has name servers, and take note of what the name servers are. (i.e. make sure the DNS is handled at the host, or by a DNS specific server, not by go daddy)</p>
+<pre><code> https://dcc.godaddy.com/manage/EXAMPLE.COM/dns?plid=1
+</code></pre>
+<p>If it does have DNS details there (apart from nameservers) take notes of them, plus screenshots and definitely export them by using the &quot;Export Zone File&quot; link for your system (windows or linux)</p>
+</li>
+<li><p>On the previous page - the settings - just below the &quot;manage DNS&quot; link there is a link for &quot;Transfer domain away from GoDaddy&quot;, for example:</p>
+<pre><code> https://dcc.godaddy.com/control/EXAMPLE.COM/transferOut?plid=1
+</code></pre>
+<p>...and click &quot;continue with transfer&quot;</p>
+</li>
+<li><p>On this new page you will click &quot;continue with transfer&quot; which will &quot;<a href="https://en.wikipedia.org/wiki/Registrar-Lock">Unlock</a>&quot; your site, making transfer possible.</p>
+<p>Transfer also relies on having an <code>EPP</code> code, also known as an <a href="https://en.wikipedia.org/wiki/Auth-Code">Auth-Code, authorization code, transfer code, or Auth-Info Code</a> (EPP stands for &quot;Extensible Provisioing Protocol&quot;) which works as a shared secret between the registrars, providng that the gaining and receiving registrants are in agreement. (So do not disclose an EPP!)</p>
+<p>GoDaddy will email you telling you your site in unlocked. It will also emailing you giving you the <code>EPP</code>. (Though you can also copy the <code>EPP</code> off the page you are at.)</p>
+</li>
+</ol>
+<p>Now it's time to go the &quot;Gaining registrar&quot; (i.e. gandi) - and initiate the transfer there.</p>
+<h2 id="initiate-at-the-gaining-registrar-gandi">Initiate at the gaining registrar (Gandi)</h2>
+<ol start="5">
+<li><p>Go to <a href="https://gandi.net">gandi.net</a> - the front page of the site - click the &quot;transfer&quot; button, enter your domain name (actually... copy paste it in -- don't type it!) and press enter.</p>
+<p><img src="gandi_transfer_1.png" alt="Gandi transfer" /></p>
+</li>
+<li><p>It should say &quot;Example.com can be transferred to Gandi.&quot; (if the Unlock has already been performed). Add it to your shopping cart, then go to your shopping cart.</p>
+</li>
+<li><p>Make sure the contact details look good, and are the contact details you want to use for this payment/transaction. (They do not have to be <em>identical</em> to the old details at the previous registrar and these are <em>not</em> the details that will be used for the domain registration itself... that's on the next screen), click <code>next</code> (or continue or whatever the button is)</p>
+</li>
+<li><p>Some DNS things... if the old registrar only had name-servers specified, then gandi will copy that in, and you're all good.</p>
+<p>For situations where the old registrar was looking after the DNS you have to start from scratch. I've clicked on the &quot;Select a configuration template&quot; and chosen &quot;Gandi's default configuration&quot; and then I plan to edit that <em>after</em> the transfer workflow is done. I have the copy of the zone file that I exported at <strong>Step 2</strong> above, and will use that to &quot;eyeball it&quot; and make sure I get everything right (it won't be identical to how it used to be... but it will be very similar in terms of CNames and A records).</p>
+</li>
+<li><p>Make sure you like the contact details. Note &quot;Email address hidden&quot; and &quot;WHOIS privacy enabled&quot;.</p>
+</li>
+<li><p>Next screen -- here's where we enter the <code>EPP</code> which they refer to here as an <code>Authorization Code</code> -- enter that now!</p>
+<p>Also choose auto renew if you want that. I recommend it.</p>
+</li>
+<li><p>If everything loooks good proceed with Payment and confirmation.</p>
+</li>
+</ol>
+<h2 id="accept-the-transfer-at-the-losing-registrar-godaddy">Accept the transfer at the losing registrar (GoDaddy)</h2>
+<ol start="12">
+<li><p>You'll receive emails from Gandi confirming the purchase and from GoDaddy confirming that they've been asked to perform a transfer. Read the godaddy email carefully and you'll find you have two options: either wait 3 days for the process to be performed automatically - or immediately go to GoDaddy and confirm it.</p>
+<p>When logged in to GoDaddy, look at their main menu for the &quot;transfers&quot; link... and once there select &quot;Transfers Out &gt; To Another registrar&quot;</p>
+<p><img src="godaddy_menu_transfers.png" alt="Go Daddy menu Transfers" /></p>
+<p>Here's the URL to confirm it:</p>
+<pre><code>https://dcc.godaddy.com/transfers/out
+</code></pre>
+<p>It will be a few minutes before the domain you are transferring turns up in that list. Spend this time nervously pacing around and assuming that your unlocked domain is now in the hands of a foreign organized criminal underground network. This is how I relax.</p>
+<p>Once it does show up and you select it and click &quot;Accept transfer&quot; you are DONE!</p>
+<p><img src="godaddy_accept_transfer.png" alt="godaddy accept transfer" /></p>
+</li>
+</ol>
+<p>Look at this!</p>
+<pre><code>![godaddy_transfer_successful](godaddy_transfer_successful.png) 
+</code></pre>
+<ol start="13">
+<li><p>Now you have to make sure the DNS is all correct. Good luck with that!</p>
+<p>DNS used to scare me, but I like it now. <em>How did I get this way?</em></p>
+</li>
+</ol>
+<h2 id="appendix-a-godaddys-checklist">Appendix A: Godaddy's checklist</h2>
+<blockquote>
+<ol>
+<li>Make sure your administrative contact email is current. (It's where we send your transfer authorization code.)</li>
+<li>Verify that the new registrar will set up your DNS zone files. If you don't do this, your website and email could go down.</li>
+<li>Start the domain transfer at your new registrar. (We email you to ensure you requested the transfer.)</li>
+<li>Authorize the transfer with your new registrar. (Use the transfer authorization code we email you when you're done here.)</li>
+<li>We email you confirmation when your transfer completes, usually not more than 5-7 days.</li>
+</ol>
+</blockquote>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="/linux/digital_ocean.html">Developing .net core app and deploying to linux at digital ocean</a> - some DNS discussion here</li>
+<li><a href="/zoho/domain.html">Register a domain with zoho (aka DNS Text records at digitalocean such as DKIM)</a> - some DNS discussion here too</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

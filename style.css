@@ -8,7 +8,7 @@
 	--main: #333;
 	--main-bg: #fff;
 	--code-bg: #f6f8fa;
-	--code-shadow: #ddd;
+	--code-shadow: rgba(0,0,0,0.2);
 	--header-bg: white;
 	--header-shadow: #ccc;
 	--breadcrumb-bg: #f1f1f1;
@@ -35,6 +35,8 @@
 	--btn-active: #ffc;
 	--todo: #fff;
 	--todo-bg: #f6a;
+	--error-bg: #f44;
+	--error-fg: #fff;
 }
 
 /* this @media query will apply to those who have
@@ -44,7 +46,7 @@
 		--main: #ccc;
 		--main-bg: #222;
 		--code-bg: #333;
-		--code-shadow: #181818;
+		--code-shadow: rgba(0,0,0,0.8);
 		--header-bg: #222;
 		--header-shadow: #666;
 		--breadcrumb-bg: #444;
@@ -72,6 +74,8 @@
 		--btn-active: white;
 		--todo: #fff;
 		--todo-bg: #83a;
+		--error-bg: #622;
+		--error-fg: #ccc;
 	}
 
 	img[src="today_i_learned.png"],
@@ -598,6 +602,145 @@ code[data-content='todo'] {
 		padding-left: 5px;
 		font-style:normal;
 	}
+
+code[data-content='draft']::after {
+		content: " 🚧";
+		font-family: "Segoe UI Emoji";
+		font-size:0.8em;
+		padding-left: 5px;
+		font-style:normal;
+	}
+
+code[data-content='error'],code[data-content='bug'] {
+	background-color: var(--error-bg);
+	color: var(--error-fg);
+}
+
+code[data-content='bug']::after {
+	content: " 🐞";
+	font-family: "Segoe UI Emoji";
+	font-size:0.8em;
+	padding-left: 5px;
+	font-style:normal;
+}
+
+
+code[data-content='warning'] {
+	background-color: #FF0;
+	color: black;
+	padding: 2px;
+	outline: 2px solid black;
+	border-radius: 0;
+	padding-right: 0;
+	text-transform: uppercase;
+}
+
+	code[data-content='warning']::after {
+		content: "!";
+		color: yellow;
+		background-color: black;
+		font-weight: bold;
+		padding: 2px;
+		padding-left: 5px;
+		margin-left: 2px;
+	}
+
+code[data-content='overdue']{
+	background-color: var(--main-bg);
+	color: red;
+	padding: 2px;
+	margin-right:0.5ch;
+	border-radius: 0;
+	font-family: "courier new", serif;
+	text-transform: uppercase;
+	box-shadow: 0 0 0 1px red,0 0 0 2px var(--main-bg),0 0 0 3px red;
+	font-weight: bold;
+}
+
+code[data-content="hot"] {
+	background-color: black;
+	color: white;
+	padding-right: 0;
+	font-size: 1.5em;
+	padding-top: 4px;
+	text-shadow: 0 -5px 1px #FF0, 0 -7px 1px #F80, 0 -9px 1px #F00, 0 -11px 1px #800, 0 -13px 1px #000, 0 -15px 1px #666, 0 -17px 1px #AAA, 0 -19px 1px #FFF;
+}
+
+code[data-content="new"] {
+	background-color: lightgreen;
+	color: white;
+	padding: 0, 0.5ch;
+	font-size: 1.1em;
+	text-shadow:0 1px 1px #000;
+}
+
+code[data-content="scary"] {
+	background-color: black;
+	color: white;
+	padding: 2px;
+	padding-right: 0;
+	padding-top: 4px;
+	text-shadow: 0 1px 1px #F00, 0 3px 1px #F00, 0 5px 1px darkred, 0 7px 1px darkred, 0 9px 1px darkred;
+}
+
+code[data-content="scary"]::after {
+	content: '\2620'; /* skull */ 
+	color: #F00;
+	text-shadow: 0 1px 1px darkred;
+	border-radius: 2.5px;
+	background-color: white;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI System";
+	font-weight: bold;
+	margin: 4px 2px 4px 4px;
+	box-shadow: 0 0 2px inset #666;
+}
+
+code[data-content="verified"] {
+	background-color: #d5eaff;
+	color: black;
+	padding:0.4ch;
+}
+
+	code[data-content="verified"]::after {
+		content: " ☑️";
+		font-family: "Segoe UI Emoji"
+	}
+
+
+code[data-content='fun'] {
+	background-color: purple;
+	color: white;
+}
+
+	code[data-content="fun"]::after {
+		content: " 🥳";
+		font-family: "Segoe UI Emoji"
+	}
+
+code[data-content='hard'] {
+	background-color: #111;
+	color: white;
+}
+
+	code[data-content="hard"]::after {
+		content: " 🔨";
+		font-family: "Segoe UI Emoji"
+	}
+
+
+code[data-content='easy'] {
+	background-color: green;
+	color: white;
+}
+
+
+	code[data-content="easy"]::after {
+		content: " 🙂";
+		font-family: "Segoe UI Emoji"
+	}
+
+
+
 
 /* end Custom code tags */
 
