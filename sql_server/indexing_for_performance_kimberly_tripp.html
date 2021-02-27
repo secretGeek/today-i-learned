@@ -36,14 +36,14 @@
 <ul>
 <li>Query Tuning
 <ul>
-<li>i.e. you tune individual query and coming up with decent indexes for it</li>
+<li>i.e. you tune individual queries and come up with decent indexes for them in isolation</li>
 </ul>
 </li>
 <li>Server Tuning</li>
-<li>consolidating indexes for all typical queries to avoid:
+<li>consolidate indexes for all typical queries to avoid:
 - unused indexes
 - duplicate indexes
-- similar indexes</li>
+- too-similar indexes</li>
 </ul>
 <h2 id="general-tips-throughout-course">General tips (throughout course)</h2>
 <ul>
@@ -53,7 +53,7 @@
 <pre><code>  SET STATISTICS IO ON;
 </code></pre>
 </li>
-<li><p>Turn on show plan (i.e. &quot;show actual execution plan&quot; button -- Kimberly calls it Show Plan)</p>
+<li><p>Turn on show plan (i.e. &quot;show actual execution plan&quot; button -- Kimberly calls it 'Show Plan')</p>
 </li>
 </ul>
 </li>
@@ -93,11 +93,11 @@
 </ul>
 <h2 id="when-is-index-used">When is index used</h2>
 <ul>
-<li>Non clustered non covering Indexes only used when selectivity &lt; about 1.5 %
+<li>Non clustered non covering Indexes are only used when selectivity &lt; about 1.5 %
 <ul>
-<li><p>i.e. If your query returns 2% of the table it would rather scan the table than seek the non c index.</p>
+<li><p>i.e. If the query planner, expects your query to returns 2% or more of the table it would rather scan the table than seek the non c index.</p>
 </li>
-<li><p>This is because cost of many bookmark lookups (from index leaf to actual table (which are random access access)) are slower than the even larger number of sequential reads when scanning the table.</p>
+<li><p>This is because the cost of many bookmark lookups (from index leaf to actual table (which are random access access)) are slower than the even larger number of sequential reads when scanning the table.</p>
 </li>
 <li><p>And note Statistics must be up to date for those percentage estimates &lt;2% to be good enough.</p>
 <pre><code>  --[sys].[dm_db_index_physical_stats]
@@ -116,33 +116,46 @@
 <li>Highly selective queries (returning a handful of records) do not need to be covered - as there are very few bookmark lookups performed.</li>
 <li><code>Select *</code> does not need to be covered as u can't cover it anyway.</li>
 </ul>
-<p>filtered index:
-Useful example:</p>
-<p>We only  query error message when status = error</p>
-<p>So have a filtered index on status = error and also error message (particularly if it's left only comparisons)</p>
+<h2 id="filtered-index-a-useful-example">Filtered index: a useful example</h2>
+<p>Imagine We only query error message when <code>status = error</code></p>
+<p>So we have a filtered index on <code>status = error</code> and also <code>error message</code> column (particularly if it's &quot;left only&quot; comparisons, i.e. <code>like 'x%'</code> not <code>like %x%</code>)</p>
 <ul>
 <li><p>So small you can afford to include extra columns</p>
 </li>
-<li><p>Sql server will not query across two filtered sets (and join them) -
-Eg where status in (A,B) (assuming a filtered index for status A and a filtered index for status B....</p>
-</li>
-<li><p>Sql server won't combine those and will just scan the table instead.</p>
-</li>
-<li><p>One trick is to change the query to be: where status =A union all ... where status = B   ! Then it will combine the two sets but you have to be repetitive to do that</p>
+<li><p>Sql server will not query across two filtered sets (and join them) -</p>
 </li>
 </ul>
-<p>So you want the filtered index to be the clear filtered index of choice for this query.</p>
+<p>eg where status in ('error','warning') (assuming a filtered index for status 'error' and a filtered index for status 'warning'....</p>
+<ul>
+<li>Sql server won't combine those and will just scan the table instead.</li>
+<li>One trick is to change the query to be:
+<blockquote>
+<p>...where status = 'error' ... union all ... where status = 'warning'
+as then it will combine the two sets but you have to be repetitive to do that</p>
+</blockquote>
+</li>
+</ul>
+<p>So you want the filtered index to be clearly the &quot;filtered index of choice&quot; for this query.</p>
 <p>Should have automated statistics updating maintenance routine at a time when system is less busy.</p>
 <pre><code>UPDATE STATISTICS [dbo].[Employee];
 </code></pre>
-<p>Index consolidation....</p>
-<p>Unused indexes - get rid of those obvs</p>
-<p>Duplicates obviously only need 1. But check no one is using hints to target one of the dupes.</p>
-<p>Similar - may make a &quot;super index&quot; and find its still useful but less space maintenance easier to cache and stay in cache etc.</p>
-<p><code>todo</code> Kimberly has a replacement for <code>sp_helpindex</code> - track that down.</p>
+<h2 id="index-consolidation">Index consolidation....</h2>
+<ul>
+<li><p>Unused indexes - get rid of those obviously.</p>
+</li>
+<li><p>Duplicates obviously only need 1. But check no one is using hints to target one of the dupes by name.</p>
+<p><a href="https://www.sqlskills.com/blogs/kimberly/removing-duplicate-indexes/">Kimberly's script for finding duplicates</a> (She may have a newer one by now? This one still looks like it would work on all but columnstore indexes?)</p>
+</li>
+</ul>
+<p>Similar - may make a &quot;super index&quot; and find it's still useful but less space maintenance easier to cache and stay in cache etc.</p>
+<p>Kimberly has a replacement for <code>sp_helpindex</code> - I think this is her latest version:</p>
+<ul>
+<li><a href="https://www.sqlskills.com/blogs/kimberly/sp_helpindex-v20170228/">USE THIS: sp_helpindex</a></li>
+</ul>
 <h2 id="external-references">External References</h2>
 <ul>
 <li><a href="https://www.sqlskills.com/blogs/kimberly/content/binary/indexesrightbalance.pdf">Indexing for Performance Finding the Right Balance <code>PDF</code></a> — a 2004 pdf of earlier version of the course.</li>
+<li><a href="https://www.sqlskills.com/blogs/kimberly/sp_helpindex-v20170228/">USE THIS: sp_helpindex</a> - Kimberly' replacement for <code>sp_helpindex</code></li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>

@@ -603,7 +603,7 @@ code[data-content='todo'] {
 		font-style:normal;
 	}
 
-code[data-content='draft']::after {
+	code[data-content='draft']::after {
 		content: " 🚧";
 		font-family: "Segoe UI Emoji";
 		font-size:0.8em;
@@ -657,7 +657,7 @@ code[data-content='overdue']{
 	font-weight: bold;
 }
 
-code[data-content="hot"] {
+code[data-content='hot'] {
 	background-color: black;
 	color: white;
 	padding-right: 0;
@@ -666,15 +666,24 @@ code[data-content="hot"] {
 	text-shadow: 0 -5px 1px #FF0, 0 -7px 1px #F80, 0 -9px 1px #F00, 0 -11px 1px #800, 0 -13px 1px #000, 0 -15px 1px #666, 0 -17px 1px #AAA, 0 -19px 1px #FFF;
 }
 
-code[data-content="new"] {
+code[data-content='new'] {
 	background-color: lightgreen;
 	color: white;
 	padding: 0, 0.5ch;
-	font-size: 1.1em;
-	text-shadow:0 1px 1px #000;
+	font-size: 1.2em;
+	font-weight:bold;
+	text-shadow:0 2px 2px #000;
 }
 
-code[data-content="scary"] {
+	code[data-content='new']::after {
+		content: " ⁂️";
+		color:#FF0;
+		font-family: "Segoe UI Emoji";
+		xtext-shadow:none;
+		opacity:0.8;
+	}
+
+code[data-content='scary'] {
 	background-color: black;
 	color: white;
 	padding: 2px;
@@ -683,7 +692,7 @@ code[data-content="scary"] {
 	text-shadow: 0 1px 1px #F00, 0 3px 1px #F00, 0 5px 1px darkred, 0 7px 1px darkred, 0 9px 1px darkred;
 }
 
-code[data-content="scary"]::after {
+code[data-content='scary']::after {
 	content: '\2620'; /* skull */ 
 	color: #F00;
 	text-shadow: 0 1px 1px darkred;
@@ -695,13 +704,13 @@ code[data-content="scary"]::after {
 	box-shadow: 0 0 2px inset #666;
 }
 
-code[data-content="verified"] {
+code[data-content='verified'] {
 	background-color: #d5eaff;
 	color: black;
 	padding:0.4ch;
 }
 
-	code[data-content="verified"]::after {
+	code[data-content='verified']::after {
 		content: " ☑️";
 		font-family: "Segoe UI Emoji"
 	}
@@ -712,7 +721,7 @@ code[data-content='fun'] {
 	color: white;
 }
 
-	code[data-content="fun"]::after {
+	code[data-content='fun']::after {
 		content: " 🥳";
 		font-family: "Segoe UI Emoji"
 	}
@@ -722,7 +731,7 @@ code[data-content='hard'] {
 	color: white;
 }
 
-	code[data-content="hard"]::after {
+	code[data-content='hard']::after {
 		content: " 🔨";
 		font-family: "Segoe UI Emoji"
 	}
@@ -733,20 +742,15 @@ code[data-content='easy'] {
 	color: white;
 }
 
-
-	code[data-content="easy"]::after {
+	code[data-content='easy']::after {
 		content: " 🙂";
 		font-family: "Segoe UI Emoji"
 	}
 
 
-
-
 /* end Custom code tags */
 
-/* todo: href attribute starts with "/" or ".." or anything but http or mailto... ... then it's not a local link... */
-/* e.g. starts with http ---> a[href^="http"] { */
-/* todo: href attribute target = "_blank" indicate the jump! */
+/* todo: href attributes containing "//" are links to external pages: give them an arrow glyph.*/
 
 a[href*="://"]:not(.no-glyph)::after {
 	content: ' \2197';
