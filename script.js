@@ -185,7 +185,8 @@ function copyPreCodeOnClick() {
 
 	for (let code of $("code")) {
 		let codeText = code.innerText;
-		if (codeText.length > 2) {
+		// only allow copy to clipboard if text is longer than 2 chars, and if code is not inside an anchor.
+		if (codeText.length > 2 && code.closest('a') == null) {
 			code.setAttribute("title", "Click to copy text to clipboard.");
 			code.setAttribute("onclick", "copyItemText(this);");
 		}
