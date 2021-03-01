@@ -29,7 +29,7 @@
 	--link: blue;
 	--link-hover: #000;
 	--link-visited: purple;
-	--btn-bg: #f6f8fa;
+	--btn-bg: #e6e8ea;
 	--btn-bg-active: #ffa;
 	--btn-bg-hover: #fff;
 	--btn-active: #ffc;
@@ -408,12 +408,17 @@ html::-webkit-scrollbar-track {
 html::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	background-color: var(--btn-bg);
+	box-shadow: 0 -2px 3px inset var(--search-btn-shadow);
+	xbox-shadow: 0 -2px 3px inset var(--search-btn-shadow), 0 0 3px var(--btn-active);
+
 }
+
 
 html {
 	transition: background-color 250ms ease;
 }
-textarea::-webkit-scrollbar-thumb:hover {
+textarea::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover {
 	background-color: var(--btn-bg-hover);
 }
 
@@ -492,7 +497,7 @@ summary {
 }
 
 
-/* table of contents details/summary elements */
+/* Table of contents details/summary elements */
 
 details.toc {
 	display:inline-block;
@@ -536,7 +541,6 @@ details.toc summary:hover {
 	}
 }
 
-
 details.toc:not([open])::before {
 	content: "\203A"; /* &rsaquo; */
 	padding: 3px;
@@ -550,6 +554,17 @@ details.toc[open]::before {
 details.toc > summary::-webkit-details-marker {
 	display: none;
 }
+
+.toc li {
+	list-style:none;
+}
+
+.toc li::before {
+	content: ' \21DD '; /* squigglarrow */  /* harpoon barb \21C0, dotted \2911, bullet \204D */
+	margin-right:1ch;
+	color:var(--link-hover);
+}
+
 
 /* END: table of contents details/summary elements */
 
@@ -750,7 +765,7 @@ code[data-content='easy'] {
 
 /* end Custom code tags */
 
-/* todo: href attributes containing "//" are links to external pages: give them an arrow glyph.*/
+/* href attributes containing "//" are links to external pages: give them an arrow glyph.*/
 
 a[href*="://"]:not(.no-glyph)::after {
 	content: ' \2197';
@@ -773,14 +788,6 @@ a[href*="://"]:not(.no-glyph)::after:hover {
 	font-size:0.7em;
 }
 
-.toc li {
-	list-style:none;
-}
-.toc li::before {
-	content: ' \21DD '; /* squigglarrow */  /* harpoon barb \21C0, dotted \2911, bullet \204D */
-	margin-right:1ch;
-	color:var(--link-hover);
-}
 
 /* remove the arrow from footer links */
 

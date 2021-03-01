@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>getting started . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-with-cypress">Getting Started with Cypress</h1>
+<p>Cypress is a test framework that automates a chromium browser, to provide &quot;end to end/integration&quot; tests of your application.</p>
+<p>Back in the olden times I used &quot;WatiN&quot; for this - which was based on &quot;WatiR&quot;. Cypress goes a <em>lot</em> further.</p>
+<h2 id="before-we-start">Before we start</h2>
+<p>First create a new web project (unless you want to add cypress to an existing app... but I assume you're really &quot;getting started&quot;.)</p>
+<p>Start here:</p>
+<pre><code>npm init
+</code></pre>
+<p>... and follow the prompts to create something. Anything. You'll see it's quite irrelevant, main thing is that you end up with a <code>package.json</code> file.</p>
+<pre><code>yarn add cypress --dev
+</code></pre>
+<p><strong>or</strong></p>
+<pre><code>npm install cypress --save-dev
+</code></pre>
+<p>... first time around the step above took me <code>461.55s</code>, second time it took <code>12.78s</code></p>
+<h2 id="start-cypress">Start Cypress</h2>
+<p>Open it with any of these:</p>
+<pre><code>./node_modules/.bin/cypress open
+</code></pre>
+<p><strong>or</strong></p>
+<pre><code>yarn run cypress open
+</code></pre>
+<p><strong>or</strong></p>
+<pre><code>npx cypress open
+</code></pre>
+<p>I see this...</p>
+<blockquote>
+<p>It looks like this is your first time using Cypress: 6.5.0</p>
+<p>√  Verified Cypress! C:\Users\leonb\AppData\Local\Cypress\Cache\6.5.0\Cypress</p>
+</blockquote>
+<p><img src="./to_help_get_you_started.png" alt="to help get you started" /></p>
+<p>It says &quot;Try running the tests in examples folder&quot; (we'll do that first)</p>
+<p>and it further recommends &quot;add your own test files to <code>cypress/integration</code>&quot;</p>
+<h2 id="running-the-tests-in-examples-folder">1. running the tests in examples folder</h2>
+<ul>
+<li>I clicked <code>action.spec.js</code> and chose <code>open in IDE</code></li>
+</ul>
+<p><img src="./run_test_1.png" alt="run test 1" /></p>
+<p>Windows Firewall warned me about an app trying to talk to the internet - I said &quot;it's ok&quot; and allowed it to proceed.</p>
+<p>Now chrome starts up! Cool, and it says, in a banner &quot;Chrome is being controlled by automated test software.&quot;</p>
+<p>I see a test runner interface, wherein it's reported that <code>✔ 14</code> succeeded, and <code>❌ --</code> failed (which I take to mean &quot;zero&quot;).</p>
+<p><img src="run_test_result.png" alt="run test result" /></p>
+<p>Expanding the second action I can see a <code>before each</code> section and a <code>test body</code>.</p>
+<p>The steps within these is very readable, easy to inspect.</p>
+<p>Next we'll look inside <code>action.spec.js</code> and see how it says this.</p>
+<p>We could go and look for <code>action.spec.js</code> in the file system -- but look at this...</p>
+<p><img src="open_in_ide.png" alt="open in ide" /></p>
+<p>We can allegedly open it in the ide....</p>
+<p>...On clicking that I get to configure the way this kind of file will be opened for inspection.</p>
+<p><img src="file_opener_preference.png" alt="file opener preference" /></p>
+<p>Ideally it would give you more choices, for example it should show <code>vs code</code> as an option for me since code is in my path variable.</p>
+<details>
+<summary>
+<h2 id="sidebar-trying-to-get-it-to-load-in-vs-code">sidebar: trying to get it to load in <code>vs code</code>...</h2>
+</summary>
+<ul>
+<li>i'll check that it is in the system path, not just my user path. (see <a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>
+</ul>
+<p>Looks like I have it in the user section only under <code>C:\Users\MyUser\AppData\Local\Programs\Microsoft VS Code\bin</code></p>
+<ul>
+<li><p>Per one of the guides online I tried restarting, to see if it was suddenly, magically listed there.</p>
+</li>
+<li><p>That didn't work.</p>
+</li>
+<li><p>Next I tried entering the full path to the executable into the file opener...</p>
+<p>&quot;C:\Users\MyUser\AppData\Local\Programs\Microsoft VS Code\Code.exe&quot;</p>
+</li>
+</ul>
+<p>I saw in the console it said:</p>
+<pre><code>Could not open actions.spec.js in the editor.
+The editor process exited with an error: (code 1).
+</code></pre>
+<p>...now I went in to the settings, found the &quot;File Opener Preference&quot; and removed the double-quotes from around the value. Suddenly it worked! Ok... that was on me. Force of habit, that when a path contains spaces I surround it in double quotes.</p>
+</details>
+<h2 id="looking-at-actions.spec.js">Looking at <code>actions.spec.js</code></h2>
+<p>Looking through actions.spec.js is <em>glorious</em>.</p>
+<p>It's a tour of some basic actions, and how you specify them in <code>cy</code> language.</p>
+<p>Here's a minimal test...</p>
+<pre><code>context('Actions', () =&gt; {
+	beforeEach(() =&gt; {
+		/* do this each time... */
+		cy.visit('https://example.cypress.io/commands/actions')
+	})
+
+	it('.type() - example of typing on into a DOM element', () =&gt; {
+		// https://on.cypress.io/type
+		cy.get('.action-email')
+			.type('fake@email.com').should('have.value', 'fake@email.com')
+		
+		// now click the submit button...
+		cy.get('#submit-button').click()
+
+	})
+})
+</code></pre>
+<h2 id="before-adding-our-first-test">Before adding our first test...</h2>
+<p>Here is the structure of the files that cypress has added to our project...</p>
+<ul>
+<li><code>cypress.json</code> (file) - configure cypress, by default this file is just <code>{}</code></li>
+<li><code>cypress/</code> (directory)
+<ul>
+<li><code>fixtures/</code> (directory) - data used by our tests...</li>
+<li><code>integration/</code> (directory) - our <em>tests</em> go here</li>
+<li><code>plugins/</code> (directory) - plugins to enable extra functionality</li>
+<li><code>support/</code> (directory) - our <em>utils</em> and shared code go here</li>
+</ul>
+</li>
+</ul>
+<p>These are all things that we can edit/change and will learn to change.</p>
+<h2 id="add-our-own-test-files-to-cypressintegration">2. add our own test files to <code>cypress/integration</code></h2>
+<h2 id="external-references">External references</h2>
+<ul>
+<li><a href="https://docs.cypress.io/guides/getting-started/installing-cypress.html#System-requirements">Installing cypress</a></li>
+<li><a href="https://docs.cypress.io/guides/getting-started/writing-your-first-test.html">Writing Your First Test</a></li>
+<li><a href="https://docs.cypress.io/guides/getting-started/writing-your-first-test.html">Testing Your App</a></li>
+</ul>
+<p>** Ancient Historical Journey **</p>
+<ul>
+<li><a href="https://secretgeek.net/watir_3mins">Watir</a> - from 2006...</li>
+</ul>
+<h2 id="see-also">see also</h2>
+<ul>
+<li><a href="../npm/getting_started.html">Node Package Manager -- some notes for beginners</a></li>
+<li><a href="../npm/npx.html">npx - a fun and simple npm package runner</a></li>
+<li><a href="../yarn/install-yarn-on-windows-2020.html">Install yarn on windows 2020</a></li>
+<li><a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

@@ -72,14 +72,21 @@ public static string EscapeAndQualifyAsNeeded(string value, string fieldSeparato
 <ol>
 <li>Don't do any escaping or qualifying and end up with unparseable CSV.</li>
 <li>Qualify <em>every</em> field, whether it needs to be qualified or not.</li>
-<li>Trim fields before qualifying. That's changing the data, and should only be done if its explicitly needed. (Some people hide steganographic codes in trailing whitespace... this would eradicate the message.)</li>
-<li>Only check for embedded fieldSeparators, don't check for embedded record separators, etc.</li>
+<li>Trim fields before qualifying. That's changing the data, and should only be done if it's explicitly needed. (Some people hide steganographic codes in trailing whitespace... you don't want to accidentally eradicate their messages!)</li>
+<li>Only check for embedded fieldSeparators, don't check for embedded record separators, qualifiers etc.</li>
 </ol>
 <h2 id="sponsor">Sponsor</h2>
 <p>Love CSV? Hate CSV? Try <a href="http://NimbleText.com/">NimbleText</a> for your CSV transforming needs.</p>
 <h2 id="external-link">External link:</h2>
 <ul>
 <li><a href="https://donatstudios.com/Falsehoods-Programmers-Believe-About-CSVs">Falsehoods programmers believe about CSVs</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../csv/import_csv_to_db.html">Import CSV file to a Database, quickly</a></li>
+<li><a href="../linqpad/csv_to_array.html">LinqPad: CSV to IEnumerable (or Array) in Linqpad</a></li>
+<li><a href="../linqpad/datatable_to_csv.html">Linqpad: Data Table to CSV</a></li>
+<li><a href="../powershell/load_save_csv.html">Load or Save CSV with Powershell</a></li>
 </ul>
 
 </article>
