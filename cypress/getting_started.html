@@ -24,7 +24,7 @@
 <article>
 <h1 id="getting-started-with-cypress">Getting Started with Cypress</h1>
 <p>Cypress is a test framework that automates a chromium browser, to provide &quot;end to end/integration&quot; tests of your application.</p>
-<p>Back in the olden times I used &quot;WatiN&quot; for this - which was based on &quot;WatiR&quot;. Cypress goes a <em>lot</em> further.</p>
+<p>(Back in the olden times I used &quot;WatiN&quot; for this - which was based on &quot;WatiR&quot;. Selenium is a more famous example. Cypress goes a <em>lot</em> further.)</p>
 <h2 id="before-we-start">Before we start</h2>
 <p>First create a new web project (unless you want to add cypress to an existing app... but I assume you're really &quot;getting started&quot;.)</p>
 <p>Start here:</p>
@@ -110,7 +110,7 @@ The editor process exited with an error: (code 1).
 		// https://on.cypress.io/type
 		cy.get('.action-email')
 			.type('fake@email.com').should('have.value', 'fake@email.com')
-		
+
 		// now click the submit button...
 		cy.get('#submit-button').click()
 
@@ -132,17 +132,18 @@ The editor process exited with an error: (code 1).
 </ul>
 <p>These are all things that we can edit/change and will learn to change.</p>
 <h2 id="add-our-own-test-files-to-cypressintegration">2. add our own test files to <code>cypress/integration</code></h2>
+<p><code>todo</code> examples of our own tests. include assertions.</p>
 <h2 id="external-references">External references</h2>
 <ul>
 <li><a href="https://docs.cypress.io/guides/getting-started/installing-cypress.html#System-requirements">Installing cypress</a></li>
 <li><a href="https://docs.cypress.io/guides/getting-started/writing-your-first-test.html">Writing Your First Test</a></li>
 <li><a href="https://docs.cypress.io/guides/getting-started/writing-your-first-test.html">Testing Your App</a></li>
 </ul>
-<p>** Ancient Historical Journey **</p>
+<h3 id="ancient-historical-journey">Ancient Historical Journey</h3>
 <ul>
 <li><a href="https://secretgeek.net/watir_3mins">Watir</a> - from 2006...</li>
 </ul>
-<h2 id="see-also">see also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../npm/getting_started.html">Node Package Manager -- some notes for beginners</a></li>
 <li><a href="../npm/npx.html">npx - a fun and simple npm package runner</a></li>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>out-file-encoding . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="powershell-out-file-set-the-encoding">Powershell 'out-file' set the encoding</h1>
+<pre><code>out-file $file -encoding utf8
+</code></pre>
+<p>...will create what Notepad++ interprets as <code>utf8 bom</code></p>
+<p>Full set of options...</p>
+<ul>
+<li><code>unknown</code></li>
+<li><code>string</code></li>
+<li><code>unicode</code></li>
+<li><code>bigendianunicode</code></li>
+<li><code>utf8</code></li>
+<li><code>utf7</code></li>
+<li><code>utf32</code></li>
+<li><code>ascii</code></li>
+<li><code>default</code></li>
+<li><code>oem</code></li>
+</ul>
+<p>or...</p>
+<pre><code>&quot;Hello&quot; | out-file &quot;hello-world.txt&quot; -encoding Unicode
+</code></pre>
+<p>What sort of files do we get?</p>
+<p>I've run this script...</p>
+<pre><code>&quot;unknown&quot; | out-file &quot;out-file-unknown.txt&quot; -encoding unknown
+&quot;string&quot; | out-file &quot;out-file-string.txt&quot; -encoding string
+&quot;unicode&quot; | out-file &quot;out-file-unicode.txt&quot; -encoding unicode
+&quot;bigendianunicode&quot; | out-file &quot;out-file-bigendianunicode.txt&quot; -encoding bigendianunicode
+&quot;utf8&quot; | out-file &quot;out-file-utf8.txt&quot; -encoding utf8
+&quot;utf7&quot; | out-file &quot;out-file-utf7.txt&quot; -encoding utf7
+&quot;utf32&quot; | out-file &quot;out-file-utf32.txt&quot; -encoding utf32
+&quot;ascii&quot; | out-file &quot;out-file-ascii.txt&quot; -encoding ascii
+&quot;default&quot; | out-file &quot;out-file-default.txt&quot; -encoding default
+&quot;oem&quot; | out-file &quot;out-file-oem.txt&quot; -encoding oem
+</code></pre>
+<p>And here's what notepad++ thinks of the files (note that there is significant interpretation happening for each of them... most this only tells you if a BOM is present, and if it's big or little endian)</p>
+<table>
+<thead>
+<tr>
+<th>Powershell says</th>
+<th>notepad++ interprets...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ascii</code></td>
+<td><code>UTF-8</code></td>
+</tr>
+<tr>
+<td><code>bigendianunicode</code></td>
+<td><code>UCS-2 BE BOM</code></td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td><code>UTF-8</code></td>
+</tr>
+<tr>
+<td><code>oem</code></td>
+<td><code>UTF-8</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td><code>UCS-2 LE BOM</code></td>
+</tr>
+<tr>
+<td><code>unicode</code></td>
+<td><code>UCS-2 LE BOM</code></td>
+</tr>
+<tr>
+<td><code>unknown</code></td>
+<td><code>UCS-2 LE BOM</code></td>
+</tr>
+<tr>
+<td><code>utf32</code></td>
+<td><code>UCS-2 LE BOM</code> (but unreadable with extra nulls between chars)</td>
+</tr>
+<tr>
+<td><code>utf7</code></td>
+<td><code>UTF-8</code></td>
+</tr>
+<tr>
+<td><code>utf8</code></td>
+<td><code>UTF-8-BOM</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="detect_file_encoding.html">Detect File Encoding (with Powershell)</a></li>
+<li><a href="../.net/detect_text_encoding.html">.net: Detect the encoding of a file</a></li>
+<li><a href="base64_encode_decode.html">Base64 Encode and Decode string</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
