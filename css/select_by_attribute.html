@@ -27,9 +27,9 @@
 <pre><code>&lt;code&gt;todo&lt;/code&gt;
 </code></pre>
 <p>...but there is no CSS selector based on content. You cannot for example use:</p>
-<pre><code>code[text-content='todo'] { background-color:yellow; }
+<pre><code>code[text-content='todo'] { background-color:yellow; } // this does not work!
 </code></pre>
-<p>So instead, I look at the situations where I want to use this technique, and decide that I only want to use it in a few very narrow cases...</p>
+<p>So, instead, I look at the situations where I want to use this technique, and decide that I only want to use it in a few very narrow cases...</p>
 <ol>
 <li>inside code tags</li>
 <li>where a specific short piece of text/content is present.</li>
@@ -113,6 +113,8 @@
 </code></pre>
 <p><code>easy</code> this should be easy</p>
 <p>...with more to come.</p>
+<h2 id="see-it-in-action">See it in action</h2>
+<p>I've implemented this javascript/css here on <a href="/">til.secretgeek.net</a> but also at my wiki: <a href="https://wiki.secretgeek.net">wiki.secretGeek.net</a>.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../javascript/copy_element_to_clipboard.html">Copy element to clipboard</a> — a different thing that I also do to all the <code>code</code> (and <code>pre</code>) elements on each page</li>

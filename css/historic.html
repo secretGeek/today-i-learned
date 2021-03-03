@@ -24,18 +24,21 @@
 <article>
 <h1 id="historic-css">Historic CSS</h1>
 <p>To give something a somewhat aged and very special feel....</p>
-<p>historic {
-background-color: #fCfCfC;
-margin-top: 20px;
-padding: 20px;
-box-shadow: 0 0 3px #ccc inset, 0 0 70px #ccc inset, 0 0 20px #000;
-opacity: 0.9;
-border-radius: 25px;
-}</p>
-<p>.historic img {
--webkit-filter: sepia(0.3);
-filter: sepia(0.3);
-}</p>
+<pre><code>historic {
+	background-color: #fCfCfC;
+	margin-top: 20px;
+	padding: 20px;
+	box-shadow: 0 0 3px #ccc inset, 0 0 70px #ccc inset, 0 0 20px #000;
+	opacity: 0.9;
+	border-radius: 25px;
+}
+</code></pre>
+<p>And apply a sepia tone to images...</p>
+<pre><code>.historic img {
+	-webkit-filter: sepia(0.3);
+	filter: sepia(0.3);
+}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

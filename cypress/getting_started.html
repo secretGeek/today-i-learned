@@ -74,15 +74,13 @@
 <p><img src="file_opener_preference.png" alt="file opener preference" /></p>
 <p>Ideally it would give you more choices, for example it should show <code>vs code</code> as an option for me since code is in my path variable.</p>
 <details>
-<summary>
+<summary class='heading'>
 <h2 id="sidebar-trying-to-get-it-to-load-in-vs-code">sidebar: trying to get it to load in <code>vs code</code>...</h2>
 </summary>
+<p>I'll check that vs code is in the system <code>path</code>, not just &quot;my user&quot; <code>path</code>. (see <a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></p>
+<p>Looks like I have it in the &quot;user&quot; section only under <code>C:\Users\MyUser\AppData\Local\Programs\Microsoft VS Code\bin</code></p>
 <ul>
-<li>i'll check that it is in the system path, not just my user path. (see <a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>
-</ul>
-<p>Looks like I have it in the user section only under <code>C:\Users\MyUser\AppData\Local\Programs\Microsoft VS Code\bin</code></p>
-<ul>
-<li><p>Per one of the guides online I tried restarting, to see if it was suddenly, magically listed there.</p>
+<li><p>Before addressing that, per one of the guides online I tried restarting, to see if it was suddenly, magically listed there.</p>
 </li>
 <li><p>That didn't work.</p>
 </li>
@@ -95,6 +93,7 @@
 The editor process exited with an error: (code 1).
 </code></pre>
 <p>...now I went in to the settings, found the &quot;File Opener Preference&quot; and removed the double-quotes from around the value. Suddenly it worked! Ok... that was on me. Force of habit, that when a path contains spaces I surround it in double quotes.</p>
+<p>I still don't know if making sure VS Code was re-installed to be available for &quot;all users&quot; <em>and</em> listed in the system <code>PATH</code>, would be enough to have it appear in the first place.</p>
 </details>
 <h2 id="looking-at-actions.spec.js">Looking at <code>actions.spec.js</code></h2>
 <p>Looking through actions.spec.js is <em>glorious</em>.</p>
@@ -150,6 +149,11 @@ The editor process exited with an error: (code 1).
 <li><a href="../yarn/install-yarn-on-windows-2020.html">Install yarn on windows 2020</a></li>
 <li><a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>
 </ul>
+<style>
+summary { outline-width: 0; cursor: pointer; }
+summary.heading { display: flex; align-items: flex-start; margin-top: 32px; }
+summary.heading h1, summary.heading h2, summary.heading h3 { margin-top: -.44em; }
+</style>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
