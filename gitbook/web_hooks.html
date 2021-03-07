@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="to-have-your-gitbook-updated-whenever-you-push-to-a-github-repo">To have your gitbook updated whenever you push to a github repo</h1>
-<p>in gitbook, tell it which repository to use:</p>
+<p>In gitbook, tell it which repository to use:</p>
 <p>e.g. in</p>
 <blockquote>
 <p><a href="https://www.gitbook.com/book/%7ByourUsername%7D/%7ByourBookName%7D/settings/github">https://www.gitbook.com/book/{yourUsername}/{yourBookName}/settings/github</a></p>
@@ -43,11 +43,14 @@
 <pre><code>https://github.com/{yourUserName}/{YourRepo}/settings/hooks
 </code></pre>
 <ul>
-<li>Under &quot;Webhooks&quot; click &quot;Add webhook&quot;</li>
+<li>Under &quot;Webhooks&quot; click &quot;Add webhook&quot;
+<ul>
 <li>In &quot;Payload URL&quot; paste the &quot;Webhook URL&quot; from above.</li>
 <li>Content type -- leave as default (application/json)</li>
 <li>Secret -- leave .</li>
 <li>Which events -- leave as default (just the push event)</li>
+</ul>
+</li>
 </ul>
 <p>And click &quot;Add Webhook&quot;</p>
 <p>Once that is working... when you push your repo... your book will update.</p>
@@ -55,7 +58,7 @@
 <blockquote>
 <p>Your book is currently being updated, this can take up to a few minutes.</p>
 </blockquote>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="getting_started_with_gitbook.html">Getting started with gitbook</a></li>
 <li><a href="use_gitbook_locally.html">Use gitbook locally</a></li>

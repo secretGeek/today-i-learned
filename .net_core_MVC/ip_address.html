@@ -34,7 +34,7 @@
 <p>But... alas... when using Kestrel and a forwarding web server (such as nginx) you will find that</p>
 <pre><code>Request.HttpContext.Connection.RemoteIpAddress.ToString() == &quot;127.0.0.1&quot;
 </code></pre>
-<p>ALL the time, which is not what you wanted to see. (Or it could be &quot;::1&quot; which is no better)</p>
+<p>...<em>ALL</em> the time, which is not what you wanted to see. (Or it could be &quot;::1&quot; which is no better)</p>
 <p>This is because original IP request is terminated by <code>nginx</code>, and a new request is sent to your application. Instead if we configure nginx to put the original IP into a request header, and we look at that request header, then we will see the original remote IP address of the caller. Here's the nginx config details...</p>
 <pre><code>proxy_set_header X-Real-IP $remote_addr;
 </code></pre>
@@ -44,10 +44,10 @@
 
 if (Request.Headers[&quot;X-Real-IP&quot;].Count() &gt; 0)
 {
-    ipaddress = Request.Headers[&quot;X-Real-IP&quot;];
+	ipaddress = Request.Headers[&quot;X-Real-IP&quot;];
 }
 </code></pre>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../linux/nginx.html">nginx</a></li>
 </ul>

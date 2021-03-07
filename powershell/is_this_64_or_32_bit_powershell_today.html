@@ -29,24 +29,24 @@
 <p>More thorough again...</p>
 <pre><code># Is this a Wow64 powershell host
 function Test-Wow64() {
-    return (Test-Win32) -and (test-path env:\PROCESSOR_ARCHITEW6432)
+	return (Test-Win32) -and (test-path env:\PROCESSOR_ARCHITEW6432)
 }
 
 # Is this a 64 bit process
 function Test-Win64() {
-    return [IntPtr]::size -eq 8
+	return [IntPtr]::size -eq 8
 }
 
 # Is this a 32 bit process
 function Test-Win32() {
-    return [IntPtr]::size -eq 4
+	return [IntPtr]::size -eq 4
 }
 </code></pre>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://stackoverflow.com/questions/8588960/determine-if-current-powershell-process-is-32-bit-or-64-bit">http://stackoverflow.com/questions/8588960/determine-if-current-powershell-process-is-32-bit-or-64-bit</a></li>
 </ul>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../windows/which_version.html">Which version of Windows is currently running?</a></li>
 <li><a href="version.html">which version of Powershell do I have?</a></li>

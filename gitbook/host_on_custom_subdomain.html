@@ -24,16 +24,22 @@
 <article>
 <h1 id="host-a-gitbook-on-a-custom-subdomain">Host a gitbook on a custom subdomain</h1>
 <p>(Previously this site (<a href="https://TIL.secretGeek.net">https://TIL.secretGeek.net</a>) was hosted by gitbook, but now I use github pages and my own <a href="https://github.com/secretGeek/clowncar">.net core static site generator, clown car</a>)</p>
-<p author="" book="">By default the book is hosted on http://.gitbooks.io//
-and can be read at <a href="https://www.gitbook.com/read/book/%7Bauthor%7D/%7Bbook%7D">https://www.gitbook.com/read/book/{author}/{book}</a></p>
+<p>By default the book is hosted on <code>http://{author}.gitbooks.io/{book}/</code>
+and can be read at <code>https://www.gitbook.com/read/book/{author}/{book}</code></p>
 <p>If you want to host it on a custom sub domain then you may need to add a <code>cname</code> record at your webhost.</p>
 <p>Then, at gitbook.com tell it the custom domain.</p>
 <ul>
-<li>Settings -&gt;
+<li>Settings →
 <ul>
-<li>Domains -&gt;</li>
-<li>Custom domains -&gt;</li>
+<li>Domains →
+<ul>
+<li>Custom domains →
+<ul>
 <li>For content: TIL.secretGeek.net</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -41,7 +47,7 @@ and can be read at <a href="https://www.gitbook.com/read/book/%7Bauthor%7D/%7Bbo
 <ul>
 <li><a href="https://help.gitbook.com/platform/domains.html">https://help.gitbook.com/platform/domains.html</a></li>
 </ul>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="getting_started_with_gitbook.html">Getting started with gitbook</a></li>
 <li><a href="web_hooks.html">To have your gitbook updated whenever you push to a github repo</a></li>

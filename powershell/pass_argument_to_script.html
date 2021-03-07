@@ -28,14 +28,14 @@
 </code></pre>
 <p>or to declare multiple named parameters</p>
 <pre><code>param(
-    [string]$comment,
-    [int32]$LicenseID
+	[string]$comment,
+	[int32]$LicenseID
 )
 </code></pre>
 <p>Then you can do validation and handle gracefully, for example</p>
 <pre><code>if ($comment -eq &quot;&quot;) {
-    write-host &quot;you must give a comment&quot;
-    exit
+	write-host &quot;you must give a comment&quot;
+	exit
 }
 </code></pre>
 <p>A simple if brutal way to bail if a required argument was not specified</p>
@@ -59,16 +59,17 @@ $height=$args[1]
 <p>But if you do use real <code>params</code> you can also enforce simple validation:</p>
 <p>For example -- string, length from 1 to 10...</p>
 <pre><code>Param(
-    [ValidateLength(1,10)][string]$mystring
+	[ValidateLength(1,10)][string]$mystring
 )
 </code></pre>
 <p>Or how about a number that must be within a range...</p>
-<p>Param(
-[ValidateRange(0,10)][int]$myinteger
-)</p>
+<pre><code>Param(
+	[ValidateRange(0,10)][int]$myinteger
+)
+</code></pre>
 <p>What about -- a filename that must be an existing file...</p>
 <pre><code>Param(
-    [ValidateScript({Test-Path $_})][string]$smolibrary
+	[ValidateScript({Test-Path $_})][string]$smolibrary
 )
 </code></pre>
 <h2 id="source">Source</h2>
@@ -77,7 +78,7 @@ $height=$args[1]
 <li><a href="http://powershell.org/wp/forums/topic/understanding-switch-parameters/">http://powershell.org/wp/forums/topic/understanding-switch-parameters/</a></li>
 <li><a href="https://www.mssqltips.com/sqlservertip/4198/validating-powershell-parameters--part-i/">https://www.mssqltips.com/sqlservertip/4198/validating-powershell-parameters--part-i/</a></li>
 </ul>
-<h2 id="see-also">See Also</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../console/ndesk_options.html">console: ndesk options</a> -- for doing the same in a C# console app.</li>
 </ul>

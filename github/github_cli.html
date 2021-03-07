@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>github cli . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="github-cli">Github cli</h1>
+<p>Before I launch into enthusiastically installing and using the github cli (affectionately known as <code>gh</code>) let me firstly say that THIS IS A TRAP.</p>
+<p>Github want you to be locked into their ecosystem - so they can't just have you use <code>git</code> - which is open source. They want you to be addicted to their &quot;value adding&quot; moat, and <code>gh</code> is a part of that plan!</p>
+<p><mark>Don't be fooled, people! Stay platform independent!</mark></p>
+<p>But... surely a little <code>gh</code> won't hurt...</p>
+<h2 id="install-with-winget">Install with winget</h2>
+<pre><code>winget install GitHub.cli
+</code></pre>
+<p>(See &quot;<a href="../winget/getting_started.html">Getting Started with Winget</a>&quot; if you need to)</p>
+<h2 id="once-only-authorize-the-app">Once only: Authorize the app</h2>
+<pre><code>gh auth login
+</code></pre>
+<p>Okay this seemed easy, output:</p>
+<pre><code>&gt; gh auth login
+? What account do you want to log into? GitHub.com
+? You're already logged into github.com. Do you want to re-authenticate? No
+</code></pre>
+<h2 id="general-usage">General usage</h2>
+<pre><code>gh &lt;command&gt; &lt;subcommand&gt; [flags]
+</code></pre>
+<h2 id="core-commands">Core Commands</h2>
+<ul>
+<li><code>gh gist</code>:       Manage gists</li>
+<li><code>gh issue</code>:      Manage issues</li>
+<li><code>gh pr</code>:         Manage pull requests</li>
+<li><code>gh release</code>:    Manage GitHub releases</li>
+<li><code>gh repo</code>:       Create, clone, fork, and view repositories</li>
+</ul>
+<p>Use <code>gh &lt;command&gt; &lt;subcommand&gt; --help</code> for more information about a command.</p>
+<h2 id="additional-commands">Additional Commands</h2>
+<ul>
+<li><code>gh alias</code>:      Create command shortcuts</li>
+<li><code>gh api</code>:        Make an authenticated GitHub API request</li>
+<li><code>gh auth</code>:       Login, logout, and refresh your authentication</li>
+<li><code>gh completion</code>: Generate shell completion scripts</li>
+<li><code>gh config</code>:     Manage configuration for gh</li>
+<li><code>gh help</code>:       Help about any command</li>
+<li><code>gh secret</code>:     Manage GitHub secrets</li>
+<li><code>gh ssh-key</code>:    Manage SSH keys</li>
+</ul>
+<p>Further info:</p>
+<pre><code>FLAGS
+	--help      Show help for command
+	--version   Show gh version
+
+EXAMPLES
+	$ gh issue create
+	$ gh repo clone cli/cli
+	$ gh pr checkout 321
+</code></pre>
+<h2 id="create-new-repo">Create new repo</h2>
+<pre><code>gh repo create [&lt;name&gt;] [flags]
+</code></pre>
+<pre><code class="language-plaintext">Flags:
+-y,	--confirm               Skip the confirmation prompt
+-d,	--description string    Description of the repository
+		--enable-issues         Enable issues in the new repository (default true)
+		--enable-wiki           Enable wiki in the new repository (default true)
+-h,	--homepage URL          Repository home page URL
+		--internal              Make the new repository internal
+		--private               Make the new repository private
+		--public                Make the new repository public
+-t,	--team name             The name of the organization team to be granted access
+-p,	--template repository   Make the new repository based on a template repository
+</code></pre>
+<h2 id="gather-a-list-of-all-my-issues">Gather a list of all my issues</h2>
+<p>Now I wasn't doing this for fun. WHat I want is a list of all my open issues. Or just &quot;all my issues&quot; will do.</p>
+<p>Here's how I can get it...</p>
+<h3 id="first-write-a-list-of-all-my-repos-into-a-single-file">First write a list of all my repos into a single file</h3>
+<p>(This assumes I have less than 500 repos.)</p>
+<pre><code># first write a header row to the file
+&quot;repo	description	pubpriv	updated&quot; | out-file gh_repos.tsv -encoding utf8; 
+
+# now write the list of repos...
+gh repo list -L 500 | out-file gh_repos.tsv -append -encoding utf8;
+</code></pre>
+<h3 id="use-that-list-to-get-my-full-list-of-issues">Use that list to get my full list of issues</h3>
+<pre><code># first write a header row to the file
+&quot;repo	id	status	subject	modified&quot; | out-file gh_issues.tsv -encoding utf8; 
+
+# now write all the issues themselves, for each repo listed in repolist
+Import-Csv -Delimiter &quot;`t&quot; -Path .\gh_repos.tsv | 
+	% { $repo = $_.repo; gh issue list --repo $_.repo } | 
+	% { &quot;$repo`t$($_)&quot; } | out-file &quot;gh_issues.tsv&quot; -encoding utf8
+</code></pre>
+<h2 id="external-references">External references</h2>
+<ul>
+<li><a href="https://www.hanselman.com/blog/dont-forget-about-the-github-command-line">Hanselman: github command line</a></li>
+<li><a href="https://github.com/cli/cli">source of gh cli</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../winget/getting_started.html">Getting Started with Winget</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

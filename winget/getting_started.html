@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>getting started . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-with-winget">Getting Started with Winget</h1>
+<p>I tried to use <a href="https://docs.microsoft.com/en-us/windows/package-manager/">winget</a> to install <a href="../github/github_cli.html">Github cli</a> but found I don't have it...</p>
+<pre><code>&gt; winget install GitHub.cli
+
+winget : The term 'winget' is not recognized as the name of a cmdlet, function, script file, or operable program.
+</code></pre>
+<h2 id="how-to-get-winget">How to get winget?</h2>
+<p>From May 2020:</p>
+<blockquote>
+<p>Since WinGet is open source, you can clone, build, run, and test the code from the GitHub repository (<a href="https://github.com/microsoft/winget-cli">https://github.com/microsoft/winget-cli</a>).</p>
+<p>You can also become a Windows Insider an join the Windows Package Manager Insider program by sending your Microsoft Account (MSA) to <a href="mailto:winget-feedback@microsoft.com">winget-feedback@microsoft.com</a> and request to be included in the preview</p>
+<p><a href="https://www.thomasmaurer.ch/2020/05/how-to-install-winget-windows-package-manager/">Thomas Maurer - how to install winget</a></p>
+</blockquote>
+<p>Ah, but this <code>tip</code> from October 2020 gives extra options...</p>
+<blockquote>
+<p>There are several ways to install the winget tool:</p>
+<p>The winget tool is included in the flight or preview version of <a href="https://www.microsoft.com/p/app-installer/9nblggh4nns1?ocid=9nblggh4nns1_ORSEARCH_Bing&amp;rtc=1&amp;activetab=pivot:overviewtab">Windows App Installer</a>. You must install the <strong>preview</strong> version of App Installer to use winget. To gain early access, submit your request to the <a href="https://aka.ms/AppInstaller_InsiderProgram">Windows Package Manager Insiders Program</a>. Participating in the flight ring will guarantee you see the latest preview updates.</p>
+<p>Participate in the <a href="https://insider.windows.com/">Windows Insider flight ring</a>.</p>
+<p><mark>Install the Windows Desktop App Installer package located on the <a href="https://github.com/microsoft/winget-cli/releases">Releases page for the winget repository</a></mark>.</p>
+<p>— <a href="https://docs.microsoft.com/en-us/windows/package-manager/winget/#install-winget">MS Docs: Install winget</a>
+<a href="https://docs.microsoft.com/en-us/windows/package-manager/winget/">https://docs.microsoft.com/en-us/windows/package-manager/winget/</a></p>
+</blockquote>
+<p>So in March 2021 my best option is to go here: <a href="https://github.com/microsoft/winget-cli/releases">https://github.com/microsoft/winget-cli/releases</a> - scroll down to the latest release... download the '.appxbundle' file -- and run that file.</p>
+<p>(An <code>.appxbundle</code> file is a <code>UWP</code> program... they're normally installed via the Microsoft Store, but you can also side load them as I'm doing here.)</p>
+<p>Looking in the microsoft store, before I install this package, it says I already have &quot;App Installer&quot; from Microsoft Corporation, and that this app allows me to sideload apps. But it says the release date is &quot;15 April 2016&quot;</p>
+<p>When I go to install this downloaded bundle file I am asked if I want to &quot;update&quot; the App Installer program...</p>
+<p><img src="update_app_installer.png" alt="update app installer" /></p>
+<p>Now, in a new windows terminal, not running as admin, I attempt to use winget, and I <strong>succeed</strong>.</p>
+<pre><code>winget install GitHub.cli
+</code></pre>
+<p>Here's the output (there was also a permissions prompt)</p>
+<pre><code>&gt; winget install GitHub.cli
+Found GitHub CLI [GitHub.cli]
+This application is licensed to you by its owner.
+Microsoft is not responsible for, nor does it grant any licences to, third-party packages.
+Downloading https://github.com/cli/cli/releases/download/v1.7.0/gh_1.7.0_windows_amd64.msi
+	██████████████████████████████  6.44 MB / 6.44 MB
+Successfully verified installer hash
+Starting package install...
+Successfully installed
+</code></pre>
+<h2 id="how-to-use-winget">How to use winget</h2>
+<p>And a brief guide to using winget from that same blogpost by Thomas:</p>
+<h3 id="search-for-available-packages">Search for available packages:</h3>
+<pre><code>winget search APPLICATION
+</code></pre>
+<h3 id="display-information-about-the-packages">Display information about the packages</h3>
+<pre><code>winget show APPLICATION
+</code></pre>
+<h3 id="install-packages">Install packages</h3>
+<pre><code>winget install APPLICATION
+</code></pre>
+<h3 id="manage-sources-for-packages">Manage sources for packages</h3>
+<pre><code>winget source (add/list/update/remove/reset)
+</code></pre>
+<h2 id="external-references">External references</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/package-manager/">Winget: documentation</a></li>
+<li><a href="https://www.hanselman.com/blog/dont-forget-about-the-github-command-line">Hanselman: github command line</a></li>
+<li><a href="https://www.thomasmaurer.ch/2020/05/how-to-install-winget-windows-package-manager/">Thomas Maurer - how to install winget</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../github/github_cli.html">Github cli</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
