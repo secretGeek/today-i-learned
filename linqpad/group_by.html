@@ -60,7 +60,7 @@ var groups = data.GroupBy(p =&gt; p.Name, (key, values)
 		).Where(g =&gt; g.Count &gt; 1).OrderByDescending(gg =&gt; gg.Variance_Height);
 groups.Dump();
 </code></pre>
-<p><img src="linqpad%5Cgroup_by.png" alt="result is 1 row per name with many aggregated properties regarding that name and child rows: of type person, with name matching their parent group" /></p>
+<p><img src="group_by.png" alt="result is 1 row per name with many aggregated properties regarding that name and child rows: of type person, with name matching their parent group" /></p>
 <p>(Supporting code....</p>
 <pre><code>public class Person
 {

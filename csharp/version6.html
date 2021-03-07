@@ -135,11 +135,11 @@ void Main()
 <p>This is very useful. For example you might reduce a simple controller to a bunch of one liners...</p>
 <pre><code>public class HomeController : Controller
 {
-    protected readonly IDAL DAL;
-    public HomeController(IDAL dal) =&gt; this.DAL = dal;
-    public IActionResult Index() =&gt; View(DAL.GetNews());
-    public IActionResult About() =&gt; View();
-    public IActionResult Error() =&gt; View();
+	protected readonly IDAL DAL;
+	public HomeController(IDAL dal) =&gt; this.DAL = dal;
+	public IActionResult Index() =&gt; View(DAL.GetNews());
+	public IActionResult About() =&gt; View();
+	public IActionResult Error() =&gt; View();
 }
 </code></pre>
 <p>Much less ceremonial typing than:</p>
@@ -337,7 +337,7 @@ catch (Exception ex)
 <p>Ideally you'd use this in any place where you currently hard code the name of any symbol as a string.</p>
 <p>Consider:</p>
 <ul>
-<li>all the other Argument Exceptions Types
+<li>All the other Argument Exceptions Types
 <ul>
 <li>ArgumentException</li>
 <li>ArgumentOutOfRangeException</li>
@@ -454,15 +454,15 @@ class Person
 <p>For example, let's extend dictionary...</p>
 <pre><code>public static class DicExtensions
 {
-    public static void Add(this Dictionary&lt;int, string&gt; dic, int i)
-    {
-        dic.Add(i, &quot;Number &quot; + i.ToString());
-    }
+	public static void Add(this Dictionary&lt;int, string&gt; dic, int i)
+	{
+		dic.Add(i, &quot;Number &quot; + i.ToString());
+	}
 
-    public static void Add(this Dictionary&lt;int, string&gt; dic, int i, string separator, params string[] strings)
-    {
-        dic.Add(i, string.Join(separator, strings));
-    }
+	public static void Add(this Dictionary&lt;int, string&gt; dic, int i, string separator, params string[] strings)
+	{
+		dic.Add(i, string.Join(separator, strings));
+	}
 }
 
 var dic = new Dictionary&lt;int, string&gt; { 3, 4, 5 };

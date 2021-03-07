@@ -167,7 +167,8 @@ function configureBreadcrumb() {
 		$id("breadcrumb").innerHTML = homeLink;// + joiner + "<span id='currentTitle'>index</span>";
 	} else {
 		$id("breadcrumb").innerHTML =
-			homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
+			
+			`<a id='linkshere' href='/wlh.html?to=${encodeURIComponent(currentUrl)}' style='float:right;vertical-align:top' title='what link here?'>wlh?</span>` + homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
 	}
 }
 
@@ -267,13 +268,6 @@ function showFloatingMessage(message, element) {
 /*       ###########       */
 /*          #####          */
 /*            #            */
-
-//function htmlToElement(html) {
-//	var template = document.createElement("template");
-//	html = html.trim(); // Never return a text node of whitespace as the result
-//	template.innerHTML = html;
-//	return template.content.firstChild;
-//}
 
 function $(selector) {
 	return document.querySelectorAll(selector);

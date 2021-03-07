@@ -31,36 +31,36 @@ using System;
 
 namespace YourApp.Models
 {
-    /// &lt;summary&gt;
-    /// Filter to set size limits for request form data
-    /// &lt;/summary&gt;
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class RequestFormSizeLimitAttribute : Attribute, IAuthorizationFilter, IOrderedFilter
-    {
-        private readonly FormOptions _formOptions;
+	/// &lt;summary&gt;
+	/// Filter to set size limits for request form data
+	/// &lt;/summary&gt;
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+	public class RequestFormSizeLimitAttribute : Attribute, IAuthorizationFilter, IOrderedFilter
+	{
+		private readonly FormOptions _formOptions;
 
-        public RequestFormSizeLimitAttribute(int valueCountLimit)
-        {
-            _formOptions = new FormOptions()
-            {
-                ValueCountLimit = valueCountLimit
-            };
-        }
+		public RequestFormSizeLimitAttribute(int valueCountLimit)
+		{
+			_formOptions = new FormOptions()
+			{
+				ValueCountLimit = valueCountLimit
+			};
+		}
 
-        public int Order { get; set; }
+		public int Order { get; set; }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
-        {
-            var features = context.HttpContext.Features;
-            var formFeature = features.Get&lt;IFormFeature&gt;();
+		public void OnAuthorization(AuthorizationFilterContext context)
+		{
+			var features = context.HttpContext.Features;
+			var formFeature = features.Get&lt;IFormFeature&gt;();
 
-            if (formFeature == null || formFeature.Form == null)
-            {
-                // Request form has not been read yet, so set the limits
-                features.Set&lt;IFormFeature&gt;(new FormFeature(context.HttpContext.Request, _formOptions));
-            }
-        }
-    }
+			if (formFeature == null || formFeature.Form == null)
+			{
+				// Request form has not been read yet, so set the limits
+				features.Set&lt;IFormFeature&gt;(new FormFeature(context.HttpContext.Request, _formOptions));
+			}
+		}
+	}
 }
 </code></pre>
 <p>Then, on the relevant POST action, I can:</p>

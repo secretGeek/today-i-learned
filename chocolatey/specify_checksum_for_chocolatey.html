@@ -68,7 +68,7 @@ This is not the only check that is performed so check the package page to ensure
 Please visit https://gist.github.com/...  for details.
 </code></pre>
 <p>And the gist at github had these errors... keyword to look for being 'checksum'</p>
-<pre><code>649 [DEBUG] - Verifying package provided checksum of '' for 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip'.
+<pre><code class="language-plaintext">649 [DEBUG] - Verifying package provided checksum of '' for 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip'.
 680 [DEBUG] - Running Get-ChecksumValid -file 'C:\Users\Administrator\AppData\Local\Temp\chocolatey\PACKAGENAME\2.8.0.38449\PACKAGENAME.zip' -checksum '' -checksumType '' -originalUrl 'http://PACKAGENAME.com/download/PACKAGENAME.zip'
 711 [WARN ] - WARNING: Missing package checksums are not allowed (by default for HTTP/FTP,
  HTTPS when feature 'allowEmptyChecksumsSecure' is disabled) for
@@ -85,7 +85,7 @@ Please visit https://gist.github.com/...  for details.
 851 [WARN ] - Do you wish to allow the install to continue (not recommended)?
 867 [WARN ] - [Y] Yes [N] No (default is &quot;N&quot;)
 867 [WARN ] -   Confirmation (`-y`) is set.
-  Respond within 30 seconds or the default selection will be chosen.
+	Respond within 30 seconds or the default selection will be chosen.
 929 [ERROR] - ERROR: Empty checksums are no longer allowed by default for non-secure sources. Please ask the maintainer to add checksums to this package. In the meantime if you need this package to work correctly, please enable the feature allowEmptyChecksums, provide the runtime switch '--allow-empty-checksums', or pass in checksums at runtime (recommended - see 'choco install -?' / 'choco upgrade -?' for details). It is strongly advised against allowing empty checksums for non-internal HTTP/FTP sources.
  at Get-ChecksumValid, C:\ProgramData\chocolatey\helpers\functions\Get-CheckSumValid.ps1: line 167
 at Get-ChocolateyWebFile, C:\ProgramData\chocolatey\helpers\functions\Get-ChocolateyWebFile.ps1: line 377
@@ -98,15 +98,15 @@ at &lt;ScriptBlock&gt;, &lt;No file&gt;: line 1
 023 [DEBUG] - Command ['&quot;C:\Windows\System32\shutdown.exe&quot; /a'] exited with '1116'
 476 [DEBUG] - Capturing package files in 'C:\ProgramData\chocolatey\lib\PACKAGENAME'
 476 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\PACKAGENAME.nupkg'
-  with checksum 'D577935C52EC529427A394C7F47D3F02'
+	with checksum 'D577935C52EC529427A394C7F47D3F02'
 476 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\PACKAGENAME.nuspec'
-  with checksum '5A23F371DD373C8D89A0504271B68738'
+	with checksum '5A23F371DD373C8D89A0504271B68738'
 492 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\tools\ChocolateyInstall.ps1'
-  with checksum 'CEC2FBBC5BE9B74E6259EB926C73952A'
+	with checksum 'CEC2FBBC5BE9B74E6259EB926C73952A'
 492 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\tools\PACKAGENAME.com'
-  with checksum '4827432C0CC72960018E9B6756D8E96D'
+	with checksum '4827432C0CC72960018E9B6756D8E96D'
 492 [DEBUG] -  Found 'C:\ProgramData\chocolatey\lib\PACKAGENAME\tools\PACKAGENAME.exe.gui'
-  with checksum 'D41D8CD98F00B204E9800998ECF8427E'
+	with checksum 'D41D8CD98F00B204E9800998ECF8427E'
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
