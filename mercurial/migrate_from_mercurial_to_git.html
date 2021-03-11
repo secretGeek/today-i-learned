@@ -23,9 +23,124 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="migrate-from-mercurial-to-git">Migrate from Mercurial to git</h1>
-<pre><code>https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git
+<h2 id="suggested-approach-but-not-for-windows">Suggested approach (but not for windows)</h2>
+<p>I read about this process -- but it doesn't look windows friendly.</p>
+<ul>
+<li><a href="https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git#_mercurial">https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git#_mercurial</a></li>
+</ul>
+<p>I have a note here that says &quot;Note: final line had to change to be a <code>--force</code>&quot; -- but maybe I was migrating something from subversion to git... because I definitely did not use it for hg to git.</p>
+<p>So here's a better alternative...</p>
+<h2 id="use-hg-git-extension">Use hg-git extension</h2>
+<p>Try the process outlined here <a href="https://markheath.net/post/how-to-convert-mercurial-repository-to">Mark Heath</a></p>
+<h3 id="get-the-hg-git-extension">Get the hg-git extension</h3>
+<p>Clone this -- <a href="https://gitea.pep.foundation/claudio/hg-git.git">https://gitea.pep.foundation/claudio/hg-git.git</a></p>
+<p>(Can no longer be grabbed from its old bitbucket location)</p>
+<p>Add it to your <code>mercurial.ini</code> file</p>
+<pre><code>[extensions]
+hggit = c:/users/leon/code/hg-repos/hg-git/hggit
 </code></pre>
-<p>Note: final line had to change to be a <code>--force</code></p>
+<p>To see if it is now available, type <code>hg help extensions</code> and it should be listed under &quot;enabled extensions&quot; like so:</p>
+<pre><code class="language-plaintext">enabled extensions:
+	...
+	hggit         push and pull from a Git server
+	...
+</code></pre>
+<p>Also -- this should return some help for it...</p>
+<pre><code>hg help hggit
+</code></pre>
+<h2 id="write-down-the-source-and-the-target">Write down the source and the target</h2>
+<p>There will be two things that matter here.</p>
+<ul>
+<li>source -- the source hg repo</li>
+<li>target -- the target git repo</li>
+</ul>
+<h2 id="create-target-repo">create target repo</h2>
+<p>Create your target repo, let's call it <code>git_repo</code> for the purpose of this exercise - but you call it something useful!</p>
+<p>What we'll be creating is a bare repo -- so I recommend putting it in a folder called &quot;bare_repos&quot;, as you'll want non-bare versions later too!</p>
+<pre><code>git init --bare git_repo
+</code></pre>
+<p>(A bare repo is pretty much just the content that would normally be in the &quot;.git&quot; subfolder, without a local copy of the files at all)</p>
+<h2 id="prepare-the-source">prepare the source</h2>
+<p>Go to the source repo and run:</p>
+<pre><code>hg bookmarks hg
+</code></pre>
+<p>I found this wasn't enough, and that later the bare repo would be bad, as when I ran a <code>git log</code> it would return:</p>
+<blockquote>
+<p>fatal: your current branch 'master' does not have any commits yet</p>
+</blockquote>
+<p>(which also reminds me I want to create a 'main' instead of 'master', which any old instructions do not cover!)</p>
+<p>I had to also run:</p>
+<pre><code>hg bookmark -r default master
+</code></pre>
+<p>(Note: try instead performing... <code>hg bookmark -r default main</code>)</p>
+<h2 id="push-from-source-to-target">push from source to target...</h2>
+<pre><code>hg push path\to\git_repo
+</code></pre>
+<p>Now got to the bare repo and see if <code>git log</code> shows you the expected history.</p>
+<h2 id="make-a-non-bare-version-somewhere-nearby">make a non-bare version somewhere nearby...</h2>
+<pre><code>git clone git_bare_repo git_regular_repo
+</code></pre>
+<p>... see that the log is correct:</p>
+<pre><code>git log
+</code></pre>
+<h2 id="compare-your-new-repo-to-your-old-repo-at-file-level">Compare your new repo to your old repo, at file level...</h2>
+<p>How do they compare?</p>
+<p>Some differences I've seen, when comparing via <code>sgdm.exe</code></p>
+<ul>
+<li>Some files in my mercurial repo have linux style line endings (<code>\n</code>) while git converted these to all have windows style line endings (<code>\r\n</code>).</li>
+<li>Any <code>.hgignore</code>d files were not brought across. There are two things I need to do here:
+<ol>
+<li>Setup a <code>.gitignore</code> that is suitable for the project</li>
+<li>Some files ought to be ignored but also manually copied across. For example <code>*proj.user</code> files from visual studio.</li>
+</ol>
+</li>
+</ul>
+<p>This is also a good time to build/compile/lint/test your solution locally and ensure that everything it needs is present.</p>
+<p>While doing that it may update/regenerate files - and this will give you a chance to see:</p>
+<ol>
+<li>are you failing to ignore any files you should ignore?</li>
+<li>are there any files being tracked that are built artefacts which you would rather not track?</li>
+</ol>
+<p>To stop tracking an item that you do not wish to track (see <a href="../git/remove_from_git_but_keep_locally.html#quick-version">Remove a file from git but keep the local file</a>)</p>
+<ol>
+<li>Make sure the <code>.gitignore</code> is ignoring the file</li>
+<li>Run: <code>git rm --cached path/to/file/to/stop/tracking.dll</code></li>
+<li>Verify that the file still exists locally, but git sees it as removed:
+git stat # git thinks the file is deleted?
+dir path/to/file/to/stop/tracking.dll # file is still there?</li>
+<li>Commit your work with <code>git commit -a -m &quot;removed a generated file we don't need to track&quot;</code></li>
+</ol>
+<h2 id="import-your-new-repo-into-github">Import your new repo into github</h2>
+<p>(I assume, without any proof, that you also want to move your work into github, or another cloud git provider)</p>
+<p>(I assume, without proof, that you have a user account on github)</p>
+<p>Create a new repo on github, but do not give it a README or a .gitignore or a license. (i.e. <mark>it should have Zero commits</mark>)</p>
+<p>Maybe make it private. <em>I think you should.</em></p>
+<p>Find the url for the new repo, e.g. <code>https://github.com/example-user/my-repo</code></p>
+<h2 id="make-a-bare-copy-of-your-local-repo">Make a &quot;bare&quot; copy of your local repo</h2>
+<pre><code>mcd bare-2
+git clone --bare ..\my-repo\
+</code></pre>
+<p>Check that it is ok... (note it has an extra .git on the end... that's ok!)</p>
+<pre><code>cd my-repo.git
+git log
+</code></pre>
+<p>...Inspect the log. Your history is as expected.</p>
+<p>Push it to github, using the &quot;mirror&quot; option like so:</p>
+<pre><code>git push --mirror https://github.com/example-user/my-repo.git
+</code></pre>
+<p>Note the <code>.git</code> on the end. And the reason we say &quot;my-repo&quot; is because that's the name of the repo at github, not because it's the local repo name. (I assume, without proof, we <em>could</em> do a rename of the repo as part of this step, if we wanted)</p>
+<h2 id="now-clone-it-locally-one-last-time">Now clone it locally one last time</h2>
+<p>I keep my github repos in a specific place and have <code>markjump</code> locations to help get there, and a .ok file setup to help with it, etc.</p>
+<p>-- and bring into it any special local-only files it needs.</p>
+<p>Run smoke tests, local builds, test suite etc.</p>
+<h2 id="source">Source</h2>
+<p><a href="https://git-scm.com/book/en/v2/Git-and-Other-Systems-Migrating-to-Git#_mercurial">9.2 Git and Other Systems - Migrating to Git -- from Mercurial</a></p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://secretgeek.net/mercurial_extensions">Writing Your First Mercurial Extension</a></li>
+<li><a href="convert_hg_to_git.html">Convert a mercurial repo to git</a> - for trickier situations where you have multiple open branches to migrate</li>
+<li><a href="../git/remove_from_git_but_keep_locally.html#quick-version">Remove a file from git but keep the local file</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

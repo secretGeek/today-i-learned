@@ -31,18 +31,34 @@
 <p>if you added it, committed it, maybe even pushed it... (you've since added it to .gitignore above right?)</p>
 <ul>
 <li><p>for a file:</p>
-<p someFile="">git rm --cached </p>
+<pre><code>  git rm --cached {someFile}
+</code></pre>
 </li>
 <li><p>for a directory</p>
-<p someDir="">git rm --cached -r </p>
+<pre><code>  git rm --cached -r {someDir}
+</code></pre>
 </li>
 </ul>
 <p>This assumes the file doesn't contain sensitive stuff.</p>
-<p>If it contains sensitive stuff, and you've already committed it, then research the right approach, polish your resume etc.</p>
+<p><mark>If it contains sensitive stuff, and you've already committed it, then research the right approach, polish your resume etc.</mark></p>
+<h2 id="quick-version">Quick version</h2>
+<p>To stop tracking an item that you do not wish to track:</p>
+<ol>
+<li>Make sure the <code>.gitignore</code> is ignoring the file</li>
+<li>Run: <code>git rm --cached path/to/file/to/stop/tracking.dll</code></li>
+<li>Verify that the file still exists locally, but git sees it as removed:
+git stat # git thinks the file is deleted?
+dir path/to/file/to/stop/tracking.dll # file is still there?</li>
+<li>Commit your work with <code>git commit -a -m &quot;removed a generated file we don't need to track&quot;</code></li>
+</ol>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="http://stackoverflow.com/questions/3469741/remove-file-from-the-repository-but-keep-it-locally">http://stackoverflow.com/questions/3469741/remove-file-from-the-repository-but-keep-it-locally</a></li>
 <li><a href="http://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste">http://stackoverflow.com/questions/1143796/remove-a-file-from-a-git-repository-without-deleting-it-from-the-local-filesyste</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../mercurial/migrate_from_mercurial_to_git.html">Migrate from Mercurial to git</a></li>
 </ul>
 
 </article>

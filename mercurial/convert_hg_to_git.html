@@ -24,6 +24,7 @@
 <article>
 <h1 id="convert-a-mercurial-repo-to-git">Convert a mercurial repo to git</h1>
 <p>The following is based on the technique from here: <a href="https://stackoverflow.com/a/39906349">https://stackoverflow.com/a/39906349</a> and it is relevant because it retains more than 1 branch.</p>
+<p>Further down I'll document a [simpler process] for when you're not concerned with branches.</p>
 <p>The process (for us) is:</p>
 <h2 id="pre-requisites">pre-requisites</h2>
 <ol class="contains-task-list">
@@ -50,12 +51,13 @@ hggit =
 <li class="task-list-item"><p><input disabled="disabled" type="checkbox" />  create a bookmark called &quot;master&quot; to represent the &quot;default&quot; branch</p>
 <pre><code>hg bookmarks -r default master
 </code></pre>
-<p>...we do that because</p>
-<blockquote>
-<p>hg-git does not convert between Mercurial named branches and git branches as the two are conceptually different; instead, it uses Mercurial bookmarks to represent the concept of a git branch<br />
-—<a href="https://github.com/schacon/hg-git#gitbranch_bookmark_suffix">Hg-Git Mercurial Plugin readme</a></p>
-</blockquote>
 </li>
+</ol>
+<p>...we do that because</p>
+<pre><code>&gt; hg-git does not convert between Mercurial named branches and git branches as the two are conceptually different; instead, it uses Mercurial bookmarks to represent the concept of a git branch&lt;br /&gt;
+&gt; &amp;mdash;[Hg-Git Mercurial Plugin readme](https://github.com/schacon/hg-git#gitbranch_bookmark_suffix)
+</code></pre>
+<ol start="4" class="contains-task-list">
 <li class="task-list-item"><p><input disabled="disabled" type="checkbox" /> for each branch (found via <code>hg branches</code>) run this command:</p>
 <pre><code>hg bookmarks -r my_branch my_branch_bookmark
 </code></pre>
@@ -85,6 +87,11 @@ hggit =
 <ul>
 <li><a href="https://stackoverflow.com/a/39906349">Matthias's Answer to &quot;Convert Mercurial project to Git&quot;</a></li>
 <li><a href="https://stackoverflow.com/a/10637882">Stackoverflow: How do I convert a bare git repository into a normal one (in-place)?</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="mercurial_ini.html">Mercurial.ini -- home of mercurial's config</a></li>
+<li><a href="migrate_from_mercurial_to_git.html">Migrate from Mercurial to git</a> - for simpler cases</li>
 </ul>
 
 </article>
