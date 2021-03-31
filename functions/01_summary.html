@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>format number . Today I Learned (secretGeek)</title>
+<title>01 summary . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,29 +22,11 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="format-number-with-padding">Format number with padding</h1>
-<pre><code>(1.72).ToString(&quot;        0.00&quot;)
-</code></pre>
-<p>padleft works too...</p>
-<pre><code>$n = -1.92;
-write-host ([string]$n).padleft(12,&quot; &quot;) -f green -n
-</code></pre>
-<p>(1.72).ToString(&quot;0.000000&quot;)</p>
-<p>Can also use the &quot;-f&quot; operator, like so</p>
-<pre><code>foreach ($Log in $EventVwr) {
-	&quot;{0,-28} {1,-20} {2,8}&quot; -f $Log.log, $Log.OverflowAction, $Log.MaximumKilobytes
-}
-</code></pre>
-<p>or even...</p>
-<pre><code>dir | % { &quot;{0,-65} {1,-30} {2,-30}&quot; -f $_.Name, $_.Directory.Name, $_.Length }
-</code></pre>
-<h2 id="other-format-cmdlets">Other format cmdlets...</h2>
-<p><code>Format-wide</code> is good but somehow disappointing</p>
-<pre><code>dir | format-wide -col 5
-</code></pre>
-<p><code>Format-table</code> worth a look</p>
-<pre><code>dir | format-table
-</code></pre>
+<h1 id="functions" class="chapter">functions</h1>
+<h3 id="content">content</h3>
+<ul>
+<li><a href="list_of_common_functions.html">Function Research</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

@@ -37,16 +37,21 @@ Your branch is based on 'origin/feature/1234-weaponise-space', but the upstream 
 <h2 id="delete-local-branch">Delete local branch</h2>
 <p>To delete a local branch.</p>
 <ol>
-<li>Make sure you want it gone.</li>
-<li>Delete it...</li>
+<li><p>Make sure you want it gone.</p>
+</li>
+<li><p>Delete it...</p>
+<pre><code> Delete Local Branch
+
+ To delete the local branch use one of the following:
+
+ 	$ git branch -d branch_name
+ 	$ git branch -D branch_name
+
+ Note: The `-d` option is an alias for `--delete`, which only deletes the branch if it has already been fully merged in its upstream branch. You could also use `-D`, which is an alias for `--delete --force`, which deletes the branch &quot;irrespective of its merged status.&quot;
+</code></pre>
+</li>
 </ol>
-<blockquote>
-<p>Delete Local Branch
-To delete the local branch use one of the following:</p>
-<p>$ git branch -d branch_name
-$ git branch -D branch_name</p>
-<p>Note: The <code>-d</code> option is an alias for <code>--delete</code>, which only deletes the branch if it has already been fully merged in its upstream branch. You could also use <code>-D</code>, which is an alias for <code>--delete --force</code>, which deletes the branch &quot;irrespective of its merged status.&quot; [Source: man git-branch]</p>
-</blockquote>
+<p>--Source: man git-branch.</p>
 <h2 id="find-all-gone-branches-to-delete">Find all 'gone' branches to delete:</h2>
 <pre><code>&gt; git branch -vv
 </code></pre>
