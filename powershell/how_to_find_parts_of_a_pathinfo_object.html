@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>branch . Today I Learned (secretGeek)</title>
+<title>how to find parts of a pathinfo object . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,22 +22,15 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="branching-in-git">Branching in git</h1>
-<h2 id="create-a-new-branch">1. create a new branch</h2>
-<p>if: You've started to do some work but haven't committed anything yet.
-(or: you're about to start some work) and decide you'd like it to go to a new branch:</p>
-<p>It's as easy as this...</p>
-<pre><code>git checkout -b new-branch
-</code></pre>
-<p>The output you hopefully see is:</p>
-<blockquote>
-<p>Switched to a new branch 'new-branch'</p>
-</blockquote>
-<pre><code>git push -u origin $name
-</code></pre>
-<h2 id="references">References</h2>
+<h1 id="how-to-find-parts-of-a-pathinfo-object-in-powershell">How to find parts of a pathinfo object in powershell</h1>
+<p><code>Get-Location</code> (which I call <code>pwd</code>) returns a <code>PathInfo</code></p>
+<p>A <code>System.Management.Automation.PathInfo</code>.</p>
+<p>It has four Properties of great use (and here is an example for each)</p>
 <ul>
-<li><a href="https://medium.com/@EeKayOnline/how-to-create-a-git-branch-with-your-current-changes-a79b297c339e">How To Create A GIT Branch With Your Current Changes</a></li>
+<li><strong>Drive</strong> -- <code>C:\</code> -- <code>PSDriveInfo</code> object</li>
+<li><strong>Path</strong>         -- <code>C:\users\example\experiments</code> -- <code>string</code></li>
+<li><strong>Provider</strong>     -- <code>Microsoft.PowerShell.Core\FileSystem</code> -- <code>Provider</code> object</li>
+<li><strong>ProviderPath</strong> -- <code>C:\users\example\experiments</code> -- <code>string</code></li>
 </ul>
 
 </article>

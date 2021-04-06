@@ -31,149 +31,190 @@
 </code></pre>
 <p>...which relies on my ever-evolving sense of 'findtext'</p>
 <p>Currently something like.... (this is dynamically loaded from util)</p>
-<pre><code>[string[]] $fileTypes = &quot;*.md&quot;,&quot;*.fmw&quot;,&quot;*.txt&quot;,&quot;*.cs&quot;,&quot;*.cshtml&quot;,&quot;*.css&quot;,&quot;*.ps1&quot;,&quot;*.js&quot;,&quot;*.bat&quot;,&quot;*.vbs&quot;,&quot;*.vb&quot;,&quot;*.xml&quot;,&quot;*.config&quot;,&quot;*.htm&quot;,&quot;*.html&quot;,&quot;*.pre&quot;,&quot;*.ini&quot;,&quot;*.sql&quot;,&quot;*.linq&quot;,&quot;*.json&quot;,&quot;*.spark&quot;,&quot;*.ts&quot;,&quot;*.psm1&quot;,&quot;*.psd1&quot;,&quot;*.aspx&quot;,&quot;*.ascx&quot;,&quot;*.asp&quot;,&quot;*.asmx&quot;,&quot;*.pubxml&quot;,&quot;*.dgml&quot;,&quot;*.sln&quot;,&quot;*.*proj&quot;,&quot;*.spark&quot;,&quot;*.rdl&quot;,&quot;*.py&quot;,&quot;*.log&quot;,&quot;*.las&quot;,&quot;*.ascx&quot;, &quot;*.inc&quot;, &quot;*.xaml&quot;,&quot;*.sh&quot;,&quot;*.csv&quot;,&quot;*.tsv&quot;,&quot;*.php&quot;,&quot;*.ok&quot;
-
-#Consider: asa asax ascx ashx asmx asp aspq aspx cfg cfm class config cs cshtm cshtml css csv dbml htaccess htm html ini inc install js log master module mxml php phps pl py readme restext resx script settings sitemap skin sql svc text txt vb vbhtm vbhtml vbs xaml xml xoml xsd xsl xslt
-#function findtext_norecurse($pattern)
-#function findtext_raw($pattern)
-#function findtext_raw_type($pattern, $recursive)
-#function findtext_raw_casesensitive($pattern)
-#function findtext_type($types, $pattern, $recursive){
+<pre><code>[string[]] $fileTypes = &quot;*.md&quot;, &quot;*.fmw&quot;, &quot;*.txt&quot;, &quot;*.cs&quot;, &quot;*.cshtml&quot;, &quot;*.css&quot;, &quot;*.ps1&quot;, &quot;*.js&quot;, &quot;*.bat&quot;, &quot;*.vbs&quot;, &quot;*.vb&quot;, &quot;*.xml&quot;, &quot;*.config&quot;, &quot;*.htm&quot;, &quot;*.html&quot;, &quot;*.pre&quot;, &quot;*.ini&quot;, &quot;*.sql&quot;, &quot;*.linq&quot;, &quot;*.json&quot;, &quot;*.spark&quot;, &quot;*.ts&quot;, &quot;*.psm1&quot;, &quot;*.psd1&quot;, &quot;*.aspx&quot;, &quot;*.ascx&quot;, &quot;*.asp&quot;, &quot;*.asmx&quot;, &quot;*.pubxml&quot;, &quot;*.dgml&quot;, &quot;*.sln&quot;, &quot;*.*proj&quot;, &quot;*.spark&quot;, &quot;*.rdl&quot;, &quot;*.py&quot;, &quot;*.log&quot;, &quot;*.las&quot;, &quot;*.ascx&quot;, &quot;*.inc&quot;, &quot;*.xaml&quot;,	&quot;*.sh&quot;, &quot;*.csv&quot;, &quot;*.tsv&quot;, &quot;*.php&quot;, &quot;*.ok&quot;, &quot;*.tsx&quot;
 
 ## Commands:
-## findtext $pattern   &lt;-- search all text type files for a particular regex
-###                       if it's not valid as a regex we'll treat it as a literal string.
-## findtext_raw $pattern   &lt;-- search all text type files for a literal string.
-## findtext_type $types $pattern $recurse   &lt;-- e.g. findtext
-## findtext_raw $pattern   &lt;-- search all text type files for a literal string.
-## findtext_raw_type $pattern   &lt;-- search all text type files for a literal string.
-## pre_help          &lt;-- help on pre
-## pre_help_detailed &lt;-- verbose help on pre, with details about codeblocks.
+## findtext $pattern                       &lt;-- search all text type files for a particular regex
+###                                             if the pattern is not valid as a regex we'll treat it as a literal string.
+###                                             The complete list of filetypes is in this variable: $fileTypes
+## findtext_raw $pattern                   &lt;-- search all text type files for a literal string.
+## findtext_type $types $pattern $recurse  &lt;-- e.g. findtext_type &quot;*.tsx&quot; &quot;import&quot;
+## findtext_raw_type $pattern              &lt;-- search all text type files for a literal string.
+## findtext_raw_casesensitive $pattern     &lt;-- enforce case sensitivity!
+## findtext_norecurse                      &lt;-- findtext but avoid recursing into child folders
+###                                             same as:   `format-findtext $pattern $false`
+## findtext_help                           &lt;-- help on findtext and related commands
+## findtext_help_detailed                  &lt;-- verbose help on findtext, with details.
+### find-text ($pattern, $recursive, $basePath, $Raw, $CaseSensitive)
+### format-findtext ($pattern, $recursive, $raw, $CaseSensitive) 
+###                                         &lt;-- (aliased as findtext) sends find-text to format-foundtext
+### format-foundtext ($result, $raw, $caseSensitive)
 
+function find-text ($pattern, $recursive, $basePath, $Raw, $CaseSensitive) {
+    if ($null -eq $recursive) {
+        # by default, recursive is true
+        $recursive = $true
+    }
+    else {
+        #&quot;recursive was not null it was $recursive&quot;
+    }
 
-function findtext($pattern, $recursive)
-{
+    $path = (get-location | ForEach-Object { $_.ProviderPath })
+    get-childitem -Path * -Include $fileTypes -Exclude .git, .hg, *jquery*, modernizr* -Recurse:$recursive |
+    Where-Object { $_.FullName -inotmatch 'node_modules' } |
+    select-string -pattern $pattern -SimpleMatch:$Raw -CaseSensitive:$CaseSensitive |
+    ForEach-Object { 
+        Add-Member -inputObject $_ -memberType NoteProperty -name &quot;RelativeName&quot; -value ($_.Path.SubString($path.Length + 1));
+        $_;
+    }
+}
+
+function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
     if ($null -eq $pattern) {
-        write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
+        write-host &quot;Please provide a Pattern you wish to find (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
         return
     }
 
     if ($null -eq $recursive) {
         #&quot;SETTING RECURSIVE&quot;
         $recursive = $true
-    } else {
+    }
+    else {
         #&quot;recursive was not null it was $recursive&quot;
     }
+		
+    if ($null -eq $raw) {
+        # RAW (meaning, simple match, not regex match) defaults to FALSE
+        $raw = $false;
+    } 
+		
+    if ($null -eq $CaseSensitive) {
+        # 'CaseSensitive' defaults to FALSE
+        $CaseSensitive = $false;
+    }
 
-    # $path = get-location
     $path = (get-location | ForEach-Object { $_.ProviderPath })
 
-    $ErrorActionPreference = &quot;SilentlyContinue&quot;
+    # write-host $pattern -f magenta
+    # write-host $recursive -f magenta
+    # write-host $raw -f magenta
+    # write-host $CaseSensitive -f magenta
 
-    get-childitem -Path * -Include $fileTypes -Exclude .git,.hg,*jquery*,modernizr* -Recurse:$recursive |
-        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
-        select-string -pattern $pattern |
-        format-table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
-            @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
-            @{Expression={$_.Line.Replace(&quot;  &quot;,&quot; &quot;)};Label=&quot;Match&quot;} -auto
-
-    return
-
-    trap {
-        write-host &quot;Not a valid regex, so falling back to a simple match&quot; -foregroundcolor  &quot;green&quot;
-
-        get-childitem -Path * -Include $fileTypes -Exclude .git,.hg,*jquery*,modernizr* -Recurse:$recursive |
-            Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
-            select-string -pattern $pattern -SimpleMatch |
-            Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
-                @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
-                @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
+    try {
+        return (find-text  $pattern  $recursive $path $raw $caseSensitive | 
+            ForEach-Object { 
+                format-foundtext $_ $raw $caseSensitive; 
+            } );
+    } 
+    catch {
+        write-host $_ -f darkred;
+				if ($_.FullyQualifiedErrorId -eq &quot;InvalidRegex,Microsoft.PowerShell.Commands.SelectStringCommand&quot;) {
+					write-host &quot;Falling back to a simple match...&quot; -foregroundcolor  &quot;green&quot;;
+					format-findtext -pattern:$pattern -recursive:$recursive -raw:$true -casesensitive:$CaseSensitive
+				}
     }
+}
+
+function format-foundtextdimmed ($result, $len1, $raw, $caseSensitive) {
+    write-host &quot;$($result.RelativeName.SubString(0, $len1))&quot; -f darkblue -n;
+    write-host &quot;$($result.RelativeName.SubString($len1)) &quot; -f cyan -n;
+    write-host &quot;$($result.LineNumber) &quot; -f yellow -n;
+    Write-MarkedPatternInline ($result.Pattern) ($result.Line.Trim()) $raw $caseSensitive;
+    write-host &quot;&quot;;
+}
+
+$script:previous = $null;
+
+function format-foundtext ($result, $raw, $caseSensitive) {
+    $dimLength = FindLongestCommonStartingSubString ($result.RelativeName) ($script:previous.RelativeName);
+    # specify what to break on... it returns how many parts in common.... or num chars.	
+    #$dimLength = FindLongestCommonStringsParts ($result.RelativeName) ($script:previous.RelativeName) &quot;\&quot;;
+    #if ($dimLength -gt $script:previousDimLength) {
+    #	$dimLength = 0;
+    #} 
+    format-foundtextdimmed $result $dimLength $raw $caseSensitive
+    $script:previous = $result;
+    $script:previousDimLength = $dimLength;
+}
+
+function format-foundtext-old ($result) {
+    write-host &quot;$($result.RelativeName) &quot; -f white -n;
+    write-host &quot;$($result.LineNumber) &quot; -f yellow -n;
+    Write-MarkedPatternInline ($result.Pattern) ($result.Line);
+    write-host &quot;&quot;;
 }
 
 # same as findtext but does not use recursive
-function findtext_norecurse($pattern)
-{
-    findtext $pattern $false
+function findtext_norecurse($pattern) {
+    format-findtext $pattern $false
 }
 
 # Pattern is not treated as regular expression -- it's a &quot;simplematch&quot; instead
-function findtext_raw($pattern, $recursive, $logging)
-{
-    if ($null -eq $pattern) {
-        write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
-        return
-    }
-
-    if ($null -eq $recursive) {
-        #&quot;SETTING RECURSIVE&quot;
-        $recursive = $true
-    } else {
-        #&quot;recursive was not null it was $recursive&quot;
-    }
-
-
-    $path = (get-location | ForEach-Object { $_.ProviderPath })
-
-    get-childitem -Path * -Include $fileTypes -Exclude .git,.hg,*jquery*,modernizr* -Recurse:$recursive |
-        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
-				% { 
-						$_ | select-string -pattern $pattern -SimpleMatch |
-						Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
-								@{Expression={$_.LineNumber};Label=&quot;Line&quot;},
-								@{Expression={$_.Line};Label=&quot;Match&quot;} -auto;
-					}
+function findtext_raw($pattern, $recursive) {
+    return format-findtext $pattern $recursive $true;
 }
 
-function findtext_raw_casesensitive($pattern, $recursive)
-{
-    if ($null -eq $pattern) {
-        write-host &quot;Please provide a pattern you wish to find. (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
-        return
-    }
-
-    if ($null -eq $recursive) {
-        #&quot;SETTING RECURSIVE&quot;
-        $recursive = $true
-    } else {
-        #&quot;recursive was not null it was $recursive&quot;
-    }
-
-    $path = (get-location | ForEach-Object { $_.ProviderPath })
-
-    get-childitem -Path * -Include $fileTypes -Exclude .git,.hg,*jquery*,modernizr* -Recurse:$recursive |
-        Where-Object { $_.DirectoryName -notmatch &quot;_book&quot; } |
-        select-string -pattern $pattern -SimpleMatch -CaseSensitive |
-        Format-Table -property @{Expression={$_.Path.SubString($path.Length+1)};Label=&quot;Location&quot;},
-            @{Expression={$_.LineNumber};Label=&quot;Line&quot;},
-            @{Expression={$_.Line};Label=&quot;Match&quot;} -auto
+function findtext_raw_casesensitive($pattern, $recursive, $raw) {
+    return format-findtext $pattern $recursive $raw $true;
 }
 
-
-function findtext_raw_type($types, $pattern, $recursive){
-	$originalTypes = $fileTypes;
-	$fileTypes = $types;
-	$logging = $true;
-	findtext_raw $pattern $recursive $logging;
-	$fileTypes = $originalTypes;
+function findtext_raw_type($types, $pattern, $recursive) {
+    $originalTypes = $fileTypes;
+    $fileTypes = $types;
+    findtext_raw $pattern $recursive;
+    $fileTypes = $originalTypes;
 }
 
+function findtext_type($types, $pattern, $recursive) {
 
-function findtext_type($types, $pattern, $recursive){
-
-	$originalTypes = $fileTypes;
-	$fileTypes = $types;
-	findtext $pattern $recursive;
-	$fileTypes = $originalTypes;
+    $originalTypes = $fileTypes;
+    $fileTypes = $types;
+    format-findtext $pattern $recursive;
+    $fileTypes = $originalTypes;
 }
 
 function findtext_help () {
- 
+    $x = (&amp; { $myInvocation.ScriptName })
+    Get-Content $x | Where-Object { $_ -like &quot;## *&quot; } | ForEach-Object { $_.TrimStart(&quot;#&quot;) }
+}
+
+function findtext_help_detailed() {
+	$x = (&amp; { $myInvocation.ScriptName })
+	Get-Content $x | Where-Object { ($_ -like &quot;## *&quot;) -or ($_ -like &quot;### *&quot;) } | ForEach-Object { 
+		Write-MarkedPatternInline &quot;format|_|find|text|&lt;--&quot; ($_.TrimStart(&quot;#&quot;)) $false $false;
+		write-host &quot;&quot;;
+	}
+}
+
+function FindLongestCommonStartingSubString($string1, $string2) {
+
+    $i = 0;
+    $max = 0;
+    do {
+        $string1.ToCharArray() | % {
+            if ($string2 -ne $null -and $i -le $string2.length -and $_ -eq $string2[$i]) { 
+                $max = ($i + 1); 
+            }
+            else { break; };
+            $i++;
+        }
+    } while ($false);
+
+    return $max;
+}
+
+function list-functions () {
+
+    find-text &quot;^\s*function( )&quot; | % { New-Object psobject -property  @{
+            FileName     = $_.FileName;
+            FunctionName = ($_.Line -split '[ (]')[1] 
+        } } | ? { $_.FunctionName -ne '' }
 
 }
 
-set-alias fi FindText # can't use &quot;ft&quot;, it's &quot;format-table&quot; already
-set-alias f findtext
+set-alias findtext format-findtext
+set-alias fi format-findtext # can't use &quot;ft&quot;, it's &quot;format-table&quot; already
+set-alias f format-findtext
 set-alias f.raw findtext_raw
 set-alias f.type findtext_type
 set-alias f.type-raw findtext_raw_type

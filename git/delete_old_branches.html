@@ -23,6 +23,9 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="delete-old-branches">Delete old branches</h1>
+<p><code>tl;dr;</code> You can remove all non-existent remote branch references in your local repository with</p>
+<pre><code>git remote prune origin
+</code></pre>
 <p>When I merge a pull request back into main, I delete the branch on the server</p>
 <p>But that doesn't delete it locally.</p>
 <p>I end up with a bunch of local branches that need cleaning.</p>

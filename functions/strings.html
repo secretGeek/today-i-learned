@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>strings . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="string-functions">String Functions</h1>
+<p><a href="https://en.wikipedia.org/wiki/Comparison_of_programming_languages_(string_functions)">https://en.wikipedia.org/wiki/Comparison_of_programming_languages_(string_functions)</a></p>
+<h2 id="string-functions-1">String Functions</h2>
+<ul>
+<li>Alteryx</li>
+<li>SDU</li>
+<li>SQL Server</li>
+</ul>
+<h3 id="alteryx">Alteryx</h3>
+<ul>
+<li><code>Contains(String, Target, CaseInsensitive=1)</code></li>
+<li><code>CountWords(String)</code></li>
+<li><code>DecomposeUnicodeForMatch(String)</code></li>
+<li><code>EndsWith(String, Target, CaseInsensitive=1)</code></li>
+<li><code>FindString(String,Target)</code></li>
+<li><code>GetWord(String, n)</code></li>
+<li><code>Left(x, len)</code></li>
+<li><code>Length(x)</code></li>
+<li><code>LowerCase(x)</code></li>
+<li><code>MD5_ASCII(String)</code></li>
+<li><code>MD5_UNICODE(String)</code></li>
+<li><code>PadLeft (str, len, char)</code></li>
+<li><code>PadRight (str, len, char)</code></li>
+<li><code>REGEX_CountMatches(string,pattern,icase)</code></li>
+<li><code>REGEX_Match(string,pattern,icase)</code></li>
+<li><code>REGEX_Replace(string, pattern, replace,icase)</code></li>
+<li><code>Replace(Str, Target, Replacement)</code></li>
+<li><code>ReplaceChar(x, y, z)</code></li>
+<li><code>ReplaceFirst(Str, Target, Replacement)</code></li>
+<li><code>ReverseString(Str)</code></li>
+<li><code>Right(String, len)</code></li>
+<li><code>StartsWith(String, Target, CaseInsensitive=1)</code></li>
+<li><code>STRCSPN(x, y)</code></li>
+<li><code>StripQuotes(x)</code></li>
+<li><code>STRSPN(x, y)</code></li>
+<li><code>Substring(x, start, length)</code></li>
+<li><code>TitleCase(x)</code></li>
+<li><code>Trim(x, y)</code></li>
+<li><code>TrimLeft(x, y)</code></li>
+<li><code>TrimRight(x, y)</code></li>
+<li><code>Uppercase(x) Converts a string to upper case</code></li>
+<li><code>UuidCreate()</code></li>
+</ul>
+<h2 id="sql-down-under">Sql Down Under</h2>
+<ul>
+<li><code>AlphabeticOnly</code> - Removes any non-alphabetic characters from a string</li>
+<li><code>AlphanumericOnly</code> - Removes any non-alphanumeric characters from a string</li>
+<li><code>AsciiOnly</code> - Removes non-ASCII characters from a string</li>
+<li><code>CamelCase</code> - Converts a string to camelCase</li>
+<li><code>CobolCase</code> - Converts a string to COBOL-CASE</li>
+<li><code>CountWords</code> - Counts the number of words in a string</li>
+<li><code>DigitsOnly</code> - Removes non-digit characters from a string</li>
+<li><code>ExtractToken</code> - Extracts a specific token number from a delimited string like a CSV or TSV</li>
+<li><code>ExtractTrigrams</code> - Extracts trigrams (segments of up to 3 characters) from a string for fast searching</li>
+<li><code>ExtractTrimmedWords</code> - Extracts words from a string and trims them</li>
+<li><code>InitialsFromName</code> - Extracts a person's initials from their name</li>
+<li><code>InvertString</code> - Returns an upside down version of the string</li>
+<li><code>KebabCase</code> - Converts a string to kebab-case</li>
+<li><code>LeftPad</code> - Left pads a string</li>
+<li><code>NullIfBlank</code> - Returns NULL if a string is blank or trims the string</li>
+<li><code>PascalCase</code> - Converts a string to PascalCase</li>
+<li><code>PercentEncode</code> - Encodes reserved characters that are used in HTML or URL encoding</li>
+<li><code>PreviousNonWhitespaceCharacter</code> - Finds the previous non-whitespace character working backwards from the current position</li>
+<li><code>ProperCase</code> - Converts a string to Proper Case</li>
+<li><code>QuoteString</code> - Quotes a string</li>
+<li><code>RightPad</code> - Right pads a string</li>
+<li><code>ScreamingSnakeCase</code> - Converts a string to SCREAMING_SNAKE_CASE</li>
+<li><code>SeparateByCase</code> - Inserts spaces in Pascal-cased or camel-cased strings</li>
+<li><code>SingleSpaceWords</code> - Trims a string and replaces multiple spaces with single spaces</li>
+<li><code>SnakeCase</code> - Converts a string to snake_case</li>
+<li><code>SplitDelimitedString</code> - Splits a delimited string (often CSV or TSV)</li>
+<li><code>SplitDelimitedStringIntoColumns</code> - Splits a delimited string (often CSV or TSV) into separate columns</li>
+<li><code>SpongeBobSnakeCase</code> - Converts a string to sPoNgEbOb_sNaKeCaSe</li>
+<li><code>StringLength</code> - Returns the length of a string (Properly)</li>
+<li><code>StripDiacritics</code> - Strips diacritics (accents, graves, etc.) from a string</li>
+<li><code>TitleCase</code> - Converts a string to Title Case</li>
+<li><code>TrainCase</code> - Converts a string to Train-Case</li>
+<li><code>Translate</code> - Replaces a set of characters in a string</li>
+<li><code>TrimWhitespace</code> - Removes any leading or trailing space, tab, carriage return, and linefeed characters</li>
+<li><code>XMLDecodeString</code> - XML decodes a string</li>
+<li><code>XMLEncodeString</code> - XML encodes a string</li>
+</ul>
+<h2 id="sql-server">Sql Server</h2>
+<ul>
+<li><code>ASCII</code>	Returns the ASCII value for the specific character</li>
+<li><code>CHAR</code>	Returns the character based on the ASCII code</li>
+<li><code>CHARINDEX</code>	Returns the position of a substring in a string</li>
+<li><code>CONCAT</code>	Adds two or more strings together</li>
+<li><code>Concat with +</code>	Adds two or more strings together</li>
+<li><code>CONCAT_WS</code>	Adds two or more strings together with a separator</li>
+<li><code>DATALENGTH</code>	Returns the number of bytes used to represent an expression</li>
+<li><code>DIFFERENCE</code>	Compares two SOUNDEX values, and returns an integer value</li>
+<li><code>FORMAT</code>	Formats a value with the specified format</li>
+<li><code>LEFT</code>	Extracts a number of characters from a string (starting from left)</li>
+<li><code>LEN</code>	Returns the length of a string</li>
+<li><code>LOWER</code>	Converts a string to lower-case</li>
+<li><code>LTRIM</code>	Removes leading spaces from a string</li>
+<li><code>NCHAR</code>	Returns the Unicode character based on the number code</li>
+<li><code>PATINDEX</code>	Returns the position of a pattern in a string</li>
+<li><code>QUOTENAME</code>	Returns a Unicode string with delimiters added to make the string a valid SQL Server delimited identifier</li>
+<li><code>REPLACE</code>	Replaces all occurrences of a substring within a string, with a new substring</li>
+<li><code>REPLICATE</code>	Repeats a string a specified number of times</li>
+<li><code>REVERSE</code>	Reverses a string and returns the result</li>
+<li><code>RIGHT</code>	Extracts a number of characters from a string (starting from right)</li>
+<li><code>RTRIM</code>	Removes trailing spaces from a string</li>
+<li><code>SOUNDEX</code>	Returns a four-character code to evaluate the similarity of two strings</li>
+<li><code>SPACE</code>	Returns a string of the specified number of space characters</li>
+<li><code>STR</code>	Returns a number as string</li>
+<li><code>STUFF</code>	Deletes a part of a string and then inserts another part into the string, starting at a specified position</li>
+<li><code>SUBSTRING</code>	Extracts some characters from a string</li>
+<li><code>TRANSLATE</code>	Returns the string from the first argument after the characters specified in the second argument are translated into the characters specified in the third argument.</li>
+<li><code>TRIM</code>	Removes leading and trailing spaces (or other specified characters) from a string</li>
+<li><code>UNICODE</code>	Returns the Unicode value for the first character of the input expression</li>
+<li><code>UPPER</code>	Converts a string to upper-case</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
