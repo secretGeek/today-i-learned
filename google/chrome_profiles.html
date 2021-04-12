@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>chrome profiles . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-get-the-most-out-of-chrome-profiles">How to get the most out of chrome profiles</h1>
+<p>If you have more than one microsoft account (for example) then you need multiple chrome profiles to be able to access them both at once.</p>
+<p>You can open a new profile, &quot;pin&quot; it to your task bar, and treat it as a whole separate persona.</p>
+<p>If you inspect that profile shortcut's &quot;properties&quot;, you'll find the Target is something like this:</p>
+<p>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --profile-directory=&quot;Profile 3&quot;</p>
+<p>The important bit there is &quot;Profile 3&quot;</p>
+<p>After a while though, your &quot;original&quot; chrome icon might assume you want to use one of the other profiles.</p>
+<p>So change your original chrome shortcut to have this Target:</p>
+<pre><code>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --profile-directory=&quot;Default&quot;
+</code></pre>
+<p>And if you want to link to any other profiles: after this, they are named like this:</p>
+<pre><code>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --profile-directory=&quot;Profile 1&quot;
+</code></pre>
+<p>or this</p>
+<pre><code>&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot; --profile-directory=&quot;Profile 3&quot;
+</code></pre>
+<p>You can find the names of the profiles with this query:</p>
+<h2 id="list-profile-names">List Profile Names</h2>
+<pre><code>dir $env:LOCALAPPDATA&quot;\Google\Chrome\User Data&quot; cookies -rec |
+	% PSParentPath | 
+		% { $_.split('\\')[-1] }
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
