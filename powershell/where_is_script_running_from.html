@@ -23,6 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="where-is-the-current-script-running-from">Where is the current script running from?</h1>
+<p>Subtitle: what is the location of the caller?</p>
 <p>Scenario:</p>
 <p>We have a script, <code>HelloWorld.ps1</code> located in <code>C:\Scripts\</code></p>
 <p>We run this script, from the location &quot;C:\CurrentPath&quot; like so:</p>
@@ -35,6 +36,14 @@
 <p>You are running it <em>from</em> C:\CurrentPath</p>
 </blockquote>
 <p>How do we do it??</p>
+<p>In PowerShell 3.0 and above we write:</p>
+<pre><code>write-host &quot;The script is located in $PSScriptRoot&quot;
+# e.g. C:\Scripts
+
+write-host &quot;The script is called $PSCommandPath&quot;
+# e.g. C:\Scripts\HelloWorld.ps1
+</code></pre>
+<p>In older version we wrote:</p>
 <pre><code>write-host &quot;The script is located in $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)&quot;
 # e.g. C:\Scripts
 
@@ -44,20 +53,23 @@ write-host &quot;The script's full name is called $($MyInvocation.MyCommand.Path
 write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
 # e.g. C:\CurrentPath
 </code></pre>
-<p>And in Powershell 3.0 and above, the first two can be simplified to:</p>
-<pre><code>write-host &quot;The script is located in $PSScriptRoot&quot;
-# e.g. C:\Scripts
-
-write-host &quot;The script is called $PSCommandPath&quot;
-# e.g. C:\Scripts\HelloWorld.ps1
-</code></pre>
 <h2 id="caveat">Caveat!</h2>
-<p>One caveat with these scripts... they are unlike most powershell scripts because they only work properly when they are inside a script. They don't behave the same if you just paste them into the commandline.</p>
+<p>One caveat with these scripts... they are unlike most powershell scripts because
+they only work properly when they are inside a script.</p>
+<p>They don't behave the same if you just paste them into the commandline.</p>
 <h2 id="bonus-questions">Bonus questions</h2>
-<p>What if one script is invoked from another? How do you indication that chain? Good question. I don't know the answer yet. Do you?</p>
+<h3 id="question-what-if-one-script-is-invoked-from-another-how-do-you-inspectquery-that-chain">Question: What if one script is invoked from another? How do you inspect/query that chain?</h3>
+<p>a caller, tx-14327, asks:</p>
+<blockquote>
+<p>What if one script is invoked from another?</p>
+<p>How do you inspect/query that chain?</p>
+</blockquote>
+<p>Good question. I don't know the answer yet. Do you?</p>
 <p>(I think the -Scope in this old code might've been put there for that reason...)</p>
 <pre><code>$scriptpath = (split-path (Get-Variable MyInvocation -Scope Script).Value.MyCommand.Path)
 </code></pre>
+<h2 id="see-also">See Also</h2>
+<p>Scopes.! and not the monkey trial!</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
