@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>tips and tricks . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="tips-n-tricks-with-jest-testing-of-react">tips n tricks with jest testing (of react)</h1>
+<h2 id="only-and-skip">Only and Skip</h2>
+<p>You have a <code>.test.tsx</code> file with many tests, they all start like this...</p>
+<pre><code>test(&quot;Laser guidance&quot;, async () =&gt; {
+test(&quot;Laser cooling&quot;, async () =&gt; {
+test(&quot;Laser calibration&quot;, async () =&gt; {
+</code></pre>
+<p>You want to run just 1 test? Change it to use <code>test.only</code>...</p>
+<pre><code>test.only(&quot;Laser guidance&quot;, async () =&gt; {
+test(&quot;Laser cooling&quot;, async () =&gt; {
+test(&quot;Laser calibration&quot;, async () =&gt; {
+</code></pre>
+<p>You can also use this to run more than one. The <code>.only</code> does <em>not</em> need to be exclusive</p>
+<pre><code>test.only(&quot;Laser guidance&quot;, async () =&gt; {
+test.only(&quot;Laser cooling&quot;, async () =&gt; {
+test(&quot;Laser calibration&quot;, async () =&gt; {
+</code></pre>
+<p>And you could instead use <code>.skip</code> to avoid the one you don't want...</p>
+<pre><code>test(&quot;Laser guidance&quot;, async () =&gt; {
+test(&quot;Laser cooling&quot;, async () =&gt; {
+test.skip(&quot;Laser calibration&quot;, async () =&gt; {
+</code></pre>
+<h2 id="wait-for-the-whole-render">wait for the whole render</h2>
+<p>There might be race conditions in your render that you're not able to fix right now, and which result in intermittent failures, i.e. flaky tests.</p>
+<p>wrap the render in an <code>act</code> so that the whole thing really must finish before the test proceeds...</p>
+<pre><code>await act( async () =&gt;  render(routerWrapper(employeeWrapper(&lt;EmployeeProfile /&gt;))));
+</code></pre>
+<p>...this will cause a warning.</p>
+<h2 id="screen-debug">screen debug</h2>
+<p>You can output/log what the <code>screen</code> holds with <code>screen.debug</code></p>
+<h2 id="getfindquery-which-is-what">get/find/query -- which is what?</h2>
+<p><img src="get_find_query_cheatsheet.png" alt="Get/Find/Query in cheat sheet" /></p>
+<p>—<a href="https://testing-library.com/docs/react-testing-library/cheatsheet#queries">source - '#Queries' in cheatsheet</a>)</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library</a></li>
+<li><a href="https://testing-library.com/docs/react-testing-library/cheatsheet#queries">Query (get/find/query)</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

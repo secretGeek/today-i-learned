@@ -33,6 +33,17 @@ git pull https://github.com/doekman/console-adventure.git master
 git merge --no-ff doekman-master
 git push origin master
 </code></pre>
+<h2 id="resolve-merge-conflicts-arising-during-pull-request">resolve merge conflicts arising during pull request</h2>
+<p>Situation: you're working on a feature branch called <code>feature-1</code></p>
+<p>You think you're done - so you push your last commit to the server, to begin a pull request, hoping to merge it to <code>main</code>.</p>
+<p>Before the Pull request is complete, someone merges a different PR into <code>main</code> and azure devops reports there is a merge conflict 'file changed in both'</p>
+<p>On your local machine - switch to the feature branch (you are probably already there)</p>
+<p>and then...</p>
+<pre><code>git pull origin main
+</code></pre>
+<p>...this will attempt to bring the remote copy of main (<code>origin main</code>) into your local repo and folder, where you are working on <code>feature-1</code></p>
+<p>The merge conflict will then occur before your eyes, and you can resolve it locally.</p>
+<p>When you're done, commit and push (you'll be pushing to <code>remote feature-1</code>) and your new commit will form part of the pull request.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
