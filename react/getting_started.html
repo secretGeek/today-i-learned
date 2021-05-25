@@ -146,13 +146,13 @@ import &quot;./App.css&quot;;
 <h2 id="making-a-component-that-can-contain-any-other-component-or-elements">Making a component that can contain <em>any</em> other component (or elements)</h2>
 <p>With <code>props</code> -- we can use a special <code>props.children</code> property to return <em>any</em> arbitrary elements that have been nested inside that component.</p>
 <p>e.g.</p>
-<p>imagine we want to nest various different things inside special, propietary &quot;cool looking rounded box&quot;</p>
+<p>imagine we want to nest various different things inside our special, proprietary &quot;cool looking rounded box&quot;</p>
 <p>We can implement the cool looking rounded box like this ---</p>
 <pre><code>function MyCoolContainer(props) {
 	return &lt;div className=&quot;my-cool-looking-rounded-box&quot;&gt;{props.children}&lt;/div&gt;;
 }
 </code></pre>
-<p>...and then reuse it to, with <em>any</em> contain inside it....  perhaps in one place it has this....</p>
+<p>...and then reuse it, with <em>any</em> content inside it....  perhaps in one place it has this....</p>
 <pre><code>return &lt;MyCoolContainer&gt;&lt;h2&gt;Hello!&lt;/h2&gt;&lt;p&gt;Welcome to new york.&lt;/p&gt;&lt;/MyCoolContainer&gt;;
 </code></pre>
 <p>and in another...</p>
@@ -342,6 +342,63 @@ move component to separate file</p>
 <blockquote>
 <p>This will create a production build of your app in the build/ folder of your project.</p>
 </blockquote>
+<h2 id="playground">Playground....</h2>
+<p>This online playground gives you a lightweight place to try out small parts of how react works.</p>
+<p><a href="https://jscomplete.com/playground">https://jscomplete.com/playground</a></p>
+<p>Here's a beginner program....</p>
+<pre><code>function CowButton() {
+	const [counter, setCounter] = useState(0);
+	return &lt;button onClick={() =&gt; setCounter(counter+1)}&gt;
+			🐄 &quot;Click Me!&quot; (clicks so far:{counter})
+		&lt;/button&gt;
+}
+
+ReactDOM.render(
+	&lt;CowButton /&gt;,
+	document.getElementById('mountNode'),
+);
+</code></pre>
+<p>The <code>onClick</code> function can be factored into a handler on the CowButton instead...</p>
+<pre><code>function CowButton() {
+	const [counter, setCounter] = useState(0);
+	const handleClick = () =&gt; setCounter(counter+1);
+	return &lt;button onClick={handleClick}&gt;
+			🐄 &quot;Click Me!&quot; (clicks so far:{counter})
+		&lt;/button&gt;
+}
+
+ReactDOM.render(
+	&lt;CowButton /&gt;,
+	document.getElementById('mountNode'),
+);
+</code></pre>
+<p>Ok, nicer, but that <code>CowButton</code> really has too many responsibilities.</p>
+<p>Let's have two components, one for the clicking and one for saying how many clicks.</p>
+<pre><code>function CowButton(props) {
+ return &lt;button onClick={() =&gt; props.onClickFunction(props.amount)}&gt;
+		🐄 Click me! (+{props.amount})
+	&lt;/button&gt;
+}
+function DisplayClicks(props) {
+	return (&lt;div&gt;Moo! {props.message} clicks!&lt;/div&gt;);
+}
+
+function App() {
+	const [counter, setCounter] = useState(0);
+	const incrementCounter = (amount) =&gt; setCounter(counter+amount);
+	return (
+		&lt;div&gt;
+			&lt;CowButton onClickFunction={incrementCounter} amount={2} /&gt;
+			&lt;DisplayClicks message={counter} /&gt;
+		&lt;/div&gt;
+	);
+}
+
+ReactDOM.render(
+	&lt;App /&gt;,
+	document.getElementById('mountNode'),
+);
+</code></pre>
 <h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://reactjs.org/blog/2019/08/15/new-react-devtools.html">react devtools</a></li>

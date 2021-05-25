@@ -55,6 +55,20 @@ test.skip(&quot;Laser calibration&quot;, async () =&gt; {
 <h2 id="getfindquery-which-is-what">get/find/query -- which is what?</h2>
 <p><img src="./get_find_query_cheatsheet.png" alt="Get/Find/Query in cheat sheet" /></p>
 <p>—<a href="https://testing-library.com/docs/react-testing-library/cheatsheet#queries">source - '#Queries' in cheatsheet</a>)</p>
+<h2 id="fix-overlapping-act-calls-warning">Fix &quot;overlapping act() calls&quot; warning</h2>
+<p>I saw this warning being produced by some test:</p>
+<pre><code>Warning: You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one
+</code></pre>
+<p>The problem in this case was lines of code that just said:</p>
+<pre><code>screen.findByText(&quot;testEmail@email.com&quot;);
+</code></pre>
+<p>...all of the <code>.find</code> methods are async, and must be awaited. (this includes <code>findBy*</code> and <code>findAllBy</code>)</p>
+<p>So it needed to become:</p>
+<pre><code>await screen.findByText(&quot;testEmail@email.com&quot;);
+</code></pre>
+<p>or the synchronous alternative:</p>
+<pre><code>screen.queryByText(&quot;testEmail@email.com&quot;);
+</code></pre>
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://testing-library.com/docs/react-testing-library/intro/">React Testing Library</a></li>

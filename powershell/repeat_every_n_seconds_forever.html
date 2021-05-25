@@ -30,10 +30,15 @@
 <p>And used this command to achieve it:</p>
 <pre><code>cls; while ($true) { dir . *.* -recurse | measure | % Count; start-sleep -seconds 5; }
 </code></pre>
+<h2 id="poll-file-size">Poll File Size</h2>
 <p>This example will show you the file size, every second (expressed in GB)</p>
 <pre><code>while($true) { dir *wellsrv* | % { $_.Length / 1gb; sleep 1} }
 </code></pre>
-<p>Here's one that shows the current time, the file name and size every 20 seconds</p>
+<h2 id="poll-disk-space">Poll disk space</h2>
+<pre><code>while($true) { get-psdrive c | % { $_.Free / 1GB; sleep 3} }
+</code></pre>
+<h2 id="poll-current-time-filename-and-size">Poll Current Time, FileName and Size</h2>
+<p>Here's one that shows the current time, the file name and size every 30 seconds</p>
 <pre><code>while($true) { dir outputlog.txt | % {
 			&quot;&quot; +  (get-date -f &quot;yyyy-MM-dd HH:mm:ss&quot;) +
 			&quot;: &quot; + ($_.Name) +
@@ -43,6 +48,7 @@
 			}
 }
 </code></pre>
+<h2 id="poll-space-used-and-remaining">Poll Space Used and remaining</h2>
 <p>Here's one that shows how much space is left on the drive...</p>
 <pre><code>while (1) {
 	get-psdrive C |

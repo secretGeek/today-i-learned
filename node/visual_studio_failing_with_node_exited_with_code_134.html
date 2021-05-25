@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>visual studio failing with node exited with code 134 . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,13 +22,17 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="react" class="chapter">react</h1>
-<h3 id="content">content</h3>
-<ul>
-<li><a href="old_getting_started.html">(Old) Getting started with react</a></li>
-<li><a href="find_mismatched_getters_setters.html">find mismatched getters and setters (for useState)</a></li>
-<li><a href="getting_started.html">Getting started with react</a></li>
-</ul>
+<h1 id="visual-studio-build-is-failing-with-node.exe-exited-with-code-134">Visual Studio Build is failing with &quot;node.exe exited with code 134&quot;</h1>
+<p>Well this was a nasty little rabbit hole.</p>
+<pre><code>&quot;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VisualStudio\NodeJS\node.exe&quot; exited with code 134
+</code></pre>
+<p>And we found more detail that pointed to <code>Microsoft.TypeScript.MSBuild.4.1.4/tools/Microsoft.TypeScript.targets</code> line 551</p>
+<p>And on investigation, that part of the <code>Microsoft.TypeScript.targets</code> file was concerned with using node to compile typescript.</p>
+<p>A team member somehow reasoned that <code>node.exe</code> was running out of memory when compiling, so we set the environment variable:</p>
+<pre><code>--max-old-space-size=4071
+</code></pre>
+<p>...and not by specifying it on a command line anywhere, but by literally setting the windows environment variables for that user on that machine.</p>
+<p>I expected to see this error again and learn more about getting it to give better clues that let us fix it in a targeted way.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

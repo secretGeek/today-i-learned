@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>words to numbers . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="converting-survey-responses-to-numbers-in-excel">Converting survey responses to numbers in excel</h1>
+<p>You've received a lot of survey data and it might have a column that says good, very good, poor etc -- and you want to turn it into numbers.</p>
+<p>eg.</p>
+<table>
+<thead>
+<tr>
+<th>Response</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Never</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Occasionally</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Sometimes</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Often</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>There's a bunch of different ways to solve this problem and they all look super nerdy.</p>
+<p>Some nerds would say &quot;use a Vlookup&quot; and others would argue &quot;use an index match&quot; and others &quot;use a switch function&quot; -- all of these are powerful and fun and odd looking.</p>
+<p>The &quot;simplest&quot; way is half as complex as those but still pretty nerdy.</p>
+<p>Here's an example data - and what we want to achieve:</p>
+<table>
+<thead>
+<tr>
+<th>+</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><strong>Person</strong></td>
+<td><strong>Feeling</strong></td>
+<td><strong>Score</strong></td>
+</tr>
+<tr>
+<td>B</td>
+<td>Maria</td>
+<td>Sometimes</td>
+<td></td>
+</tr>
+<tr>
+<td>C</td>
+<td>Jack</td>
+<td>Never</td>
+<td></td>
+</tr>
+<tr>
+<td>D</td>
+<td>Joan</td>
+<td>Occasionally</td>
+<td></td>
+</tr>
+<tr>
+<td>E</td>
+<td>Terry</td>
+<td>Sometimes</td>
+<td></td>
+</tr>
+<tr>
+<td>F</td>
+<td>Dave</td>
+<td>Occasionally</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>I wrote a &quot;function&quot; ---- a piece of text that starts with the equals sign '='</p>
+<p>The function i wrote was this, i.e. here's what it says in <code>C2</code>:</p>
+<pre><code>=IF(B2=&quot;Never&quot;,1,IF(B2=&quot;Occasionally&quot;,2,IF(B2=&quot;Sometimes&quot;,3,IF(B2=&quot;Often&quot;,4,IF(B2=&quot;Always&quot;,5)))))
+</code></pre>
+<p>It's a &quot;nested if&quot; function.</p>
+<p>A &quot;nested if&quot; function is a function that is so ugly only it's mother could love it.</p>
+<p>But because it's been around forever and because Excel will outlast everything else on earth -- it's not a bad investment of time to go through it super super slow, let it wash over you and begin to bask in its majesty.</p>
+<p>We wrote that function in <code>C2</code></p>
+<p>When you copy and paste it from row 2 into row 3, excel magically rewrote all of the 2's into 3's ... and the function upfated for me.</p>
+<p>(And sometimes you don't want it to do that -- there's a different trick to stop it from doing that.)</p>
+<p>Also -- it is totally normal and expected that you'll get lost in all the commas and closing brackets..... you'll see this kind of error message at times:</p>
+<p><img src="words_to_numbers_error.png" alt="words to numbers error" /></p>
+<p>I took a screenshot of that error when it happened to me earlier. I think i'd left out one of the &quot;)&quot; -- at the end ..... -- i just shared that so you know it's normal to get errors a lot.</p>
+<p>90% of the books in computer science are about trying to re-think our lives such that we don't end up with complex nested if expressions.</p>
+<p>Now you can use that function in all sorts of places, and if you take your time you can write them for any of these survey questions.</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
