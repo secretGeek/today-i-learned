@@ -39,6 +39,18 @@
 
 } | ConvertTo-CSV  -NoTypeInformation | out-file &quot;Name_And_Count.csv&quot;
 </code></pre>
+<h2 id="similar-pscustomobject">Similar: PSCustomObject</h2>
+<pre><code>[PSCustomObject]@{
+	Name = $_.FullPath
+	Count = $_.Length
+}
+</code></pre>
+<p>This is newer. It's slightly less typing. It can have other improvements.</p>
+<h1 id="whats-the-difference">What's the difference?</h1>
+<blockquote>
+<p>both avenues will output the data as NoteProperties in the System.Management.Automation.PSCustomObject object types</p>
+<p>—<a href="https://devops-collective-inc.gitbook.io/the-big-book-of-powershell-gotchas/new-object-psobject-vs.-pscustomobject">source</a></p>
+</blockquote>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="add_property_to_object_along_pipeline.html">Add note property to object in pipeline</a></li>

@@ -36,7 +36,7 @@
 <pre><code>find-text &quot;\[([^,]+), set([^\]]+)\]&quot; $true (&quot;&quot;) $false $true | ? { $_.Matches[0].Groups[1].Value -ne $_.Matches[0].Groups[2].Value } | % { Write-host (&quot;&quot; + $_.RelativeName + &quot;(&quot; + $_.LineNumber + &quot;) : &quot; + $_.Line); write-host ($_.Matches[0].Groups[1].Value + &quot; Not Equal &quot; +  $_.Matches[0].Groups[2].Value ) -f red; } # find mismatched  [prop, setProp]
 </code></pre>
 <p>... (relies on my <code>find-text</code> scriptlet)</p>
-<p>And here is a case sensitive version that further picks up errors <em>only</em> in the case....</p>
+<p>And here is a case-sensitive version that also further picks up pure capitalization errors....</p>
 <pre><code>const [isPotato, setIsPoTato] = useState&lt;boolean&gt;(false);
 
 find-text &quot;\[([^,]+), set([^\]]+)\]&quot; $true (&quot;&quot;) $false $true | ? { $_.Matches[0].Groups[1].Value.Substring(1) -cne $_.Matches[0].Groups[2].Value.Substring(1) } | % { Write-host (&quot;&quot; + $_.RelativeName + &quot;(&quot; + $_.LineNumber + &quot;) : &quot; + $_.Line); write-host ($_.Matches[0].Groups[1].Value + &quot; Not Equal &quot; +  $_.Matches[0].Groups[2].Value ) -f red; } # find mismatched  [prop, setProp]
@@ -44,7 +44,7 @@ find-text &quot;\[([^,]+), set([^\]]+)\]&quot; $true (&quot;&quot;) $false $true
 <p>None of them would pick this up though...</p>
 <pre><code>const [isPotato, setisPotato] = useState&lt;boolean&gt;(false);
 </code></pre>
-<p>...that's on you!</p>
+<p>...that's a challenge for you at home.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

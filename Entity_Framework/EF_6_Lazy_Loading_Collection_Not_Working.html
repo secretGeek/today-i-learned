@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>EF 6 Lazy Loading Collection Not Working . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,13 +22,12 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="saltwater-swimming-pool" class="chapter">saltwater swimming pool</h1>
-<h3 id="content">content</h3>
-<ul>
-<li><a href="abcs.html">abcs of pool chemistry</a></li>
-<li><a href="happy_path.html">The happy path</a></li>
-<li><a href="checklist.html">When Things Go Wrong</a></li>
-</ul>
+<h1 id="ef-6-is-lazy-loading-of-a-collection-not-working-for-you">EF 6: Is Lazy Loading of a Collection not working for you?</h1>
+<p>We had a situation where a particular child property - an <code>ICollection</code> was not being lazy-loaded as expected.</p>
+<p>(It took us a long time to realize that <em>that</em> is what we had... but: that <em>is</em> what we had.)</p>
+<p>We had an <code>ICollection</code> that should've been a <code>navigation property</code> but we'd left off the <em>virtual</em> modifier.</p>
+<p>Lazy-loading behavior would not be applied.</p>
+<p tag:EF:="">{tags:EF,EntityFramework,EF6,EF-6:}</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
