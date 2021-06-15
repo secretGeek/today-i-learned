@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>mstsc without mouse . Today I Learned (secretGeek)</title>
+<title>excel indexof . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,19 +22,21 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="terminal-services-client-without-a-mouse">Terminal services client, without a mouse</h1>
-<p>If you're in a terminal services client and do not have a working mouse...</p>
-<p>To get to the &quot;Connection Bar&quot; type <code>CTRL+ALT+HOME</code></p>
-<p>To send the equivalent of a <code>CTRL+ALT+DEL</code> use <code>CTRL+ALT+END</code></p>
-<h2 id="source">Source</h2>
-<ul>
-<li><a href="https://msdn.microsoft.com/en-us/library/aa383500(v=vs.85).aspx">Remote Desktop Services Shortcut Keys</a></li>
-</ul>
-<h2 id="see-also">See also</h2>
-<ul>
-<li><a href="..%5Cwindows%5Cmstsc_black_screen.html">Use mstsc.exe to connect, receive Black screen</a></li>
-<li><a href="..%5Cmstsc%5Chow_to_best_configure_and_use_mstsc.html">How to best configure and use mstsc.exe - microsoft terminal services client</a></li>
-</ul>
+<h1 id="in-excel-how-do-you-check-indexof-or-contains-of-a-string">In Excel, how do you check IndexOf (or Contains) of a string?</h1>
+<p>You can't sorry. Oh wait:</p>
+<h2 id="excel-string-contains">Excel &quot;String Contains&quot;</h2>
+<p>is:</p>
+<pre><code>=ISNUMBER(SEARCH(&quot;fred&quot;,B2))
+</code></pre>
+<h2 id="excel-indexof-string">Excel &quot;IndexOf String&quot;</h2>
+<p>is:</p>
+<pre><code>=SEARCH(&quot;fred&quot;,B2)
+</code></pre>
+<h2 id="suggestions">Suggestions</h2>
+<p>Excel needs more and better built-in functions.</p>
+<p>Can extensions be added directly into the loaded namespace? What functions are missing?</p>
+<p>Would it be better to start again with a different built in languuage.</p>
+<p>A commandline parameter or a different exe or a different file extension.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
