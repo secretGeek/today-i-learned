@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>ef6 rollback migration . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="ef6-rollback-to-a-previous-migration">EF6: Rollback to a previous migration</h1>
+<p>EF6 migrations/rollbacks are performed with the <code>ef6.exe</code> tool.</p>
+<p>This tool is available inside the Entity Framework nuget package, e.g.</p>
+<pre><code>~\packages\EntityFramework.6.4.4\tools\net45\any\ef6.exe
+</code></pre>
+<p>You might want to copy that <code>tools</code> folder to the server from which you need to run the script.</p>
+<pre><code>.\ef6.exe database update --assembly &quot;PATH\TO\YOUR_DB_Context_DB.dll&quot; --config &quot;Path\To\Your\Connection\String\Containing\Web.config&quot; --target Migration_To_Roll_Back_To --force -v
+</code></pre>
+<p>You will see output like this:</p>
+<pre><code>Specify the '-Verbose' flag to view the SQL statements being applied to the target database.
+</code></pre>
+<p>(It always says that even when you <em>did</em> specify a migration!)</p>
+<pre><code>Target database is: 'YOUR_DB' (DataSource: YOUR_DB_SERVER, Provider: System.Data.SqlClient, Origin: Configuration).
+</code></pre>
+<p>And for each migration being rolled back you'll see the result of running the 'down' function, as well as removing the migration itself from <code>[dbo].[__MigrationHistory]</code></p>
+<pre><code>Reverting migrations: [202106211412384_Migration_After_The_One_Your_Targeting].
+Reverting explicit migration: 202106211412384_Migration_After_The_One_Your_Targeting.
+DELETE [dbo].[__MigrationHistory]
+WHERE (([MigrationId] = N'202106211412384_Migration_After_The_One_Your_Targeting') AND ([ContextKey] = N'Your_DbContext'))
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

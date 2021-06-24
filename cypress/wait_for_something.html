@@ -25,7 +25,7 @@
 <h1 id="wait-for-something-in-cypress-without-using-hardcoded-milliseconds">Wait for something in Cypress, without using hardcoded milliseconds</h1>
 <p>Here is what you do NOT want to have to do....</p>
 <pre><code>// hard coded wait to make sure the thing we just did has finished...
-cy.wait(5000); 
+cy.wait(5000);
 </code></pre>
 <p>(You end up having to put in loooong wait times, so the tests don't fail intermittently... slowing down the whole thing...)</p>
 <p>Instead you can &quot;wait until a specific element exists&quot; (and use that as a proxy for 'it's loaded!')</p>
@@ -53,13 +53,14 @@ cy.wait('@alias')
 <p>then wait on it anywhere you want in your test (as many times as you need, too, since it's not the result that is begin aliased, but the call)</p>
 <pre><code>cy.wait('@getCrimes')
 </code></pre>
-<p>Note - the example above is also a handy example of using aliases.</p>
+<p>Note - the example above is also a handy example of using aliases with intercepts.</p>
+<p>Wanted: a way to use</p>
 <p>I believe we could use aliases in the first example too, something like this:</p>
 <p>...set this up once...</p>
 <pre><code>cy.get('#loading').should('not.exist').as('loadingIndicatorGone')
 </code></pre>
-<p>and use it as many times as you want...</p>
-<pre><code>cy.wait('@loadingIndicatorGone')
+<p>However, if you try to wait on an alias defined on a get of any element, you will get a warning:</p>
+<pre><code>cy.wait('@loadingIndicatorGone') // this doesn't work, and you'll get a warning
 </code></pre>
 <h2 id="external-references">External references</h2>
 <ul>
