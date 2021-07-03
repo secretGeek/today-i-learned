@@ -39,7 +39,8 @@
 sp_spaceused
 </code></pre>
 <hr />
-<h2 id="summary-of-tables">Summary of tables:</h2>
+<h2 id="data-dictionary">Data Dictionary</h2>
+<h2 id="summary-of-tables">Summary of tables</h2>
 <pre><code>use dbName
 SELECT
 	s.[Name] as [Schema],
@@ -69,7 +70,7 @@ ORDER BY
 	1
 </code></pre>
 <hr />
-<h2 id="data-dictionary">Data Dictionary</h2>
+<h2 id="summary-of-columns">Summary of columns</h2>
 <pre><code>use dbName
 SELECT
 	schema_name(so.[schema_id]) as [Schema],
@@ -86,6 +87,15 @@ WHERE
 	so.type = 'U'
 ORDER BY
 	1,2,3
+</code></pre>
+<p>Also</p>
+<pre><code>- relationships
+- indexes
+- statistics
+- views
+- stored procedures
+
+- summaries of tables etc
 </code></pre>
 
 </article>
