@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>reset iis . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,14 +22,14 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="iis" class="chapter">iis</h1>
-<h3 id="content">content</h3>
-<ul>
-<li><a href="reset_iis.html">How do you reset IIS at the command line? (for continuous integration etc.)</a></li>
-<li><a href="where_to_find_the_logs_for_a_site.html">Where to find the logs for a site?</a></li>
-<li><a href="which_version.html">Which version</a></li>
-<li><a href="which_w3wp_process_is_which.html">Which w3wp.exe process is which?</a></li>
-</ul>
+<h1 id="how-do-you-reset-iis-at-the-command-line-for-continuous-integration-etc">How do you reset IIS at the command line? (for continuous integration etc.)</h1>
+<p>My research indicates the most reliable way to reset IIS is not with <code>IISRESET</code> but with these two commands....</p>
+<pre><code>NET STOP iisadmin /y
+
+NET START w3svc
+</code></pre>
+<p>...and it might be advisable to wait in between the stop and the start.</p>
+<p>see <a href="https://docs.microsoft.com/en-US/troubleshoot/iis/using-iisreset-restart-iis-result-error">https://docs.microsoft.com/en-US/troubleshoot/iis/using-iisreset-restart-iis-result-error</a></p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

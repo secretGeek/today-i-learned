@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>use ssms across vpn . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,14 +22,18 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="iis" class="chapter">iis</h1>
-<h3 id="content">content</h3>
-<ul>
-<li><a href="reset_iis.html">How do you reset IIS at the command line? (for continuous integration etc.)</a></li>
-<li><a href="where_to_find_the_logs_for_a_site.html">Where to find the logs for a site?</a></li>
-<li><a href="which_version.html">Which version</a></li>
-<li><a href="which_w3wp_process_is_which.html">Which w3wp.exe process is which?</a></li>
-</ul>
+<h1 id="how-to-use-sql-server-management-studio-ssms-to-access-windows-authenticated-databases-across-a-vpn">How to use SQL Server Management Studio (SSMS) to access Windows authenticated databases across a VPN</h1>
+<p><em>ie Remote SQL with SSMS on VPN</em></p>
+<p>Imagine you're on a work from home computer, connected over a VPN to a client network (perhaps using a software or hardware token)</p>
+<p>You open SSMS -- and can't see how to connect via &quot;Windows Authentication&quot; to machine on that network.</p>
+<p>The trick is to launch <code>SSMS.exe</code> with runas, specifying <code>/netonly</code> and a domain\user combo.</p>
+<pre><code>runas /netonly /user:THE_DOMAIN\THE_USER &quot;C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe&quot;
+</code></pre>
+<h2 id="what-is-the-paramter-netonly">What is the paramter <code>/netonly</code> ?</h2>
+<blockquote>
+<p>netonly</p>
+<p>use if the credentials specified are for remote access only.</p>
+</blockquote>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
