@@ -409,10 +409,7 @@ html::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	background-color: var(--btn-bg);
 	box-shadow: 0 -2px 3px inset var(--search-btn-shadow);
-	xbox-shadow: 0 -2px 3px inset var(--search-btn-shadow), 0 0 3px var(--btn-active);
-
 }
-
 
 html {
 	transition: background-color 250ms ease;
@@ -491,11 +488,9 @@ h1.chapter {
 	}
 }
 
-
 summary {
 	cursor:pointer;
 }
-
 
 /* Table of contents details/summary elements */
 
@@ -516,7 +511,6 @@ details.toc[open] {
 details.toc[open] summary {
 	margin-top:10px;
 }
-
 
 details.toc[open] ul {
 	animation: animateDown 0.2s linear forwards;
@@ -564,7 +558,6 @@ details.toc > summary::-webkit-details-marker {
 	margin-right:1ch;
 	color:var(--link-hover);
 }
-
 
 /* END: table of contents details/summary elements */
 
@@ -694,7 +687,6 @@ code[data-content='new'] {
 		content: " ⁂️";
 		color:#FF0;
 		font-family: "Segoe UI Emoji";
-		xtext-shadow:none;
 		opacity:0.8;
 	}
 
@@ -779,6 +771,24 @@ a[href*="://"]:not(.no-glyph)::after {
 a[href*="://"]:not(.no-glyph)::after:hover {
 	box-shadow:none;
 	border: 0 0 0 var(--breadcrumb-shadow-inset1);
+}
+
+/* href attributes that start with 'javascript:' are favelets. Give them a cool favelety glyph.*/
+a[href^="javascript:"]:not(.no-glyph) {
+	padding:0.6ch;
+	background-color:var(--btn-bg);
+	border-radius:0.5ch;
+	box-shadow: 0 -2px 3px inset var(--search-btn-shadow);
+}
+a[href^="javascript:"]:not(.no-glyph):hover {
+	background-color:var(--btn-bg-hover);
+}
+a[href^="javascript:"]:not(.no-glyph)::after {
+	content: ' \2B50'; /* emoji-star */
+	font-size:0.8em;
+	text-decoration:none;
+	vertical-align:top;
+	display:inline-block;
 }
 
 /* this is used for turning the little house in the breadcrumb into a white or gray silhouette */
