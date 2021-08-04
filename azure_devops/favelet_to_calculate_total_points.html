@@ -25,7 +25,7 @@
 <h1 id="a-bookmarklet-or-favelet-to-calculate-total-points-in-azure-devops-when-working-on-backlog">A Bookmarklet or Favelet to Calculate &quot;Total Points&quot; in Azure Devops when Working on Backlog</h1>
 <p>When looking at the backlog items and choosing what to assign into a sprint, you often want to know a subtotal for a bunch of stories.</p>
 <p>Add this bookmarklet/favelet to your bookmarks/favorites. Then while looking at the backlog items in Azure Devops, select the rows you are interested in and click the bookmarklet.</p>
-<p><a href="javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) => { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))">sum points</a></p>
+<p><a href="javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) => { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))">sum points</a> ← <em class="tip">add this link as a favorite</em></p>
 <p>Here is the bookmarket in full</p>
 <pre><code>javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) =&gt; { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))
 </code></pre>
