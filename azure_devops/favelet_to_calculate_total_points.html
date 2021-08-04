@@ -25,7 +25,7 @@
 <h1 id="a-bookmarklet-or-favelet-to-calculate-total-points-in-azure-devops-when-working-on-backlog">A Bookmarklet or Favelet to Calculate &quot;Total Points&quot; in Azure Devops when Working on Backlog</h1>
 <p>When looking at the backlog items and choosing what to assign into a sprint, you often want to know a subtotal for a bunch of stories.</p>
 <p>Add this bookmarklet/favelet to your bookmarks/favorites. Then while looking at the backlog items in Azure Devops, select the rows you are interested in and click the bookmarklet.</p>
-<p>[sum points](javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) =&gt; { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0))))</p>
+<p><a href="javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) => { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))">sum points</a></p>
 <p>Here is the bookmarket in full</p>
 <pre><code>javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) =&gt; { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))
 </code></pre>
@@ -41,6 +41,11 @@
 </code></pre>
 <p>Note it assumes that the points are in the 7th column (index <code>6</code>), and that selected rows have a class name of <code>grid-row-selected</code> applied.</p>
 <p>You may need to vary those assumptions.</p>
+<p>I'm told this bookmarklet was developed by Ryan Stuart, a very clever javascript developer with a functional eye.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/azure/devops/boards/backlogs/office/bulk-add-modify-work-items-excel?view=azure-devops&amp;tabs=agile-process">Bulk add or modify work items with Excel</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
