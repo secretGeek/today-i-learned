@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>using anki for windows . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="using-anki-for-windows">Using Anki for Windows</h1>
+<ul>
+<li>install it.</li>
+</ul>
+<h2 id="import-csv-files-to-anki">Import CSV files to anki</h2>
+<p>Here's the format (it's quite flexible)</p>
+<p>Basic example:</p>
+<pre><code>Front of card,Back of card
+</code></pre>
+<p>(Qualify with double quotes if needed for commas or new lines. If you need double-quotes, then double them.)</p>
+<p>Alternatively, for new lines you can use <code>&lt;br&gt;</code> - but be sure to choose &quot;allow HTML in fields&quot;.</p>
+<p>More advanced...</p>
+<pre><code># Comments on any line
+tags:tag1 tag2 tag3
+# ^^ those tags will be added to all these cards...
+Front of card 1,Back of card 1
+Front of card 2,Back of card 2
+Front of card 3,Back of card 3
+Front of card 4,Back of card 4
+</code></pre>
+<p>You can also configure the import screen to have more fields -- it's quite versatile.</p>
+<hr />
+<h2 id="anki">Anki</h2>
+<p>Failed to create OpenGL context for format QSurfaceFormat(version 2.0, options QFlags<a href="QSurfaceFormat::FormatOption">QSurfaceFormat::FormatOption</a>(), depthBufferSize 24, redBufferSize -1, greenBufferSize -1, blueBufferSize -1, alphaBufferSize -1, stencilBufferSize 8, samples 0, swapBehavior QSurfaceFormat<span>DefaultSwapBehavior, swapInterval 1, colorSpace QSurfaceFormat</span>DefaultColorSpace, profile  QSurfaceFormat::NoProfile) .
+This is most likely caused by not having the necessary graphics drivers installed.</p>
+<h2 id="install-a-driver-providing-opengl-2.0-or-higher-or-if-this-is-not-possible-make-sure-the-angle-open-gl-es-2.0-emulation-libraries-libegl.dll-libglesv2.dll-and-d3dcompiler_.dll-are-available-in-the-application-executables-directory-or-in-a-location-listed-in-path">Install a driver providing OpenGL 2.0 or higher, or, if this is not possible, make sure the ANGLE Open GL ES 2.0 emulation libraries (libEGL.dll, libGLESv2.dll and d3dcompiler_*.dll) are available in the application executable's directory or in a location listed in PATH.</h2>
+<h2 id="ok">OK</h2>
+<p>...um .... ok....</p>
+<p>So I did this... (<a href="https://changes.ankiweb.net/known-issues.html">based on...</a>)</p>
+<pre><code>cmd
+
+echo auto &gt; %APPDATA%\Anki2\gldriver
+
+exit
+</code></pre>
+<p>i.e. create a file called <code>$env:appdata\Anki2\gldriver</code> (no file extension)</p>
+<p>...and put the word &quot;auto&quot; in it.</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
