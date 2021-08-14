@@ -42,7 +42,7 @@ ssh -O exit myuser@55.55.55.55
 </code></pre>
 <p>...didn't work because of these two tricks...</p>
 <ol>
-<li>First I needed to create an <code>~/.ssh/config file</code></li>
+<li>First I needed to create an <code>~/.ssh/config</code> file</li>
 </ol>
 <p>the file contains this:</p>
 <pre><code>ControlMaster auto
@@ -69,6 +69,14 @@ Bad owner or permissions on /home/myuser/.ssh/config
 <p>I run the file, it prompts me for the password exactly once, and runs all my many rsyncs.</p>
 <p>I remind myself to perform this regularly using devoir.</p>
 <p>That's sufficient for now.</p>
+<h2 id="new-problem-operation-not-permitted-1">new problem &quot;Operation not permitted (1)&quot;</h2>
+<p>On a new computer I found my rsync backups were failing with &quot;Operation not permitted (1)&quot;</p>
+<p>I did a poor job of writing down the details of the error message - but it basically said it couldn't set the attributes on the target system (which is windows, and that makes sense to me)</p>
+<p>So I took away a bunch of the options that are implied by the 'a' option (a means <code>attributes</code>)</p>
+<pre><code>rsync -chavzP --no-o --no-g --no-perms --no-t --stats myuser@55.55.55.55:/home/myuser/hello/obj/ /home/myuser/test_rsync2/home/myuser/hello/obj/
+</code></pre>
+<p>These three -- <code>--no-o --no-g --no-perms</code> -- mean &quot;don't set the owner the group or the permissions&quot;</p>
+<p>And this one <code>--no-t</code> means 'don't set the file time' -- which also means it can't use time-checking to simplify the checking of what to sync... and maybe that slows it down a lot.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="backup_remote_folders_with_rsync.html">Backup remote folders with rsync</a></li>

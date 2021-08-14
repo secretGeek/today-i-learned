@@ -23,6 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="chmod-and-the-magic-of-file-permissions">chmod - and the magic of file permissions</h1>
+<h2 id="allow-everything">allow everything...</h2>
 <pre><code>$ chmod 777 /opt/webapps
 </code></pre>
 <p>Causes these permissions:</p>
@@ -66,11 +67,16 @@ rwx   rwx   rwx
 <li><code>x</code> = execute permission</li>
 </ul>
 <p>If a permission was missing it would be represented by a dash '-'.</p>
+<h2 id="similarly">similarly...</h2>
 <ul>
 <li><code>chmod</code> - modify permissions</li>
 <li><code>chown</code> - change the owner of the file</li>
 <li><code>chgrp</code> - change the group</li>
 </ul>
+<h2 id="common-patterns">Common patterns....</h2>
+<h3 id="owner-can-read-write-but-not-execute-no-one-else-can-read-write">owner can read write but not execute, no one else can read write:</h3>
+<pre><code>sudo chmod 600 ~/.ssh/id_dsa
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
