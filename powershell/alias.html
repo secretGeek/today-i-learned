@@ -29,12 +29,12 @@
 <h2 id="to-check-an-alias">To Check an alias:</h2>
 <pre><code>get-command *cls*
 </code></pre>
-<p>...produces a list of not just aliases but commands that match your pattern. (so i sometimes prefer it over <code>get-alias</code> though it can produce unwanted results.)</p>
+<p>...produces a list of not just aliases but commands that match your pattern. (So i sometimes prefer it over <code>get-alias</code> though it can produce unwanted results.)</p>
 <pre><code class="language-plaintext">CommandType     Name
 ===========     ====
 Alias           cls -&gt; Clear-Host
 </code></pre>
-<h2 id="to-find-aliases-for-a-command">To find aliases for a command</h2>
+<h2 id="to-only-find-aliases-for-a-command">To <em>only</em> find aliases for a command</h2>
 <p>Wonder what aliases exist for a command (or commands)? add the <code>-def</code> parameter to <code>get-alias</code></p>
 <pre><code>get-alias -def &quot;push-location&quot;
 </code></pre>
@@ -43,18 +43,23 @@ Alias           cls -&gt; Clear-Host
 <pre><code>set-alias tf &quot;tree /f&quot; # this doesn't work!
 </code></pre>
 <p>(<a href="../linux/bash.html">bash</a> allows that kind of thing, as does <a href="../git/alias.html">git</a>)</p>
-<p>To create an alias with parameters you're advised to instead create a tiny function in your <code>$PROFILE</code>.</p>
+<p>To create an alias with parameters you're advised to instead create a <strong>tiny function</strong> in your <code>$PROFILE</code>.</p>
 <p>e.g.</p>
 <pre><code>function tf() {
 	tree /f
 }
 </code></pre>
-<p>...and over time: grow it into a cmdLet and eventually put it into a module.</p>
+<p><strong>Tiny_Functions</strong> are cool! But over time they don't stay tiny. They grow it into a cmdLet, then eventually they are put it into a module and they leave <code>$env:home</code>.</p>
+<h2 id="get-command-which">Get-Command - Which</h2>
+<ul>
+<li><a href="which-and-which-plus.html">Get-Command and it's common alias 'Which' are worth exploring too.</a></li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../linux/bash.html">bash</a></li>
 <li><a href="../git/alias.html">git alias</a></li>
 <li><a href="powershell_precedence_of_commands_aliases.html">Command Precedence in Powershell</a></li>
+<li><a href="which-and-which-plus.html">Which and Which+</a></li>
 </ul>
 
 </article>
