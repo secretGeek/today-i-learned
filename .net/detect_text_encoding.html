@@ -119,7 +119,7 @@
 <p>Only change I had to make is highlighted below:</p>
 <pre><code>/// &lt;summary&gt;
 /// Determines a text file's encoding by analyzing its byte order mark (BOM).
-/// Defaults to ASCII when detection of the text file's endianness fails.
+/// Defaults to ASCII when detection of the text file's endian-ness fails.
 /// &lt;/summary&gt;
 /// &lt;param name=&quot;filename&quot;&gt;The text file to analyze.&lt;/param&gt;
 /// &lt;returns&gt;The detected encoding.&lt;/returns&gt;
@@ -161,6 +161,7 @@ using (var sr = new StreamReader(fileName, encoding)) // System.Text.Encoding.UT
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../powershell/detect_file_encoding.html">Detect File Encoding (with Powershell)</a></li>
+<li><a href="../powershell/emoji_list.html">All Emoji returned by Emoji Module</a></li>
 </ul>
 
 </article>

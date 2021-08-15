@@ -23,14 +23,15 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="config-from-an-external-source">Config from an external source</h1>
-<p>Say you want your connectionStrings to be pulled in from an external file, you can do that like this:</p>
+<p>Say you want your <code>connectionStrings</code> to be pulled in from an external file, you can do that like this:</p>
 <pre><code>&lt;connectionStrings configSource=&quot;ConnectionStringsProduction.xml&quot; /&gt;
 </code></pre>
-<p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique.</p>
+<p>That way, for example, your <code>web.config</code>, your <code>application.config</code> (for some other apps) and your <code>linqpad.config</code> can all use the exact same file for connectionStrings (even though the rest of their config is very unique).</p>
 <p>Or if you have 3 different web applications that all want the same config for just part of their config file, you can use this trick.</p>
-<h2 id="or-dynamically-load-connection-string-info">Or dynamically load connection string info</h2>
-<p>More extremem is this method:</p>
-<p>Make your own connection string object:</p>
+<h2 id="or-dynamicallymanually-load-connection-string-info-yourself">Or dynamically/manually load connection string info yourself</h2>
+<p>More extreme is this method:</p>
+<p>(<em>I used this for analyzing a lot of connection strings in different projects</em>)</p>
+<p>Make your <em>own</em> connection string object:</p>
 <pre><code>public class ConnectionInfo
 {
 	public string ConnectionString { get; set; }
@@ -43,7 +44,6 @@
 {
 	using (var reader = XmlReader.Create(fileName))
 	{
-		//reader.Dump();
 		reader.MoveToContent();
 		var connectionStrings = new List&lt;ConnectionInfo&gt;();
 		while (reader.ReadToFollowing(&quot;add&quot;))
@@ -64,6 +64,11 @@
 <p>Like so</p>
 <pre><code>LoadConfig(@&quot;C:\Temp\SomeConnectionStrings.config&quot;);
 </code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="/git/git_config.html">git config</a></li>
+<li><a href="/mstsc/how_to_best_configure_and_use_mstsc.html">How to best configure and use <code>mstsc.exe</code> - microsoft terminal services client</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
