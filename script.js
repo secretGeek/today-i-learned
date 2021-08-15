@@ -4,7 +4,7 @@ function onStart() {
 	configureBreadcrumb();
 	copyPreCodeOnClick();
 	let tocParent = $id('currentTitle');
-	configurePermaLinksAndToc(tocParent); //include TOC
+	configurePermalinksAndToc(tocParent); //include TOC
 
 	//var root = document.documentElement;
 	//root.style.setProperty('--main-hue', 0)
@@ -79,7 +79,7 @@ function applyLanguageClassesToPre() {
 	}
 }
 
-function configurePermaLinksAndToc(tocParent) {
+function configurePermalinksAndToc(tocParent) {
 	// consider: include images as indented outline/toc elements (list their caption if they have, or their title, or their alt text, or their name.)
 
 	let toc = [];
@@ -168,7 +168,7 @@ function configureBreadcrumb() {
 	} else {
 		$id("breadcrumb").innerHTML =
 			
-			`<a id='linkshere' href='/wlh.html?to=${encodeURIComponent(currentUrl)}' style='float:right;vertical-align:top' title='what link here?'>wlh?</span>` + homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
+			`<a id='linksHere' href='/wlh.html?to=${encodeURIComponent(currentUrl)}' style='float:right;vertical-align:top' title='what link here?'>wlh?</span>` + homeLink + joiner + topicLink + joiner + `<span id='currentTitle'>${currentTitle}</span>`;
 	}
 }
 
@@ -186,18 +186,22 @@ function copyPreCodeOnClick() {
 
 	for (let code of $("code")) {
 		let codeText = code.innerText;
-		// only allow copy to clipboard if text is longer than 2 chars, and if code is not inside an anchor.
-		if (codeText.length > 2 && code.closest('a') == null) {
-			code.setAttribute("title", "Click to copy text to clipboard.");
-			code.setAttribute("onclick", "copyItemText(this);");
-		}
 
 		// this allows us to set style rules such as `code[data-content='tip']::after { content: " 💡";}
 		if (codeText.length < 100) {
 			code.setAttribute('data-content', codeText.toLowerCase());
 		}
+
+		// Only allow copy to clipboard if text is longer than 2 chars, 
+		// AND if code is not inside an anchor.
+		if (codeText.length <= 2 || code.closest('a') != null)
+			continue;
+		
+		code.setAttribute("title", "Click to copy text to clipboard.");
+		code.setAttribute("onclick", "copyItemText(this);");		
 	}
 
+	// Now undo any damage that was done to codes inside pres.
 	for (let codeInPre of $("pre code")) {
 		codeInPre.removeAttribute("onclick");
 		codeInPre.removeAttribute("title");

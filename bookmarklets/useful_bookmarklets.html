@@ -22,32 +22,13 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="useful-bookmarklets">useful bookmarklets</h1>
-<h2 id="copy-selected-text">Copy selected text</h2>
-<p>Copy selected text:</p>
-<pre><code>&lt;a href=&quot;javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=document.getSelection()}prompt('',s)})()&quot;&gt;copy selected text&lt;/a&gt; &amp;larr; *add this link as a favorite, for example, drag it to your bookmarks bar `tip`*
-
-javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=document.getSelection()}prompt('',s)})()
-</code></pre>
-<p>Spread over many lines it looks like this:</p>
-<pre><code>javascript:
-(
-	function (s) {
-		try{
-			s = document.selection.createRange().text;
-		}
-		catch(_) {
-		  s=document.getSelection();
-		}
-		
-		prompt('',s);
-	}
-)()
-</code></pre>
+<h1 id="useful-bookmarklets">Useful bookmarklets</h1>
+<p>Some basic ones I've used at times.</p>
 <h2 id="create-markdown-style-link-to-page-make-link">Create markdown-style link to page (make-link)</h2>
-<p><a href="link">make</a></p>
-<pre><code>javascript:(prompt('',('['+document.title+']('+location.href+')')))()
+<p>Make a link in your favorites bar that creates a piece of text like this:</p>
+<pre><code>[page title](full-url)
 </code></pre>
+<p><a href="javascript:(prompt('',('['+document.title+']('+location.href+')')))()"><code>[title](url)</code></a> ← <em>add this link as a favorite, for example, drag it to your bookmarks bar <code>tip</code></em></p>
 <p>Or spread out...</p>
 <pre><code>javascript:
 (
@@ -57,9 +38,31 @@ javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=d
 		                    ']' +
 		'(' +
 			location.href +
-							')'
+		                    ')'
 		)
 	);
+)()
+</code></pre>
+<h2 id="table-of-contents-of-a-page">Table of Contents of a page</h2>
+<p><code>todo</code> definitely need this one. Loops through h[1-5] and make toc.</p>
+<h2 id="copy-selected-text">Copy selected text</h2>
+<p>Copy selected text:</p>
+<p><a href="javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=document.getSelection()}prompt('',s)})()">copy selected text</a> ← <em>add this link as a favorite, for example, drag it to your bookmarks bar <code>tip</code></em></p>
+<pre><code>javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=document.getSelection()}prompt('',s)})()
+</code></pre>
+<p>Spread over many lines it looks like this:</p>
+<pre><code>javascript:
+(
+	function (s) {
+		try{
+			s = document.selection.createRange().text;
+		}
+		catch(_) {
+			s=document.getSelection();
+		}
+		
+		prompt('',s);
+	}
 )()
 </code></pre>
 
