@@ -48,7 +48,27 @@
 <pre><code>[useful bookmarklets . Today I Learned (secretGeek)](https://til.secretgeek.net/bookmarklets/useful_bookmarklets.html)
 </code></pre>
 <h2 id="table-of-contents-of-a-page">Table of Contents of a page</h2>
-<p><code>todo</code> definitely need this one. Loops through h[1-5] and make toc.</p>
+<p>Create a 'table of contents' (in markdown) by looping through all headings (<code>h1</code>...<code>h6</code>).</p>
+<p><a href="javascript:(prompt('Press Ctrl+C to copy this Table of Contents', Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).reduce((all, hEl)=>{all+=(' '.repeat(parseInt(hEl.outerHTML[2])-1))+`- ${hEl.innerText}\r\n`; return all;},'')))()">table-of-contents</a></p>
+<pre><code>javascript:(prompt('Press Ctrl+C to copy this Table of Contents', Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).reduce((all, hEl)=&gt;{all+=(' '.repeat(parseInt(hEl.outerHTML[2])-1))+`- ${hEl.innerText}\r\n`; return all;},'')))()
+</code></pre>
+<p>And here it is with more whitespace:</p>
+<pre><code>javascript:
+	(prompt('Press Ctrl+C to copy this Table of Contents',
+		Array
+			.from(
+				document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+				)
+			.reduce(
+				(all, hEl) =&gt; { 
+					all += 
+						(' '.repeat(parseInt(hEl.outerHTML[2])-1)) +
+							`- ${hEl.innerText}\r\n`;
+						return all; 
+				} ,'')
+		)
+	)()
+</code></pre>
 <h2 id="copy-selected-text">Copy selected text</h2>
 <p>Copy selected text:</p>
 <p><a href="javascript:(function(s){try{s=document.selection.createRange().text}catch(_){s=document.getSelection()}prompt('',s)})()">copy selected text</a> ← <em>add this link as a favorite, for example, drag it to your bookmarks bar <code>tip</code></em></p>
