@@ -23,29 +23,27 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="developing.net-core-app-and-deploying-to-linux-at-digital-ocean">Developing .net core app and deploying to linux at digital ocean</h1>
-<p>materials you will need:</p>
+<h2 id="materials-you-will-need">Materials you will need</h2>
 <ul>
 <li>your own domain name already purchased. (suggest <a href="http://gandi.net">http://gandi.net</a> as registrar)</li>
 <li>$5 per month to pay digital ocean</li>
 <li>need a local machine on which you will do your development. (i'll assume local machine is windows though it could easily be osx or linux)</li>
 </ul>
 <p>With any articles mentioned below: be sure to read the comments. Sometimes they highlight common problems that people have, or shortcomings/errors in the article that haven't been corrected yet.</p>
-<p>Prepare your digital ocean account</p>
+<h2 id="prepare-your-digital-ocean-account">Prepare your digital ocean account</h2>
 <ol>
 <li>sign up at digital ocean.</li>
 <li>use PuTTYgen to create SSH keypair</li>
 <li>tell digital ocean about your public key.</li>
 </ol>
-<p>Create and configure your droplet</p>
-<ol start="3">
-<li>create a droplet at digital ocean. Must be 64 bit (.net core does not run in 32 bit linux). Would currently be Ubuntu 16.</li>
-</ol>
+<h2 id="create-and-configure-your-droplet">Create and configure your droplet</h2>
+<ul>
+<li>Create a droplet at digital ocean. Must be 64 bit (.net core does not run in 32 bit linux). Would currently be Ubuntu 16.
 <ul>
 <li>tell it to use the SSH key you already provided it with.</li>
 </ul>
-<ol start="4">
-<li>use PuTTY to connect to your droplet as root.</li>
-</ol>
+</li>
+<li>use PuTTY to connect to your droplet as root
 <ul>
 <li>create a new user</li>
 <li>give that user sudo privileges</li>
@@ -62,7 +60,9 @@
 <li>create a new user who will have limited privileges such as uploading files.</li>
 <li>give the new user permissions to read and write the /opt/websites/ area.</li>
 </ul>
-<p>on your local machine:</p>
+</li>
+</ul>
+<h2 id="prepare-to-publish-to-droplet-on-your-machine">Prepare to publish to droplet (on your machine)</h2>
 <ul>
 <li>use filezilla to connect to your droplet, as your file uploading user.</li>
 <li>verify that you can download/upload files</li>
@@ -71,25 +71,25 @@
 <li>publish it using <code>dotnet publish</code> (from the folder that contains the <code>project.json</code> file. The published content will end up in the <code>bin\Debug\netcoreapp1.0\publish\</code> subfolder)</li>
 <li>upload the published content to your droplet</li>
 </ul>
-<p>on your droplet:</p>
+<h2 id="test-via-cli-on-your-droplet">Test via cli (on your droplet)</h2>
 <ul>
 <li>install nginx</li>
 <li>configure nginx to act as a reverse proxy to your site</li>
 <li>run your site in a console. (dotnet <code>yoursite.dll</code>)</li>
 </ul>
-<p>from a browser:</p>
+<h2 id="tell-via-ip-address-from-a-browser">Tell via ip address (from a browser)</h2>
 <ul>
 <li>visit your ipaddress... see that the site is returned</li>
 <li>configure nameservers at your domain name registrar</li>
 <li>setup domain records at digital ocean (a record, cname)</li>
 </ul>
-<p>on your droplet:</p>
+<h2 id="make-site-reliable-on-your-droplet">Make site reliable (on your droplet)</h2>
 <ul>
 <li>configure nginx to expect the domain name</li>
 <li>install supervisor</li>
 <li>configure supervisor to keep your app running</li>
 </ul>
-<p>from a browser:</p>
+<h2 id="website-monitoring">Website monitoring</h2>
 <ul>
 <li>use pingdom or &quot;statuscake&quot; to monitor your site(s).</li>
 </ul>

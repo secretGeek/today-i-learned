@@ -39,19 +39,24 @@
 <li>i.e. you tune individual queries and come up with decent indexes for them in isolation</li>
 </ul>
 </li>
-<li>Server Tuning</li>
+<li>Server Tuning
+<ul>
 <li>consolidate indexes for all typical queries to avoid:
-- unused indexes
-- duplicate indexes
-- too-similar indexes</li>
+<ul>
+<li>unused indexes</li>
+<li>duplicate indexes</li>
+<li>too-similar indexes</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="general-tips-throughout-course">General tips (throughout course)</h2>
 <ul>
 <li><p>When running queries to be analysed:</p>
 <ul>
 <li><p>Turn on statistics io</p>
-<pre><code>  SET STATISTICS IO ON;
-</code></pre>
+<p>SET STATISTICS IO ON;</p>
 </li>
 <li><p>Turn on show plan (i.e. &quot;show actual execution plan&quot; button -- Kimberly calls it 'Show Plan')</p>
 </li>
@@ -60,35 +65,36 @@
 <li><p>To inspect indexes:</p>
 <ul>
 <li><p>DMV for index (Kimberly uses '[sys].[dm_db_index_physical_stats]' so much she just refers to it as 'the DMV')</p>
-<pre><code>  -- Now, use the DMV (adding index ID) to review all indexes:
-  SELECT [index_id] AS [ID]
-  	, [index_depth] AS [D]
-  		, [index_level] AS [L]
-  		, [record_count] AS [Rows]
-  		, [page_count] AS [Pages]
-  		, [avg_page_space_used_in_percent] AS [Page:Percent Full]
-  		, [min_record_size_in_bytes] AS [Row:MinLen]
-  		, [max_record_size_in_bytes] AS [Row:MaxLen]
-  		, [avg_record_size_in_bytes] AS [Row:AvgLen]
-  FROM [sys].[dm_db_index_physical_stats]
-  		(DB_ID (N'EmployeeCaseStudy')					-- Database ID
-  		, OBJECT_ID (N'EmployeeCaseStudy.dbo.Employee') -- Object ID
-  		, NULL											-- Index ID
-  		, NULL											-- Partition ID
-  		, 'DETAILED');									-- Mode
-  GO
+<pre><code>-- Now, use the DMV (adding index ID) to review all indexes:
+SELECT [index_id] AS [ID]
+	, [index_depth] AS [D]
+		, [index_level] AS [L]
+		, [record_count] AS [Rows]
+		, [page_count] AS [Pages]
+		, [avg_page_space_used_in_percent] AS [Page:Percent Full]
+		, [min_record_size_in_bytes] AS [Row:MinLen]
+		, [max_record_size_in_bytes] AS [Row:MaxLen]
+		, [avg_record_size_in_bytes] AS [Row:AvgLen]
+FROM [sys].[dm_db_index_physical_stats]
+		(DB_ID (N'EmployeeCaseStudy')					-- Database ID
+		, OBJECT_ID (N'EmployeeCaseStudy.dbo.Employee') -- Object ID
+		, NULL											-- Index ID
+		, NULL											-- Partition ID
+		, 'DETAILED');									-- Mode
+GO
 </code></pre>
 </li>
 <li><p>DBCC Ind</p>
-<pre><code>  EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 1)');
-  EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 2)');
-  EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 3)');
+<pre><code>EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 1)');
+EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 2)');
+EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 3)');
 </code></pre>
 </li>
 <li><p>Show the statistics:</p>
+<pre><code>DBCC SHOW_STATISTICS ('Employee', 'EmployeeZipRange1FilteredIX');
+</code></pre>
 </li>
 </ul>
-<p>DBCC SHOW_STATISTICS ('Employee', 'EmployeeZipRange1FilteredIX');</p>
 </li>
 </ul>
 <h2 id="when-is-index-used">When is index used</h2>
@@ -100,12 +106,12 @@
 <li><p>This is because the cost of many bookmark lookups (from index leaf to actual table (which are random access access)) are slower than the even larger number of sequential reads when scanning the table.</p>
 </li>
 <li><p>And note Statistics must be up to date for those percentage estimates &lt;2% to be good enough.</p>
-<pre><code>  --[sys].[dm_db_index_physical_stats]
+<pre><code>--[sys].[dm_db_index_physical_stats]
 
-  SELECT *
-  FROM sys.dm_db_index_physical_stats
-  		(db_id(), object_id('Charge'), 1, NULL, 'DETAILED')
-  go
+SELECT *
+FROM sys.dm_db_index_physical_stats
+		(db_id(), object_id('Charge'), 1, NULL, 'DETAILED')
+go
 </code></pre>
 </li>
 </ul>
