@@ -24,16 +24,16 @@
 <article>
 <h1 id="view-statistics">View statistics</h1>
 <p>This shows all of the statistics for each table, and when they were last updated, how many rows, and how many changes are detected to have occurred since the stats were updated.</p>
-<pre><code>SELECT S.object_id, 
-			 S.name, 
+<pre><code>SELECT S.object_id,
+			 S.name,
 			 so.name as [Table],
-			 DDSP.last_updated, 
-			 DDSP.rows, 
-			 DDSP.modification_counter 
-FROM   sys.stats AS S 
-			 CROSS APPLY sys.dm_db_stats_properties(S.object_id, S.stats_id) AS DDSP 
+			 DDSP.last_updated,
+			 DDSP.rows,
+			 DDSP.modification_counter
+FROM   sys.stats AS S
+			 CROSS APPLY sys.dm_db_stats_properties(S.object_id, S.stats_id) AS DDSP
 			 inner join sysobjects so on so.id = s.object_id
---WHERE 
+--WHERE
 -- 		so.name like '%MY_TABLE_NAME%' -- Some filters you might like...
 --AND ddsp.last_updated is not null
 --AND so.Name not like 'Lookup%'
@@ -45,7 +45,7 @@ order by DDSP.last_updated desc
 <p>They will be updated (approximately) when more than 500 rows have been modified <em>and</em> the amount is around 20% or more of the entire table.</p>
 </blockquote>
 <p>(I've found the source of this...</p>
-<p>Uwe Ricken, at <a href="https://www.red-gate.com/simple-talk/sql/t-sql-programming/when-auto_update_statistics-doesnt-happen/">When AUTO_UPDATE_STATISTICS Doesn’t Happen</a> writes:</p>
+<p>Uwe Ricken, at <a href="https://www.red-gate.com/simple-talk/sql/t-sql-programming/when-auto_update_statistics-doesnt-happen/">When AUTO_UPDATE_STATISTICS Doesn't Happen</a> writes:</p>
 <blockquote>
 <p>Statistics are judged to be outdated when, roughly, the following condition is true:</p>
 <ul>
@@ -65,12 +65,12 @@ order by DDSP.last_updated desc
 Applies to: SQL Server (Starting with SQL Server 2017 (14.x))</p>
 <p>Enables or disables FORCE_LAST_GOOD_PLAN</p>
 <p>The default value is OFF.</p>
-<h2 id="looking-at-percentsfigures-for-out-of-date-stats">Looking at percents/figures for out of date stats...</h2>
+<h2 id="looking-at-percentsfigures-for-out-of-date-stats">Looking at percents/figures for out of date stats</h2>
 <p>Here's a (quite naive) way of (kind of) checking those heuristics mentioned above...</p>
-<pre><code>SELECT 
-	case 
+<pre><code>SELECT
+	case
 		when
-			DDSP.Rows &gt;= 500 
+			DDSP.Rows &gt;= 500
 			and DDSP.modification_counter &gt;= 500
 			and DDSP.modification_counter &gt;= (DDSP.Rows / 5.0)
 		then '**'
@@ -78,27 +78,27 @@ Applies to: SQL Server (Starting with SQL Server 2017 (14.x))</p>
 	end as Overdue_To_Update,
 	DDSP.Rows as [Rows &gt;=500],
 	DDSP.modification_counter as [Modification Counter &gt;= 500],
-	case when isnull(DDSP.Rows,0) = 0 then null else 
-	((1.0 * DDSP.modification_counter) / (1.0 * DDSP.Rows)) * 100 
+	case when isnull(DDSP.Rows,0) = 0 then null else
+	((1.0 * DDSP.modification_counter) / (1.0 * DDSP.Rows)) * 100
 	end as [Mod Percent],
-	S.object_id, 
-	S.name, 
+	S.object_id,
+	S.name,
 	so.name as [Table],
-	DDSP.last_updated, 
-	DDSP.rows, 
+	DDSP.last_updated,
+	DDSP.rows,
 	DDSP.modification_counter
 FROM
-	sys.stats AS S 
-CROSS APPLY 
-	sys.dm_db_stats_properties(S.object_id, S.stats_id) AS DDSP 
-INNER JOIN 
+	sys.stats AS S
+CROSS APPLY
+	sys.dm_db_stats_properties(S.object_id, S.stats_id) AS DDSP
+INNER JOIN
 	sysobjects so on so.id = s.object_id
---WHERE 
+--WHERE
 -- 		so.name like '%MY_TABLE_NAME%' -- Some filters you might like...
 --AND ddsp.last_updated is not null
 --AND so.Name not like 'MY_TABLE_TO_EXCLUDE%'
 ORDER BY
-	1 desc, 
+	1 desc,
 	DDSP.last_updated desc
 </code></pre>
 <h2 id="further-reading-on-sql-server-statistics">Further reading on sql server statistics</h2>

@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="wrap-an-update-in-a-transaction-with-this-script-template">Wrap an update in a transaction with this script template...</h1>
+<h1 id="wrap-an-update-in-a-transaction-with-this-script-template">Wrap an update in a transaction with this script template</h1>
 <p>You want to make an update, manually perhaps... but you don't want to commit it if anything looks... wrong...</p>
 <pre><code>Declare @RowsAffected integer
 Declare @ExpectedRows integer
@@ -50,10 +50,12 @@ BEGIN
 	COMMIT;
 END
 </code></pre>
-<p>For example...</p>
+<h2 id="create-example-table">Create example table</h2>
+<p>For example:</p>
 <p>let's create a little example table...</p>
 <pre><code>Select 'x' as 't' into t1
 </code></pre>
+<h2 id="update-our-table">Update our table</h2>
 <p>Now we want to run an update against this table... we will expect 1 row to be updated. If any other number of rows are updated, the transaction will be rolled back.</p>
 <pre><code>Declare @RowsAffected integer
 Declare @ExpectedRows integer
@@ -62,7 +64,7 @@ BEGIN TRANSACTION;
 SET @ExpectedRows = 1;  -- WE HAVE SET THE *expected* Rows to 1
 ---BEGIN UPDATE:
 
-				Update t1 
+				Update t1
 				set t = 'a'
 
 ---...END UPDATE.

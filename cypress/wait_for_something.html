@@ -36,10 +36,11 @@ cy.wait(5000);
 </code></pre>
 <p>I believe that this will wait up to 10 seconds before cypress fails and says it timed out. More specifically, it will wait howeverlong the <code>cypress.json</code> says, e.g.</p>
 <p>(snippet from a custom <code>cypress.json</code> file....</p>
-<p>&quot;defaultCommandTimeout&quot;: 10000,  &lt;--- this one applies in this case i reckon...
+<pre><code>&quot;defaultCommandTimeout&quot;: 10000,  &lt;--- this one applies in this case i reckon...
 &quot;requestTimeout&quot;: 15000,
 &quot;responseTimeout&quot;: 30000,
-&quot;pageLoadTimeout&quot;: 60000,</p>
+&quot;pageLoadTimeout&quot;: 60000,
+</code></pre>
 <p>...)</p>
 <p>A different thing that might work for your circumstnances:</p>
 <p>wait for a specific <code>xmlHttpRequest</code> on a path to complete, like this...</p>

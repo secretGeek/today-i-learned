@@ -33,8 +33,8 @@
 <pre><code>javascript:(alert
 	(Array
 		.from(document.getElementsByClassName('grid-row-selected'))
-		.reduce((all, row) =&gt; 
-			{ all += Number.parseInt(row.children[6].innerText) || 0; 
+		.reduce((all, row) =&gt;
+			{ all += Number.parseInt(row.children[6].innerText) || 0;
 			  return all; }, 0)
 	)
 )

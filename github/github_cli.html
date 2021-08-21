@@ -93,18 +93,18 @@ EXAMPLES
 <h3 id="first-write-a-list-of-all-my-repos-into-a-single-file">First write a list of all my repos into a single file</h3>
 <p>(This assumes I have less than 500 repos.)</p>
 <pre><code># first write a header row to the file
-&quot;repo	description	pubpriv	updated&quot; | out-file gh_repos.tsv -encoding utf8; 
+&quot;repo	description	pubpriv	updated&quot; | out-file gh_repos.tsv -encoding utf8;
 
 # now write the list of repos...
 gh repo list -L 500 | out-file gh_repos.tsv -append -encoding utf8;
 </code></pre>
 <h3 id="use-that-list-to-get-my-full-list-of-issues">Use that list to get my full list of issues</h3>
 <pre><code># first write a header row to the file
-&quot;repo	id	status	subject	modified&quot; | out-file gh_issues.tsv -encoding utf8; 
+&quot;repo	id	status	subject	modified&quot; | out-file gh_issues.tsv -encoding utf8;
 
 # now write all the issues themselves, for each repo listed in repolist
-Import-Csv -Delimiter &quot;`t&quot; -Path .\gh_repos.tsv | 
-	% { $repo = $_.repo; gh issue list --repo $_.repo } | 
+Import-Csv -Delimiter &quot;`t&quot; -Path .\gh_repos.tsv |
+	% { $repo = $_.repo; gh issue list --repo $_.repo } |
 	% { &quot;$repo`t$($_)&quot; } | out-file &quot;gh_issues.tsv&quot; -encoding utf8
 </code></pre>
 <h2 id="external-references">External references</h2>

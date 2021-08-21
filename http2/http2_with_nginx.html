@@ -30,7 +30,7 @@
 <p>I then found that when i visited example.com the site would not show and a file would download instead. It was just a small binary file. It was horrible!</p>
 <p>But the worst part was that <em>other</em> subdomains on that same server, e.g. <code>blog.example.com</code> would also have the same problem.</p>
 <p>I didn't realise at the time -- but this problem <em>only</em> happened on 'http://' urls. I.e, before the redirect that would take me to the https version could occur... the page would fail.</p>
-<h2 id="solution-was">Solution was...</h2>
+<h2 id="solution-was-to-not-do-this">Solution was to not do this</h2>
 <p><em>don't</em> add <code>http2</code> to the &quot;non-ssl&quot; plain http server blocks in your nginx config.</p>
 <p>i.e. this is bad:</p>
 <pre><code>listen          &lt;ip&gt;:80 http2; # don't do that! NO http2 on '80'

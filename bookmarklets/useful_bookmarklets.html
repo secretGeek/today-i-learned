@@ -60,11 +60,11 @@
 				document.querySelectorAll('h1, h2, h3, h4, h5, h6')
 				)
 			.reduce(
-				(all, hEl) =&gt; { 
-					all += 
+				(all, hEl) =&gt; {
+					all +=
 						(' '.repeat(parseInt(hEl.outerHTML[2])-1)) +
 							`- ${hEl.innerText}\r\n`;
-						return all; 
+						return all;
 				} ,'')
 		)
 	)()
@@ -84,7 +84,7 @@
 		catch(_) {
 			s=document.getSelection();
 		}
-		
+
 		prompt('',s);
 	}
 )()

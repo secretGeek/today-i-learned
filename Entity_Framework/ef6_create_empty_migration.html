@@ -23,12 +23,12 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="ef6-create-empty-migration">EF6: Create Empty Migration</h1>
+<p>Before proceeding -- make sure you have compiled your code!</p>
 <p>In the package manager console...</p>
 <p>Select the <code>default project</code> (dropdown) to have the project which contains your migrations and entity config.</p>
 <p><em>ensure you have compiled the project before you proceed</em></p>
 <p>...continuing!</p>
-<p>In the package manager console...</p>
-<p>Run this command:</p>
+<p>In the package manager console (having selected the right project, see above), run this command:</p>
 <pre><code>Add-Migration &quot;my_new_migration&quot; -verbose
 </code></pre>
 <p>(You don't <em>need</em> the <code>-verbose</code> but i find it useful to see more output and routinely include that)</p>
@@ -37,7 +37,7 @@
 {
 	using System;
 	using System.Data.Entity.Migrations;
-	
+
 	public partial class my_new_migration : DbMigration
 	{
 		public override void Up()

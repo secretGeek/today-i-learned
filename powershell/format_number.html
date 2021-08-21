@@ -38,7 +38,7 @@ write-host ([string]$n).padleft(12,&quot; &quot;) -f green -n
 <p>or even...</p>
 <pre><code>dir | % { &quot;{0,-65} {1,-30} {2,-30}&quot; -f $_.Name, $_.Directory.Name, $_.Length }
 </code></pre>
-<h2 id="other-format-cmdlets">Other format cmdlets...</h2>
+<h2 id="other-format-cmdlets">Other format cmdlets</h2>
 <p><code>Format-wide</code> is good but somehow disappointing</p>
 <pre><code>dir | format-wide -col 5
 </code></pre>

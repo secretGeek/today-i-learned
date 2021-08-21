@@ -60,7 +60,7 @@ Green  Online  Richard  Reversed
 <p>And I believe I used this particular one, so our hashtable can be <a href="load_save_csv.html">exported to a csv file</a>.</p>
 <pre><code>ConvertTo-Object $hash | Export-Csv test.csv -NoTypeInformation
 </code></pre>
-<h2 id="convert-custom-object-to-hash-table">Convert custom object to hash table...</h2>
+<h2 id="convert-custom-object-to-hash-table">Convert custom object to hash table</h2>
 <p>And I found that in <a href="https://github.com/secretGeek/markjump">MarkJump</a> I wrote a function that is somewhat the reverse of this, and turns a custom object into a hash...</p>
 <pre><code># ConvertTo-Hash is used by Get-marks to convert the custom psObject into a hash table.
 function ConvertTo-Hash($i) {

@@ -41,7 +41,7 @@
 <p>You can find the names of the profiles with this query:</p>
 <h2 id="list-profile-names">List Profile Names</h2>
 <pre><code>dir $env:LOCALAPPDATA&quot;\Google\Chrome\User Data&quot; cookies -rec |
-	% PSParentPath | 
+	% PSParentPath |
 		% { $_.split('\\')[-1] }
 </code></pre>
 
