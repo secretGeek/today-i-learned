@@ -34,7 +34,7 @@ cy.wait(5000);
 <p>e.g.</p>
 <pre><code>cy.get('#loading').should('not.exist')
 </code></pre>
-<p>I believe that this will wait up to 10 seconds before cypress fails and says it timed out. More specifically, it will wait howeverlong the <code>cypress.json</code> says, e.g.</p>
+<p>I believe that this will wait up to 10 seconds before cypress fails and says it timed out. More specifically, it will wait however long the <code>cypress.json</code> says, e.g.</p>
 <p>(snippet from a custom <code>cypress.json</code> file....</p>
 <pre><code>&quot;defaultCommandTimeout&quot;: 10000,  &lt;--- this one applies in this case i reckon...
 &quot;requestTimeout&quot;: 15000,

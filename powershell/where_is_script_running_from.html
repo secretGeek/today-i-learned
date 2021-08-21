@@ -26,17 +26,17 @@
 <p>Subtitle: what is the location of the caller?</p>
 <p>Scenario:</p>
 <p>We have a script, <code>HelloWorld.ps1</code> located in <code>C:\Scripts\</code></p>
-<p>We run this script, from the location &quot;C:\CurrentPath&quot; like so:</p>
+<p>We run this script, from the location <code>C:\CurrentPath\</code> like so:</p>
 <pre><code>C:\CurrentPath\&gt; C:\Scripts\HelloWorld.ps1
 </code></pre>
 <p>We want the script to output:</p>
 <blockquote>
 <p>The script is located in C:\Scripts</p>
 <p>The script's full name and path is C:\Scripts\HelloWorld.ps1</p>
-<p>You are running it <em>from</em> C:\CurrentPath</p>
+<p>You are running it <code>*from</code>* C:\CurrentPath</p>
 </blockquote>
-<p>How do we do it??</p>
-<p>In PowerShell 3.0 and above we write:</p>
+<p>How do we do it?</p>
+<p>In <strong>PowerShell 3.0 and above</strong> we write:</p>
 <pre><code>write-host &quot;The script is located in $PSScriptRoot&quot;
 # e.g. C:\Scripts
 

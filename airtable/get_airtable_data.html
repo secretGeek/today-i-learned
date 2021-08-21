@@ -48,10 +48,12 @@
 <li><p><code>Find-Record</code></p>
 </li>
 <li><p><code>InvokeAirTableApiCall</code></p>
-<p>Get-PSAirTableConfiguration</p>
-<p>Application      Bases</p>
-<hr />
-<p ApiKey="XXXXXX">@ {@{Name=<name of base here>; ID=<id of base here>}}</p>
+<pre><code>  Get-PSAirTableConfiguration
+
+  Application      Bases
+  -----------      -----
+  @{ApiKey=XXXXXX} {@{Name=&lt;name of base here&gt;; ID=&lt;id of base here&gt;}}
+</code></pre>
 </li>
 </ul>
 <p>Previously I could find a record in the <code>Todo</code> table of the <code>Projects</code> base, with:</p>
@@ -73,7 +75,7 @@
 </code></pre>
 <p>...and it works now.</p>
 <h2 id="get-airtable-data-in-js-node">Get AirTable Data (in js / node)</h2>
-<p>If/when I need to get airtable data via JS, i'll be reading the official doco - but also this blog post from Trys Mudford:</p>
+<p>If/when I need to get airtable data via JS, i'll be reading the official documentation - but also this blog post from Trys Mudford:</p>
 <ul>
 <li><a href="https://www.trysmudford.com/blog/rapid-building/">Tiny lesson: rapid builds, email signatures and Airtable</a></li>
 </ul>

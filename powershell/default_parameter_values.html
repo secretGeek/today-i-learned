@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>regex with powershell . Today I Learned (secretGeek)</title>
+<title>default parameter values . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,29 +22,17 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="regex-with-powershell-only-a-few-things-you-need-to-know-to-get-you-started">regex with powershell - only a few things you need to know to get you started</h1>
-<p>Use operators such as <code>-replace</code>, <code>-match</code> and <code>-split</code>.</p>
-<pre><code>&quot;fred&quot; -replace &quot;ed`$&quot;, &quot;ida&quot;
-</code></pre>
-<p>here is <code>-split</code>:</p>
-<pre><code>&quot;a sentence? a sentence! a sentence.&quot; -split &quot;[!?.]&quot;
-</code></pre>
-<p>returns:</p>
-<pre><code>a sentence
- a sentence
- a sentence
-</code></pre>
-<p>There's <code>-match</code> and <code>-notmatch</code> and case sensitive variants: <code>-cmatch</code> and <code>-cnotmatch</code></p>
-<p>After <code>-match</code> is used, the variable <code>$matches</code> will hold the matches, e.g.</p>
-<pre><code>&quot;fred&quot; -match &quot;^fr(.*)&quot;;$matches
-</code></pre>
-<p>returns:</p>
-<pre><code>True
+<h1 id="how-to-do-default-parameter-values-in-powershell">How to do default parameter values in Powershell</h1>
+<p>You have to give a formal declaration of the function's parameter.</p>
+<pre><code>function Test {
+	Param (
+		[ValidateNotNullOrEmpty()]
+		[String]
+		$String = 'DEFAULT'
+	)
 
-Name                           Value
-----                           -----
-1                              ed
-0                              fred
+	Write-Host -Object &quot;String: $String&quot;
+}
 </code></pre>
 
 </article>

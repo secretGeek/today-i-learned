@@ -23,6 +23,17 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="requires-a-peer-of.error-in-npm-you-must-install-peer-dependencies-yourself">Requires a peer of... error in npm: You must install peer dependencies yourself</h1>
+<p>For each dependency, you can add them at a high level by adding them as dev dependencies.</p>
+<pre><code>npm install --save-dev &quot;THE MISSING THING&quot;
+</code></pre>
+<p>For example:</p>
+<p>Given this error message:</p>
+<blockquote>
+<p>npm WARN THING_1 requires a peer of rollup@&gt;=0.66.0 &lt;2 but none is installed. You must install peer dependencies yourself.</p>
+</blockquote>
+<p>You would use:</p>
+<pre><code>npm install --save-dev &quot;rollup@&gt;=0.66.0 &lt;2&quot;
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

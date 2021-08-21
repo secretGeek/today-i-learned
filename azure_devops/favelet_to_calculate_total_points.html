@@ -26,7 +26,7 @@
 <p>When looking at the backlog items and choosing what to assign into a sprint, you often want to know a subtotal for a bunch of stories.</p>
 <p>Add this bookmarklet/favelet to your bookmarks/favorites. Then while looking at the backlog items in Azure Devops, select the rows you are interested in and click the bookmarklet.</p>
 <p><a href="javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) => { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))">sum points</a> ← <em>add this link as a favorite, for example, drag it to your bookmarks bar <code>tip</code></em></p>
-<p>Here is the bookmarket in full</p>
+<p>Here is the bookmarklet in full</p>
 <pre><code>javascript:(alert(Array.from(document.getElementsByClassName('grid-row-selected')).reduce((all, row) =&gt; { all += Number.parseInt(row.children[6].innerText) || 0; return all; }, 0)))
 </code></pre>
 <p>And here it is with extra line breaks to make it more readable.</p>
