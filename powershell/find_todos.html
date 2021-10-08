@@ -46,29 +46,49 @@
 ## findtext_help                           &lt;-- help on findtext and related commands
 ## findtext_help_detailed                  &lt;-- verbose help on findtext, with details.
 ### find-text ($pattern, $recursive, $basePath, $Raw, $CaseSensitive)
-### format-findtext ($pattern, $recursive, $raw, $CaseSensitive) 
+### format-findtext ($pattern, $recursive, $raw, $CaseSensitive)
 ###                                         &lt;-- (aliased as findtext) sends find-text to format-foundtext
 ### format-foundtext ($result, $raw, $caseSensitive)
 
-function find-text ($pattern, $recursive, $basePath, $Raw, $CaseSensitive) {
-    if ($null -eq $recursive) {
-        # by default, recursive is true
-        $recursive = $true
-    }
-    else {
-        #&quot;recursive was not null it was $recursive&quot;
-    }
+function find-text {
+&lt;#
+.SYNOPSIS
+    Looks for regex or (if $raw -eq $true) literal text patterns in all text files (but ignores `node_modules` folders, yay)
+.DESCRIPTION
+	Ever need to find some text, or perhaps a regex, in every text file under the current location, and want to skip any node_modules folders (and any .git folders) -- looking *only* in &quot;text&quot; files, such as all code and config files? Find-Text is your friend.
+.NOTES
+    Author: Leon Bambrick
+#&gt;
+	Param (
+		# A regular expression or a literal string you wish to find in any text file
+		[ValidateNotNullOrEmpty()]
+		[String]
+		$Pattern, 
+		[Bool]
+		# search all subfolders as well (defaults to $true)
+		$Recursive = $true,
+		[String]
+		# the folder from which the command is executed (used for displaying shorter paths)
+		$BasePath = (get-location | ForEach-Object { $_.ProviderPath }),
+		[Bool]
+		# $true to search for literal pattern, $false (the default) to search for regular expressions
+		$Raw = $false,
+		[Bool]
+		$CaseSensitive = $false
+	)
 
-    $path = (get-location | ForEach-Object { $_.ProviderPath })
-    get-childitem -Path * -Include $fileTypes -Exclude .git, .hg, *jquery*, modernizr* -Recurse:$recursive |
-    Where-Object { $_.FullName -inotmatch 'node_modules' } |
-    select-string -pattern $pattern -SimpleMatch:$Raw -CaseSensitive:$CaseSensitive |
-    ForEach-Object { 
-        Add-Member -inputObject $_ -memberType NoteProperty -name &quot;RelativeName&quot; -value ($_.Path.SubString($path.Length + 1));
-        $_;
-    }
+    get-childitem -Path * -Include $fileTypes -Exclude .git, .hg, *jquery*, modernizr* -Recurse:$Recursive |
+		Where-Object { $_.FullName -inotmatch 'node_modules' } |
+			select-string -pattern $pattern -SimpleMatch:$Raw -CaseSensitive:$CaseSensitive |
+				ForEach-Object {
+					Add-Member -inputObject $_ -memberType NoteProperty -name &quot;RelativeName&quot; -value ($_.Path.SubString($basePath.Length + 1));
+					$_;
+				}
 }
 
+# 
+# NOTE: the alias FINDTEXT points here!
+#
 function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
     if ($null -eq $pattern) {
         write-host &quot;Please provide a Pattern you wish to find (all text files will be searched)&quot; -foregroundcolor  &quot;red&quot;
@@ -82,18 +102,18 @@ function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
     else {
         #&quot;recursive was not null it was $recursive&quot;
     }
-		
+
     if ($null -eq $raw) {
         # RAW (meaning, simple match, not regex match) defaults to FALSE
         $raw = $false;
-    } 
-		
+    }
+
     if ($null -eq $CaseSensitive) {
         # 'CaseSensitive' defaults to FALSE
         $CaseSensitive = $false;
     }
 
-    $path = (get-location | ForEach-Object { $_.ProviderPath })
+    $basePath = (get-location | ForEach-Object { $_.ProviderPath })
 
     # write-host $pattern -f magenta
     # write-host $recursive -f magenta
@@ -101,11 +121,11 @@ function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
     # write-host $CaseSensitive -f magenta
 
     try {
-        return (find-text  $pattern  $recursive $path $raw $caseSensitive | 
-            ForEach-Object { 
-                format-foundtext $_ $raw $caseSensitive; 
+        return (find-text  $pattern  $recursive $basePath $raw $caseSensitive |
+            ForEach-Object {
+                format-foundtext $_ $raw $caseSensitive;
             } );
-    } 
+    }
     catch {
         write-host $_ -f darkred;
 				if ($_.FullyQualifiedErrorId -eq &quot;InvalidRegex,Microsoft.PowerShell.Commands.SelectStringCommand&quot;) {
@@ -125,13 +145,14 @@ function format-foundtextdimmed ($result, $len1, $raw, $caseSensitive) {
 
 $script:previous = $null;
 
+
+
 function format-foundtext ($result, $raw, $caseSensitive) {
     $dimLength = FindLongestCommonStartingSubString ($result.RelativeName) ($script:previous.RelativeName);
-    # specify what to break on... it returns how many parts in common.... or num chars.	
-    #$dimLength = FindLongestCommonStringsParts ($result.RelativeName) ($script:previous.RelativeName) &quot;\&quot;;
-    #if ($dimLength -gt $script:previousDimLength) {
-    #	$dimLength = 0;
-    #} 
+    # specify what to break on... it returns how many parts in common.... or num chars.
+
+
+	#format-foundtext-old $result $dimLength $raw $caseSensitive
     format-foundtextdimmed $result $dimLength $raw $caseSensitive
     $script:previous = $result;
     $script:previousDimLength = $dimLength;
@@ -180,7 +201,7 @@ function findtext_help () {
 
 function findtext_help_detailed() {
 	$x = (&amp; { $myInvocation.ScriptName })
-	Get-Content $x | Where-Object { ($_ -like &quot;## *&quot;) -or ($_ -like &quot;### *&quot;) } | ForEach-Object { 
+	Get-Content $x | Where-Object { ($_ -like &quot;## *&quot;) -or ($_ -like &quot;### *&quot;) } | ForEach-Object {
 		Write-MarkedPatternInline &quot;format|_|find|text|&lt;--&quot; ($_.TrimStart(&quot;#&quot;)) $false $false;
 		write-host &quot;&quot;;
 	}
@@ -192,8 +213,8 @@ function FindLongestCommonStartingSubString($string1, $string2) {
     $max = 0;
     do {
         $string1.ToCharArray() | % {
-            if ($string2 -ne $null -and $i -le $string2.length -and $_ -eq $string2[$i]) { 
-                $max = ($i + 1); 
+            if ($string2 -ne $null -and $i -le $string2.length -and $_ -eq $string2[$i]) {
+                $max = ($i + 1);
             }
             else { break; };
             $i++;
@@ -209,7 +230,7 @@ function list-functions () {
     #find-text &quot;^\s*function( )&quot; | % { New-Object psobject -property  @{
 		find-text &quot;^\s*function(.*)&quot; $true &quot;.\&quot; $false $false| % { New-Object psobject -property  @{
             FileName     = $_.FileName;
-            FunctionName = ($_.Line -split '[ (]')[1] 
+            FunctionName = ($_.Line -split '[ (]')[1]
         } } | ? { $_.FunctionName -ne '' }
 
 }

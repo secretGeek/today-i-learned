@@ -115,7 +115,7 @@
 </table>
 <p>Wikipedia points out that for <code>UTF-8</code>, <code>UTF-7</code>, <code>UTF-1</code>, <code>UTF-EBCDIC</code>, <code>SCSU</code>, <code>BOCU-1</code>, <code>GB-18030</code> these starting bytes of the file are not literally a &quot;byte order mark&quot; as these encoding don't take multiple bytes to encode a characters, hence no byte order is needed. instead in those cases these bytes act as an indicator of the encoding.</p>
 <p>(But this doesn't help if no byte order mark is present.)</p>
-<p>From stack overflow I've find an answer, with a lot of upvotes, which almost works for me. It relies on the presence of a <code>BOM</code> as listed above, and failing that returns <code>default</code>.</p>
+<p>From stack overflow I've found an answer, with a lot of upvotes, which almost works for me. It relies on the presence of a <code>BOM</code> as listed above, and failing that returns <code>default</code>.</p>
 <p>Only change I had to make is highlighted below:</p>
 <pre><code>/// &lt;summary&gt;
 /// Determines a text file's encoding by analyzing its byte order mark (BOM).

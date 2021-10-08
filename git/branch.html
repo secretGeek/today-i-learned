@@ -23,21 +23,33 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="branching-in-git">Branching in git</h1>
-<h2 id="create-a-new-branch">1. create a new branch</h2>
+<h2 id="create-a-new-branch">Create a new branch</h2>
 <p>if: You've started to do some work but haven't committed anything yet.
 (or: you're about to start some work) and decide you'd like it to go to a new branch:</p>
 <p>It's as easy as this...</p>
-<pre><code>git checkout -b new-branch
+<pre><code>git checkout -b my-new-branch-name
 </code></pre>
 <p>The output you hopefully see is:</p>
 <blockquote>
-<p>Switched to a new branch 'new-branch'</p>
+<p>Switched to a new branch 'my-new-branch-name'</p>
 </blockquote>
-<pre><code>git push -u origin $name
+<h2 id="tell-the-origin-about-it">Tell the origin about it</h2>
+<p>Now inform the origin about this new branch....</p>
+<pre><code>git push -u origin my-new-branch-name
 </code></pre>
+<h2 id="a-quick-warning-about-mixed-case">A quick warning about mixed case</h2>
+<p>I have had problems before if I create a branch with mixed-case (because windows/powershell is not case sensitive, but linux/linus/git <em>are</em> very sensitive about these things.) Hence:</p>
+<p><strong>I strongly recommend using all lower-case in your branch names</strong></p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://medium.com/@EeKayOnline/how-to-create-a-git-branch-with-your-current-changes-a79b297c339e">How To Create A GIT Branch With Your Current Changes</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="delete_old_branches.html">Delete old branches</a></li>
+<li><a href="compare_branches.html">Compare branches</a></li>
+<li><a href="merge_branch_to_main.html">Merge a branch to main</a></li>
+<li><a href="cherry-pick.html">Cherry-pick some commits from one branch to another</a></li>
 </ul>
 
 </article>

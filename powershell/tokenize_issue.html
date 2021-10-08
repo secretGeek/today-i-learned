@@ -76,7 +76,7 @@ $errors = @()
 <p>The &quot;same&quot; as <code>{'echo &quot;$hello&quot;; echo ''$hello'''}.ast</code> ?</p>
 <p><a href="https://twitter.com/dfinke/status/1303687569968857091?s=20">@dfinke</a></p>
 </blockquote>
-<h2 id="using-the-newer-v3-api">Using the newer V3 API:</h2>
+<h2 id="using-the-newer-v3-api">Using the newer V3 API</h2>
 <pre><code>[System.Management.Automation.Language.Parser]::ParseInput('echo &quot;$hello&quot;', [ref] $tokens, [ref] $errors) | out-null;
 $tokens | format-table
 </code></pre>
@@ -113,6 +113,7 @@ echo            CommandName    Identifier    False echo
 </code></pre>
 <p>And directly access the <code>AST</code>.</p>
 <p><code>todo</code>: use this in <a href="https://github.com/secretGeek/ok-ps"><code>.ok</code></a> syntax highlighter!</p>
+<!-- markdownlint-disable-file MD046 -->
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
