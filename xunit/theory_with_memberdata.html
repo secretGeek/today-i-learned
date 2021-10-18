@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>theory with memberdata . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="xunit-theory-with-member-data">Xunit Theory with Member Data</h1>
+<p>Broadly speaking, in the Xunit test framework for .net, there are two kinds of tests: facts and theories, and they are distinguished by attributes.</p>
+<p>A <code>fact</code> is a unit test with no parameters. A <code>theory</code> is a parameterized unit tests and there are -- broadly speaking -- three kind of theories.</p>
+<p>A theory can have its parameter values supplied via: <code>InlineData</code> or <code>ClassData</code> or <code>MemberData</code></p>
+<p>For example:</p>
+<pre><code>[Theory]
+[InlineData(&quot;spaghetti&quot;)]
+[InlineData(&quot;tagliatelli&quot;)]
+public void Can_Recognise_Pasta(string pastaName)
+{
+	// Arrange
+	var pastaRecognizer = new PastaRecognizer();
+	
+	// Act
+	var result = pastaRecognizer.TryRecognize(pastaName);
+	
+	// Assert
+	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
+}
+</code></pre>
+<p>....takes <code>InlineData</code> from multiple attributes and runs the test once for each attribute.</p>
+<p>Instead of having hard-coded inline data right there -- which quickly becomes unwieldy -- you can use the <code>MemberData</code> attribute to specify a method that generates values. The above could be refactored to:</p>
+<pre><code>[Theory]
+[MemberData(nameof(PastaTestGenerator.GetPasta), MemberType = typeof(PastaTestGenerator))]
+public void Can_Recognise_Pasta(string pastaName)
+{
+	// Arrange
+	var pastaRecognizer = new PastaRecognizer();
+	
+	// Act
+	var result = pastaRecognizer.TryRecognize(pastaName);
+	
+	// Assert
+	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
+}
+
+public static class PastaTestGenerator
+{
+	public static IEnumerable&lt;object[]&gt; GetPasta()
+	{
+		return new List&lt;object[]&gt;  { 
+			new object[] { &quot;spaghetti&quot; }, 
+			new object[] { &quot;tagliatelli&quot; } };
+	}
+}
+</code></pre>
+<p>Or -- just for fun -- we might make our test generator use <code>yield return</code>, instead.</p>
+<pre><code>public static IEnumerable&lt;object[]&gt; GetPasta()
+{
+	yield return new object[] { &quot;spaghetti&quot; };
+	yield return new object[] { &quot;tagliatelli&quot; };
+}
+</code></pre>
+<p>The item being yielded is an <code>object[]</code> -- and its members and their types should match (or be assignable to) the parameters of the theory method.</p>
+<p>In this case, the theory method has 1 parameter, <code>string pastaName</code> -- so we are returning just 1 item in that object array, and that item is of type string.</p>
+<p>But it's not very nice -- all these <code>object[]</code> -- we'd rather specify our types exactly, or we can have invalid tests.</p>
+<h2 id="classdata-with-valid-types">ClassData with valid types:</h2>
+<p>To have strong types, we can use the <code>Xunit.TheoryData</code> class -- like so.</p>
+<p>We specify the type of our class data, and it is a type that derives from TheoryData&lt;A,B,C..&gt; -- where A,B,C... are the types of the methods parameters. In the case below, the methods parameters are just <code>string pastName</code> -- so the type are just <code>string</code>.</p>
+<pre><code>[Theory]
+[ClassData(typeof(PastaTestGenerator))]
+public void Can_Recognise_Pasta_with_ClassData(string pastaName)
+{
+	// Arrange
+	var pastaRecognizer = new PastaRecognizer();
+
+	// Act
+	var result = pastaRecognizer.TryRecognize(pastaName);
+
+	// Assert
+	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
+}
+</code></pre>
+<p>The <code>PastaTestGenerator</code> would have to derive from <code>TheoryData&lt;string&gt;</code> -- and be written like so:</p>
+<pre><code>public class PastaTestGenerator : TheoryData&lt;string&gt;
+{
+    public PastaTestGenerator()
+    {
+        Add(&quot;spaghetti&quot;);
+        Add(&quot;tagliatelli&quot;);
+    }
+}
+</code></pre>
+<p>With that, we get the type guarantees we wanted, while using a <code>classData</code> attribute.</p>
+<h2 id="memberdata-with-valid-types">MemberData with valid types:</h2>
+<p>Alternatively, we can use the <code>memberData</code> and the <code>TheoryData</code> together like so:</p>
+<p>We create a method that yields the  type of theory data we need, for example, this static method:</p>
+<pre><code>public static class MyTestGenerator
+{
+	public static TheoryData&lt;string&gt; PastaTypes()
+	=&gt; new TheoryData&lt;string&gt; {
+		{ &quot;Spaghetti&quot; },
+		{ &quot;Tagliatelli&quot; }
+	};
+}
+</code></pre>
+<p>And we reference it from our <code>MemberData</code> attribute like so:</p>
+<pre><code>[Theory]
+[MemberData(nameof(MyTestGenerator.PastaTypes), MemberType = typeof(MyTestGenerator))]
+public void Can_Recognise_Pasta_Via_MemberData(string pastaName)
+{
+	// Arrange
+	var pastaRecognizer = new PastaRecognizer();
+
+	// Act
+	var result = pastaRecognizer.TryRecognize(pastaName);
+
+	// Assert
+	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
+}
+</code></pre>
+<p>Incidentally -- in case you do need to recognise pasta types, here is the pasta recogniser I wrote which passes all of the tests above:</p>
+<pre><code>public class PastaRecognizer
+{
+	public bool TryRecognize(string pastaName) =&gt; true;
+}
+</code></pre>
+<p>...possible we need to add some <em>negative</em> test cases as well.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://andrewlock.net/creating-strongly-typed-xunit-theory-test-data-with-theorydata/">Creating strongly typed xUnit theory test data with TheoryData</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../cypress/getting_started.html">Getting Started with Cypress</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

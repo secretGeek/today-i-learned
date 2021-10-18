@@ -24,10 +24,11 @@
 <article>
 <h1 id="git-config">Git config</h1>
 <p>Config -- from least specific to most specific, is stored in these locations:</p>
-<pre><code>$(prefix)/etc/gitconfig -- system-wide config
-~/.gitconfig -- 'global config' actually config for the current user, i.e. $home\.gitconfig
-.git/config -- config for the current repo
-</code></pre>
+<ol>
+<li><code>[install Location]/etc/gitconfig</code> -- &quot;system-wide&quot; config (for me it is here: <code>C:\Program Files\Git\etc\gitconfig</code>, ymmv)</li>
+<li><code>~/.gitconfig</code> -- known as &quot;global&quot; config, actually config for the current user, i.e. <code>$home\.gitconfig</code> (a case of scope-exaggeration)</li>
+<li><code>.git/config</code> -- config for the current repo</li>
+</ol>
 <p>Get all config:</p>
 <pre><code>git config --list
 </code></pre>
@@ -40,7 +41,7 @@ git config --get user.email
 <pre><code>git config --system user.name &quot;John Doe&quot;
 </code></pre>
 <p>The setting above will be overridden by any of those below:</p>
-<p>For the current user (i.e. global) regardless of which repo we are in.</p>
+<p>For the current user (i.e. &quot;global&quot;) regardless of which repo we are in.</p>
 <pre><code>git config --global user.name &quot;John Doe&quot;
 </code></pre>
 <p>The setting above will be overridden by the one below:</p>
@@ -56,9 +57,10 @@ git config --get user.email
 <pre><code>[remote &quot;origin&quot;]
     url = https://github.com/secretGeek/til.git
 </code></pre>
-<p>To:
-[remote &quot;origin&quot;]
-url = https://secretGeek@github.com/secretGeek/til.git</p>
+<p>To:</p>
+<pre><code>[remote &quot;origin&quot;]
+    url = https://secretGeek@github.com/secretGeek/til.git
+</code></pre>
 <p>I've only tried that for bitbucket and github. It seems to work, in the sense that when I go to push a commit, I no longer need to enter my user name. All of the other techniques worked in the sense that they were stored, but they were not automatically applied when I went to push to a remote location.</p>
 <p>To globally assume a username of secretGeek when pushing to github:</p>
 <pre><code>git config --global url.&quot;https://secretGeek@github.com&quot;.insteadOf &quot;https://github.com&quot;
@@ -68,8 +70,8 @@ url = https://secretGeek@github.com/secretGeek/til.git</p>
 </code></pre>
 <blockquote>
 <p>This stores your credentials in the Windows credential store which has a Control Panel interface where you can delete or edit your stored credentials. (Under Control Panel\User Accounts\Credential Manager)</p>
-</blockquote>
 <p>(from <a href="https://stackoverflow.com/questions/15381198/remove-credentials-from-git">https://stackoverflow.com/questions/15381198/remove-credentials-from-git</a>)</p>
+</blockquote>
 <p>And to stop caching password on windows:</p>
 <pre><code>git config --system --unset credential.helper
 </code></pre>
