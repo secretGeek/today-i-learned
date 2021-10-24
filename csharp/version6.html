@@ -24,7 +24,7 @@
 <article>
 <h1 id="c-version-6">C# version 6</h1>
 <p>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6">what's new in C#6</a></p>
-<p><strong>Table of contents</strong></p>
+<h2 id="table-of-contents">Table of contents</h2>
 <ul>
 <li><a href="#readonly-auto-props">readonly auto props</a></li>
 <li><a href="#auto-property-initializers">auto-property initializers</a></li>
@@ -33,7 +33,7 @@
 <li><a href="#null-conditional-operators">null conditional operators</a></li>
 <li><a href="#string-interpolations">string interpolations</a></li>
 <li><a href="#exception-filters">exception filters</a></li>
-<li><a href="#the-nameof-expression">the nameof expression</a></li>
+<li><a href="#the-nameof-expression">the <code>nameof</code> expression</a></li>
 <li><a href="#await-in-catch-and-finally-blocks">await in catch and finally blocks</a></li>
 <li><a href="#index-initializers">index initializers</a></li>
 <li><a href="#extension-add-methods-for-collection-initializers">extension <code>add</code> methods for collection initializers</a></li>
@@ -45,7 +45,7 @@
 <pre><code>public string FirstName { get; }
 public string LastName { get; }
 </code></pre>
-<p>Wait! What? Then how do they ever get set!? Are they like a one way street out of a deadend ?</p>
+<p>Wait! What? Then how do they ever get set!? Are they like a one way street out of a dead-end ?</p>
 <p>Answer: They can only be set in the constructor....</p>
 <pre><code>public class Person
 {
@@ -87,7 +87,7 @@ void Main()
 	public IEnumerable&lt;Problem&gt; Problems { get; } = new List&lt;Problem&gt;();
 </code></pre>
 <p>^ In the above class, even if there were fifty constructors, none of them would need to think about initializing that property.</p>
-<p>And you can mix this with using constructors to perform initialization, from parameters even, if you wish. Constrast these three techniques being used in one class....</p>
+<p>And you can mix this with using constructors to perform initialization, from parameters even, if you wish. Contrast these three techniques being used in one class....</p>
 <pre><code>public class Person
 {
 	public IEnumerable&lt;Problem&gt; Problems { get; } = new List&lt;Problem&gt;();
@@ -128,7 +128,7 @@ void Main()
 <p>This single-expression method can be expressed (pun-intended) as an expression bodied function.</p>
 <pre><code>public string FriendlyName() =&gt; FirstName + &quot; &quot; + LastName;
 </code></pre>
-<p>... the syntax should be recognisable from expression lambdas, and from javascript arrow functions.</p>
+<p>... the syntax should be recognizable from expression lambdas, and from javascript arrow functions.</p>
 <p>(You can add parameters as well...)</p>
 <pre><code>public string FriendlyName(string title) =&gt; title + &quot; &quot; FirstName + &quot; &quot; + LastName;
 </code></pre>
@@ -151,7 +151,7 @@ public IActionResult About()
 }
 </code></pre>
 <p>...for each of these anemic methods.</p>
-<p>Also, in somes case if you have <em>no</em> parameters, you may as well write a property instead of a method....</p>
+<p>Also, in some case if you have <em>no</em> parameters, you may as well write a property instead of a method....</p>
 <pre><code>public string FriendlyName =&gt; FirstName + &quot; &quot; + LastName;
 </code></pre>
 <p>Two characters saved! (The <code>()</code>.)</p>
@@ -179,7 +179,7 @@ WriteLine(&quot;Press F4 and see 'static System.Console'...&quot;);
 <p>You need to use the real name:</p>
 <pre><code>using static System.String;
 </code></pre>
-<p>...and you get firstclass access to <code>Join</code>, <code>IsEmptyOrWhiteSpace</code> and all your other friends.</p>
+<p>...and you get first-class access to <code>Join</code>, <code>IsEmptyOrWhiteSpace</code> and all your other friends.</p>
 <p><strong>But what if</strong> there are two WriteLine methods.... a local one, and one you've imported?</p>
 <p>The code will compile, there will be no warning, and the local method will be used.</p>
 <p><strong>But what if</strong> there are two WriteLine methods.... both imported via two different <code>using static</code> declarations?</p>
@@ -545,8 +545,22 @@ var dic = new Dictionary&lt;int, string&gt; { 3, 4, 5 };
 </code></pre>
 <p>...confident in the knowledge that the compiler will be happy, you will be happy, everyone will be happy, and the things to be done will be done.</p>
 <h2 id="deterministic-compiler-option">deterministic compiler option</h2>
-<p>The compiler now has a <code>-deterministic</code> option to make sure that successive builds reuse the same guids and timestamp from one compilation to the next, so you can perform byte-for-byte comparison with more consistency, and less risk of helping humanity race toward the guid-apocalypose.</p>
+<p>The compiler now has a <code>-deterministic</code> option to make sure that successive builds reuse the same guids and timestamp from one compilation to the next, so you can perform byte-for-byte comparison with more consistency, and less risk of helping humanity race toward the guid-apocalypse.</p>
 <p>I'm not likely to need this option, so I am not committing this to memory.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li>See <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-6">what's new in C#6</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="version4.html">C# Version 4</a></li>
+<li><a href="version5.html">C# version 5</a></li>
+<li><a href="version6.html">C# version 6</a></li>
+<li><a href="version7.html">C# version 7</a></li>
+<li><a href="version8.html">C# version 8</a></li>
+<li><a href="version9.html">C# version 9</a></li>
+<li><a href="version10.html">C# version 10</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
