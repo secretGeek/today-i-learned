@@ -34,6 +34,9 @@
 </code></pre>
 <p>(In the screenshot above I've specified a depth, which is why you can see a dependency chain on the right hand side)</p>
 <p>To look for outdated <strong>global</strong> packages, supply a <code>-g</code> parameter:</p>
+<pre><code>npm outdated -g
+</code></pre>
+<p>To update an outdated package, you can use update, or you can remove it and re-add.</p>
 <pre><code>npm uninstall browser-sync --save-dev
 npm install browser-sync --save-dev
 </code></pre>
