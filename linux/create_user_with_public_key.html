@@ -30,11 +30,12 @@
 <li>test that the new user can connect through SSH.</li>
 </ul>
 <h2 id="create-a-new-user">create a new user</h2>
-<pre><code>useradd fred
+<pre><code>sudo useradd fred
 </code></pre>
 <p>and set password:</p>
-<pre><code>password fred
+<pre><code>sudo passwd fred
 </code></pre>
+<p>(<code>tip</code> - You can list all users by looking in the file <code>/etc/passwd</code>, with <code>cat /etc/passwd</code>)</p>
 <h2 id="give-that-user-sudo-privileges">give that user sudo privileges</h2>
 <p>Add a user to the sudo group with:</p>
 <pre><code>gpasswd -a fred sudo
