@@ -22,13 +22,13 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="checkout-specific-revision">checkout specific revision</h1>
+<h1 id="checkout-specific-revision">Checkout specific revision</h1>
 <p>You want to go back to a specific revision... First find the revision#, either the full hash or the short hash, or the tag name.</p>
 <p>Then you want to 'describe' that revision...</p>
 <pre><code>git describe e908c80cc
 </code></pre>
 <p>...which will output a fuller name, e.g. <code>build-3.0.7468-dev-883-ge908c80cc</code></p>
-<p>Then simply <code>git checkout {thatname}</code> e.g.</p>
+<p>Then simply <code>git checkout {thatName}</code> e.g.</p>
 <pre><code>git checkout build-3.0.7468-dev-883-ge908c80cc
 </code></pre>
 <p>...and you'll be greeted with a lengthy message like this:</p>

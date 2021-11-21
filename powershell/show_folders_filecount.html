@@ -22,8 +22,42 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="show-folders-filecount-filtered-for-five-hundred-file-folders">Show Folders FileCount Filtered For Five Hundred File Folders</h1>
+<h1 id="show-folders-filecount-filtered-for-folders-with-500-files">Show Folders FileCount Filtered For Folders with 500 Files</h1>
+<p>Find just 500 file folders... (and skip looking in the <code>node_modules</code> directory)</p>
 <pre><code>dir -dir -rec | ? { $_.FullName -notlike &quot;*node_modules*&quot; } | % { $name = $_.FullName; dir &quot;$($_.FullName)&quot; -file | measure | ? { $_.count -gt 500} | % { write-host &quot;$name $($_.count)&quot; -f darkcyan } }
+</code></pre>
+<p>Or if written out in full:</p>
+<pre><code>Get-ChildItem -dir -rec | 
+Where-Object { 
+    $_.FullName -notlike &quot;*node_modules*&quot;\
+} |
+    ForEach-Object { 
+        $name = $_.FullName;
+        Get-ChildItem &quot;$($_.FullName)&quot; -file | 
+            Measure-Object |
+            Where-Object {
+                $_.count -gt 500
+            } |
+            ForEach-Object {
+                write-host &quot;$name $($_.count)&quot; -f darkcyan
+            }
+}
+</code></pre>
+<p>Show files in all folders, but exclude node_modules, .git and .obj folders....</p>
+<pre><code> Get-ChildItem -dir -rec |
+	Where-Object {
+		$_.FullName -notlike &quot;*node_modules*&quot; -and
+		$_.FullName -notlike &quot;*\obj&quot; -and
+		$_.FullName -notlike &quot;*\obj\*&quot; -and
+		$_.FullName -notlike &quot;*\.git&quot; -and
+		$_.FullName -notlike &quot;*\.git\*&quot;
+	} | % { Get-ChildItem &quot;$($_.FullName)&quot; *.* -file }
+</code></pre>
+<p>Just get some files, not all folders</p>
+<pre><code>Get-ChildItem -dir -Exclude *node_modules*, .git, obj | % FullName |
+    % { write-host &quot;$_&quot; -f yellow;
+        Get-ChildItem $_ -file | 
+        % { write-host $_ -f blue; } }
 </code></pre>
 
 </article>
