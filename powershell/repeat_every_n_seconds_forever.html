@@ -59,6 +59,17 @@
 		sleep 3;
 }
 </code></pre>
+<h2 id="making-repeats-obvious">Making repeats obvious</h2>
+<p>I had a recurring script like the ones above, and it started by clearing the screen and then giving some output.</p>
+<p>It was too quick though -- I couldn't tell if it had worked once and hung, or was just getting the same output every time.</p>
+<p>So I added this just before the clear screen: <code>write-host &quot;Checking...&quot; -f yellow; start-sleep -seconds 1;</code></p>
+<p>That is, the script ended like this:</p>
+<pre><code>start-sleep -seconds 5;
+write-host &quot;Checking...&quot; -f yellow;
+start-sleep -seconds 1;
+cls;
+</code></pre>
+<p>It would say &quot;Checking...&quot; in yellow, at the end of other output, for 1 second, before it cleared the screen and repeated the command that was being run.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../linux/how_much_memory_is_free.html">example of using 'watch' in linux</a></li>

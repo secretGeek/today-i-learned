@@ -167,7 +167,7 @@ function showFloatingMessage(message, element) {
 </code></pre>
 <p>And I call it via this helper method:</p>
 <pre><code>function copyItemText(item) {
-	copytext(item.textContent, item);
+	copyToClipboard(item.textContent, item);
 }
 </code></pre>
 <p>And wire that up to every <code>pre</code>/<code>code</code> element like this:</p>
