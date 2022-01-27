@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>parameters general guide . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="parameters-general-guide">Parameters: general guide</h1>
+<p>In powershell, parameters -- arguments -- can be written in a lot of ways.</p>
+<p>Even a script that declares <em>no</em> parameters can access the parameters that are handed to it.</p>
+<p>As can a function, a named cmdLet, etc.</p>
+<p>YOu can declare parameter names without specifying a type, e.g.</p>
+<pre><code>function New-Satelitte ($sateliteName, $weightInGrams) {
+	write-host &quot;The $sateliteName will weigh $weightInGrams&quot; -f Yellow;
+}
+</code></pre>
+<p>...and a trap for young players, having just written such a function, if you write code that call its, you must note that you pass arguments without putting parenthesese around the whole thing. That is you call it so:</p>
+<pre><code>New-Satelitte &quot;The Nazgul Banana&quot; 500
+</code></pre>
+<p>and NOT like this:</p>
+<pre><code>New-Satelitte (&quot;The Nazgul Banana&quot;, 500)   # NO! Not like this!
+</code></pre>
+<p>...as that would be interpreted as you sending a single parameter, an array with two values</p>
+<pre><code>(&quot;The Nazgul Banana&quot;, 500).GetType()
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     Object[]                                 System.Array
+</code></pre>
+<p>Hence <code>$SatelliteName</code> would be an array of objects.</p>
+<p>Apart from remembering the &quot;no brackets&quot; syntax -- you also need to learn how to give types to your parameters, and so much more.</p>
+<p>todo: param()
+todo: [Parameter()]
+todo: Mandatory
+todo: ValueFromPipeline
+todo: ValueFromPipelineByPropertyName
+todo: ParameterSetName
+todo: PSAvoidUsingPositionalParameters
+todo: ValueFromRemainingArguments / Passthrough</p>
+<h2 id="sources">Source(s)</h2>
+<ul>
+<li>looking through my own code and documenting things i've learned once and forgotten since, in hope i will remember them again.</li>
+<li><a href="https://adamtheautomator.com/powershell-parameter/#Creating_a_Simple_PowerShell_Parameter">https://adamtheautomator.com/powershell-parameter/#Creating_a_Simple_PowerShell_Parameter</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><p>[parameters general guide](../powershell/parameters general guide)</p>
+</li>
+<li><p>CmdLetBinding</p>
+</li>
+<li></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
