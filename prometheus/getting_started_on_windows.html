@@ -72,15 +72,15 @@ process_working_set_bytes 85360640
 </code></pre>
 <p>...two lines of comments, and then the metric itself.
 The first comment line is <code>HELP</code>, followed by a space, followed by the name of the metric, followed by a space, then the rest of the line is a description.</p>
-<p>The next comment line is <code>TYPE</code>, , followed by a space, followed by the name of the metric, followed by a space, followed by the type of metric... in the exampls above we see a two types: <code>counter</code> and <code>gauge</code>.</p>
+<p>The next comment line is <code>TYPE</code>, , followed by a space, followed by the name of the metric, followed by a space, followed by the type of metric... in the examples above we see two types: <code>counter</code> and <code>gauge</code>.</p>
 <p>There are 4 types of metrics all up:</p>
 <ul>
-<li>Counters, e.g. process_cpu_seconds_total..</li>
+<li>Counters, e.g. process_cpu_seconds_total...</li>
 <li>Gauges</li>
 <li>Histograms</li>
 <li>Summaries</li>
 </ul>
-<p>Qucik descriptions:</p>
+<p>Quick descriptions:</p>
 <ul>
 <li><strong>Counters</strong>, e.g. <code>process_cpu_seconds_total</code>, useful for things which never go backwards, always up. (In a car, the odometer would be am example of a counter, unlike other things on the dashboard...)</li>
 <li><strong>Gauges</strong>, e.g. <code>process_num_threads</code>, useful for values that go up or down, such as amount of memory being used, number of threads. Similar to the gauges on the dashboard of a car such as RPM and speed.</li>
@@ -114,7 +114,7 @@ my_counter 7
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=EAQOr8FAs44">Exporting Prometheus metrics in ASP.NET Core (2/5) - YouTube</a></li>
-<li><a href="https://tomgregory.com/the-four-types-of-prometheus-metrics/">The 4 Types Of Prometheus Metrics – Tom Gregory</a></li>
+<li><a href="https://tomgregory.com/the-four-types-of-prometheus-metrics/">The 4 Types Of Prometheus Metrics - Tom Gregory</a></li>
 <li><a href="https://prometheus.io/download/">Download | Prometheus</a></li>
 <li><a href="https://prometheus.io/docs/introduction/first_steps/">First steps | Prometheus</a></li>
 </ul>

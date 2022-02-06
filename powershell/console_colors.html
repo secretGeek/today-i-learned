@@ -76,11 +76,11 @@ Get-PSReadlineOption | Select *color
 $Host.PrivateData
 </code></pre>
 <p>I seem to have some groovy <code>write-host</code> replacement installed called 'Pansies' that means i can express colors in hex rgb, so this produces some nice tones:</p>
-<pre><code>1..9 | % { 
-	$R = $_; 1..9 | % { 
-		$G = $_; 1..9 | % { 
-			$B = $_; 
-			write-host &quot; $($R)$($R)$($G)$($G)$($B)$($B)&quot; -f &quot;#$($R)$($R)$($G)$($G)$($B)$($B)&quot; -n 
+<pre><code>1..9 | % {
+	$R = $_; 1..9 | % {
+		$G = $_; 1..9 | % {
+			$B = $_;
+			write-host &quot; $($R)$($R)$($G)$($G)$($B)$($B)&quot; -f &quot;#$($R)$($R)$($G)$($G)$($B)$($B)&quot; -n
 		}
 	}
 }

@@ -150,22 +150,22 @@ url = form[0].action;
 data = toJson(form);
 element = form.closest(&quot;.modal,.span10&quot;);
 form.find('.progress').addClass('waiting');</p>
-<pre><code>postElement(url, data, element, function (result) {
-    if (result.redirectTo) {
-        window.location = result.redirectTo;
-    }
-    if (result.html) {
-        element.html(result.html);
-        beCool(element);
-    } else {
-        if (result.success == false) {
-            notCool(result.message);
-        }
-        //what if no result.html and: result.success = true, or no result.success?
-    }
-});
-e.preventDefault();
-return false;
+<pre><code> postElement(url, data, element, function (result) {
+     if (result.redirectTo) {
+         window.location = result.redirectTo;
+     }
+     if (result.html) {
+         element.html(result.html);
+         beCool(element);
+     } else {
+         if (result.success == false) {
+             notCool(result.message);
+         }
+         //what if no result.html and: result.success = true, or no result.success?
+     }
+ });
+ e.preventDefault();
+ return false;
 </code></pre>
 <p>});</p>
 </li>

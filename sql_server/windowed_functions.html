@@ -238,8 +238,8 @@ where ROW_NUMBER() OVER(ORDER BY VehicleCode asc) &gt; 4
 <p>At this stage we've learnt all the rules.</p>
 <p>We can follow this old skating maxim:</p>
 <blockquote>
-<p>FIRST: Learn all the rules<br />
-NEXT: Break all the rules</p>
+<p>FIRST: Learn all the rules</p>
+<p>NEXT: Break all the rules</p>
 </blockquote>
 <p>Here's how we <strong>CAN</strong> put a windowed-function into a WHERE clause...</p>
 <pre><code>;with TopVehicles AS
@@ -1059,7 +1059,7 @@ order by Fleet, Vehiclecode
 </tr>
 </tbody>
 </table>
-<h2 id="background-reading">Background reading:</h2>
+<h2 id="background-reading">Background reading</h2>
 <ul>
 <li><a href="https://www.red-gate.com/simple-talk/sql/learn-sql-server/window-functions-in-sql-server/">Window Functions, Part 1</a></li>
 <li><a href="https://www.red-gate.com/simple-talk/sql/learn-sql-server/window-functions-in-sql-server-part-2-the-frame/">Window Functions, Part 2</a></li>

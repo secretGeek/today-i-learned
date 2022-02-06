@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>count lines of code . Today I Learned (secretGeek)</title>
+<title>error 2147943785 . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,37 +22,26 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="count-lines-of-code-with-powershell">Count lines of code with powershell</h1>
-<p>First naive attempt...</p>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse | Get-Content | Measure-Object -line -word -character
+<h1 id="task-scheduler-fails-with-error-2147943785">Task Scheduler Fails with Error 2147943785</h1>
+<p>If a Task in Windows Task Scheduler fails to launch and logs an event with:</p>
+<pre><code>Task Category &quot;Task Started Failed&quot;
+Operational code &quot;Launch Failure&quot;
+Additional data &quot;Error Value: 2147943785&quot;
 </code></pre>
-<p>Now -- filter out blanks and whitespace...</p>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse | Get-Content | Measure-Object -line -word -character
+<p>What does this mean? It means:</p>
+<pre><code>---------------------------
+Task Scheduler
+---------------------------
+This task requires that the user account specified has Log on as batch job rights. For more information about setting this policy, see the Task Security Context topic in Help.
+---------------------------
+OK
+---------------------------
 </code></pre>
-<p>Comments starting with &quot;//&quot;</p>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
-	Get-Content |
-		? { $_.trim() -like &quot;//*&quot; } |
-			measure
-</code></pre>
-<p>Comments starting with &quot;/*&quot;</p>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
-	Get-Content |
-		? { $_.trim() -like &quot;/``** } |
-			measure
-</code></pre>
-<h2 id="code-minus-blanks-and-comments">Code minus blanks and comments</h2>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
-	Get-Content |
-		? {
-			$_.trim() -notlike &quot;/``** -and
-			$_.trim() -notlike &quot;//* -and
-			$_.trim() -notlike &quot;&quot; } |
-			measure
-</code></pre>
-<h2 id="find.cs-files-but-not-in-all-folders">Find .cs files but not in all folders</h2>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
-</code></pre>
+<p>The task is configured to run as a user that doesn't have the necessary permissions, specifically &quot;Log on as batch job rights&quot;</p>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://audministrator.wordpress.com/2017/04/05/windows-task-scheduler-fails-with-error-code-2147943785/">Windows - Task Scheduler Fails With Error Code 2147943785 | audministrator</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

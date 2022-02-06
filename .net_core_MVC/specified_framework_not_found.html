@@ -48,7 +48,7 @@ dotnet-host                                     install
 dotnet-hostfxr-1.0.1                            install
 dotnet-sharedframework-microsoft.netcore.app-1.0.0      install
 </code></pre>
-<p>(You can also use <code>dotnet --version</code> to see which <code>dotnet</code> is installed... but I like the approach above because it tells me more than I need)</p>
+<p>(You can also use <code>dotnet --version</code> to see which <code>dotnet</code> is installed... but I like the approach above because it tells me more than I need. <code>dotnet --info</code> is also quite informative, as it should be.)</p>
 <p>Looking into this some more, over at <a href="https://www.microsoft.com/net/download/linux">https://www.microsoft.com/net/download/linux</a> it says this about the supported and current versions...</p>
 <pre><code>.NET Core 1.0.3 (LTS) (Long-Term-Support)
 Ubuntu 16.04:  sudo apt-get install dotnet-dev-1.0.0-preview2-003156
@@ -57,7 +57,7 @@ Ubuntu 16.04:  sudo apt-get install dotnet-dev-1.0.0-preview2-003156
 <pre><code>.NET Core 1.1 (Current)
 Ubuntu 16.04:  apt-get install dotnet-dev-1.0.0-preview2-003175
 </code></pre>
-<p>(Why is current not the same as what's on the front screen? And why doesn't the current need 'sudo'? (<a href="https://twitter.com/secretGeek/status/823712625942896640">lodged it with jongalloway via twitter</a> )</p>
+<p>(Why is current not the same as what's on the front screen? And why doesn't the current need 'sudo'? (<a href="https://twitter.com/secretGeek/status/823712625942896640">lodged it with jongalloway via twitter</a> -- it got fixed 😊 )</p>
 <p>Putting all these facts together:</p>
 <pre><code>6-months-ago    dotnet-dev-1.0.0-preview2-003121
 &quot;LTS&quot;           dotnet-dev-1.0.0-preview2-003156

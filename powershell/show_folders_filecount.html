@@ -27,13 +27,13 @@
 <pre><code>dir -dir -rec | ? { $_.FullName -notlike &quot;*node_modules*&quot; } | % { $name = $_.FullName; dir &quot;$($_.FullName)&quot; -file | measure | ? { $_.count -gt 500} | % { write-host &quot;$name $($_.count)&quot; -f darkcyan } }
 </code></pre>
 <p>Or if written out in full:</p>
-<pre><code>Get-ChildItem -dir -rec | 
-Where-Object { 
+<pre><code>Get-ChildItem -dir -rec |
+Where-Object {
     $_.FullName -notlike &quot;*node_modules*&quot;\
 } |
-    ForEach-Object { 
+    ForEach-Object {
         $name = $_.FullName;
-        Get-ChildItem &quot;$($_.FullName)&quot; -file | 
+        Get-ChildItem &quot;$($_.FullName)&quot; -file |
             Measure-Object |
             Where-Object {
                 $_.count -gt 500
@@ -56,7 +56,7 @@ Where-Object {
 <p>Just get some files, not all folders</p>
 <pre><code>Get-ChildItem -dir -Exclude *node_modules*, .git, obj | % FullName |
     % { write-host &quot;$_&quot; -f yellow;
-        Get-ChildItem $_ -file | 
+        Get-ChildItem $_ -file |
         % { write-host $_ -f blue; } }
 </code></pre>
 

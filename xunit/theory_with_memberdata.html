@@ -34,10 +34,10 @@ public void Can_Recognise_Pasta(string pastaName)
 {
 	// Arrange
 	var pastaRecognizer = new PastaRecognizer();
-	
+
 	// Act
 	var result = pastaRecognizer.TryRecognize(pastaName);
-	
+
 	// Assert
 	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
 }
@@ -50,10 +50,10 @@ public void Can_Recognise_Pasta(string pastaName)
 {
 	// Arrange
 	var pastaRecognizer = new PastaRecognizer();
-	
+
 	// Act
 	var result = pastaRecognizer.TryRecognize(pastaName);
-	
+
 	// Assert
 	Assert.True(result, $&quot;I recognise that {pastaName} is pasta.&quot;);
 }
@@ -62,8 +62,8 @@ public static class PastaTestGenerator
 {
 	public static IEnumerable&lt;object[]&gt; GetPasta()
 	{
-		return new List&lt;object[]&gt;  { 
-			new object[] { &quot;spaghetti&quot; }, 
+		return new List&lt;object[]&gt;  {
+			new object[] { &quot;spaghetti&quot; },
 			new object[] { &quot;tagliatelli&quot; } };
 	}
 }
