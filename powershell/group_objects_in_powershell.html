@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="group-objects-in-powershell">Group objects in powershell</h1>
-<p>Grouping is useful. I've mentioned it also in <a href="count_distinct_rows.html">Count distinct rows</a>, <a href="file_types.html">Count Files by Type</a> and <a href="histogram.html">histogram</a>.</p>
+<p>Grouping is useful. I've mentioned it also in <a href="count_distinct_rows.html">Count distinct rows</a>, <a href="filetypes.html">Count Files by Type</a> and <a href="histogram.html">histogram</a>.</p>
 <pre><code>dir -rec |
 group-object -property { ($_.extension) } |
 % {
@@ -73,6 +73,14 @@ $grouped | foreach {
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/30769809/powershell-group-by-multiple-properties">stackoverflow - group by multiple properties</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="filetypes.html">Count Files by Type</a></li>
+<li><a href="histogram.html">Histograms in Powershell</a></li>
+<li><a href="load_save_csv.html">Load or Save CSV with Powershell</a></li>
+<li><a href="count_distinct_rows.html">Count distinct rows (in powershell)</a></li>
+<li><a href="count_lines_of_code.html">Count lines of code with powershell</a></li>
 </ul>
 
 </article>

@@ -38,21 +38,85 @@
 <p>Comments starting with &quot;/*&quot;</p>
 <pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
 	Get-Content |
-		? { $_.trim() -like &quot;/``** } |
+		? { $_.trim() -like &quot;/``**&quot; } |
 			measure
 </code></pre>
 <h2 id="code-minus-blanks-and-comments">Code minus blanks and comments</h2>
 <pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
 	Get-Content |
 		? {
-			$_.trim() -notlike &quot;/``** -and
-			$_.trim() -notlike &quot;//* -and
-			$_.trim() -notlike &quot;&quot; } |
+			$_.trim() -notlike &quot;/``**&quot; -and   # starts with /*
+			$_.trim() -notlike &quot;*``*/&quot; -and   # ends with */
+			$_.trim() -notlike &quot;//*&quot; -and     # starts with //
+			$_.trim() -notlike &quot;&quot; } |         # blank
 			measure
 </code></pre>
-<h2 id="find.cs-files-but-not-in-all-folders">Find .cs files but not in all folders</h2>
-<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
+<h2 id="avoid-node_modules-and-obj-folders">Avoid node_modules and obj folders:</h2>
+<p>Here are two examples of where conditions</p>
+<ol>
+<li><p>Using <code>-notmatch</code></p>
+<p>? { $_.FullName -notmatch &quot;\node_modules\|\obj\&quot; }</p>
+</li>
+<li><p>Using <code>-like</code></p>
+<p>? { -not ($<em>.FullName -like '*\node_modules*' -or $</em>.FullName -like '*\obj*') }</p>
+</li>
+<li><p>Using <code>-notlike</code></p>
+<p>Get-ChildItem -Filter &quot;<em>.cs&quot; -Recurse |
+? { $_.FullName -notlike '</em>\node_modules*' -and $_.FullName -notlike '*\obj*' } |
+Measure | % Count</p>
+</li>
+</ol>
+<h2 id="count.cs-files-in-all-folders">Count .cs Files in all folders</h2>
+<p>To just count the files you can use:</p>
+<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse | measure | % count
 </code></pre>
+<h2 id="count.cs-files-but-not-in-node_modules-or-obj-folder">Count .cs files but not in node_modules or obj folder</h2>
+<p>Here are two versions -- they seem equally fast/slow to me at the moment...</p>
+<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
+	? { $_.FullName -notmatch &quot;\\node_modules\\|\\obj\\&quot; } |
+	Measure | % Count
+</code></pre>
+<p>And:</p>
+<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
+	? { -not ($_.FullName -like '*\node_modules\*' -or $_.FullName -like '*\obj\*') } |
+	Measure | % Count
+</code></pre>
+<h2 id="lines-of.cs-code-minus-blanks-and-comments-avoiding-some-folders">Lines of .cs code minus blanks and comments, avoiding some folders</h2>
+<p>Putting it all together:</p>
+<pre><code>Get-ChildItem -Filter &quot;*.cs&quot; -Recurse |
+	? { -not ($_.FullName -like '*\node_modules\*' -or $_.FullName -like '*\obj\*') } |
+	Get-Content |
+		? {
+			$_.trim() -notlike &quot;/``**&quot; -and   # starts with /*
+			$_.trim() -notlike &quot;*``*/&quot; -and   # ends with */
+			$_.trim() -notlike &quot;//*&quot; -and     # starts with //
+			$_.trim() -notlike &quot;&quot; } |         # blank
+			Measure-Object -line -word -character
+
+
+
+Get-ChildItem -recurse | ?{ $_.PSIsContainer -ne $true } |
+? { -not ($_.FullName -like '*\node_modules\*' -or $_.FullName -like '*\obj\*') } |
+% {
+
+	$measureLines = (Get-Content $_ |
+			? {
+			$_.trim() -notlike &quot;/``**&quot; -and   # starts with /*
+			$_.trim() -notlike &quot;*``*/&quot; -and   # ends with */
+			$_.trim() -notlike &quot;//*&quot; -and     # starts with //
+			$_.trim() -notlike &quot;&quot; } |         # blank
+			Measure-Object -line -word -character);
+	Add-Member -inputObject $_ -memberType NoteProperty -name &quot;Lines&quot; -value measureLines.Lines;
+	$_;
+} group-object -property { ($_.extension) } | sort -desc Count;
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="filetypes.html">Count Files by Type</a></li>
+<li><a href="count_distinct_rows.html">Count distinct rows (in powershell)</a></li>
+<li><a href="histogram.html">Histograms in Powershell</a></li>
+<li><a href="group_objects_in_powershell.html">Group objects in powershell</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
