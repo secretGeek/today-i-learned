@@ -26,34 +26,38 @@
 <p>THis is a snippet that I use all the time, for seeing how many files of each type are in a folder/tree.</p>
 <pre><code>dir -rec -Exclude .git,*node_modules* | ?{ $_.PSIsContainer -ne $true } | ? { $_.DirectoryName -notmatch &quot;node_modules|_book|\.git|\.hg&quot; } | group-object -property { ($_.extension) } | sort -desc Count
 </code></pre>
-<p>I explicitly exlude the <code>.git</code> and <code>node_modules</code> folders, because I am usually not interested in those.</p>
-<p>To <strong>include</strong> node modules...</p>
-<pre><code>dir -rec -Exclude .git | ?{ $_.PSIsContainer -ne $true } | ? { $_.DirectoryName -notmatch &quot;\.git&quot; } | group-object -property { ($_.extension) } | sort -desc Count
+<p>I explicitly exclude the <code>.git</code> and <code>node_modules</code> folders, because I am usually not interested in those.</p>
+<pre><code>Get-ChildItem -rec -file |
+Where-Object { -not ($_.FullName -like '*\node_modules\*' -or
+	$_.FullName -like '*\obj\*' -or
+	$_.FullName -like '*\.git\*' -or
+	$_.FullName -like '*\.vs\*' -or
+	$_.FullName -like '*\.vscode\*' -or
+	$_.FullName -like '*\packages\*' -or
+	$_.FullName -like '*\.nuget\*') } |
+group-object -property { ($_.extension) } | 
+	Sort-Object -desc Count
 </code></pre>
-<p>Here's another version with a Size property (which is a sum of the length)</p>
-<pre><code>dir -rec |
+<p>...or -- to provide more summary info about each group, such as total size of files, count of files etc.</p>
+<pre><code>Get-ChildItem -rec -file |
+Where-Object { -not ($_.FullName -like '*\node_modules\*' -or
+	$_.FullName -like '*\obj\*' -or
+	$_.FullName -like '*\.git\*' -or
+	$_.FullName -like '*\.vs\*' -or
+	$_.FullName -like '*\.vscode\*' -or
+	$_.FullName -like '*\packages\*' -or
+	$_.FullName -like '*\.nuget\*') } |
 group-object -property { ($_.extension) } |
-% {
+ForEach-Object {
 	[PSCustomObject]@{
-		Id = $_.Name
-		Size = ($_.Group.Length| Measure -sum).Sum
+		Ext = $_.Name
+		Size_b = ($_.Group.Length | Measure-Object -sum).Sum
 		Count = $_.Count
+		Folders = ($_.Group | % {$_.Directory.FullName} | get-unique | count )
+		Distinct_FileNames = ($_.Group | % Name | get-unique | count )
 		Files = ($_.Group | % Name)
 	}
-} | sort -desc Size
-</code></pre>
-<p>Here's same, explicitly excluding <code>.git</code> and <code>node_modules</code> again.</p>
-<pre><code>dir -rec -Exclude .git,*node_modules*,.hg |
-? { $_.PSIsContainer -ne $true } | ? { $_.DirectoryName -notmatch &quot;node_modules|\.git|\.hg&quot; } |
-group-object -property { ($_.extension) } |
-% {
-	[PSCustomObject]@{
-		Id = $_.Name
-		Size = ($_.Group.Length| Measure -sum).Sum
-		Count = $_.Count
-		Files = ($_.Group | % Name)
-	}
-} | sort -desc Size
+} | Sort-Object -desc Count, size_b | format-table
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
