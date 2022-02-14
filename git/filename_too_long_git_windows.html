@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>filename too long git windows . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="filename-too-long-when-cloning-a-git-repository-on-windows">Filename too long when cloning a git repository on windows</h1>
+<p>Windows was previously limited to having filepaths no longer than 260 chars. Since Windows 10 it <em>can</em> handle longer paths, but you need to opt in.</p>
+<p>If you clone a repo with names longer than that <a href="#footnote-1">1</a>, you will receive errors about &quot;filename too long&quot;</p>
+<p>You can configure git to handle those long names like so:</p>
+<pre><code>git config --global core.longpaths true
+</code></pre>
+<p>That changes the limit to 4096 chars.</p>
+<p>But on navigating into certain folders you'll still find the commandline is not happy. You need to also tell windows to do better:</p>
+<p>But even then, commands such as <code>git status</code> will fail with this message:</p>
+<pre><code class="language-plaintext">Program 'git.exe' failed to run: The directory name is invalidAt line:1 char:1
++ git status
+</code></pre>
+<p>The trick here is to update the dreaded windows registry like so:</p>
+<pre><code class="language-powershell">New-ItemProperty -Path &quot;HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem&quot; `
+-Name &quot;LongPathsEnabled&quot; -Value 1 -PropertyType DWORD -Force
+</code></pre>
+<p>...and then restart your computer.</p>
+<p>Source #2 also recommends:</p>
+<ol>
+<li><p>Windows Run <code>gpedit.msc</code></p>
+</li>
+<li><p>Navigate to:</p>
+<p>Computer Configuration | Administrative Templates | System | Filesystem | Enable Win32 long paths</p>
+</li>
+<li><p>Set state to &quot;Enabled&quot;</p>
+</li>
+</ol>
+<p>But even after restarting this is not enough for me to use git succesfully in such folders.</p>
+<p>Not sure what else I'm nmissing.</p>
+<p>Perhaps Powershell or Windows Terminal need to be helped along.</p>
+<p>I can see the config for powershell here:</p>
+<pre><code>cat C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe.config
+</code></pre>
+<p>And today it says:</p>
+<pre><code class="language-xml">&lt;configuration&gt;
+  &lt;uri&gt;
+	&lt;schemeSettings&gt;
+	  &lt;add name=&quot;http&quot; genericUriParserOptions=&quot;DontUnescapePathDotsAndSlashes&quot;/&gt;
+	  &lt;add name=&quot;https&quot; genericUriParserOptions=&quot;DontUnescapePathDotsAndSlashes&quot;/&gt;
+	&lt;/schemeSettings&gt;
+  &lt;/uri&gt;
+  &lt;runtime&gt;
+	&lt;AppContextSwitchOverrides value=&quot;Switch.System.Net.DontEnableSystemDefaultTlsVersions=false&quot; /&gt;
+  &lt;/runtime&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>That told me nothing. I instead used <code>mt.exe</code> -- the manifest tool installed with Visual Studio. I ran a &quot;Visual Studio Command Prompt&quot; -- then used this command:</p>
+<pre><code class="language-powershell">mt -inputresource:C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -out:powershell.manifest
+</code></pre>
+<p>And it produced a file, <code>powershell.manifest</code> that looked like this:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;assembly xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot; manifestVersion=&quot;1.0&quot;&gt;
+  &lt;description&gt;PowerShell&lt;/description&gt;
+  &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+    &lt;security&gt;
+      &lt;requestedPrivileges&gt;
+        &lt;requestedExecutionLevel level=&quot;asInvoker&quot; uiAccess=&quot;false&quot;&gt;&lt;/requestedExecutionLevel&gt;
+      &lt;/requestedPrivileges&gt;
+    &lt;/security&gt;
+  &lt;/trustInfo&gt;
+  &lt;compatibility xmlns=&quot;urn:schemas-microsoft-com:compatibility.v1&quot;&gt; 
+    &lt;application&gt; 
+      &lt;!--This Id value indicates the application supports Windows Vista/Server 2008 functionality --&gt;
+      &lt;supportedOS Id=&quot;{e2011457-1546-43c5-a5fe-008deee3d3f0}&quot;&gt;&lt;/supportedOS&gt; 
+      &lt;!--This Id value indicates the application supports Windows 7/Server 2008 R2 functionality--&gt;
+      &lt;supportedOS Id=&quot;{35138b9a-5d96-4fbd-8e2d-a2440225f93a}&quot;&gt;&lt;/supportedOS&gt;
+      &lt;!--This Id value indicates the application supports Windows 8/Server 2012 functionality--&gt;
+      &lt;supportedOS Id=&quot;{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}&quot;&gt;&lt;/supportedOS&gt;
+      &lt;!-- This Id value indicates the application supports Windows Blue/Server 2012 R2 functionality--&gt;            
+      &lt;supportedOS Id=&quot;{1f676c76-80e1-4239-95bb-83d0f6d0da78}&quot;&gt;&lt;/supportedOS&gt;
+      &lt;!-- This Id value indicates the application supports Windows Threshold functionality--&gt;            
+      &lt;supportedOS Id=&quot;{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}&quot;&gt;&lt;/supportedOS&gt;
+    &lt;/application&gt; 
+  &lt;/compatibility&gt;
+  &lt;application xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+    &lt;windowsSettings&gt;
+      &lt;longPathAware xmlns=&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;&gt;true&lt;/longPathAware&gt;
+    &lt;/windowsSettings&gt;
+  &lt;/application&gt;
+&lt;/assembly&gt;
+</code></pre>
+<p>....note the line: <code>&lt;longPathAware xmlns=&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;&gt;true&lt;/longPathAware&gt;</code></p>
+<h2 id="bonus-content-re.net-apps">Bonus content re .Net Apps...</h2>
+<p>Some applications, such as .net applications can support long filenames -- but they must have &quot;long path aware&quot; specifiec in their manifest.</p>
+<p>See (for example) <a href="https://docs.microsoft.com/en-gb/archive/blogs/jeremykuhne/net-4-6-2-and-long-paths-on-windows-10">.NET 4.6.2 and long paths on Windows 10 | Microsoft Docs</a></p>
+<pre><code class="language-xml">&lt;application xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+  &lt;windowsSettings&gt;
+	&lt;longPathAware xmlns=&quot;https://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;&gt;true&lt;/longPathAware&gt;
+  &lt;/windowsSettings&gt;
+&lt;/application&gt;
+</code></pre>
+<h2 id="footnotes">Footnotes</h2>
+<h3 id="footnote-1">Footnote 1</h3>
+<blockquote>
+<p>names longer than that</p>
+</blockquote>
+<p>...means longer than 260 characters, <em>including</em> the length of the root location into which you are cloning the repo, plus the length of the name of the folder the repo is in.</p>
+<h2 id="source">Source</h2>
+<ul>
+<li>[Git checkouts fail on Windows with &quot;Filename too long error: unable to create file&quot; errors](<a href="https://confluence.atlassian.com/bamkb/git-checkouts-fail-on-windows-with-filename-too-long-error-unable-to-create-file-errors-867363792.html">https://confluence.atlassian.com/bamkb/git-checkouts-fail-on-windows-with-filename-too-long-error-unable-to-create-file-errors-867363792.html</a></li>
+<li><a href="https://devopsjournal.io/blog/2020/09/23/Git-clone-Filename-too-long-Windows">Git clone error: Filename too long on Windows 10</a></li>
+<li><a href="https://docs.microsoft.com/en-gb/archive/blogs/jeremykuhne/net-4-6-2-and-long-paths-on-windows-10">.NET 4.6.2 and long paths on Windows 10 | Microsoft Docs</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>

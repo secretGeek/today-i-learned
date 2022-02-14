@@ -624,7 +624,7 @@ code[data-content="draft"]::after {
 }
 
 code[data-content="error"],
-code[data-content="bug"] {
+code[data-content="bug"], .error, .language-plaintext-error {
   background-color: var(--error-bg);
   color: var(--error-fg);
 }

@@ -64,7 +64,95 @@ function applyLanguageClassesToPre() {
     usql: "sql",
     wordpress: "php",
     yarn: "javascript",
+	xunit: "csharp",
+	"f-sharp": "fsharp"
   };
+/*
+Other topics, as at 2022-02-14
+
+.vscode
+appharbor
+banking
+bookmarklets
+concepts
+console
+crypto
+cypress
+design
+digital_gardens
+domains
+education
+Entity_Framework
+examples
+excel
+
+functions
+games
+gitbook
+github
+gmail
+google
+graphics
+habits
+http
+http2
+iis
+inkscape
+itunes
+jest
+library
+macbook_air
+mailgun
+markdown
+marketing
+math
+memorize
+mstsc
+music
+neo4j
+new_computer
+nimbletext
+notepad++
+office
+paypal
+pdf
+ppmp
+productivity
+prometheus
+questions
+reading_notes
+redis
+saltwater_swimming_pool
+security_virus_spam_etc
+sharepoint
+sleep
+sparql
+stackexchange
+svg
+tcl
+todo
+tools
+trello
+tutorials
+twitter
+ux
+virtual_box
+visual_studio
+vs_code
+web
+webview2
+windows
+windows.forms
+windows_scheduler
+winget
+winword
+wordle
+writing
+
+zettel
+zoho
+*/
+  
 
   var currentUrl = location.pathname;
   var parentUrl = currentUrl.substring(0, currentUrl.lastIndexOf("/"));
