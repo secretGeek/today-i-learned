@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>excel split to words via formula . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,17 +22,20 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="excel" class="chapter">excel</h1>
-<h2 id="content">content</h2>
+<h1 id="split-cell-to-words-via-a-formula-in-excel">Split cell to words, via a formula, in Excel</h1>
+<p>To get everything before the first space:</p>
+<pre><code>=LEFT(B2,FIND(&quot; &quot;,B2)-1)
+</code></pre>
+<p>BETTER: get everything before the first space, but if there is not space get everything:</p>
+<pre><code>=IFERROR(LEFT(B2,FIND(&quot; &quot;,B2)-1), B2)
+</code></pre>
+<p>Get everything after the first space</p>
+<pre><code>=TRIM(RIGHT(B2, LEN(B2) - LEN(F2)))
+</code></pre>
+<p>...where <code>F2</code> is the column holding the output from the formula above (<code>=IFERROR(LEFT(B2,FIND(&quot; &quot;,B2)-1), B2)</code>)</p>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="if_error.html">Avoid <code>#VALUE!</code> with IFERROR</a></li>
-<li><a href="sum_if_examples.html">Basic examples of using SumIf in Excel</a></li>
-<li><a href="words_to_numbers.html">Converting survey responses to numbers in excel</a></li>
-<li><a href="extract_year_and_month_from_date_for_grouping_purposes.html">Extract Year/Month (for grouping/reporting)</a></li>
-<li><a href="excel_indexof.html">In Excel, how do you check IndexOf (or Contains) of a string?</a></li>
-<li><a href="excel_split_to_words_via_formula.html">Split cell to words, via a formula, in Excel</a></li>
-<li><a href="subtotal_function_num.html">Subtotal function (used in tables) what is the function num?</a></li>
-<li><a href="VLOOKUP.html">VLOOKUP</a></li>
 </ul>
 
 </article>
