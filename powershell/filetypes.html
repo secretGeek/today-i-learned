@@ -60,7 +60,7 @@ ForEach-Object {
 } | Sort-Object -desc Count, size_b | format-table
 </code></pre>
 <h2 id="summarize-projects-in-a-solution">Summarize Projects in a Solution</h2>
-<p>This variant finds all project files, and for their home folder, gives a summary of the files/types int that folder:</p>
+<p>This variant finds all project files, and for their home folder, gives a summary of the files/types in that folder:</p>
 <pre><code>Get-ChildItem . *.csproj -rec |
 % {
 	$project = $_.Directory.Name;
@@ -88,7 +88,7 @@ ForEach-Object {
 sort @{Expression=&quot;File_Count&quot;;Descending=$true}  |
 format-table
 </code></pre>
-<p><code>tip</code> One thing that I keep learning over and over, is that you muse <em>sort</em> the input to <code>get-unique</code>.</p>
+<p><code>tip</code> One thing that I keep learning over and over, is that you must <em>sort</em> the input that you send to <code>get-unique</code>. Otherwise it returns entirely the wrong results.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="group_objects_in_powershell.html">Group objects in powershell</a></li>
