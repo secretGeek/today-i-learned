@@ -51,6 +51,87 @@ Files = (`$_.Group | % Name)
 
 kv summary $xxxx
 </code></pre>
+<h2 id="htmljavascript-starter">Html/Javascript Starter</h2>
+<pre><code>$value = @&quot;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;style&gt;
+html,body, textarea{ width:100%; height: 100%}
+&lt;/style&gt;
+&lt;script type='text/javascript'&gt;
+
+function go() {
+  var v = `$('#x')[0].value;
+  `$('#x')[0].value = 'ABC';
+  alert(v);
+}
+
+function `$(selectors) {
+  return document.querySelectorAll(selectors)
+}
+
+function jalert(o) {
+  // never do this ;)
+  alert(JSON.stringify(o, null, '\t'));
+}
+&lt;/script&gt;
+&lt;body&gt;
+&lt;input type='button' value=GO onclick='go();' /&gt;
+&lt;textarea id='x'&gt;
+abc
+&lt;/textarea&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&quot;@
+
+kv js $value
+</code></pre>
+<h2 id="html-starter">Html Starter</h2>
+<pre><code>$value = @&quot;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+		&lt;head&gt;
+				&lt;meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'&gt;
+				&lt;title&gt;   $$title   &lt;/title&gt;
+				&lt;script type='text/javascript' src='/script.js' defer&gt;&lt;/script&gt;
+				&lt;link rel='icon' href='data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;????&lt;/text&gt;&lt;/svg&gt;'&gt;
+				&lt;link rel='stylesheet' type='text/css' href='/style.css'&gt;
+		&lt;/head&gt;
+  &lt;style&gt;
+  /* via: https://jrl.ninja/etc/1/ */
+		body {
+		  max-width:70ch;
+		  padding:2ch;
+		  margin:auto;
+		  color: #eee;
+		  background: #333;
+		  font-size:1.2em;
+		  outline:1px solid black;
+		  box-shadow:0 0 20px rgba(0,0,0,0.4);
+		}
+		pre {
+		  white-space:pre-wrap;
+		}
+  &lt;/style&gt;
+  &lt;body&gt;
+		&lt;header&gt;&lt;/header&gt;
+		&lt;article&gt;
+
+		&lt;h1&gt;TITLE&lt;/h1&gt;
+		&lt;p&gt;para&lt;/p&gt;
+		&lt;blockquote&gt;b&lt;/blockquote&gt;
+
+
+		&lt;/article&gt;
+		&lt;footer&gt;&lt;/footer&gt;
+  &lt;/body&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/html&gt;
+&quot;@
+
+kv js $value
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

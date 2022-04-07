@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>custom style tags . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="custom-style-tags-on-azure-devops-sprint-board">Custom Style Tags on Azure Devops Sprint Board</h1>
+<p>On a kanban board you can use custom rules to color the <code>tags</code>.</p>
+<p>On a sprint board, custom rules will only color the entire card, not the tags themselves.</p>
+<p>(Vote for this feature: <a href="https://developercommunity.visualstudio.com/t/add-colored-tags-to-sprint-boardbacklog/365646">Add colored tags to sprint board/backlog - Visual Studio Feedback</a> if you too want to customize the colors of the tags themselves.)</p>
+<p>If you can find a way to inject CSS into the board, you can use rules like this to set custom colors for the labels themselves.</p>
+<p>Say you want the <code>BLOCKED</code> tag to be fire-engine red. Here is how it's done:</p>
+<pre><code>&lt;style&gt;
+	.tags-items-container[aria-label~='BLOCKED'] .tag-box {background-color:red}
+&lt;/style&gt;
+</code></pre>
+<p>The <code>~=</code> means &quot;contains the word&quot;.</p>
+<p>Or, perhaps you have various tags that &quot;start with&quot; a prefix, such as &quot;customer-&quot; -- you can select those tags and style them blue with a rule like this:</p>
+<pre><code>&lt;style&gt;
+	.tags-items-container[aria-label*='Customer'] .tag-box {background-color:blue}
+&lt;/style&gt;
+</code></pre>
+<p>The <code>*=</code> means &quot;contains&quot;.</p>
+<p>For reference, here's the html they use for the container of the tags, and the tags themselves. This is on a card with two tags, <code>BLOCKED</code> and <code>Customer-Pepsi</code>.</p>
+<pre><code>&lt;div class=&quot;tags field-container&quot; field=&quot;System.Tags&quot;&gt;
+	&lt;div id=&quot;vss_549&quot; class=&quot;tfs-tags&quot;&gt;
+		&lt;div class=&quot;tags-items-container&quot; role=&quot;toolbar&quot; aria-label=&quot;BLOCKED,Customer-Pepsi&quot;&gt;
+			&lt;ul&gt;
+				&lt;li class=&quot;tag-item&quot; index=&quot;0&quot;&gt;
+					&lt;span class=&quot;tag-container&quot; dir=&quot;ltr&quot;&gt;
+						&lt;span class=&quot;tag-box&quot; dir=&quot;ltr&quot;&gt;BLOCKED&lt;/span&gt;
+					&lt;/span&gt;
+				&lt;/li&gt;
+				&lt;li class=&quot;tag-item&quot; index=&quot;1&quot;&gt;
+					&lt;span class=&quot;tag-container&quot; dir=&quot;ltr&quot;&gt;
+						&lt;span class=&quot;tag-box&quot; dir=&quot;ltr&quot;&gt;Customer-Pepsi&lt;/span&gt;
+					&lt;/span&gt;
+				&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>Actually, I see now that my rules would select <em>all</em> tags on a card, even though I only want to highlight the <em>relevant</em> tag.</p>
+<p>Unless they improve their html (for example by adding <code>data-tag-name=&quot;BLOCKED&quot;</code> onto the <code>.tag-box</code> itself, there's no simple CSS selector that will do it (we can't select by content.)</p>
+<p>If I can add custom javascript to the page, I can use the same technique described here: <a href="../css/select_by_attribute.html">CSS: Select by content (by selecting by attribute value, with help from javascript)</a>.</p>
+<p>Here's an example of someone with a bunch of &quot;violentmonkey&quot; userscripts: <a href="https://github.com/alejandro5042/azdo-userscripts">GitHub - alejandro5042/azdo-userscripts: A collection of userscripts to improve the Azure DevOps UI</a>. I assume &quot;violentmonkey&quot; is a modern ancestor of &quot;greasemonkey&quot;, a firefox plugin that let you run custom scripts at different domains.</p>
+<h2 id="my-userscript">My UserScript</h2>
+<p>And here's a userscript I made, for a chrome extension called &quot;tampermonkey&quot; which does what I want (for now)</p>
+<pre><code>// ==UserScript==
+// @name         Azure Devops Tag Colors
+// @namespace    http://secretGeek.net/
+// @version      0.1
+// @description  Alters the html of the azure devops board, such that you can use Css selectors to color/style the tags on cards
+// @author       Leon B
+// @match        https://dev.azure.com/*
+// @run-at       document-body
+// @icon         https://cdn.vsassets.io/content/icons/favicon.ico
+// ==/UserScript==
+
+(function() {
+	'use strict';
+
+	// Function to add style element
+	function addStyle(styles) {
+		// Create style document
+		var styleElement = document.createElement('style');
+		styleElement.type = 'text/css';
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = styles;
+		} else {
+			styleElement.appendChild(document.createTextNode(styles));
+		}
+		// Append style tag to the head
+		document.getElementsByTagName(&quot;head&quot;)[0].appendChild(styleElement);
+	}
+
+	// create a new element, based on html
+	function htmlToElement(html) {
+		var template = document.createElement(&quot;template&quot;);
+		html = html.trim(); // Never return a text node of whitespace as the result
+		template.innerHTML = html;
+		return template.content.firstChild;
+	}
+
+	// given an element, insert a sibling after it
+	function insertSibling(currentElem, newElem) {
+		if (currentElem.nextSibling) {
+			currentElem.parentNode.insertBefore(newElem, currentElem.nextSibling);
+		} else {
+			currentElem.parentNode.appendChild(newElem);
+		}
+	}
+
+	// this function is called continuously, every few seconds. So any changes it makes have to be idempotent
+	function onLoop() {
+		// find every tag (unless it has the `lb_altered` class (indicating we've already found it and altered it.)
+		for (let tagBox of document.querySelectorAll(&quot;.tag-box:not(.lb_altered)&quot;)) {
+			// add the lb_altered class, so that this element will only be altered/changed one time.
+			tagBox.classList.add(&quot;lb_altered&quot;);
+
+			let tagName = tagBox.innerText;
+
+			if (tagName.length &lt; 100) {
+				// this allows us to set style rules such as `.tag-box[data-content=&quot;blocked&quot;]::after { content: &quot; ❌&quot;;}`
+				tagBox.setAttribute('data-content', tagName.toLowerCase());
+			}
+
+			// tags starting with 'customer' (and the 'wiki' tag) are given helpful url links to our wiki
+			if (tagName.toLowerCase().indexOf(&quot;customer&quot;) == 0 || tagName.toLowerCase() == &quot;wiki&quot;) {
+				// if it's not a specific customer tag, then this general url to the customers overview is used.
+				let customUrl = &quot;https://intranet/wiki/customers/&quot;;
+
+				if (tagName.toLowerCase() == &quot;customer-1&quot;) {
+					customerUrl = &quot;https://intranet/wiki/customers/customer-1&quot;;
+				}
+				if (tagName.toLowerCase() == &quot;customer-2&quot;) {
+					customerUrl = &quot;https://intranet/wiki/customers/customer-2&quot;;
+				}
+				if (tagName.toLowerCase() == &quot;wiki&quot;) {
+					customerUrl = &quot;https://intranet/wiki/&quot;;
+				}
+
+				let customerLink = htmlToElement(`&lt;a href='${customerUrl}' target='_blank' class='lb_wiki_link' title='Open page about #${tagName} in a new window'&gt;&amp;#10064;&lt;/a&gt;`);
+				tagBox.parentNode.appendChild(customerLink);
+			}
+		}
+
+		// Special modifications to Card titles happen here
+		for (let cardTitleLink of document.querySelectorAll(&quot;.clickable-title:not(.lb_altered),.witTitle:not(.lb_altered)&quot;)) {
+			cardTitleLink.classList.add(&quot;lb_altered&quot;);
+			let cardTitle = cardTitleLink.innerText;
+
+			// We look for numbers in square brackets, with or without a hash at the start
+			// and turn them into links in our other system
+			if (cardTitle.match(/\[((#)*[0-9]+)\]/)) {
+				let idNum = cardTitle.match(/\[(#)*([0-9]+)\]/)[2];
+				// Url pattern: https://supportsystem.com/?id=123
+				let supportUrl = `https://supportsystem.com/?id=${idNum}`;
+				let supportLink = htmlToElement(`&lt;a href='${supportUrl}' target='_blank' title='Open support system #${idNum} in a new window'&gt;[#${idNum}]&lt;/a&gt;`);
+
+				// Card titles are shown in a few different places... so rewriting the card title is a little tricky.
+				if (cardTitleLink.classList.contains(&quot;witTitle&quot;)) {
+					// unexpanded card... add the link as a sibling
+					cardTitleLink.parentNode.insertBefore(supportLink, cardTitleLink);
+				} else {
+					// normal card... add the link as a young great-aunt.
+					cardTitleLink.parentNode.parentNode.insertBefore(supportLink, cardTitleLink.parentNode);
+				}
+				console.log(`Link for ${idNum}`);
+			}
+			cardTitleLink.innerText = cardTitle.replace(/\[(#)*([0-9]+)\]/, ' ');// remove the number from the title since it appears in the preceeding link
+			// Consider: .replace(&quot;URGENT&quot;, &quot;🔥URGENT🔥&quot;);
+		}
+	}
+
+	// this is called, once only, when the page is first loaded.
+	function onceOnly() {
+		// Special styles we apply.
+		var styles = ' .tag-box[data-content=&quot;blocked&quot;]::after { content: &quot; ❌&quot;;text-shadow:1px 1px 1px #000;}';
+		styles += ' .tag-box[data-content=&quot;break-in&quot;] { box-shadow: 0 0 3px red;}';
+		styles += ' .tag-box[data-content=&quot;break-in&quot;]::after { content: &quot; 💥&quot;;text-shadow:1px 1px 1px #000;}';
+		styles += ' .tag-box[data-content*=&quot;customer&quot;] { background-color: blue;}';
+		styles += ' .tag-box[data-content=&quot;wiki&quot;]::after { content: &quot; ➕&quot;;text-shadow:1px 1px 1px #000; }';
+		styles += ' .tag-box[data-content=&quot;wiki&quot;] { background-color: hsl(108deg 52% 60%);color:black;box-shadow:0 0 3px inset black}';
+		// Customer specific colors
+		styles += ' .tag-box[data-content=&quot;customer-1&quot;] { background-color: hsl(172deg 100% 17%);}';
+		styles += ' .tag-box[data-content=&quot;customer-2&quot;] { background-color: hsl(40deg 96% 61%);color:black;}';
+		styles += ' .lb_wiki_link { padding:2px 2px; background-color:#444; font-size:12px; }';
+
+		addStyle(styles);
+
+		// And now we set up the loop that will called &quot;onLoop&quot; over and over.
+		// this is needed because elements are continually added/removed as you open/close/scroll/interact with the page
+		// the loop is only called once every 3 seconds because i don't want to cause performance issues.
+		setInterval(function () {
+			onLoop();
+		}, 3000);
+	}
+
+	function onReady() {
+		// wait a few seconds so the page can load
+		setTimeout(function () {
+			onceOnly();
+		}, 3000);
+	}
+
+	// Start modifying the page once the DOM is ready.
+	if (document.readyState !== 'loading') {
+		onReady();
+	} else {
+		document.addEventListener('DOMContentLoaded', onReady);
+	}
+}());
+</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/azure/devops/boards/sprints/customize-taskboard?view=azure-devops">Customize a sprint taskboard in Azure Boards - Azure Boards | Microsoft Docs</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/devops/boards/boards/customize-cards?view=azure-devops">Customize cards on a Kanban board - Azure Boards | Microsoft Docs</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/devops/extend/develop/samples-overview?view=azure-devops">Samples overview - Azure DevOps | Microsoft Docs</a></li>
+<li><a href="https://github.com/alejandro5042/azdo-userscripts">GitHub - alejandro5042/azdo-userscripts: A collection of userscripts to improve the Azure DevOps UI</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en">Tampermonkey - chrome extension</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../css/select_by_attribute.html">CSS: Select by content (by selecting by attribute value, with help from javascript)</a></li>
+<li><a href="favelet_to_calculate_total_points.html">A Bookmarklet or Favelet to Calculate &quot;Total Points&quot; in Azure Devops when Working on Backlog</a></li>
+<li><a href="../javascript/copy_element_to_clipboard.html">Copy element to clipboard</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
