@@ -91,6 +91,10 @@ details.example4[open] p {
   animation: animateDown 0.2s linear forwards;
 }
 
+details.example4:not([open]) p {
+  animation: animateUp 0.2s linear forwards;
+}
+
 @keyframes animateDown {
   0% {
     opacity: 0;
@@ -99,6 +103,17 @@ details.example4[open] p {
   100% {
     opacity: 1;
     transform: translatey(0);
+  }
+}
+
+@keyframes animateUp {
+  0% {
+    opacity: 1;
+    transform: translatey(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translatey(-15px);
   }
 }
 </style>

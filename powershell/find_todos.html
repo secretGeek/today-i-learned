@@ -33,9 +33,6 @@
 <p>Currently something like.... (this is dynamically loaded from util)</p>
 <pre><code>[string[]] $fileTypes = &quot;*.md&quot;, &quot;*.fmw&quot;, &quot;*.txt&quot;, &quot;*.cs&quot;, &quot;*.cshtml&quot;, &quot;*.css&quot;, &quot;*.ps1&quot;, &quot;*.js&quot;, &quot;*.bat&quot;, &quot;*.vbs&quot;, &quot;*.vb&quot;, &quot;*.xml&quot;, &quot;*.config&quot;, &quot;*.htm&quot;, &quot;*.html&quot;, &quot;*.pre&quot;, &quot;*.ini&quot;, &quot;*.sql&quot;, &quot;*.linq&quot;, &quot;*.json&quot;, &quot;*.spark&quot;, &quot;*.ts&quot;, &quot;*.psm1&quot;, &quot;*.psd1&quot;, &quot;*.aspx&quot;, &quot;*.ascx&quot;, &quot;*.asp&quot;, &quot;*.asmx&quot;, &quot;*.pubxml&quot;, &quot;*.dgml&quot;, &quot;*.sln&quot;, &quot;*.*proj&quot;, &quot;*.spark&quot;, &quot;*.rdl&quot;, &quot;*.py&quot;, &quot;*.log&quot;, &quot;*.las&quot;, &quot;*.ascx&quot;, &quot;*.inc&quot;, &quot;*.xaml&quot;,	&quot;*.sh&quot;, &quot;*.csv&quot;, &quot;*.tsv&quot;, &quot;*.php&quot;, &quot;*.ok&quot;, &quot;*.tsx&quot;, &quot;*.targets&quot;, &quot;*.yml&quot;, &quot;*.rdp&quot;, &quot;*.less&quot;, &quot;*.scss&quot;, &quot;*.razor&quot;,&quot;*.dbml&quot;,&quot;*.layout&quot;, &quot;*.gradle&quot;, &quot;*.properties&quot;, &quot;*.bas&quot;, &quot;*.java&quot;, &quot;*.m&quot;, &quot;*.h&quot;, &quot;*.iml&quot;;
 
-
-
-
 ## Commands:
 ## findtext $pattern                       &lt;-- search all text type files for a particular regex
 ###                                             if the pattern is not valid as a regex we'll treat it as a literal string.
@@ -56,11 +53,11 @@
 function find-text {
 &lt;#
 .SYNOPSIS
-    Looks for regex or (if $raw -eq $true) literal text patterns in all text files (but ignores `node_modules` folders, yay)
+	Looks for regex or (if $raw -eq $true) literal text patterns in all text files (but ignores `node_modules` folders, yay)
 .DESCRIPTION
 	Ever need to find some text, or perhaps a regex, in every text file under the current location, and want to skip any node_modules folders (and any .git folders) -- looking *only* in &quot;text&quot; files, such as all code and config files? Find-Text is your friend.
 .NOTES
-    Author: Leon Bambrick
+	Author: Leon Bambrick
 #&gt;
 	Param (
 		# A regular expression or a literal string you wish to find in any text file
@@ -149,7 +146,6 @@ function format-foundtextdimmed ($result, $len1, $raw, $caseSensitive) {
 $script:previous = $null;
 
 
-
 function format-foundtext ($result, $raw, $caseSensitive) {
     $dimLength = FindLongestCommonStartingSubString ($result.RelativeName) ($script:previous.RelativeName);
     # specify what to break on... it returns how many parts in common.... or num chars.
@@ -228,8 +224,6 @@ function FindLongestCommonStartingSubString($string1, $string2) {
 }
 
 function list-functions () {
-
-
     #find-text &quot;^\s*function( )&quot; | % { New-Object psobject -property  @{
 		find-text &quot;^\s*function(.*)&quot; $true &quot;.\&quot; $false $false| % { New-Object psobject -property  @{
             FileName     = $_.FileName;

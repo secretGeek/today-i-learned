@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>measure command . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,14 +22,25 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="pdf" class="chapter">pdf</h1>
-<h2 id="content">content</h2>
-<ul>
-<li><a href="html_to_pdf.html">Html to PDF</a></li>
-<li><a href="markdown_to_pdf.html">Markdown to PDF</a></li>
-<li><a href="pdf_to_epub.html">PDF to Epub</a></li>
-<li><a href="use_headless_chrome_to_make_pdfs.html">Use Headless Chrome to Make PDFs</a></li>
-</ul>
+<h1 id="measure-command-is-how-to-measure-the-time-to-run-a-command-in-powershell">Measure-Command is how to measure the time to run a command in powershell</h1>
+<pre><code>$timeofCommand = measure-command {
+	# DO SOME SLOW/TRICKY COMMAND HERE...
+	start-sleep -Seconds 3
+}
+write-host &quot;Command took: $($timeofCommand.TotalMilliseconds)ms&quot;  -f cyan;
+</code></pre>
+<p>Output:</p>
+<pre><code>Command took: 3012.6474ms
+</code></pre>
+<p>And here it is in a one liner...</p>
+<pre><code>(measure-command {  start-sleep -Seconds 1;  }).TotalMilliseconds
+</code></pre>
+<p>Or:</p>
+<pre><code>measure-command {  start-sleep -Seconds 1;  } | % TotalMilliseconds
+</code></pre>
+<p>Or just...</p>
+<pre><code>measure-command {  start-sleep -Seconds 1;  }
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
