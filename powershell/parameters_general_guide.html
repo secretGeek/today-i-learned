@@ -23,15 +23,17 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="parameters-general-guide">Parameters: general guide</h1>
-<p>In powershell, parameters -- arguments -- can be written in a lot of ways.</p>
+<p>In powershell, parameters -- you know, arguments -- can be written in a lot of ways.</p>
 <p>Even a script that declares <em>no</em> parameters can access the parameters that are handed to it.</p>
-<p>As can a function, a named cmdLet, etc.</p>
-<p>YOu can declare parameter names without specifying a type, e.g.</p>
+<p>As can a <code>function</code>, a named cmdLet, etc.</p>
+<p>You can declare parameter names without specifying a type, e.g.</p>
 <pre><code>function New-Satelitte ($sateliteName, $weightInGrams) {
 	write-host &quot;The $sateliteName will weigh $weightInGrams&quot; -f Yellow;
 }
 </code></pre>
-<p>...and a trap for young players, having just written such a function, if you write code that call its, you must note that you pass arguments without putting parenthesese around the whole thing. That is you call it so:</p>
+<p>...and a trap for young players, having just written such a <code>function</code>...</p>
+<p>You call it WITHOUT parentheses.</p>
+<p>You call it like this:</p>
 <pre><code>New-Satelitte &quot;The Nazgul Banana&quot; 500
 </code></pre>
 <p>and NOT like this:</p>
@@ -46,11 +48,49 @@ True     True     Object[]                                 System.Array
 </code></pre>
 <p>Hence <code>$SatelliteName</code> would be an array of objects.</p>
 <p>Apart from remembering the &quot;no brackets&quot; syntax -- you also need to learn how to give types to your parameters, and so much more.</p>
-<p>todo: param()
-todo: [Parameter()]
-todo: Mandatory
-todo: ValueFromPipeline
-todo: ValueFromPipelineByPropertyName
+<h2 id="param"><code>param()</code></h2>
+<pre><code>Function Invoke-Clippy{
+param(
+		$text=&quot;Hi! I am Clippy, your office assitant. Would you like some assistance today?&quot;
+)
+
+	write-host $text -foregroundColor yellow;
+}
+</code></pre>
+<h2 id="string"><code>[string]</code></h2>
+<pre><code>param (
+    [string]$text
+)
+</code></pre>
+<h2 id="parameter"><code>[Parameter()]</code></h2>
+<pre><code>param (
+    [Parameter(Mandatory)]
+    $ApiKey
+)
+</code></pre>
+<h2 id="validatenotnullorempty"><code>[ValidateNotNullOrEmpty()]</code></h2>
+<pre><code>param (
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApiKey
+)
+</code></pre>
+<p>todo: ValueFromPipeline</p>
+<h2 id="valuefrompipelinebypropertyname"><code>[ValueFromPipelineByPropertyName()]</code></h2>
+<p>function kvi {</p>
+<h1 id="aaa-reads-stream.you-give-it-an-object.it-will-iterate-it-and-return-an-object-which-is-the-keys">AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.</h1>
+<p>[CmdletBinding()]
+Param(
+[Parameter(ValueFromPipelineByPropertyName)]$Keys,
+[Parameter(ValueFromPipelineByPropertyName)]$Value
+)</p>
+<pre><code>param (
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApiKey
+)
+</code></pre>
+<p>todo: ValueFromPipelineByPropertyName
 todo: ParameterSetName
 todo: PSAvoidUsingPositionalParameters
 todo: ValueFromRemainingArguments / Passthrough</p>

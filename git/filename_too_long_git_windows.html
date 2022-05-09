@@ -82,19 +82,19 @@
       &lt;/requestedPrivileges&gt;
     &lt;/security&gt;
   &lt;/trustInfo&gt;
-  &lt;compatibility xmlns=&quot;urn:schemas-microsoft-com:compatibility.v1&quot;&gt; 
-    &lt;application&gt; 
+  &lt;compatibility xmlns=&quot;urn:schemas-microsoft-com:compatibility.v1&quot;&gt;
+    &lt;application&gt;
       &lt;!--This Id value indicates the application supports Windows Vista/Server 2008 functionality --&gt;
-      &lt;supportedOS Id=&quot;{e2011457-1546-43c5-a5fe-008deee3d3f0}&quot;&gt;&lt;/supportedOS&gt; 
+      &lt;supportedOS Id=&quot;{e2011457-1546-43c5-a5fe-008deee3d3f0}&quot;&gt;&lt;/supportedOS&gt;
       &lt;!--This Id value indicates the application supports Windows 7/Server 2008 R2 functionality--&gt;
       &lt;supportedOS Id=&quot;{35138b9a-5d96-4fbd-8e2d-a2440225f93a}&quot;&gt;&lt;/supportedOS&gt;
       &lt;!--This Id value indicates the application supports Windows 8/Server 2012 functionality--&gt;
       &lt;supportedOS Id=&quot;{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}&quot;&gt;&lt;/supportedOS&gt;
-      &lt;!-- This Id value indicates the application supports Windows Blue/Server 2012 R2 functionality--&gt;            
+      &lt;!-- This Id value indicates the application supports Windows Blue/Server 2012 R2 functionality--&gt;
       &lt;supportedOS Id=&quot;{1f676c76-80e1-4239-95bb-83d0f6d0da78}&quot;&gt;&lt;/supportedOS&gt;
-      &lt;!-- This Id value indicates the application supports Windows Threshold functionality--&gt;            
+      &lt;!-- This Id value indicates the application supports Windows Threshold functionality--&gt;
       &lt;supportedOS Id=&quot;{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}&quot;&gt;&lt;/supportedOS&gt;
-    &lt;/application&gt; 
+    &lt;/application&gt;
   &lt;/compatibility&gt;
   &lt;application xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
     &lt;windowsSettings&gt;
@@ -104,7 +104,7 @@
 &lt;/assembly&gt;
 </code></pre>
 <p>....note the line: <code>&lt;longPathAware xmlns=&quot;http://schemas.microsoft.com/SMI/2016/WindowsSettings&quot;&gt;true&lt;/longPathAware&gt;</code></p>
-<h2 id="bonus-content-re.net-apps">Bonus content re .Net Apps...</h2>
+<h2 id="bonus-content-re.net-apps">Bonus content re .Net Apps</h2>
 <p>Some applications, such as .net applications can support long filenames -- but they must have &quot;long path aware&quot; specifiec in their manifest.</p>
 <p>See (for example) <a href="https://docs.microsoft.com/en-gb/archive/blogs/jeremykuhne/net-4-6-2-and-long-paths-on-windows-10">.NET 4.6.2 and long paths on Windows 10 | Microsoft Docs</a></p>
 <pre><code class="language-xml">&lt;application xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
