@@ -25,7 +25,7 @@
 <h1 id="need-to-delete-backup-files">Need to delete backup files?</h1>
 <p>I did! I had some adhoc <code>.bak</code> files taking up many gigglebytes. I remoted onto the server to delete them but I lacked the permission to perform the delete.</p>
 <p>For one horrible moment I thought I might need to contact the IT department.</p>
-<p>Foruntately I found out about <code>xp_delete_file</code> just in time.</p>
+<p>Fortunately I found out about <code>xp_delete_file</code> just in time.</p>
 <p>This procedure only deletes certain types of files. You tell it which folder to look in, which file extension to look for, and the maximum date of the file (so it won't accidentally delete new files or non back up files.)</p>
 <pre><code>EXEC master.sys.xp_delete_file 0,'E:\Temp\','BAK','2017-08-15',0
 </code></pre>
