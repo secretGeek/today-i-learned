@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>rebuild . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,15 +22,18 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="macbook-air" class="chapter">macbook air</h1>
-<h2 id="content">content</h2>
-<ul>
-<li><a href="macos_cheatsheet_keyboard_shortcuts.html">Cheatsheet: MacOS Keyboard Shortcuts</a></li>
-<li><a href="insert.html">How to press the insert key on a MacBook Air (running Windows)</a></li>
-<li><a href="print_screen.html">How to press the Print Screen key on a MacBook Air (running Windows)</a></li>
-<li><a href="serial_number.html">My Macbook is</a></li>
-<li><a href="bluetooth_controller.html">No bluetooth in Settings -&gt; Devices</a></li>
-</ul>
+<h2 id="npm-cant-find-local-packages">NPM can't find local packages</h2>
+<p>Ever had a situation where npm can't run local packages?</p>
+<p>For example <code>npm run tests</code> is failing because the first thing it does it <code>jest</code> and node can't find <code>jest</code>?</p>
+<p>It could be that you haven't installed the packages, if so, used <code>npm install</code> to do that... but I think you know about <code>npm install</code> and it's probably <em>not</em> that.</p>
+<p>What I found recently was that the folder   <code>~/node_modules/.bin</code> was pretty much empty. What it <em>should</em> have had was a whole lot of files, three files for each command that can be run, e.g.</p>
+<pre><code>webpack
+webpack.cmd
+webpack.ps1
+</code></pre>
+<p>...and in a typical <code>node_modules/.bin</code> folder for a &quot;real&quot; project, there might be 160 files (for example). But in my project, it had only 3 such files...</p>
+<p>How did this happen?</p>
+<p>I'm not sure, but I suspect it was because I was urged to run a command &quot;npm rebuild</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
