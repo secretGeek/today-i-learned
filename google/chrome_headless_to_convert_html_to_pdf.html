@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>chrome headless to convert html to pdf . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="use-headless-chrome-to-convert-html-to-pdf">Use Headless Chrome to Convert Html to Pdf</h1>
+<p>TL/DR</p>
+<h2 id="simple-example">Simple example</h2>
+<p>chrome.exe --headless --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; &quot;file:///C:/temp/MyHtml.html&quot;</p>
+<h2 id="example-with-more-parameters">Example with more parameters</h2>
+<p>This example has more (and quite useful) parameters</p>
+<p>chrome.exe --headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; --no-margins &quot;file:///C:/temp/MyHtml.html&quot;</p>
+<h2 id="more-realistic-battle-tested-example">More realistic (battle tested) example</h2>
+<p>Here's an <em>actual</em> script I used for converting hundreds of html files into pdf.</p>
+<pre><code>$fileNum = 0;
+$numFiles = (dir *.html | measure | % Count);
+$cromyCromy = &quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;;
+dir . *.html | #select -first 100 |
+% { 
+	$fileNum += 1;
+	$ff = $_.Name; 
+	$full_ff = &quot;file:///C:/temp/html_files/&quot; + $ff;
+	$pdf_name =        &quot;C:\temp\output\Pdf\$($ff -replace &quot;.html&quot;,&quot;.pdf&quot;)&quot;;
+	$commandTime = (measure-command { 
+		$argyArgy = &quot;--headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf-no-header --print-to-pdf=&quot;&quot;$pdf_name&quot;&quot; --no-margins &quot;&quot;$full_ff&quot;&quot;&quot;;
+		$x = (Start-Process -FilePath $cromyCromy -ArgumentList $argyArgy -Passthru -wait);
+		write-host &quot;$($x.Id)`t`t&quot; -f red -n;
+		sleep 1;
+	}); 
+	Write-host &quot;$fileNum / $numFiles`t&quot; -f darkgray -n;
+	Write-Host &quot;$ff`t&quot; -f white -n;
+	Write-Host &quot;`t$($commandTime.TotalMilliseconds)ms&quot;;
+}
+</code></pre>
+<p>This worked nicely.</p>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../linux/wkhtmltopdf.html">wkhtmltopdf on ubuntu headless</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
