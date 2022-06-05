@@ -80,8 +80,9 @@
 	}
 
 	function onLoop() {
-		   cleanUpStackoverflow();
+		cleanUpStackoverflow();
 	}
+
 	function onceOnly() {
 
 		addStyle(style);
@@ -90,7 +91,6 @@
 		if (hireMe != null) {
 			hireMe.remove();
 		}
-
 
 		onLoop();
 		setInterval(function () {
