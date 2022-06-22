@@ -101,7 +101,7 @@ html { background-color:white;} /* you *need* to set a color for html background
 &lt;/style&gt;
 </code></pre>
 <p>I've added this to the default built-in template used by <a href="https://github.com/secretGeek/clowncar">clowncar</a> (my static site generator)</p>
-<h2 id="poor-mans-dark-mode-stylesheet-take-2">Poor man's dark mode stylesheet, take 2:</h2>
+<h2 id="poor-mans-dark-mode-stylesheet-take-2">Poor man's dark mode stylesheet, take 2</h2>
 <p>Here's a different take on the same goal. This time instead of straight up &quot;inverting&quot; the whole thing (like a negative) - I want to only invert the &quot;lightness&quot;.</p>
 <p>So if something was very light before -- I now want it to be very dark. But the &quot;tone&quot;, the hue, should be the same.</p>
 <p>I also turn down the brightness, which to my mind makes it less saturated. But I'm no graphic designer.</p>
@@ -121,7 +121,7 @@ html { background-color: white;}
 &lt;/style&gt;
 </code></pre>
 <h2 id="implementing-a-custom-dark-mode-for-real-not-relying-on-the-tricks-above">Implementing a Custom Dark Mode for Real (not relying on the tricks above)</h2>
-<p>When you want/need to implement a <em>real</em> dark mode, not just a poor man's example as shown above, it can be a lot of work.</p>
+<p>When you want/need to implement a <em>true</em> dark theme, not just a poor man's example as shown above, it can be a lot of work.</p>
 <p>I've hit on a way to get a pretty good result quickly, and I'll record it here. (I've also <a href="https://twitter.com/secretGeek/status/1534731046709002240?s=20&amp;t=GWR_4LT20Hj4UmvVeNkdjg">tweeted about it</a>)</p>
 <p>First, extract every color you can see into variables. e.g. if &quot;site.css&quot; said:</p>
 <pre><code>a:hover {
@@ -134,7 +134,7 @@ html { background-color: white;}
 }
 </code></pre>
 <p>And at the top, in a <code>:root</code> block I would have:</p>
-<pre><code>--a-hover:red;
+<pre><code>--a-hover: red;
 </code></pre>
 <p>Now that bit of the process was <em>tedious</em>. I got into a rhythm where I optimized the key strokes... but I would like to have a little tool to help with it. An &quot;Extract variable&quot; macro.</p>
 <p>Then I created a <code>@media</code> section to redefine <em>all</em> the variables as plain old black...</p>
@@ -147,7 +147,7 @@ html { background-color: white;}
 }
 </code></pre>
 <p>At this point, the whole site <em>should</em> be black, as black as <a href="https://hitchhikers.fandom.com/wiki/Spacecraft#Hotblack_Desiato%27s_limoship">Hotblack Desiato's limoship</a>.</p>
-<p>So anywhere you can still see... anything!... it means you haven't yet extracted a color into a variable. At this point, you can use dev tools to track down the source of any other elements that need to be extracted into variables. You may have to hover over or focus on elements for colors to show up. Keep repeating the process until <em>everything</em> is black.</p>
+<p>So anywhere you can still see... anything!... it means you haven't yet extracted a color into a variable. At this point, you can use dev tools to track down the source of any other elements that need to be extracted into variables. You may have to <code>:hover</code> over or <code>:focus</code> on elements for colors to show up. Keep repeating the process until <em>everything</em> is black.</p>
 <p>That was tedious... but we're not done with the tedious bits yet...</p>
 <p>Now change all the dark mode variables to <em>red</em>! e.g.</p>
 <pre><code>@media (prefers-color-scheme: dark) {
@@ -160,9 +160,11 @@ html { background-color: white;}
 </code></pre>
 <p><strong>Now</strong> the whole site should be red... but maybe one or two things will show up that you overlooked before (particularly if they are black or close to it).</p>
 <p>Once you're finished with that you can now trust that you've captured pretty much all the colors into variables.</p>
-<p>Comment out you <code>@media</code> section for now, to return your site to its usual appearance. And turn on the <a href="https://darkreader.org">dark reader extension</a> (you may need to install it if you don't have it already).</p>
-<p>This will implement a passable example of dark mode for your site.</p>
-<p>Using your browser's dev tools, looked the css that dark reader generated to set new values for all your variables.</p>
+<p>Comment out your <code>@media</code> section for now, to return your site to its usual appearance.</p>
+<p>You may take this moment to perform some &quot;rationalization&quot; of the different colors you've extracted. If multiple different variables have the same value -- but they should just be one variable? Perhaps some variables are the same color, but expressed in different ways (<code>hex</code> versus <code>rgb()</code>, versus <code>hsl()</code> etc.) Rationalizing/consolidating is optional, but it's a good moment to see any obvious improvements you can make.</p>
+<p>Now install the <a href="https://darkreader.org">dark reader extension</a> and turn it on.</p>
+<p>This will show you a passable example of dark mode for your site.</p>
+<p>Using your browser's dev tools, look at the css that <code>darkreader</code> generated for all your variables.</p>
 <p>If you had variables like this:</p>
 <pre><code>:root {
     --body-bg:#f2f2f2;
@@ -178,17 +180,17 @@ html { background-color: white;}
 }
 </code></pre>
 <p>Copy that out, and paste it into your stylesheet's <code>@media (prefers-color-scheme: dark)</code> section.</p>
-<p>Removed the <code>--darkreader</code> prefix and everything up to the second <code>--</code>, such as <code>-bg</code> or <code>-text</code>... and what you are left with is a custom dark version of all your variables, e.g.</p>
+<p>Remove the <code>--darkreader</code> prefix and everything up to the second <code>--</code>, such as <code>-bg</code> or <code>-text</code>... and what you are left with is a custom dark version of all your variables, e.g.</p>
 <pre><code>@media (prefers-color-scheme: dark) {
 :root {
         --body-bg: #1f2223;
         --body: #c8c3bc;
-    /* many more darkened color variables here... */
+        /* many more darkened color variables here... */
     }
 }
 </code></pre>
 <p>Boom! Done!💥</p>
-<p>If there are any individual colors you aren't happy with, it's easy to tweak them. Overall this is much faster and gives a more satisfying result than the manual dark theme designs I've attempted in the past.</p>
+<p>If there are any individual colors you aren't happy with, it's easy to tweak them. Overall this is much faster and gives a more satisfying result than the manual dark theme re-designs I've attempted in the past.</p>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">mdn:Using CSS custom properties (variables)</a></li>
