@@ -35,18 +35,21 @@ Assert.NotEqual(0, actual.Count());  // Warning: Do not use Assert.NotEqual() to
 <p>use:</p>
 <pre><code>Assert.Single(actual); // No warning 
 </code></pre>
+<hr />
 <p>Instead of</p>
 <pre><code>Assert.Equal(0, actual.Count()); // Warning: Do not use Assert.Equal() to check for collection size
 </code></pre>
 <p>use:</p>
 <pre><code>Assert.Empty(actual); // No warning
 </code></pre>
+<hr />
 <p>Instead of</p>
 <pre><code>Assert.NotEqual(0, actual.Count());  // Warning: Do not use Assert.NotEqual() to check for collection size
 </code></pre>
 <p>use:</p>
 <pre><code>Assert.Any(actual); // No warning
 </code></pre>
+<hr />
 <h2 id="when-is-assert.equal-acceptable-for-checking-collection-size">When is Assert.Equal acceptable for checking collection size?</h2>
 <p>For values other than 0, 1, and &quot;not 0&quot;, it is fine to use Assert.Equal, e.g.</p>
 <pre><code>Assert.Equal(2, actual.Count()); // No warning generated for values other than 0 and 1
