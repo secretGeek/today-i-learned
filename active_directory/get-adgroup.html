@@ -68,6 +68,9 @@
 <p>e.g.</p>
 <pre><code>get-adgroupmember &quot;A-SPECIAL-GROUP&quot; | % SamAccountName
 </code></pre>
+<p>Don't have RSAT? Try this technique:</p>
+<pre><code>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=Group)(samAccountName=$('A-SPECIAL-GROUP')))&quot;)).FindOne().Properties.member
+</code></pre>
 <h2 id="when-was-the-users-password-last-set">When was the user's password last set?</h2>
 <pre><code>$userName = &quot;my-user-name&quot;
 (Get-ADUser -Identity $userName -Properties &quot;PasswordLastSet&quot;).&quot;PasswordLastSet&quot;
@@ -78,6 +81,13 @@
 <pre><code>(Get-ADUser &quot;leon.bambrick&quot; -Properties &quot;*&quot;) | get-member | ? { $_.MemberType -eq &quot;Property&quot; -and $_.Name -like &quot;*pass*&quot; }
 </code></pre>
 <p>Then we use the syntax in the examples above to fetch and return that property.</p>
+<p>Or without RSAT, show all of the properties for a user....</p>
+<p>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=User)(samAccountName=$('leon.bambrick')))&quot;)).FindOne().Properties</p>
+<p>Or just show the property names (still without RSAT)</p>
+<p>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=User)(samAccountName=$('leon.bambrick')))&quot;)).FindOne().Properties.Keys</p>
+<p>Or (still without RSAT) search for a property that matches a pattern:</p>
+<p>(New-Object System.DirectoryServices.DirectorySearcher(&quot;(&amp;(objectCategory=User)(samAccountName=$($ENV:UserName)))&quot;)).FindOne().Properties |
+% { $xx = $<em>; $</em>.Keys  | ? { <span class="math">\(_ -like &quot;*pass*&quot;} | % { write-host &quot;\)</span><em>&quot; -f yellow -n; write-host &quot;<code>t</code>t$(<span class="math">\(xx[\)</span></em>])&quot; -f white } }</p>
 <h2 id="find-user-details-of-a-user-from-a-different-domain-controller">Find user details of a user from a different Domain Controller</h2>
 <p>Say I'm on a subnet called <code>Australia.Company.Example.Com</code> and the user account I want to inspect if from the parent domain, <code>Company.Example.Com</code> -- don't prefix the domain before the user... specifiy <code>server=</code> parameter!</p>
 <pre><code>get-aduser &quot;USER-NAME&quot; -server &quot;Company.Example.com&quot; -properties *
