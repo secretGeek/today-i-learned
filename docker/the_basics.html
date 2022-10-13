@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>the basics . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="docker-the-absolute-basics">DOCKER - the absolute basics</h1>
+<p>Some terminology (which may or may not become clear at a later date.)</p>
+<ul>
+<li>A &quot;container&quot; is an instance of an &quot;image&quot; with some rules for which ports are exposed where, and possibly which volume it uses.</li>
+<li>An image is described by a &quot;dockerfile&quot; and may be built upon other images (etc.)</li>
+<li>Somewhere at the base of the image on which an image is based, etc... you ultimately find there is an operating system.</li>
+<li>Images are stored in, and retrieved from &quot;container repositories&quot;.</li>
+<li>A volume is a virtual hard drive, a place where files are stored, you know... a disk.</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>First, get docker desktop, install that on your development machine.</p>
+<ul>
+<li>Once you have docker desktop (the windows or linux version) you can then perform the following:
+<ul>
+<li>use the docker command to get / run containers, from images, with volumes and more.
+<ul>
+<li><code>docker</code> the commandline tool, e.g. <code>docker.exe</code></li>
+</ul>
+</li>
+<li>make your own images based on bits and pieces of existing images, +/- some shell script.
+<ul>
+<li><code>dockerfile</code> - a plain text file with docker commands, that describes a new image (which can be run, as a container)</li>
+</ul>
+</li>
+<li>have multiple services, keeping containers running and sharing known volumes etc.
+<ul>
+<li><code>docker-compose.yml</code> file.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="about-port-numbers">About Port numbers</h2>
+<p>When specifying port numbers used by containers, they are specified like this:</p>
+<pre><code>&lt;outside&gt;:&lt;inside&gt;
+</code></pre>
+<p>For example <code>8888:80</code> means &quot;port 8888 on the outside world, the host computer&quot; will be mapped to &quot;port 80 inside the container.&quot;</p>
+<p>If Narnia is a container running inside a wardrobe, then <code>1234:100</code> would mean the wardrobe's port <code>1234</code> is mapped to Narnia's port <code>100</code>.</p>
+<p>Note also that we would call Narnia the container and the wardrobe would be properly referred to as the <strong>host</strong>.</p>
+<h3 id="docker-on-the-command-line">docker on the command line</h3>
+<p><code>docker</code>, (<code>docker.exe</code> on windows) is a command line tool for doing all sorts of dockery things.</p>
+<p>Here is an example where we use docker to create a volume, and then create a container, based on an image, that uses that volume.</p>
+<pre><code>docker volume create a-sql-volume
+docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &quot;SA_PASSWORD=p@$$w0rD&quot; -p 1066:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+</code></pre>
+<p>The first command creates a local &quot;volume&quot; (some storage space) that can be used by your containers, and names it <code>a-sql-volume</code></p>
+<p>The next command has a lot more going on -- let's break it down...</p>
+<p>The general structure is:</p>
+<pre><code>docker run {options} {IMAGE}
+</code></pre>
+<p>And the options specified above, if listed one at a time, are:</p>
+<pre><code>-d
+-e &quot;ACCEPT_EULA=Y&quot;
+-v a-sql-volume:/var/opt/mssql
+-e &quot;SA_PASSWORD=p@$$w0rD&quot;
+-p 1066:1433
+-d
+</code></pre>
+<p>Followed by the base image, in this case: <code>mcr.microsoft.com/mssql/server:2019-latest</code></p>
+<p><code>tip</code> -- For help on the <code>run</code> command and its options, use <code>docker run --help</code></p>
+<p>Explaining these one at a time:</p>
+<ul>
+<li><code>-d</code>: Alias for <code>--detach</code>, meaning: Run container in background and print container ID.</li>
+<li><code>-e</code>: Alias for <code>--env</code>, to set an environment variable. Environment variables are one of the most common and very lightweight techniques used for configuring the applications inside a container.</li>
+<li><code>-v</code>: Alias for <code>--volume</code>, to specify the named volume that will be used, and which path inside the container it will be mounted at.</li>
+<li><code>-p</code>: Alias for <code>--publish</code>, publish a container's port(s) to the host.</li>
+</ul>
+<p>Finally, <code>mcr.microsoft.com/mssql/server:2019-latest</code> is the name of the image on which the container is based.</p>
+<h3 id="docker-cp">docker cp</h3>
+<p>When a container is running, you can copy files to or from it, using <code>docker cp {FROM_PATH} {TO_PATH}</code>.</p>
+<p>e.g.To copy a file <em>from</em> a container called &quot;my_container&quot;, to your local file system's current path:</p>
+<pre><code>docker cp my_container:/var/www/html/.htaccess ./
+</code></pre>
+<p>And conversely, to copy a file from your local file system to a path on a running container:</p>
+<pre><code>docker cp ./.htaccess my_container:/var/www/html/.htaccess
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../serilog/install_seq_locally_for_development.html">Install Seq locally for development</a> -- local seq install instructions, rely on docker (and put the info above into context)</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>
+</body>
+</html>
