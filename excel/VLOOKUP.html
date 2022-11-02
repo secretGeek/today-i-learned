@@ -34,6 +34,7 @@
 <p>Look in the array <code>B3:F2000</code>, for the value 'Puppy' in the first column. Return the value from the 2nd column. (The first column contained 'Puppy')</p>
 </blockquote>
 <p>And the <code>false</code> means &quot;Do not use fuzzy match&quot;. I don't know what fuzzy match means I just know I don't want it. Always go 'false'.</p>
+<h2 id="avoiding-na-error">Avoiding N/A Error</h2>
 <p>However -- that's rarely enough!</p>
 <p>If a simple vlookup fails to find any results it will output a big ugly N/A#!!</p>
 <p>So -- wrap it in an iferror...</p>
@@ -43,6 +44,10 @@
 <pre><code>=IFERROR(VLOOKUP(D4,Sheet1!$B$3:$F$2000,2,FALSE),&quot;&quot;)
 =IFERROR(VLOOKUP(C2,Sheet2!$A1:$C$52,2,FALSE),&quot;&quot;)
 </code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="words_to_numbers.html">Converting survey responses to numbers in excel</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a></small><br /><br /></footer>

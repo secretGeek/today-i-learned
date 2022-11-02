@@ -92,10 +92,10 @@ docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &qu
 <p>Finally, <code>mcr.microsoft.com/mssql/server:2019-latest</code> is the name of the image on which the container is based.</p>
 <h3 id="docker-cp">docker cp</h3>
 <p>When a container is running, you can copy files to or from it, using <code>docker cp {FROM_PATH} {TO_PATH}</code>.</p>
-<p>e.g.To copy a file <em>from</em> a container called &quot;my_container&quot;, to your local file system's current path:</p>
+<p>e.g. To copy a file <em>from</em> a container called &quot;my_container&quot;, to your local file system's current path:</p>
 <pre><code>docker cp my_container:/var/www/html/.htaccess ./
 </code></pre>
-<p>And conversely, to copy a file from your local file system to a path on a running container:</p>
+<p>And conversely, to copy a file from your local file system to a path on a running container called &quot;my_container&quot;:</p>
 <pre><code>docker cp ./.htaccess my_container:/var/www/html/.htaccess
 </code></pre>
 <h2 id="see-also">See also</h2>
