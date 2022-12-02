@@ -35,17 +35,17 @@
 $numFiles = (dir *.html | measure | % Count);
 $cromyCromy = &quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;;
 dir . *.html | #select -first 100 |
-% { 
+% {
 	$fileNum += 1;
-	$ff = $_.Name; 
+	$ff = $_.Name;
 	$full_ff = &quot;file:///C:/temp/html_files/&quot; + $ff;
 	$pdf_name =        &quot;C:\temp\output\Pdf\$($ff -replace &quot;.html&quot;,&quot;.pdf&quot;)&quot;;
-	$commandTime = (measure-command { 
+	$commandTime = (measure-command {
 		$argyArgy = &quot;--headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf-no-header --print-to-pdf=&quot;&quot;$pdf_name&quot;&quot; --no-margins &quot;&quot;$full_ff&quot;&quot;&quot;;
 		$x = (Start-Process -FilePath $cromyCromy -ArgumentList $argyArgy -Passthru -wait);
 		write-host &quot;$($x.Id)`t`t&quot; -f red -n;
 		sleep 1;
-	}); 
+	});
 	Write-host &quot;$fileNum / $numFiles`t&quot; -f darkgray -n;
 	Write-Host &quot;$ff`t&quot; -f white -n;
 	Write-Host &quot;`t$($commandTime.TotalMilliseconds)ms&quot;;

@@ -23,6 +23,61 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="basic-examples-of-using-sumif-in-excel">Basic examples of using SumIf in Excel</h1>
+<p>For each cell in this range, if the following condition is true, then Add it to a running total.</p>
+<p>It's actually a bit more advanced than that...</p>
+<p>Add together all of the cells in the range A1 to A12 that match the condition: &quot;over 5&quot;</p>
+<pre><code>=SUMIF(A1:A12,&quot;&gt;5&quot;)
+</code></pre>
+<p>Add together all of the cells in the range B1 to B12 whose counterpart in the range A1 to A12 matches the condition &quot;starts wtih 'apple'&quot;</p>
+<pre><code>=SUMIF(A1:A12, &quot;apple*&quot;,B1:B12)
+</code></pre>
+<p>What are all the things this &quot;condition&quot; can be ?</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>3</code></td>
+<td>Equals '3'  (note there are no double quotes)</td>
+</tr>
+<tr>
+<td><code>&quot;&gt;10&quot;</code></td>
+<td>Greater than 10 (note the double quotes)</td>
+</tr>
+<tr>
+<td><code>B5</code></td>
+<td>Equals the value in cell <code>B5</code> (note there are no surrounding double quotes)</td>
+</tr>
+<tr>
+<td><code>&quot;apple&quot;</code></td>
+<td>Equals the text 'apple'  (note the double quotes)</td>
+</tr>
+<tr>
+<td><code>&quot;apple*&quot;</code></td>
+<td>Starts with the txt 'apple'  (note the double quotes)</td>
+</tr>
+<tr>
+<td><code>&quot;~?&quot;</code></td>
+<td>Starts with the txt 'apple'  (note the double quotes)</td>
+</tr>
+<tr>
+<td><code>TODAY()</code></td>
+<td>Equals the result of running the function <code>TODAY()</code> (note there are no surrounding double quotes)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Important: Any text criteria or any criteria that includes logical or mathematical symbols must be enclosed in double quotation marks (&quot;). If the criteria is numeric, double quotation marks are not required.</p>
+<p>— <a href="https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b#:%7E:text=For%20example%2C%20the%20formula%20%3DSUMIF,multiple%20criteria%2C%20see%20SUMIFS%20function.">SUMIF Function - microsoft.com</a></p>
+</blockquote>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://support.microsoft.com/en-us/office/sumif-function-169b8c99-c05c-4483-a712-1697a653039b#:%7E:text=For%20example%2C%20the%20formula%20%3DSUMIF,multiple%20criteria%2C%20see%20SUMIFS%20function.">SUMIF Function - microsoft.com</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
