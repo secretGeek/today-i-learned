@@ -26,9 +26,11 @@
 <p>This is a hard problem to google for, and a hard problem to describe -- but when you have it, you know it.</p>
 <p>With command line tools from &quot;other platforms&quot;, such as tools that originated on linux, and tools like node/npm/npx, and ruby cli tools -- it can be hard to process their output with powershell, because they are outputting text and errors and warnings, but not &quot;objects&quot; like powershell expects.</p>
 <p>To get the output, of all kinds, and put it into the standard stream, use a stream modifier set like this:</p>
-<p>6&gt;&amp;1 5&gt;&amp;1 4&gt;&amp;1 3&gt;&amp;1 2&gt;&amp;1</p>
+<pre><code>6&gt;&amp;1 5&gt;&amp;1 4&gt;&amp;1 3&gt;&amp;1 2&gt;&amp;1
+</code></pre>
 <p>For example, to capture <em>everything</em> from this <code>npx</code> command and pipe it to the <code>out-file</code> cmdlet, I used this command:</p>
-<p>npx jest &quot;myjestfile.test.tsx&quot; --runInBand 2&gt;&amp;1 | out-file &quot;c:\apps\jest\myjestfile.test.tsx.txt&quot; -encoding utf8</p>
+<pre><code>npx jest &quot;myjestfile.test.tsx&quot; --runInBand 2&gt;&amp;1 | out-file &quot;c:\apps\jest\myjestfile.test.tsx.txt&quot; -encoding utf8
+</code></pre>
 <p>What do the numbers 1 and 2 refer to here?</p>
 <p>0,1 and 2 are standard file descriptors --</p>
 <ul>
@@ -47,7 +49,8 @@
 	+ FullyQualifiedErrorId : NativeCommandError
 </code></pre>
 <p>...to get around that, convert the pipe into strings along the way... with <code>% { &quot;$_&quot; } | </code></p>
-<p>npx jest &quot;myjestfile.test.tsx&quot; --runInBand 2&gt;&amp;1 | %{ &quot;$_&quot; } | out-file &quot;c:\apps\jest\myjestfile.test.tsx.txt&quot; -encoding utf8</p>
+<pre><code>npx jest &quot;myjestfile.test.tsx&quot; --runInBand 2&gt;&amp;1 | %{ &quot;$_&quot; } | out-file &quot;c:\apps\jest\myjestfile.test.tsx.txt&quot; -encoding utf8
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/2095088/error-when-calling-3rd-party-executable-from-powershell-when-using-an-ide">Stack Overflow: Error when calling 3rd party executable from Powershell when using an IDE</a></li>
