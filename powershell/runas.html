@@ -38,6 +38,12 @@
 <p>Or simply:</p>
 <pre><code>Start-Process ConEmu64.exe -Verb runAs
 </code></pre>
+<p>To specify a different user:</p>
+<pre><code>Start-Process SSMS.exe -Verb runAs -Credential &quot;My_Domai\testuser&quot;
+</code></pre>
+<p>Using the <code>runas</code> command:</p>
+<pre><code>runas /user:&quot;antony jr&quot; notepad.exe
+</code></pre>
 <p><img src="Run_Runas_Administrator.jpg" alt="run... run as administrator" /></p>
 
 </article>
