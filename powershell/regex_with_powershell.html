@@ -46,6 +46,23 @@ Name                           Value
 1                              ed
 0                              fred
 </code></pre>
+<h2 id="regex-options-with-powershell">Regex Options With Powershell</h2>
+<p>Include 1 option...</p>
+<pre><code>$options = [Text.RegularExpressions.RegexOptions]::Singleline
+$match = [regex]::Match($input, $regex, $options)
+</code></pre>
+<p>Include multiple options by using a &quot;bitwise or&quot; (<code>-bor</code>):</p>
+<pre><code>$options = [Text.RegularExpressions.RegexOptions]::IgnoreCase -bor [Text.RegularExpressions.RegexOptions]::CultureInvariant
+$match = [regex]::Match($input, $regex, $options)
+</code></pre>
+<p>That's a lot of typing... instead, &quot;let casting do the magic&quot; like so:</p>
+<pre><code>$options = [Text.RegularExpressions.RegexOptions]'IgnoreCase, CultureInvariant'
+$match = [regex]::Match($input, $regex, $options)
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/12977338/pass-regex-options-to-powershell-regex-type">Pass regex options to PowerShell [regex] type - Stack Overflow</a> -- for &quot;options&quot;</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>

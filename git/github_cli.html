@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>github cli . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="the-github-cli">The Github Cli</h1>
+<p>Github released a <a href="https://github.com/cli/cli">CLI</a> -- not for doing git stuff exactly. More for doing things at a github level, with a repo, or outside of any repo.</p>
+<h2 id="install">Install</h2>
+<p>For windows, on WinGet, install like this:</p>
+<pre><code>winget install --id GitHub.cli
+</code></pre>
+<p>(or with scoop: <code>scoop install gh</code>, or chocolatey: <code>choco install gh</code>)</p>
+<h2 id="basic-usage">Basic Usage</h2>
+<pre><code>gh &lt;command&gt; &lt;subcommand&gt; [flags]
+</code></pre>
+<h2 id="commands">Commands</h2>
+<h3 id="core-commands">Core Commands</h3>
+<pre><code>browse:     Open the repository in the browser
+gist:       Manage gists
+issue:      Manage issues
+pr:         Manage pull requests
+release:    Manage GitHub releases
+repo:       Create, clone, fork, and view repositories
+</code></pre>
+<h4 id="gh-repo">gh repo</h4>
+<ul>
+<li><a href="https://cli.github.com/manual/gh_repo">gh repo</a>
+<ul>
+<li><a href="https://cli.github.com/manual/gh_repo_create">gh repo create</a> - I use this all the time. <code>gh repo create</code> with no other parameters give you a fun wizard that helps you create an empty repo, private or public, with license and <a href="gitignore.html"><code>.gitignore</code></a>.</li>
+<li><a href="https://cli.github.com/manual/gh_repo_list">gh repo list</a></li>
+<li><a href="https://cli.github.com/manual/gh_repo_view">gh repo view</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="action-commands">Action Commands</h3>
+<pre><code>actions:    Learn about working with GitHub actions
+run:        View details about workflow runs
+workflow:   View details about GitHub Actions workflows
+</code></pre>
+<h3 id="additional-commands">Additional Commands</h3>
+<pre><code>alias:      Create command shortcuts
+api:        Make an authenticated GitHub API request
+auth:       Login, logout, and refresh your authentication
+completion: Generate shell completion scripts
+config:     Manage configuration for gh
+</code></pre>
+<h2 id="how-to-update-the-github-cli">How to update the github CLI?</h2>
+<p>When it gives a message like this, it's time to upgrade:</p>
+<pre><code>A new release of gh is available: 2.0.0 → v2.21.1
+https://github.com/cli/cli/releases/tag/v2.21.1
+</code></pre>
+<p>For windows users, upgrade like this:</p>
+<pre><code>winget upgrade --id GitHub.cli
+</code></pre>
+<p>(or, with scoop: <code>scoop update gh</code>, or with chocolatey: <code>choco upgrade gh</code>)</p>
+<h2 id="source">Source</h2>
+<ul>
+<li>Console output of <code>gh.exe</code> itself</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="gitignore.html">.gitignore</a></li>
+<li><a href="../winget/getting_started.html">winget</a></li>
+<li><a href="../vs_code/devcontainers.html">VS Code: CodeSpaces / dev containers</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

@@ -77,8 +77,8 @@ $errors = @()
 <p><a href="https://twitter.com/dfinke/status/1303687569968857091?s=20">@dfinke</a></p>
 </blockquote>
 <h2 id="using-the-newer-v3-api">Using the newer V3 API</h2>
-<pre><code>[System.Management.Automation.Language.Parser]::ParseInput('echo &quot;$hello&quot;', [ref] $tokens, [ref] $errors) | out-null;
-$tokens | format-table
+<pre><code>$tokens = @(); $errors = @();
+[System.Management.Automation.Language.Parser]::ParseInput('echo &quot;$hello&quot;', [ref] $tokens, [ref] $errors) | out-null; $tokens | format-table
 </code></pre>
 <p>Gives...</p>
 <pre><code class="language-plaintext">Text             TokenFlags             Kind HasError Extent
@@ -88,7 +88,8 @@ echo            CommandName       Identifier    False echo
          ParseModeInvariant       EndOfInput    False
 </code></pre>
 <p>Whereas,</p>
-<pre><code>[System.Management.Automation.Language.Parser]::ParseInput(&quot;echo '`$hello'&quot;, [ref] $tokens, [ref] $errors); | out-null;
+<pre><code>$tokens = @(); $errors = @();
+[System.Management.Automation.Language.Parser]::ParseInput(&quot;echo '`$hello'&quot;, [ref] $tokens, [ref] $errors) | out-null;
 $tokens | format-table
 </code></pre>
 <p>Gives:</p>
@@ -99,6 +100,19 @@ echo            CommandName    Identifier    False echo
          ParseModeInvariant    EndOfInput    False
 </code></pre>
 <p>Note that &quot;ParseInput&quot; directly returns an Abstract Syntax Tree (which is more than I need for this exercise, but super useful when you do need it.) and the <code>$tokens</code> variable is a reference to an array of Tokens</p>
+<p>The most powerful property there is &quot;Extent&quot;. In the table above, <code>Extent</code> looks the same as <code>Text</code> -- but this is misleading. <code>Text</code> is <code>string</code>. <code>Extent</code> is of type <code>System.Management.Automation.Language.InternalScriptExtent</code>.</p>
+<p>And <code>Extent</code> contains all of these properties (in this example, with values for the first token, for &quot;echo&quot;)</p>
+<pre><code>File                :
+StartScriptPosition : System.Management.Automation.Language.InternalScriptPosition
+EndScriptPosition   : System.Management.Automation.Language.InternalScriptPosition
+StartLineNumber     : 1
+StartColumnNumber   : 1
+EndLineNumber       : 1
+EndColumnNumber     : 5
+Text                : echo
+StartOffset         : 0
+EndOffset           : 4
+</code></pre>
 <h2 id="pstoken-versus-language.token">PSToken versus Language.Token</h2>
 <p>What sort of tokens are these?</p>
 <p>Here's there Assembly Qualified Name:</p>
