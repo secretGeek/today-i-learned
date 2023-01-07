@@ -67,6 +67,13 @@ rwx   rwx   rwx
 <li><code>x</code> = execute permission</li>
 </ul>
 <p>If a permission was missing it would be represented by a dash '-'.</p>
+<h2 id="the-building-blocks-of-a-permission">The Building Blocks of a permission</h2>
+<pre><code>---   No read, no write, no execute = 0
+--x   Execute (not read or write) = 1
+-w-   Write (not read or execute) = 2
+r--   Read (not execute or write) = 4
+</code></pre>
+<p>All permissions are made by adding some combination of 0,1,2,4.</p>
 <h2 id="similarly">similarly</h2>
 <ul>
 <li><code>chmod</code> - modify permissions</li>
@@ -74,9 +81,21 @@ rwx   rwx   rwx
 <li><code>chgrp</code> - change the group</li>
 </ul>
 <h2 id="common-patterns">Common patterns</h2>
-<h3 id="owner-can-read-write-but-not-execute-no-one-else-can-read-write">owner can read write but not execute, no one else can read write:</h3>
+<h3 id="owner-can-read-write-but-not-execute-no-one-else-can-read-write">600: Owner can read write but not execute, no one else can read write:</h3>
 <pre><code>sudo chmod 600 ~/.ssh/id_dsa
 </code></pre>
+<h3 id="everyone-can-do-everything">777: Everyone can do everything</h3>
+<pre><code>sudo chmod 777 /public/publicfile
+</code></pre>
+<h2 id="common-combos">Common combos</h2>
+<pre><code>r-x   Read Execute, Not write = 5
+rw-   Read Write, Not execute = 6
+rwx   Read Write and Execute = 7
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="SSH.html">ssh</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
