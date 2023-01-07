@@ -23,8 +23,8 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="chmod-and-the-magic-of-file-permissions">chmod - and the magic of file permissions</h1>
-<h2 id="allow-everything">allow everything</h2>
-<pre><code>$ chmod 777 /opt/webapps
+<h2 id="allow-everything">Allow everything</h2>
+<pre><code>chmod 777 /opt/webapps
 </code></pre>
 <p>Causes these permissions:</p>
 <pre><code>drwxrwxrwx
@@ -74,14 +74,8 @@ rwx   rwx   rwx
 r--   Read (not execute or write) = 4
 </code></pre>
 <p>All permissions are made by adding some combination of 0,1,2,4.</p>
-<h2 id="similarly">similarly</h2>
-<ul>
-<li><code>chmod</code> - modify permissions</li>
-<li><code>chown</code> - change the owner of the file</li>
-<li><code>chgrp</code> - change the group</li>
-</ul>
 <h2 id="common-patterns">Common patterns</h2>
-<h3 id="owner-can-read-write-but-not-execute-no-one-else-can-read-write">600: Owner can read write but not execute, no one else can read write:</h3>
+<h3 id="owner-can-read-write-but-not-execute-no-one-else-can-read-write">600: Owner can read write but not execute, no one else can read write</h3>
 <pre><code>sudo chmod 600 ~/.ssh/id_dsa
 </code></pre>
 <h3 id="everyone-can-do-everything">777: Everyone can do everything</h3>
@@ -92,6 +86,34 @@ r--   Read (not execute or write) = 4
 rw-   Read Write, Not execute = 6
 rwx   Read Write and Execute = 7
 </code></pre>
+<h2 id="add-read-or-write-or-execute">Add read (or write, or execute)</h2>
+<p>If all you want to do is &quot;add read permissions&quot; (for example) you can use this syntax:</p>
+<pre><code>chmod +r /public/README.md
+</code></pre>
+<p>or add write permissions:</p>
+<pre><code>chmod +w /public/README.md
+</code></pre>
+<p>or add eXecute permissions:</p>
+<pre><code>chmod +x /public/README.md
+</code></pre>
+<h2 id="test-file-permissions-with-test">Test file permissions with <code>test</code></h2>
+<p>The <code>test</code> command is often used in scripts for testing the <code>r</code>,<code>w</code> or <code>x</code> flag of a file.</p>
+<p>e.g.</p>
+<p>test -x /public/deleteEverything</p>
+<p>Means &quot;does the file <code>/public/deleteEverything</code> exist? and if so, does it have the <code>x</code> (execute) bit set?</p>
+<p>Similarly:</p>
+<p>test -r /public/README.md
+test -w /public/README.md</p>
+<p>And output success or fail, with:</p>
+<pre><code>test -x /home/leon/.templateengine &amp;&amp; echo &quot;The file has the execute flag&quot;
+test -x /home/leon/.templateengine || echo &quot;The file does not exist or it does exist but does not have the execute flag&quot;
+</code></pre>
+<h2 id="related-commands">Related commands</h2>
+<ul>
+<li><code>chmod</code> - modify permissions</li>
+<li><code>chown</code> - change the owner of the file</li>
+<li><code>chgrp</code> - change the group</li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="SSH.html">ssh</a></li>

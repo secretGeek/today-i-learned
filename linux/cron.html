@@ -89,7 +89,33 @@ Choose 1-4 [2]: 2
 <pre><code>*/10 * * * * curl http://example.com &gt;/dev/null 2&gt;&amp;1
 </code></pre>
 <h2 id="etccron.hourly-etc"><code>/etc/cron.hourly</code> etc</h2>
-<p>On Ubuntu, you can put a shell script in one of these folders: <code>/etc/cron.daily</code>, <code>/etc/cron.hourly</code>, <code>/etc/cron.monthly</code> or <code>/etc/cron.weekly</code>.</p>
+<p>On Ubuntu, you can put a shell script in one of these folders: <code>/etc/cron.daily</code>, <code>/etc/cron.hourly</code>, <code>/etc/cron.monthly</code> or <code>/etc/cron.weekly</code> and it will be executed daily, hourly etc.</p>
+<p>Or... it should be. A couple of gotchas...</p>
+<ol>
+<li>The file must have execute permission (see <a href="chmod_file_permissions.html">chmod</a>)</li>
+<li>The file must not have a file extension. E.g. no &quot;.sh&quot; on the end of the file. (It's the dot that isn't allowed.)</li>
+</ol>
+<p>If you add a file to <code>/etc/cron.daily</code> and you want to know if it will be run, try this:</p>
+<pre><code>run-parts --test /etc/cron.daily
+</code></pre>
+<p>...its name should be included in the output.</p>
+<p>There is no magic to the <code>/etc/cron.daily</code> etc folders. You can see how they work by looking at <code>/etc/crontab</code></p>
+<pre><code># /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user  command
+17 *    * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly
+25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )
+47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )
+52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )
+#
+</code></pre>
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://crontab-generator.org/">crontab-generator</a></li>
@@ -97,6 +123,7 @@ Choose 1-4 [2]: 2
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="lets_encrypt.html">How To Secure Nginx with Let's Encrypt on Ubuntu 16.04</a></li>
+<li><a href="chmod_file_permissions.html">chmod</a></li>
 </ul>
 
 </article>
