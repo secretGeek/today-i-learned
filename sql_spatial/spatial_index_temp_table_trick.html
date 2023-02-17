@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="the-sql-server-spatial-spatial-index-temp-table-trick">The SQL Server Spatial Spatial Index Temp Table Trick</h1>
-<p><em>or, What Al Capone Taught Me About Spatial Indexes</em></p>
+<p>(<em>or, What Al Capone Taught Me About Spatial Indexes</em>)</p>
 <p>Al Capone is often quoted (more likely misquoted) as having said something along the lines of:</p>
 <blockquote>
 <p>&quot;You can get more with a kind word and a gun than you can with a kind word alone.&quot;</p>
@@ -35,7 +35,7 @@
 <p>Here's the problem: spatial indexes and regular indexes seem to live in two different worlds. Once a regular index has been consulted, a spatial index can't be used.</p>
 <p>The solution I often use is to select the most specific data I can, without using any spatial operations -- into a temporary table. And then build a spatial index on that temporary table. And then perform whatever spatial search I need.</p>
 <p>I learnt this technique from the spatial master, John O'Brien, and he may have learnt it from <a href="http://sqlblog.com/blogs/rob_farley/">Rob Farley</a></p>
-<p>Note that you have to select into a # temp table, not just use a table variable. Table variables are wonderful things, but you can't create any index on a table variable (spatial or regular). (See <a href="http://stackoverflow.com/a/13777841/49">this comparison of table variables and #temp tables</a>)</p>
+<p>Note that you have to select into a <code>#</code> temp table ( a 'hash temp table' as they are called), not just use a table variable. Table variables are wonderful things, but you can't create any index on a table variable (spatial or regular). (See <a href="http://stackoverflow.com/a/13777841/49">this comparison of table variables and #temp tables</a>)</p>
 <h2 id="how-can-i-tell-if-my-spatial-index-is-being-used">How can I tell if my spatial index is being used?</h2>
 <p>You can't fix a problem you don't know you have.</p>
 <p>The first clue you have that a spatial index is not being used is that: (a) you are performing a spatial operation in a predicate, and (b) performance is woeful.</p>

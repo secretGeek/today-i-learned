@@ -25,21 +25,20 @@
 <h1 id="python-in-minecraft">Python in minecraft</h1>
 <p>One of my daughters is getting into minecraft. I've heard you can do python in minecraft, so I want to give that a go.</p>
 <p>All of the examples below are taken wholly or in part from this awesome guide: <a href="http://www.instructables.com/id/Python-coding-for-Minecraft/">Python Coding for Minecraft by Alex Pruss</a></p>
-<ol>
-<li>Get minecraft for PC</li>
-</ol>
+<ul>
+<li>Step 1. Get minecraft for PC</li>
+</ul>
 <p>Costs $26.95</p>
-<ol start="2">
-<li>Minecraft no longer requires java. So you don't need to update that.</li>
-</ol>
+<ul>
+<li>Step 2. Minecraft no longer requires java. So you don't need to update that.</li>
+</ul>
 <blockquote>
 <p>You still technically need Java, but it is now downloaded by the Minecraft launcher and stored with the launcher instead of installed across the entire system. If Minecraft is the only reason you have Java installed, you now have no reason to open up your system to Java vulnerabilities. The Java executable used by Minecraft stays with Minecraft and is as good as invisible and inaccessible to the rest of the system.</p>
 </blockquote>
-<ol start="3">
-<li>Run minecraft launcher.</li>
-</ol>
 <ul>
-<li>&quot;Launch Options&quot;
+<li><p>Step 3. Run minecraft launcher.</p>
+</li>
+<li><p>&quot;Launch Options&quot;</p>
 <ul>
 <li>&quot;Add new&quot;
 <ul>
@@ -53,38 +52,39 @@
 <p>On the front screen, on the big green button hit the 'up' arrow to change profile. Select this new profile. And press play.</p>
 <p>Make sure it works.</p>
 <p>Maybe create a new world, superflat, bonus chest on, cheats on.</p>
-<ol start="4">
-<li>Install Forge.</li>
-</ol>
+<ul>
+<li>Step 4. Install Forge.</li>
+</ul>
 <p>Default options -- i.e. Client.</p>
 <p>It downloads and unpacks a bunch of stuff.</p>
 <p><img src="forge_install_success.png" alt="forge_install_success.png" /></p>
-<ol start="5">
-<li>Install raspberry jam mod</li>
-</ol>
-<p><a href="https://github.com/arpruss/raspberryjammod/releases">https://github.com/arpruss/raspberryjammod/releases</a></p>
-<p>RaspberryJamMod-Installer.exe</p>
-<p>(22.8MB)</p>
+<ul>
+<li>Step 5. Install raspberry jam mod</li>
+</ul>
+<p>Here it is: <a href="https://github.com/arpruss/raspberryjammod/releases">https://github.com/arpruss/raspberryjammod/releases</a></p>
+<p>Look for .\RaspberryJamMod-Installer.exe</p>
+<p>It's approx 22.8MB.</p>
 <p>Installing that you need to choose Python 2.7 or 3.x ....</p>
 <p>I went with 3.x which I may regret later.</p>
 <p>I'm socially progressive and tend to get myself into this kind of problem for fun.</p>
-<ol start="6">
-<li><p>Download the latest zip file containing sample Python scripts and the mcpi library from:</p>
+<ul>
+<li><p>Step 6. Download the latest zip file containing sample Python scripts and the mcpi library from:</p>
 <p><a href="https://github.com/arpruss/raspberryjammod/releases">https://github.com/arpruss/raspberryjammod/releases</a></p>
 </li>
-</ol>
+</ul>
 <p>Create a new folder: <code>$env:AppData\.minecraft\mcpipy</code></p>
 <p>Unzip the file and places its content into the $env:AppData.minecraft\mcpipy folder.</p>
-<ol start="7">
-<li>Run minecraft launcher...</li>
-</ol>
+<ul>
+<li>Step 7. Run minecraft launcher...</li>
+</ul>
 <p>pick the 'forge' profile by clicking the up arrow on the green button.</p>
-<p>8.</p>
-<p>Run a python script by:</p>
+<ul>
+<li>Step 8. Run a python script by:</li>
+</ul>
 <p scriptname="">/py </p>
 <p>e.g.</p>
 <p>/py helloworld</p>
-<h2 id="hello-world">Hello World!</h2>
+<h2 id="your-first-hello-world-script-in-minecraft">Your first &quot;Hello World!&quot; script in MineCraft</h2>
 <p>Here's a helloworld script...</p>
 <pre><code>from mine import *
 mc = Minecraft()
@@ -127,7 +127,7 @@ from sys import argv
 mc = Minecraft()
 mc.player.setTilePos(int(argv[1]), int(argv[2]), int(argv[3]))
 </code></pre>
-<h2 id="to-find-my-location">To find my location:</h2>
+<h2 id="to-find-my-location">To find my location</h2>
 <pre><code>/py whereami
 </code></pre>
 <p>returns (currently)</p>
@@ -235,7 +235,7 @@ for i in range(int(argv[1])):
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.howtogeek.com/210907/minecraft-doesnt-need-java-installed-anymore-its-time-to-remove-it/">Minecraft Doesn't Need Java Installed Anymore</a></li>
-<li><a href="http://www.instructables.com/id/Python-coding-for-Minecraft/">Instructables: Python Coding for Minecraft by arpruss</a></li>
+<li><a href="http://www.instructables.com/id/Python-coding-for-Minecraft/">Instructables: Python Coding for Minecraft by arpress</a></li>
 </ul>
 
 </article>

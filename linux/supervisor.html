@@ -22,11 +22,11 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="supervisor.it-keeps-your-app-running">Supervisor... it keeps your app running!</h1>
-<h2 id="check-status">Check status:</h2>
+<h1 id="supervisor.it-keeps-your-app-running">Supervisor... it keeps your app running</h1>
+<h2 id="check-status">Check status</h2>
 <pre><code>service supervisor status
 </code></pre>
-<h2 id="tail-a-services-err">Tail a service's err:</h2>
+<h2 id="tail-a-services-err">Tail a service's err</h2>
 <p>(find the file by looking in folder: <code>/etc/supervisor/conf.d</code> where file <code>pdf.nimbletext.com.conf</code> might mention error log <code>/var/log/pdf.nimbletext.err.log</code>)</p>
 <pre><code>sudo tail -n 20 -f /var/log/pdf.nimbletext.err.log
 </code></pre>
@@ -58,16 +58,16 @@ stopsignal=INT
 </code></pre>
 <h2 id="view-supervisor-logs">View supervisor logs</h2>
 <p>Here's how to view the last 20 lines of the supervisor log, using <code>tail</code></p>
-<pre><code>$ sudo tail -n 20 -f /var/log/supervisor/supervisord.log
+<pre><code>sudo tail -n 20 -f /var/log/supervisor/supervisord.log
 </code></pre>
 <p>...in which you might see it struggle to keep your app running...</p>
 <p>Or the last 20 lines of your app's error output...</p>
-<pre><code>$ sudo tail -n 20 -f /var/log/helloworld.err.log
+<pre><code>sudo tail -n 20 -f /var/log/helloworld.err.log
 </code></pre>
 <p>Or the last 20 lines of your app's standard (non error) output...</p>
-<pre><code>$ sudo tail -n 20 -f /var/log/helloworld.out.log
+<pre><code>sudo tail -n 20 -f /var/log/helloworld.out.log
 </code></pre>
-<h2 id="restart-supervisor-1">Restart supervisor</h2>
+<h2 id="restart-supervisor-troubleshooting">Restart supervisor - troubleshooting</h2>
 <p>To restart supervisor after you've given it some new configuration:</p>
 <pre><code>service supervisor stop
 service supervisor start

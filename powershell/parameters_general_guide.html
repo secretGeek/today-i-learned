@@ -27,17 +27,17 @@
 <p>Even a script that declares <em>no</em> parameters can access the parameters that are handed to it.</p>
 <p>As can a <code>function</code>, a named cmdLet, etc.</p>
 <p>You can declare parameter names without specifying a type, e.g.</p>
-<pre><code>function New-Satelitte ($sateliteName, $weightInGrams) {
-	write-host &quot;The $sateliteName will weigh $weightInGrams&quot; -f Yellow;
+<pre><code>function New-Satellite ($satelliteName, $weightInGrams) {
+	write-host &quot;The $satelliteName will weigh $weightInGrams&quot; -f Yellow;
 }
 </code></pre>
 <p>...and a trap for young players, having just written such a <code>function</code>...</p>
 <p>You call it WITHOUT parentheses.</p>
 <p>You call it like this:</p>
-<pre><code>New-Satelitte &quot;The Nazgul Banana&quot; 500
+<pre><code>New-Satellite &quot;The Nazgul Banana&quot; 500
 </code></pre>
 <p>and NOT like this:</p>
-<pre><code>New-Satelitte (&quot;The Nazgul Banana&quot;, 500)   # NO! Not like this!
+<pre><code>New-Satellite (&quot;The Nazgul Banana&quot;, 500)   # NO! Not like this!
 </code></pre>
 <p>...as that would be interpreted as you sending a single parameter, an array with two values</p>
 <pre><code>(&quot;The Nazgul Banana&quot;, 500).GetType()
@@ -51,7 +51,7 @@ True     True     Object[]                                 System.Array
 <h2 id="param"><code>param()</code></h2>
 <pre><code>Function Invoke-Clippy{
 param(
-		$text=&quot;Hi! I am Clippy, your office assitant. Would you like some assistance today?&quot;
+		$text=&quot;Hi! I am Clippy, your office assistant. Would you like some assistance today?&quot;
 )
 
 	write-host $text -foregroundColor yellow;
@@ -77,14 +77,15 @@ param(
 </code></pre>
 <p>todo: ValueFromPipeline</p>
 <h2 id="valuefrompipelinebypropertyname"><code>[ValueFromPipelineByPropertyName()]</code></h2>
-<p>function kvi {</p>
-<h1 id="aaa-reads-stream.you-give-it-an-object.it-will-iterate-it-and-return-an-object-which-is-the-keys">AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.</h1>
-<p>[CmdletBinding()]
+<pre><code>function kvi {
+# AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.
+[CmdletBinding()]
 Param(
-[Parameter(ValueFromPipelineByPropertyName)]$Keys,
-[Parameter(ValueFromPipelineByPropertyName)]$Value
-)</p>
-<pre><code>param (
+        [Parameter(ValueFromPipelineByPropertyName)]$Keys,
+        [Parameter(ValueFromPipelineByPropertyName)]$Value
+)
+
+param (
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
     [string]$ApiKey

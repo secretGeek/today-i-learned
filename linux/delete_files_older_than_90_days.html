@@ -46,7 +46,7 @@
 <p>Cool!</p>
 <h2 id="daily-cron-to-delete-old-files-from-a-specific-folder">Daily CRON to delete old files from a specific folder</h2>
 <p>Now to add it to cron job, for a specific folder...</p>
-<p>Add the following to a new file in the folder <code>/etc/cron.daily</code></p>
+<p>Add the following to a new file in the folder <code>/etc/cron.daily</code>  (Learn more about - <a href="cron_daily.html">cron.daily, cron.hourly etc.</a> in this TIL, if you wish.)</p>
 <pre><code>#!/bin/sh
 
 find /opt/webapps/nimbletext2.com/app/DATA/NimbleText.com.Models.Usage -mtime +20 -type f -delete
@@ -57,6 +57,7 @@ find /opt/webapps/nimbletext2.com/app/DATA/NimbleText.com.Models.Usage -mtime +2
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="cron.html">cron</a></li>
+<li><a href="cron_daily.html">cron.daily, cron.hourly etc.</a></li>
 <li><a href="count_files_recursively.html">Count all files in a directory, recursively</a></li>
 </ul>
 
