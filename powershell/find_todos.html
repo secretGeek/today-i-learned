@@ -185,11 +185,11 @@ function findtext_raw_type($types, $pattern, $recursive) {
     $fileTypes = $originalTypes;
 }
 
-function findtext_type($types, $pattern, $recursive) {
+function findtext_type($types, $pattern, $recursive, $CaseSensitive) {
 
     $originalTypes = $fileTypes;
     $fileTypes = $types;
-    format-findtext $pattern $recursive;
+    format-findtext $pattern $recursive -caseSensitive $caseSensitive;
     $fileTypes = $originalTypes;
 }
 

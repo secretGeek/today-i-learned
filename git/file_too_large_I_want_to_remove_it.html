@@ -43,9 +43,9 @@ error: failed to push some refs to 'https://github.com/myaccount/myrepo.git'
 </code></pre>
 <p>You've already committed the file... you have to edit history -- you can't simply &quot;add&quot; a &quot;remove&quot; like so...</p>
 <pre><code>git rm BIGFILE.rpt
-git commit -m &quot;deleting the BIG file!&quot;
+git commit -m &quot;Naively deleting the BIG file... THIS WON'T WORK!&quot;
 </code></pre>
-<p>If it was added in the most recent commit --</p>
+<p>If it was added in the most recent commit, hey it's easy -- amend like so:</p>
 <pre><code>git rm --cached myfolder/BIGFILE.rpt
 git commit --amend -C HEAD
 </code></pre>
@@ -70,10 +70,16 @@ Adding that big file
 <p>And that will show the list of commits to edit or pick... put &quot;edit&quot; next to the commit in which any big file was added.</p>
 <p>THen use <code>git rm folder/BIGFILE.rpt</code> alternated with <code>git status</code> (and, as it suggests, <code>git rebase --continue</code>) ... until you have removed the large file (or files) along the way, and rebased your way right back to the place where you wanted to end up.</p>
 <p>Then try and <code>git push</code>... and perhaps you'll learn about other big files you missed, dammit! You'll get there eventually.</p>
-<h2 id="source">source</h2>
+<h2 id="source">Source</h2>
 <ul>
 <li><a href="https://medium.com/analytics-vidhya/tutorial-removing-large-files-from-git-78dbf4cf83a/">Tutorial: Removing Large Files from Git</a></li>
 <li><a href="https://stackoverflow.com/questions/11533199/how-to-find-the-commit-in-which-a-given-file-was-added">Find the commit where a file was added</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="add_more_to_commit.html">Adding more files/changes to a commit you've just done</a></li>
+<li><a href="change_commit_message.html">Change commit message (before you've pushed)</a></li>
+<li><a href="undo_local_changes_to_a_file_in_git.html">Undo local changes to a file in git</a></li>
 </ul>
 
 </article>

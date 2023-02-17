@@ -25,11 +25,11 @@
 <h1 id="search-the-event-log-for-sql-server-restarts-with-this-powershell-query">Search the event log for sql server restarts with this powershell query</h1>
 <pre><code>get-Eventlog application | where-Object { $_.source -like &quot;MSSQL*&quot; -and $_.Message -like &quot;SQL Server is starting*&quot; }
 </code></pre>
-<h2 id="with-alias">with alias</h2>
+<h2 id="with-alias">With alias</h2>
 <p>Or more briefly:</p>
 <pre><code>get-Eventlog application | ? { $_.source -like &quot;MSSQL*&quot; -and $_.Message -like &quot;SQL Server is starting*&quot; }
 </code></pre>
-<h2 id="specific-date-range">specific date range</h2>
+<h2 id="specific-date-range">Specific date range</h2>
 <p>Or for particular message / date range</p>
 <pre><code>get-Eventlog application | where-Object {
 				$_.Source -like &quot;MSSQL*&quot;
