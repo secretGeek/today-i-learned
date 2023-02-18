@@ -29,20 +29,20 @@
 <li>test that the new user can use sudo privileges.</li>
 <li>test that the new user can connect through SSH.</li>
 </ul>
-<h2 id="create-a-new-user">create a new user</h2>
+<h2 id="create-a-new-user">Create a new user</h2>
 <pre><code>sudo useradd fred
 </code></pre>
 <p>and set password:</p>
 <pre><code>sudo passwd fred
 </code></pre>
 <p>(<code>tip</code> - You can list all users by looking in the file <code>/etc/passwd</code>, with <code>cat /etc/passwd</code>)</p>
-<h2 id="give-that-user-sudo-privileges">give that user sudo privileges</h2>
+<h2 id="give-that-user-sudo-privileges">Give that user sudo privileges</h2>
 <p>Add a user to the sudo group with:</p>
 <pre><code>gpasswd -a fred sudo
 </code></pre>
 <p>(here's another way... <code>usermod -aG sudo fred</code> ...?)</p>
 <p>You must be root or have sudo privileges in order to do this.</p>
-<h2 id="test-that-the-new-user-can-use-sudo-privileges">test that the new user can use sudo privileges</h2>
+<h2 id="test-that-the-new-user-can-use-sudo-privileges">Test that the new user can use sudo privileges</h2>
 <p>use <code>su</code> (switch user) to switch to the new user...</p>
 <pre><code>su - fred
 </code></pre>
@@ -54,10 +54,10 @@
 <pre><code>sudo ls -la /root
 </code></pre>
 <p>(and enter fred's password...)</p>
-<h2 id="test-that-the-new-user-can-connect-through-ssh">test that the new user can connect through SSH</h2>
+<h2 id="test-that-the-new-user-can-connect-through-ssh">Test that the new user can connect through SSH</h2>
 <pre><code>//TODO:
 </code></pre>
-<h2 id="sources">sources</h2>
+<h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.tecmint.com/add-users-in-linux">add users in linux</a></li>
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart">How To Create a Sudo User on Ubuntu [Quickstart]</a></li>

@@ -29,9 +29,9 @@
 <pre><code>npm install typescript@2.0.0.
 </code></pre>
 <p>Here's the output I saw:</p>
-<pre><code>C:\Users\Leon\AppData\Roaming\npm\tsserver -&gt; C:\Users\Leon\AppData\Roaming\npm\node_modules\typescript\bin\tsserver
-C:\Users\Leon\AppData\Roaming\npm\tsc -&gt; C:\Users\Leon\AppData\Roaming\npm\node_modules\typescript\bin\tsc
-C:\Users\Leon\AppData\Roaming\npm
+<pre><code>C:\Users\user1\AppData\Roaming\npm\tsserver -&gt; C:\Users\user1\AppData\Roaming\npm\node_modules\typescript\bin\tsserver
+C:\Users\user1\AppData\Roaming\npm\tsc -&gt; C:\Users\user1\AppData\Roaming\npm\node_modules\typescript\bin\tsc
+C:\Users\user1\AppData\Roaming\npm
 +-- typescript@2.0.10
 </code></pre>
 <p>See if <code>tsc</code> (the typescript compiler) was installed by running:</p>
@@ -82,7 +82,7 @@ Options:
 </code></pre>
 <p>Why? Because some earlier SDK i'd installed had added that folder to my <a href="../powershell/PATH.html">path</a>.</p>
 <p>So that old exe was found, instead of finding the one installed by npm, which is located here:</p>
-<pre><code>C:\Users\Leon\AppData\Roaming\npm\tsc.cmd
+<pre><code>C:\Users\user1\AppData\Roaming\npm\tsc.cmd
 </code></pre>
 <p>So I edited my path to <em>remove</em> that folder from it (notes on <a href="../windows/environment_variables.html">editing environment variables here...</a>)</p>
 <h2 id="resume-getting-started">Resume getting started</h2>
