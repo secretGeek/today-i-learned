@@ -7,6 +7,9 @@ function onStart() {
   let tocParent = $id("currentTitle");
   configurePermalinksAndToc(tocParent); //include TOC
 
+  for (let table of document.querySelectorAll('table'))
+		makeTableSortable(table);
+
   //var root = document.documentElement;
   //root.style.setProperty('--main-hue', 0)
 }
@@ -414,6 +417,33 @@ function showFloatingMessage(message, element) {
   }, 10);
 }
 
+const getSortableCellValue = (tr, idx) => tr.children[idx].getAttribute("data-sortable-value") || tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+	v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+)(getSortableCellValue(asc ? a : b, idx), getSortableCellValue(asc ? b : a, idx));
+
+function makeTableSortable(table) {
+	table.querySelectorAll('thead tr th:not(.no-sort)').forEach(th => 
+		th.addEventListener('click', (() => {
+			// remove existing up down arrows from all header cells
+			for (let otherTh of th.parentElement.querySelectorAll("th:not(.no-sort)")) {
+				otherTh.setAttribute("data-asc", "");
+			}
+			// Find the tbody - in which we will sort the rows
+			const currentTableBody = th.closest('table').querySelectorAll('tbody')[0];
+			// Sort using the comparer, which compares the relevant cells'
+			//   "data-sortable-value" attribute, if present, or inner text otherwise
+			Array.from(currentTableBody.querySelectorAll('tr'))
+				.sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(tr => currentTableBody.appendChild(tr));
+			th.setAttribute("data-asc", this.asc);
+		}))
+	);
+}
+
+
+
 /* ####################### */
 /* ####################### */
 /* ## utility functions ## */
@@ -489,3 +519,5 @@ function htmlToElement(html) {
 /* ####################### */
 
 onStart();
+
+/* don't put anything after this call to 'onStart()' */

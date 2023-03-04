@@ -98,7 +98,7 @@ async function buildHtmlWlh(topic, target, found) {
 
 	if (topic === null) {
 		let thisTopic = target.split('/')[1];
-		result += `<h3>See also</h3>\n<ul><li><a href='?topic=${thisTopic}'>What links to the topic: <q>${thisTopic}</q>?</a></li></ul>`;
+		result += `<h3>See also</h3>\n<ul><li><a href='?topic=${thisTopic}'>What links to articles in the topic: <q>${thisTopic}</q>?</a></li></ul>`;
 		result += `</div>`;
 	}
 

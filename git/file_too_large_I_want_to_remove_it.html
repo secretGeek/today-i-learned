@@ -53,7 +53,7 @@ git commit --amend -C HEAD
 <p>(How to find the commit where a file was added...)</p>
 <pre><code>git log --diff-filter=A -- myfolder/BIGFILE.rpt
 </code></pre>
-<p>returns....</p>
+<p>returns...</p>
 <pre><code>commit ffffffffccccccaaaaabbbbbaaaa
 Author: Author Name &lt;Author@Example.com&gt;
 Date:   Mon Feb 6 14:52:11 2023 +1000
@@ -68,8 +68,8 @@ Adding that big file
 <pre><code>git rebase -i c067fde7f3baf86f23ec32a48cae87eaa3a895c2
 </code></pre>
 <p>And that will show the list of commits to edit or pick... put &quot;edit&quot; next to the commit in which any big file was added.</p>
-<p>THen use <code>git rm folder/BIGFILE.rpt</code> alternated with <code>git status</code> (and, as it suggests, <code>git rebase --continue</code>) ... until you have removed the large file (or files) along the way, and rebased your way right back to the place where you wanted to end up.</p>
-<p>Then try and <code>git push</code>... and perhaps you'll learn about other big files you missed, dammit! You'll get there eventually.</p>
+<p>Then use <code>git rm folder/BIGFILE.rpt</code> alternated with <code>git status</code> (and, as it suggests, <code>git rebase --continue</code>) ... until you have removed the large file (or files) along the way, and rebased your way right back to the place where you wanted to end up.</p>
+<p>Now, try and <code>git push</code>... and perhaps you'll learn about other big files you missed, dammit! You'll get there eventually.</p>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://medium.com/analytics-vidhya/tutorial-removing-large-files-from-git-78dbf4cf83a/">Tutorial: Removing Large Files from Git</a></li>

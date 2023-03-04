@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>sortable table . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="sortable-table-with-vanilla-js">Sortable Table (with Vanilla JS)</h1>
+<p>Back when Moses was a lad we used to use jquery plugins to make our html tables &quot;sortable&quot;. And by sortable I mean, you click on the column heading to sort by a column.</p>
+<p>I wanted a new &quot;vanilla JS&quot; solution, so I scraped together a few things from Stack Overflow and other places and here is what I've got.</p>
+<p>First: -- we need a way to compare two cells (i.e. two <code>td</code> table cells, though they can also be <code>th</code> cells, if you've got those in your table...) and it decides which goes before which.</p>
+<p>For this I've got a pretty simply bunch of rules.</p>
+<p>If the <code>td</code> has an attribute &quot;data-sortable-value&quot; -- then it will use that value for the comparison.</p>
+<p>If there is no such attribute, then it uses the text value of the cell, i.e. the <code>innerText</code> property.</p>
+<p>Here's that:</p>
+<pre><code>const getSortableCellValue = (tr, idx) =&gt; tr.children[idx].getAttribute(&quot;data-sortable-value&quot;) || tr.children[idx].innerText || tr.children[idx].textContent;
+</code></pre>
+<p>And to employ this, it uses a thing called a comparer which is lambda'y lambda lambdafier, like this:</p>
+<pre><code>const comparer = (idx, asc) =&gt; (a, b) =&gt; ((v1, v2) =&gt;
+	v1 !== '' &amp;&amp; v2 !== '' &amp;&amp; !isNaN(v1) &amp;&amp; !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+)(getSortableCellValue(asc ? a : b, idx), getSortableCellValue(asc ? b : a, idx));
+</code></pre>
+<p>In summary:</p>
+<pre><code>- Add a 'click' handler to all `th` element in the table header (unless they have `no-sort` class)
+- The click handler will:
+	- Clear `data-asc` attribute on all the `th's` in the header row
+		(This is done in order to remove any existing up/down arrows... as explained in the CSS section)
+	- Find the body of the table
+		- Sort all of the rows of the table body, by comparing the cells with the same index number as the clicked `th` elekement
+</code></pre>
+<p>And the function that sets it all up:</p>
+<pre><code>function makeTableSortable(table) {
+	// add a 'click' handler to all `th`s in the table header (unless they have `no-sort` class)
+	table.querySelectorAll('thead tr th:not(.no-sort)').forEach(th =&gt; 
+		th.addEventListener('click', (() =&gt; {
+			// remove existing up down arrows from all header cells
+			for (let otherTh of th.parentElement.querySelectorAll(&quot;th:not(.no-sort)&quot;)) {
+				otherTh.setAttribute(&quot;data-asc&quot;, &quot;&quot;);
+			}
+			// Find the tbody - in which we will sort the rows
+			const currentTableBody = th.closest('table.sortable').querySelectorAll('tbody')[0];
+			// Sort using the comparer, which compares the relevant cells'
+			//   &quot;data-sortable-value&quot; attribute, if present, or inner text otherwise
+			Array.from(currentTableBody.querySelectorAll('tr'))
+				.sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+				.forEach(tr =&gt; currentTableBody.appendChild(tr));
+			th.setAttribute(&quot;data-asc&quot;, this.asc);
+	})));
+}
+</code></pre>
+<p>When the page first loads, call <code>makeTableSortable</code>, passing it any table you wish was sortable.</p>
+<p>For example, you might do this when the page first loads:</p>
+<pre><code>for (let table of document.querySelectorAll('table.sortable'))
+    makeTableSortable(table);
+</code></pre>
+<h2 id="styling-the-column-header-with-updown-arrows">Styling the column header with up/down arrows</h2>
+<p>Here's the accompanying CSS, with explanatory comments.</p>
+<p>Note we're using &quot;up arrow&quot; <code>\2191</code> (↑) and &quot;down arrow&quot; <code>\2193</code> (↓) for the direction indicators.</p>
+<pre><code>/* have the mouse pointer become a hand, unless the column header 'no-sort' class */
+table.sortable thead tr th:not(.no-sort) {
+	cursor: pointer;
+}
+
+/* To be able to position our up/down arrows absolutely, we give the the a position relative. */
+th[data-asc] {
+	position:relative;
+}
+
+/* the up/down arrows are provided by the 'after' pseudo element, located top right of the cell. */
+th[data-asc]::after {
+	float: right;
+	position: absolute;
+	right: 0.5em;
+	top:0.5em;
+	font-weight: 100;
+	opacity:0.8;
+}
+
+
+th[data-asc=true]::after {
+	content: &quot; \2193 &quot;;
+}
+
+th[data-asc=false]::after {
+	content: &quot; \2191 &quot;;
+}
+</code></pre>
+<p>And there we have it.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.toptal.com/designers/htmlarrows/">HTML Symbols, Entities, Characters and Codes — HTML Arrows</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="copy_element_to_clipboard.html">Copy element to clipboard</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

@@ -23,16 +23,26 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="docker-the-absolute-basics">DOCKER - the absolute basics</h1>
-<p>Some terminology (which may or may not become clear at a later date.)</p>
+<p>Some terminology (which may or may not become clearer at a later date.)</p>
 <ul>
-<li>A &quot;container&quot; is an instance of an &quot;image&quot; with some rules for which ports are exposed where, and possibly which volume it uses.</li>
-<li>An image is described by a &quot;dockerfile&quot; and may be built upon other images (etc.)</li>
-<li>Somewhere at the base of the image on which an image is based, etc... you ultimately find there is an operating system.</li>
-<li>Images are stored in, and retrieved from &quot;container repositories&quot;.</li>
-<li>A volume is a virtual hard drive, a place where files are stored, you know... a disk.</li>
+<li>A &quot;container&quot; is an instance of an &quot;image&quot; with some rules for which &quot;ports&quot; are exposed where, and possibly which &quot;volume&quot; it uses.</li>
+<li>An &quot;image&quot; is described by a &quot;dockerfile&quot; and is built upon other images (It's images all the way down)
+<ul>
+<li>(Somewhere at the base of the image on which an image is based, etc... you ultimately find there is an operating system. I think. I hope.)</li>
+</ul>
+</li>
+<li>&quot;Images&quot; can be stored in, and retrieved from, &quot;repositories&quot;, also known as &quot;container repositories&quot;. (Why are they not called image repositories?)</li>
+<li>A &quot;volume&quot; is a virtual hard drive, a place where files are stored, you know... a disk drive, a disk, storage, long term memory, a persistence mechanism.</li>
+<li>A &quot;host&quot; is the outer computer on which a container is running. A container has limited access to the host, the host has quite good access to the container.</li>
 </ul>
 <h2 id="getting-started">Getting Started</h2>
 <p>First, get docker desktop, install that on your development machine.</p>
+<p>No link included, as the location and the name will change before I commit this file.</p>
+<p>You can install it on Windows or Linux or Mac. You can't install it on iOS or Android or Gameboy (as far as I know).</p>
+<h2 id="what-is-docker">What is docker?</h2>
+<p>When someone says &quot;docker&quot; they can mean a lot of different things! Docker this, docker that, docker all the things. Sometimes you'll feel you're out of your docking mind!</p>
+<p>Docker is: a specific commandline tool; docker refers to the whole (waves hands vaguely) family of docker things; a docker file is a <code>Dockerfile</code> (one word) -- a &quot;text file&quot; that contains a pattern for making a docker image...; and docker is the first word in &quot;docker compose&quot; -- or &quot;docker-compose.yml&quot; -- a file that can describe a group of docker images that work together, a fleet of images, a symphony of images, an orchestrated milieu of containers, a deck of docks, a caravan of containers, an infestation of images, a cartload of containers...</p>
+<p>In bullet form -- let's say:</p>
 <ul>
 <li>Once you have docker desktop (the windows or linux version) you can then perform the following:
 <ul>
@@ -61,7 +71,7 @@
 <p>For example <code>8888:80</code> means &quot;port 8888 on the outside world, the host computer&quot; will be mapped to &quot;port 80 inside the container.&quot;</p>
 <p>If Narnia is a container running inside a wardrobe, then <code>1234:100</code> would mean the wardrobe's port <code>1234</code> is mapped to Narnia's port <code>100</code>.</p>
 <p>Note also that we would call Narnia the container and the wardrobe would be properly referred to as the <strong>host</strong>.</p>
-<h3 id="docker-on-the-command-line">docker on the command line</h3>
+<h3 id="docker-on-the-command-line">Docker on the command line</h3>
 <p><code>docker</code>, (<code>docker.exe</code> on windows) is a command line tool for doing all sorts of dockery things.</p>
 <p>Here is an example where we use docker to create a volume, and then create a container, based on an image, that uses that volume.</p>
 <pre><code>docker volume create a-sql-volume
@@ -90,7 +100,7 @@ docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &qu
 <li><code>-p</code>: Alias for <code>--publish</code>, publish a container's port(s) to the host.</li>
 </ul>
 <p>Finally, <code>mcr.microsoft.com/mssql/server:2019-latest</code> is the name of the image on which the container is based.</p>
-<h3 id="docker-cp">docker cp</h3>
+<h3 id="docker-cp">Docker cp</h3>
 <p>When a container is running, you can copy files to or from it, using <code>docker cp {FROM_PATH} {TO_PATH}</code>.</p>
 <p>e.g. To copy a file <em>from</em> a container called &quot;my_container&quot;, to your local file system's current path:</p>
 <pre><code>docker cp my_container:/var/www/html/.htaccess ./
@@ -101,6 +111,7 @@ docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &qu
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../serilog/install_seq_locally_for_development.html">Install Seq locally for development</a> -- local seq install instructions, rely on docker (and put the info above into context)</li>
+<li><a href="../docker/docker-compose">Docker Compose</a></li>
 </ul>
 
 </article>

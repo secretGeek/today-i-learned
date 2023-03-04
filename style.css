@@ -303,6 +303,36 @@ table {
   border-radius: 5px;
 }
 
+th { padding:1em 2ch;}
+
+/* Sortable Tables (don't even require a .sortable here!) */
+table thead tr th:not(.no-sort) {
+	cursor: pointer;
+}
+
+th[data-asc] {
+	position:relative;	
+}
+
+th[data-asc]::after {
+	float: right;
+	position: absolute;
+	right: 0.5em;
+	top:0.5em;
+	font-weight: 100;
+	opacity:0.8;
+	font-size:small;
+}
+
+th[data-asc=true]::after {
+	content: " \2193 ";
+}
+
+th[data-asc=false]::after {
+	content: " \2191 ";
+}
+/* end -- Sortable Tables */
+
 blockquote {
   background-color: var(--code-bg);
   border: none;

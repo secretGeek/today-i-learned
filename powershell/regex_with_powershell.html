@@ -59,9 +59,19 @@ $match = [regex]::Match($input, $regex, $options)
 <pre><code>$options = [Text.RegularExpressions.RegexOptions]'IgnoreCase, CultureInvariant'
 $match = [regex]::Match($input, $regex, $options)
 </code></pre>
+<h2 id="regex-replace-with-a-lambda-or-scriptblock-in-powershell">Regex Replace with a Lambda or ScriptBlock in Powershell</h2>
+<pre><code>$callback = {
+  param($match)
+  'This is the image: ' + (Get-Base64 $match.Groups[1].Value)
+}
+
+$re = [regex]'-(\d*)-'
+$result = $re.Replace(&quot;the image is -12345-&quot;, $callback)
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/12977338/pass-regex-options-to-powershell-regex-type">Pass regex options to PowerShell [regex] type - Stack Overflow</a> -- for &quot;options&quot;</li>
+<li><a href="https://stackoverflow.com/questions/30666101/use-a-function-in-powershell-replace">Use a function in Powershell replace</a></li>
 </ul>
 
 </article>
