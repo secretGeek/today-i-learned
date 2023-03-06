@@ -605,8 +605,10 @@ details.toc > summary::-webkit-details-marker {
  */
 
 code[data-content="tip"] {
-  text-shadow: 0 0 2px #ff0; /* todo */
+  text-shadow: 0 0 1px #ff4; /* todo */
   font-style: italic;
+  border-radius:15px;
+  padding:2px 5px;
 }
 
 code[data-content="tip"]::after {
