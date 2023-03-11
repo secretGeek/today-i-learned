@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>npm troubleshooting . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,12 +22,21 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="serilog" class="chapter">serilog</h1>
-<h2 id="content">content</h2>
-<ul>
-<li><a href="install_seq_locally_for_development.html">Install Seq locally for development</a></li>
-<li><a href="best_practices.html">Serilog: Best Practices</a></li>
-</ul>
+<h1 id="npm-troubleshooting">NPM: Troubleshooting</h1>
+<p>Generally if you have an npm problem, you should find it can be resolved by one of these 10 steps:</p>
+<ol>
+<li>running <code>npm install</code> (aka <code>npm i</code>)</li>
+<li>running <code>npm clean-install</code> (aka <code>npm ci</code>)</li>
+<li>clearing the cache - e.g. <code>npm cache clean –force</code>, and then <code>npm ci</code></li>
+<li>removing the offending subfolder under <code>node_modules</code>, and then <code>npm ci</code></li>
+<li>deleting the <code>package-lock.json</code> file, and then <code>npm ci</code></li>
+<li>deleting the entire <code>node_modules</code> folder, and then <code>npm ci</code></li>
+<li>setting fire to your laptop, gasoline (petrol) is helpful here</li>
+<li>torching your city, any aerial bombardment via conventional missiles should be sufficient</li>
+<li>nuking the planet from orbit, nuclear fusion being strongly preferred no fissile weapons</li>
+<li>finding and killing God. His address is <code>Unit 1, First Avenue, Heaven.</code> Weapons from the Marvel Cinematic Universe can be employed for the purpose.</li>
+</ol>
+<p>A significant number of npm problems, I should warn you, are quite a bit more stubborn than this.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
