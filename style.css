@@ -19,6 +19,8 @@
   --img-border: #ccc;
   --img-shadow: #aaa;
   --table-border: #ccc;
+  --th-border: #ddd;
+  --td-border: #ddd;
   --search-shadow: #eee;
   --search-btn-shadow: #aaa;
   --breadcrumb-shadow-inset1: #aaa;
@@ -58,6 +60,8 @@
     --img-border: #aaa;
     --img-shadow: #000;
     --table-border: #aaa;
+    --th-border: #444;
+    --td-border: #363636;
     --search-shadow: #222;
     --search-btn-shadow: #000;
     --breadcrumb-shadow-inset1: #222;
@@ -298,39 +302,64 @@ img[src="yfp_book.png"] {
 
 table {
   margin: auto;
-  border: 1px solid var(--table-border);
-  padding: 2ch;
+  xborder: 1px solid var(--table-border);
+  border-collapse: collapse;
+  border-radius: 1ch;
   border-radius: 5px;
+  border: none;
 }
 
-th { padding:1em 2ch;}
+thead tr th {
+  padding: 1em 2ch;
+  border: 1px solid var(--th-border);
+}
+
+tbody tr td {
+  padding: 0.25em 1ch;
+  border: 1px solid var(--td-border);
+}
+thead tr th:first-child {
+  border-top-left-radius: 1ch;
+}
+thead tr th:last-child {
+  border-top-right-radius: 1ch;
+}
 
 /* Sortable Tables (don't even require a .sortable here!) */
-table thead tr th:not(.no-sort) {
-	cursor: pointer;
+/* To be able to position our up/down arrows absolutely,
+	   we must give the column header a position relative. */
+thead tr th:not(.no-sort) {
+  cursor: pointer;
+  position: relative;
 }
 
-th[data-asc] {
-	position:relative;	
+thead tr th:not(.no-sort)::after {
+  float: right;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  font-weight: 100;
+  opacity: 0.8;
+  font-size: small;
 }
 
-th[data-asc]::after {
-	float: right;
-	position: absolute;
-	right: 0.5em;
-	top:0.5em;
-	font-weight: 100;
-	opacity:0.8;
-	font-size:small;
+th[data-asc="true"]::after {
+  content: " \2193 ";
+  width: 2ch;
 }
 
-th[data-asc=true]::after {
-	content: " \2193 ";
+th[data-asc="false"]::after {
+  content: " \2191 ";
+  width: 2ch;
+}
+/* when hovering over a sortable, but not currently sorted column, 
+		show an up-down arrow, to aid discoverability. */
+thead tr th:not([data-asc]):not(.no-sort):hover::after,
+th[data-asc=""]:hover::after {
+  content: " \2195 "; /* up-down arrow */
+  width: 2ch;
 }
 
-th[data-asc=false]::after {
-	content: " \2191 ";
-}
 /* end -- Sortable Tables */
 
 blockquote {
@@ -607,8 +636,8 @@ details.toc > summary::-webkit-details-marker {
 code[data-content="tip"] {
   text-shadow: 0 0 1px #ff4; /* todo */
   font-style: italic;
-  border-radius:15px;
-  padding:2px 5px;
+  border-radius: 15px;
+  padding: 2px 5px;
 }
 
 code[data-content="tip"]::after {
@@ -656,7 +685,9 @@ code[data-content="draft"]::after {
 }
 
 code[data-content="error"],
-code[data-content="bug"], .error, .language-plaintext-error {
+code[data-content="bug"],
+.error,
+.language-plaintext-error {
   background-color: var(--error-bg);
   color: var(--error-fg);
 }
@@ -798,7 +829,7 @@ code[data-content="bonus"] {
   color: white;
   font-weight: bold;
   font-size: 1.6em;
-  font-variant:small-caps;
+  font-variant: small-caps;
 }
 
 code[data-content="bonus"]::before {
