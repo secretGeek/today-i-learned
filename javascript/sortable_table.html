@@ -88,7 +88,7 @@ table.sortable thead tr th:not(.no-sort) {
 	position: relative;
 }
 
-/* the up/down arrows are in the 'after' pseudo element, 
+/* the up/down arrows are in the 'after' pseudo element,
    and located in the top right of the cell. */
 table.sortable thead tr th:not(.no-sort)::after {
     float: right;
@@ -107,7 +107,7 @@ th[data-asc=false]::after {
 	content: &quot; \2191 &quot;;
 }
 
-/* when hovering over a sortable, but not currently sorted column, 
+/* when hovering over a sortable, but not currently sorted column,
 	show an up-down arrow, to aid discoverability. */
 table.sortable thead tr th:not([data-asc]):not(.no-sort):hover::after,
 th[data-asc=&quot;&quot;]:hover::after {
