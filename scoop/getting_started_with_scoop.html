@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>getting started with scoop . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="getting-started-with-scoop-on-windows">Getting Started With Scoop on Windows</h1>
+<p>As stated at <a href="https://scoop.sh">https://scoop.sh</a></p>
+<blockquote>
+<p>Scoop installs programs you know and love, from the command line with a minimal amount of friction</p>
+</blockquote>
+<p>To get scoop in the first place:</p>
+<p>From Powershell:</p>
+<pre><code>irm get.scoop.sh | iex
+</code></pre>
+<p><code>Invoke-RestMethod</code>, to get the content of &lt;get.scoop.sh&gt; and send it to <code>Invoke-Expression</code>.</p>
+<p>This is the sort of stuff you don't want to do when it's time to get a program... so hopefully once we've done it this once to get scoop, we'll no longer have to resort to that technique.</p>
+<p>Or if you're new to powershell you might need to run another line first...</p>
+<pre><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+</code></pre>
+<p>And then:</p>
+<pre><code>irm get.scoop.sh | iex
+</code></pre>
+<h2 id="output-from-successful-installs">Output from successful installs</h2>
+<pre><code>&gt; irm get.scoop.sh | iex
+Initializing...
+Downloading ...
+Creating shim...
+Adding ~\scoop\shims to your path.
+Scoop was installed successfully!
+Type 'scoop help' for instructions.
+</code></pre>
+<h2 id="previous-way-to-install-scoop">Previous way to install scoop</h2>
+<p>Incidentally here is the older description of how it was described...</p>
+<pre><code>iwr -useb get.scoop.sh | iex
+</code></pre>
+<p>That is, <code>Invoke-WebRequest</code> and use the <code>-UseBasicParsing</code> parameter.</p>
+<p>I think that would still work. Why did the recommendation change? I'm sure it's fascinating. More restful, or better techitty tech. We saved a few characters.</p>
+<h2 id="how-does-scoop-work">How Does Scoop Work?</h2>
+<p>It puts all packages in the folder <code>~\scoop</code></p>
+<p>That is scoop's &quot;home&quot;.</p>
+<h2 id="upgrading-updating-scoop-itself">Upgrading / Updating scoop itself</h2>
+<h2 id="finding-a-package-with-scoop">Finding a Package with Scoop</h2>
+<p>Use &quot;scoop search (pattern)&quot; for example:</p>
+<pre><code>scoop search chatgpt
+</code></pre>
+<p>Gives result:</p>
+<pre><code>&gt; scoop search chatgpt
+Results from local buckets...
+
+Name    Version Source Binaries
+----    ------- ------ --------
+chatgpt 0.12.0  extras
+</code></pre>
+<p>What are buckets?</p>
+<blockquote>
+<p>Scoop packages exist as a part of Git repositories, called buckets.</p>
+</blockquote>
+<p>Oh -- repositories.</p>
+<p>Here is a list of all the &quot;repositories&quot; which scoop considers to be buckets:</p>
+<ul>
+<li><a href="https://scoop.sh/#/buckets">https://scoop.sh/#/buckets</a></li>
+</ul>
+<p>From <a href="https://scoop.sh/#/apps">this webpage you can search all buckets</a>, including ones that are not &quot;official&quot;, e.g.</p>
+<ul>
+<li><a href="https://scoop.sh/#/apps?s=0&amp;d=1&amp;o=false&amp;q=chatgpt">https://scoop.sh/#/apps?s=0&amp;d=1&amp;o=false&amp;q=chatgpt</a></li>
+</ul>
+<p>The following buckets are &quot;known&quot; to scoop:</p>
+<ul>
+<li><code>main</code> - Default bucket for the most common (mostly CLI) apps</li>
+<li><code>extras</code> - Apps that don't fit the main bucket's criteria</li>
+<li><code>games</code> - Open source/freeware games and game-related tools</li>
+<li><code>nerd-fonts</code> - Nerd Fonts</li>
+<li><code>nirsoft</code> - Almost all of the 250+ apps from Nirsoft</li>
+<li><code>sysinternals</code> - Sysinternals Suite and all individual application from Microsoft</li>
+<li><code>java</code> - A collection of Java development kits (JDKs), Java runtime engines (JREs), Java's virtual machine debugging tools and Java based runtime engines.</li>
+<li><code>nonportable</code> - Non-portable apps (may require UAC)</li>
+<li><code>php</code> - Installers for most versions of PHP</li>
+<li><code>versions</code> - Alternative versions of apps found in other buckets</li>
+</ul>
+<p>The main bucket is installed by default.</p>
+<p>TO see which buckets have been installed use:</p>
+<pre><code>scoop bucket list
+</code></pre>
+<h2 id="adding-a-known-bucket-to-scoop">Adding a known bucket to scoop</h2>
+<p>i.e. Telling it about another bucket full of packages (aka Manifests) (aka another place where it call look for applications)</p>
+<pre><code>scoop bucket add bucketname
+</code></pre>
+<p>...where <code>bucketname</code> is one of the known buckets above.</p>
+<p>for example:</p>
+<pre><code>scoop bucket add nirsoft
+</code></pre>
+<h2 id="using-scoop-to-install-an-application-or-package-or-manifest">Using Scoop to Install an application (or package or manifest)</h2>
+<pre><code>scoop install nimbletext
+</code></pre>
+<p>Example of the output...</p>
+<pre><code>&gt; scoop install nimbletext
+Updating Scoop...
+Updating 'extras' bucket...
+ * 548ba5d10 extraterm: Update to version 0.71.0 and fix autoupdate (#.. 3 minutes ago
+ * e1468c093 elisa: Update to version 22.12.3 and Fix autoupdate (#109.. 3 minutes ago
+ * d8d36b3cc powertoys: Update manifest (#10915)                         4 minutes ago
+ * c42b17b05 okular: Update to version 22.12.3 and Fix autoupdate (#10.. 13 minutes ago
+ * 0332d4304 kate: Update to version 22.12.3 and Fix autoupdate (#10959) 13 minutes ago
+ * 99df31b9c sweethome3d: Fix decompress error (#10939)                  39 minutes ago
+ * 0eb9d8a08 termius: Update to version 7.58.4                           4 hours ago
+Updating 'main' bucket...
+ * 65aeb53f8 terraform-provider-ibm: Update to version 1.52.1            4 hours ago
+ * b15004b33 rust-analyzer: Update to version 2023-04-10                 4 hours ago
+ * 2319f6569 jdupes: Update to version 1.22.0                            4 hours ago
+Scoop was updated successfully!
+Installing 'nimbletext' (3.1.0.33266) [64bit] from extras bucket
+NimbleText.exe (773.5 KB) [===================================================================================] 100%
+Checking hash of NimbleText.exe ... ok.
+Linking ~\scoop\apps\nimbletext\current =&gt; ~\scoop\apps\nimbletext\3.1.0.33266
+Creating shim for 'NimbleText'.
+Creating shortcut for NimbleText (NimbleText.exe)
+'nimbletext' (3.1.0.33266) was installed successfully!
+</code></pre>
+<h2 id="another-example-of-searching-with-scoop-search">Another example of searching with scoop search</h2>
+<pre><code>&gt; scoop search python
+
+Results from local buckets...
+
+Name       Version  Source Binaries
+----       -------  ------ --------
+anaconda3  2023.03  extras python.exe | pythonw.exe | python.exe
+fontforge  20230101 extras ffpython.exe
+mambaforge 23.1.0-1 extras python.exe | pythonw.exe | python.exe
+miniconda3 23.1.0-1 extras python.exe | pythonw.exe | python.exe
+paraview   5.11.1   extras pvpython.exe
+python     3.11.3   main
+winpython  3.10.9.0 main
+</code></pre>
+<h2 id="using-scoop-to-update-a-package">Using Scoop to Update a Package</h2>
+<h2 id="using-scoop-to-remove-a-local-package">Using Scoop to remove a local package</h2>
+<pre><code>scoop bucket rm the-package-name
+</code></pre>
+<h2 id="add-vs-code-integration">Add VS Code Integration</h2>
+<p>First I need to make sure the known bucket <code>extras</code> was made available.</p>
+<pre><code>scoop bucket add extras
+</code></pre>
+<p>Extras is a bucket that lists ~ 1787 applications.</p>
+<p>And the result of the above command is this:</p>
+<pre><code>&gt; scoop bucket add extras
+Checking repo... OK
+The extras bucket was added successfully.
+</code></pre>
+<p>What can we do now?</p>
+<p>At this point here is my scoop home tree:</p>
+<pre><code>├───apps
+│   └───scoop
+│       └───current
+│           ├───.github
+│           │   ├───ISSUE_TEMPLATE
+│           │   └───workflows
+│           ├───.vscode
+│           ├───bin
+│           ├───lib
+│           ├───libexec
+│           ├───supporting
+│           │   ├───formats
+│           │   ├───shimexe
+│           │   │   └───bin
+│           │   ├───shims
+│           │   │   ├───71
+│           │   │   └───kiennq
+│           │   └───validator
+│           │       └───bin
+│           └───test
+│               ├───bin
+│               └───fixtures
+│                   ├───decompress
+│                   ├───format
+│                   │   ├───formatted
+│                   │   └───unformatted
+│                   ├───is_directory
+│                   │   └───i_am_a_directory
+│                   ├───manifest
+│                   ├───movedir
+│                   │   ├───user
+│                   │   │   └───_tmp
+│                   │   │       └───subdir
+│                   │   ├───user with 'quote
+│                   │   │   └───_tmp
+│                   │   │       └───subdir
+│                   │   └───user with space
+│                   │       └───_tmp
+│                   │           └───subdir
+│                   └───shim
+│                       └───user with 'quote
+├───buckets
+│   ├───extras
+│   │   ├───.github
+│   │   │   ├───ISSUE_TEMPLATE
+│   │   │   └───workflows
+│   │   ├───.vscode
+│   │   ├───bin
+│   │   ├───bucket
+│   │   ├───deprecated
+│   │   └───scripts
+│   │       ├───beyondcompare
+│   │       ├───coretemp
+│   │       ├───eartrumpet
+│   │       ├───everything
+│   │       ├───gimp
+│   │       ├───grepwin
+│   │       ├───harmonoid
+│   │       ├───jetbrains
+│   │       ├───lockhunter
+│   │       ├───notepad3
+│   │       ├───notepadplusplus
+│   │       ├───nvda
+│   │       ├───phoenix-protector
+│   │       ├───picotorrent
+│   │       ├───recaps
+│   │       ├───sublime-text
+│   │       ├───tachidesk-server
+│   │       ├───tailscale
+│   │       ├───tortoisesvn
+│   │       ├───vscode
+│   │       ├───windows-terminal
+│   │       ├───wsa-pacman
+│   │       ├───xdman
+│   │       └───zlib
+│   └───main
+│       ├───.github
+│       │   ├───ISSUE_TEMPLATE
+│       │   └───workflows
+│       ├───.vscode
+│       ├───bin
+│       ├───bucket
+│       ├───deprecated
+│       └───scripts
+│           ├───7-zip
+│           ├───git
+│           ├───pwsh
+│           ├───python
+│           ├───vim
+│           └───vulkan
+└───shims
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
