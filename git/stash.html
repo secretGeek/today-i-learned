@@ -28,6 +28,12 @@
 # then pull/or switch branch
 git stash pop # apply/merge the changes you stashed
 </code></pre>
+<p>Advanced/Common :</p>
+<pre><code>git stash -m &quot;Message to accompany/describe what you are stashing&quot;
+git stash apply   # same as pop (apply the content of the stash) BUT
+                  # also leave it on top of the stash-stack (i.e. not popped)
+</code></pre>
+<h2 id="stash-is-super-dooper">Stash is super dooper</h2>
 <p>It's nice to have clean commits and branches and so on.</p>
 <p>One tool that helps with this is <code>stash</code></p>
 <p>If you have some changes you are not ready to commit, you can &quot;stash&quot; them aside, using:</p>
