@@ -37,17 +37,20 @@ git stash apply   # same as pop (apply the content of the stash) BUT
 <p>It's nice to have clean commits and branches and so on.</p>
 <p>One tool that helps with this is <code>stash</code></p>
 <p>If you have some changes you are not ready to commit, you can &quot;stash&quot; them aside, using:</p>
-<pre><code>git stash
+<pre><code>git stash push -u
+</code></pre>
+<p>...the <code>-u</code> is to include untracked files. (You may not want to, but I usually do)</p>
+<p>Also --- since <code>push</code> is the implied subcommand for <code>git stash</code> -- you can leave it out... i.e.</p>
+<pre><code>git stash -u
 </code></pre>
 <p>Then you can -- for example -- switch to a branch where you want to apply those changes... or do some other more urgent work...</p>
 <p>and when you're in a place where you want those changes back, you can use</p>
 <pre><code>git stash apply
 </code></pre>
-<p>...to bring them back, but leave them in the stash.</p>
-<p>If you no longer need them in the stash, use</p>
+<p>...to bring them back, but <em>leave</em> them in the stash.</p>
+<p>If you no longer need them at all, and wish to throw them away from the stash, use:</p>
 <pre><code>git stash drop
 </code></pre>
-<p>...to clean the stash.</p>
 <p>(You could've used <code>git stash pop</code> to apply them <em>and</em> remove them from the stash. Up to you.)</p>
 <p>Use</p>
 <pre><code>git stash list
@@ -58,17 +61,21 @@ git stash apply   # same as pop (apply the content of the stash) BUT
 <p>To see the item on top of the stack of stashes, in more detail, use:</p>
 <pre><code>git stash show
 </code></pre>
-<p>To see a specific item in the stack use:</p>
+<p>To see a <em>specific</em> item in the stack use:</p>
 <pre><code>git stash show -p &quot;stash@{3}&quot;
 </code></pre>
-<p>...where {3} is the item you're looking at.</p>
+<p>...where &quot;{3}&quot; is the item you're looking at.</p>
+<p>Or -- more simply use:</p>
+<pre><code>git stash show -p 3
+</code></pre>
 <h2 id="avoiding-the-too-many-revisions-specified-error">Avoiding the &quot;Too many revisions specified&quot; error</h2>
-<p>Note that with powershell, if you leave out the double-quotes, i.e.</p>
-<pre><code>git stash show -p stash@{0}
+<p>Note that with <a href="../powershell/01_summary.html">powershell</a>, if you leave out the double-quotes around <code>stash@{2}</code>, i.e.</p>
+<pre><code>git stash show -p stash@{2}
 </code></pre>
 <p>...you'll receive the error:</p>
 <pre><code>Too many revisions specified: 'stash@' 'MAA=' 'xml' 'text'
 </code></pre>
+<p>So either include the double quotes, or just use the number alone -- <code>git stash show -p 2</code></p>
 <h2 id="further-reading">Further reading</h2>
 <ul>
 <li><a href="https://git-scm.com/docs/git-stash/1.5.5">git-stash</a></li>
