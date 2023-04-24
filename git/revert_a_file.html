@@ -23,12 +23,25 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="git-how-do-i-revert-a-single-file">Git: how do i revert a single file</h1>
-<p>To revert changes and just make it the same as the head....</p>
+<h2 id="revert-changes-to-a-file-if-you-havent-staged-it">Revert changes to a file if you haven't staged it...</h2>
+<p>To revert changes to 1 file and just make it the same as the head....</p>
 <pre><code>git checkout -- path/to/your/file
 </code></pre>
+<h2 id="to-unstage-a-file">To unstage a file</h2>
 <p>And if a file is staged -- unstage it with</p>
 <pre><code>git restore path/to/file
 </code></pre>
+<h2 id="revert-all-local-changes">Revert all local changes</h2>
+<p>You've made a total mess of the local state... and just want things as they were before you messed with the most recent commit....</p>
+<p>The infamous <code>git reset --hard</code></p>
+<pre><code>git reset --hard
+</code></pre>
+<p>That will, however, leave any newly created files, and any edits to unstaged files.</p>
+<p>Clean those with:</p>
+<pre><code>git clean -fxd
+</code></pre>
+<p>...where <code>-fxd</code> is a combination of <code>-f</code> for &quot;force&quot; (<code>--force</code>), <code>-x</code> for &quot;don't use standard ignore rules&quot; and <code>-d</code> for &quot;recurse into untracked directories too&quot;</p>
+<p><code>tip</code> -- Consider all adding <code>-n</code> for <code>--dry-run</code> if you're not sure what <code>git clean -fxd</code> is about to do!</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>

@@ -52,8 +52,9 @@ async void InitializeAsync()
    // set the initial URL
    webView.Source = new Uri(&quot;https://test.editor/editor.htm&quot;);
 }
-
-private void WebView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+</code></pre>
+<p>...which depends on an implementation of <code>WebView_NavigationCompleted</code> -- for example:</p>
+<pre><code class="language-csharp">private void WebView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
 {
     if (e.IsSuccess)
         Model.Url = webView.Source.ToString();
