@@ -43,23 +43,17 @@ Your branch is based on 'origin/feature/1234-weaponise-space', but the upstream 
 <li><p>Make sure you want it gone.</p>
 </li>
 <li><p>Delete it...</p>
-<pre><code> Delete Local Branch
-
- To delete the local branch use one of the following:
-
- 	$ git branch -d branch_name
- 	$ git branch -D branch_name
-
- Note: The `-d` option is an alias for `--delete`, which only deletes the branch if it has already been fully merged in its upstream branch. You could also use `-D`, which is an alias for `--delete --force`, which deletes the branch &quot;irrespective of its merged status.&quot;
+<p>To delete the local branch use one of the following:</p>
+<pre><code> git branch -d branch_name # delete only if fully merged upstream
+ git branch -D branch_name # force delete even if not merged to its upstream
 </code></pre>
 </li>
 </ol>
-<p>--Source: man git-branch.</p>
-<h2 id="find-all-gone-branches-to-delete">Find all 'gone' branches to delete:</h2>
-<pre><code>&gt; git branch -vv
+<h2 id="find-all-gone-branches-to-delete">Find all 'gone' branches to delete</h2>
+<pre><code>git branch -vv
 </code></pre>
 <p>Lists all branches and has <code>: gone]</code> if their remote component has been removed. e.g.</p>
-<pre><code>&gt; git branch -vv
+<pre><code class="language-plaintext">&gt; git branch -vv
 
 FrogTracking								2583eea0 [origin/FrogTracking: behind 49] monkey-magnet fixed attributes on user columns
 Gespacio									e05bafd8 [origin/Gespacio: gone] Added .gitignore file to exclude .hg folder
@@ -85,6 +79,40 @@ refactor/cloud-taser-utc-datetime-handling	5da44411 [origin/refactor/cloud-taser
 <pre><code>git branch -d feature/5992-monkey-magnet-current-archive
 </code></pre>
 <p>May need to use <code>-D</code> to force the delete if there's some discard-worthy change in there.</p>
+<h2 id="a-script-for-this">A script for this</h2>
+<pre><code class="language-powershell">function Prune-Branches($force = $false) {
+
+    Write-Host &quot;run `git remote prune origin` first to unlink to missing remotes&quot; -f yellow
+
+    git branch -vv |
+        Select-String &quot;: gone]&quot; |
+        % { 
+
+            $branchName = (($_.ToString().Trim()) -split &quot;\s&quot;)[0];
+            
+            if ($force) {
+                if (&quot;release&quot;, &quot;main&quot;, &quot;master&quot;, &quot;dev&quot; -notcontains $branchName) {
+                    Write-Host &quot;# Removing: $branchName &quot; -f red;
+                    Write-Host &quot;&gt; git branch -D $branchName &quot; -f gray;
+                    git branch -D $branchName 
+                }
+                else {
+                    Write-Host &quot;**** Protection against deleting $branchName &quot; -f yellow;
+                }
+            }
+            else {
+                Write-Host $branchName -f darkcyan -n;
+                Write-Host &quot; - not removed&quot;;
+            }
+        }
+
+    if (!$force) {
+        Write-Host &quot;Use '&quot; -f cyan -n
+        Write-Host &quot;Prune-Branches `$true&quot; -f white -n;
+        Write-Host &quot;' to force local deletion of remote-pruned branches&quot; -f cyan;
+    }
+}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
