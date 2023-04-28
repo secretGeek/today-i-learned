@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>training a gpt . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="training-a-gpt-based-large-language-model-e.g-gpt-neo-with-happy-transformer">Training a GPT-Based Large Language Model (e.g GPT-Neo) with Happy Transformer</h1>
+<p>Assuming you already know how to <a href="using_happy_transformer.html">Use HappyTransformer for Text Generation</a> -- this TIL focuses on training a large language model using your own &quot;stuff&quot;.</p>
+<p>This script will:</p>
+<ol>
+<li>Initiate a generator</li>
+<li>show what output it produces before training</li>
+<li>Train it</li>
+<li>show what output it produces after training</li>
+<li>Save our trained model</li>
+</ol>
+<p>Here is the script: (save this in a <code>.py</code> python file)</p>
+<pre><code class="language-python">from happytransformer import HappyGeneration, GENSettings, GENTrainArgs
+prompt = &quot;To make a cheese sandwich &quot;
+print(prompt)
+
+# 1. Initiate a generator
+happy_gen = HappyGeneration(model_type=&quot;GPT-NEO&quot;, model_name=&quot;EleutherAI/gpt-neo-1.3B&quot;)
+
+generator_args = GENSettings(no_repeat_ngram_size=2, do_sample=True, early_stopping=False, top_k=5, temperature=0.8, max_length=30)
+
+# 2. show what output it produces before training
+print(&quot;RESULT BEFORE MORE... TRAINING....&quot;)
+print(&quot;1:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+print(&quot;2:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+print(&quot;3:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+
+# 3. Train it
+
+# Description of the training args is coming up soon
+trainer_args = GENTrainArgs(learning_rate =8e-5, num_train_epochs = 2, save_preprocessed_data=True, save_preprocessed_data_path=&quot;preprocessed-data.json&quot;, batch_size=4)
+# input_filepath  -- a path file to a text file that contains nothing but text to train the model.
+happy_gen.train(input_filepath = &quot;cheese_instructions.txt&quot;, args=trainer_args)
+
+# 4. show what output it produces after training
+print(&quot;RESULT AFTER TRAINING....&quot;)
+print(&quot;1:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+print(&quot;2:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+print(&quot;3:&quot;)
+result = happy_gen.generate_text(prompt, args=generator_args)
+print(prompt)
+print(result.text)
+
+# 5. Save our trained model
+happy_gen.save(&quot;model/&quot;)
+</code></pre>
+<p>Next time we go to initiate our generator, we can load our trained model...</p>
+<pre><code class="language-python"># happy_gen = HappyGeneration(model_type=&quot;GPT-NEO&quot;, model_name=&quot;EleutherAI/gpt-neo-1.3B&quot;) -- add a 'load_path' argument...
+happy_gen = HappyGeneration(model_type=&quot;GPT-NEO&quot;, model_name=&quot;EleutherAI/gpt-neo-1.3B&quot;, load_path=&quot;model/&quot;)
+</code></pre>
+<h2 id="training-args">Training Args</h2>
+<p>Parameters used by GENTrainArgs ---</p>
+<p>Below is a table with all of the parameters. First a discussion of those used in the example above:</p>
+<pre><code class="language-python">trainer_args = GENTrainArgs(learning_rate =8e-5, num_train_epochs = 2, save_preprocessed_data=True, save_preprocessed_data_path=&quot;preprocessed-data.json&quot;, batch_size=4)
+</code></pre>
+<p>I gave a very high learning rate (8 times the default), so that learning could be demonstrated quickly, even if it was possibly <strong>too extreme</strong>.</p>
+<p>I set <code>save_preprocessed_data_path</code> to <code>preprocessed-data.json</code> -- this produces an interesting <code>json</code> file, which demonstrates how the tokenization works (more on that soon).</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>learning_rate</code></td>
+<td>5e-5</td>
+<td>How much the model's weights are adjusted per step. Too low and the model will take a long time to learn or get stuck in a suboptimal solution. Too high can cause can divergent behaviors.</td>
+</tr>
+<tr>
+<td><code>num_train_epochs</code></td>
+<td>3</td>
+<td>The number of times the training data is iterated over.</td>
+</tr>
+<tr>
+<td><code>batch_size</code></td>
+<td>1</td>
+<td>Number of training examples used per iteration</td>
+</tr>
+<tr>
+<td><code>weight_decay</code></td>
+<td>0</td>
+<td>A type of regularization. It prevents weights from getting too large. Thus, preventing overfitting.</td>
+</tr>
+<tr>
+<td><code>adam_beta1</code></td>
+<td>0.9</td>
+<td>The beta1 parameter for the Adam with weight decay optimizer.</td>
+</tr>
+<tr>
+<td><code>adam_beta2</code></td>
+<td>0.999</td>
+<td>The beta2 parameter for the Adam with weight decay optimizer.</td>
+</tr>
+<tr>
+<td><code>adam_epsilon</code></td>
+<td>1e-8</td>
+<td>The epsilon parameter for the Adam with weight decay optimizer.</td>
+</tr>
+<tr>
+<td><code>max_grad_norm</code></td>
+<td>1.0</td>
+<td>Used to prevent exploding gradients. Prevents the derivatives of the loss function from exceeding the absolute value of <code>max_grad_norm</code>.</td>
+</tr>
+<tr>
+<td><code>save_preprocessed_data</code></td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td><code>save_preprocessed_data_path</code></td>
+<td>&quot;&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td><code>load_preprocessed_data</code></td>
+<td>False</td>
+<td></td>
+</tr>
+<tr>
+<td><code>load_preprocessed_data_path</code></td>
+<td>&quot;&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td><code>preprocessing_processes</code></td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fp16</code></td>
+<td>False</td>
+<td>If true, enables half precision training which saves space by using 16 bits instead of 32 to store the model's weights. Only available when CUDA/a a GPU is being used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://happytransformer.com/learning-parameters/">HappyTransformer Learning Parameters</a></li>
+<li><a href="https://www.vennify.ai/gpt-neo-made-easy/amp/">GPT Neo made easy</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="using_happy_transformer.html">Using HappyTransformer for Text Generation and More</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
