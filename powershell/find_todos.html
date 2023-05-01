@@ -142,7 +142,7 @@ function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
 }
 
 function format-foundtextdimmed ($result, $len1, $raw, $caseSensitive) {
-    Write-Host &quot;$($result.RelativeName.SubString(0, $len1))&quot; -f darkblue -n;
+    Write-Host $result.RelativeName.SubString(0, $len1) -f darkblue -n;
     Write-Host &quot;$($result.RelativeName.SubString($len1)) &quot; -f cyan -n;
     Write-Host &quot;$($result.LineNumber) &quot; -f yellow -n;
     Write-MarkedPatternInline ($result.Pattern) ($result.Line.Trim()) $raw $caseSensitive;
