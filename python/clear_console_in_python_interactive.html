@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>clear console in python interactive . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,19 +22,22 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="python" class="chapter">python</h1>
-<h2 id="content">content</h2>
+<h1 id="how-to-clear-the-console-in-python-interactive">How to clear the console in python interactive</h1>
+<pre><code>def cls(): print(&quot;\033[H\033[J&quot;, end=&quot;&quot;)
+</code></pre>
+<p>And then --</p>
+<pre><code>cls()
+</code></pre>
+<p>Description, from <a href="https://stackoverflow.com/a/50560686/49">stackoverflow answer</a> --</p>
 <ul>
-<li><a href="blocks_in_minecraft.html">Block Types in Minecraft</a></li>
-<li><a href="comments.html">Comments in python</a></li>
-<li><a href="entities_in_minecraft.html">Entity Types in Minecraft</a></li>
-<li><a href="clear_console_in_python_interactive.html">How to clear the console in python interactive</a></li>
-<li><a href="dump_print_object_in_python.html">How to Dump() or Print an Object or Expression in Python</a></li>
-<li><a href="pip.html">PIP: Pip installs Packages</a></li>
-<li><a href="python_in_minecraft.html">Python in minecraft</a></li>
-<li><a href="input_output.html">Simple input and output in python interactive</a></li>
-<li><a href="grip.html">The easy way to serve a markdown file in the browser</a></li>
-<li><a href="turtle.html">Turtle logo in Python</a></li>
+<li><code>\033</code> stands for <code>ESC</code> (ANSI value 27).</li>
+<li><code>\033[</code> is a special escape sequence called Control Sequence Introducer (<code>CSI</code>).</li>
+<li><code>\033[H</code> command moves the cursor to the top left corner of the screen.</li>
+<li><code>\033[J</code> clears the screen from the cursor to the end of the screen.</li>
+</ul>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/517970/how-to-clear-the-interpreter-console">Stackoverflow: How to clear the interpreter console?</a></li>
 </ul>
 
 </article>
