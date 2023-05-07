@@ -86,15 +86,15 @@ refactor/cloud-taser-utc-datetime-handling	5da44411 [origin/refactor/cloud-taser
 
     git branch -vv |
         Select-String &quot;: gone]&quot; |
-        % { 
+        % {
 
             $branchName = (($_.ToString().Trim()) -split &quot;\s&quot;)[0];
-            
+
             if ($force) {
                 if (&quot;release&quot;, &quot;main&quot;, &quot;master&quot;, &quot;dev&quot; -notcontains $branchName) {
                     Write-Host &quot;# Removing: $branchName &quot; -f red;
                     Write-Host &quot;&gt; git branch -D $branchName &quot; -f gray;
-                    git branch -D $branchName 
+                    git branch -D $branchName
                 }
                 else {
                     Write-Host &quot;**** Protection against deleting $branchName &quot; -f yellow;
