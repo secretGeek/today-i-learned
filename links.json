@@ -14777,8 +14777,8 @@
     "OnTopic": "linux",
     "ToTopic": "",
     "Absolute": "...",
-    "On": "/linux/dkpg_configure.md",
-    "OnTitle": "dkpg was interrupted, you must manually run 'sudo dpkg --configure -a'",
+    "On": "/linux/dpkg_configure.md",
+    "OnTitle": "dpkg was interrupted, you must manually run 'sudo dpkg --configure -a'",
     "Url": "https://journalxtra.com/linux/fixing-the-dreaded-errors-were-encountered-while-processing-errors/",
     "Text": "FIXING THE DREADED \"ERRORS WERE ENCOUNTERED WHILE PROCESSING\" ERRORS",
     "Domain": "journalxtra.com",
@@ -14794,8 +14794,8 @@
     "OnTopic": "linux",
     "ToTopic": "",
     "Absolute": "...",
-    "On": "/linux/dkpg_configure.md",
-    "OnTitle": "dkpg was interrupted, you must manually run 'sudo dpkg --configure -a'",
+    "On": "/linux/dpkg_configure.md",
+    "OnTitle": "dpkg was interrupted, you must manually run 'sudo dpkg --configure -a'",
     "Url": "https://docs.digitalocean.com/products/monitoring/how-to/upgrade-legacy-agent/",
     "Text": "How to Upgrade from the Legacy Metrics Agent to the Current Agent",
     "Domain": "docs.digitalocean.com",
@@ -14811,10 +14811,10 @@
     "OnTopic": "linux",
     "ToTopic": "",
     "Absolute": "...",
-    "On": "/linux/dkpg_configure.md",
-    "OnTitle": "dkpg was interrupted, you must manually run 'sudo dpkg --configure -a'",
+    "On": "/linux/dpkg_configure.md",
+    "OnTitle": "dpkg was interrupted, you must manually run 'sudo dpkg --configure -a'",
     "Url": "https://journalxtra.com/linux/fixing-the-dreaded-errors-were-encountered-while-processing-errors/",
-    "Text": "FIXING THE DREADED “ERRORS WERE ENCOUNTERED WHILE PROCESSING” ERRORS",
+    "Text": "FIXING THE DREADED \"ERRORS WERE ENCOUNTERED WHILE PROCESSING\" ERRORS",
     "Domain": "journalxtra.com",
     "Image": "0",
     "Internal": "0",
@@ -18884,7 +18884,7 @@
     "Associated": "1",
     "OnPage": "0",
     "Deep": "0",
-    "LineNumber": "77"
+    "LineNumber": "71"
   },
   {
     "LinkType": "InTopic",
@@ -18901,7 +18901,7 @@
     "Associated": "1",
     "OnPage": "0",
     "Deep": "0",
-    "LineNumber": "78"
+    "LineNumber": "72"
   },
   {
     "LinkType": "InTopic",
@@ -18918,7 +18918,7 @@
     "Associated": "1",
     "OnPage": "0",
     "Deep": "0",
-    "LineNumber": "79"
+    "LineNumber": "73"
   },
   {
     "LinkType": "InTopic",
