@@ -33,11 +33,13 @@
 <h2 id="use-hg-git-extension">Use hg-git extension</h2>
 <p>Try the process outlined here <a href="https://markheath.net/post/how-to-convert-mercurial-repository-to">Mark Heath</a></p>
 <h3 id="get-the-hg-git-extension">Get the hg-git extension</h3>
-<p>Clone this -- <a href="https://gitea.pep.foundation/claudio/hg-git.git">https://gitea.pep.foundation/claudio/hg-git.git</a></p>
-<p>(Can no longer be grabbed from its old bitbucket location)</p>
-<p>Add it to your <code>mercurial.ini</code> file</p>
+<p>Install hg-git via <a href="../python/pip.html">pip</a> -- from an elevated console:</p>
+<pre><code>pip install mercurial
+pip install hg-git
+</code></pre>
+<p>Enable it in your <code>mercurial.ini</code> file</p>
 <pre><code>[extensions]
-hggit = c:/users/user1/code/hg-repos/hg-git/hggit
+hggit =
 </code></pre>
 <p>To see if it is now available, type <code>hg help extensions</code> and it should be listed under &quot;enabled extensions&quot; like so:</p>
 <pre><code class="language-plaintext">enabled extensions:
@@ -47,6 +49,11 @@ hggit = c:/users/user1/code/hg-repos/hg-git/hggit
 </code></pre>
 <p>Also -- this should return some help for it...</p>
 <pre><code>hg help hggit
+</code></pre>
+<p>says:</p>
+<pre><code>hggit extension - push and pull from a Git server
+
+This extension lets you communicate (push and pull) with a Git server... etc.
 </code></pre>
 <h2 id="write-down-the-source-and-the-target">Write down the source and the target</h2>
 <p>There will be two things that matter here.</p>
@@ -103,12 +110,17 @@ hggit = c:/users/user1/code/hg-repos/hg-git/hggit
 </ol>
 <p>To stop tracking an item that you do not wish to track (see <a href="../git/remove_from_git_but_keep_locally.html#quick-version">Remove a file from git but keep the local file</a>)</p>
 <ol>
-<li>Make sure the <code>.gitignore</code> is ignoring the file</li>
-<li>Run: <code>git rm --cached path/to/file/to/stop/tracking.dll</code></li>
-<li>Verify that the file still exists locally, but git sees it as removed:
-git stat # git thinks the file is deleted?
-dir path/to/file/to/stop/tracking.dll # file is still there?</li>
-<li>Commit your work with <code>git commit -a -m &quot;removed a generated file we don't need to track&quot;</code></li>
+<li><p>Make sure the <code>.gitignore</code> is ignoring the file</p>
+</li>
+<li><p>Run: <code>git rm --cached path/to/file/to/stop/tracking.dll</code></p>
+</li>
+<li><p>Verify that the file still exists locally, but git sees it as removed:</p>
+<pre><code> git stat                              # git thinks file is deleted?
+ dir path/to/file/to/stop/tracking.dll # file still exists on disk?
+</code></pre>
+</li>
+<li><p>Commit your work with <code>git commit -a -m &quot;removed a generated file we don't need to track&quot;</code></p>
+</li>
 </ol>
 <h2 id="import-your-new-repo-into-github">Import your new repo into github</h2>
 <p>(I assume, without any proof, that you also want to move your work into github, or another cloud git provider)</p>

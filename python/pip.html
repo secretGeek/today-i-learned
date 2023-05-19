@@ -41,13 +41,16 @@ C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python37_86\Scripts;
 </code></pre>
 <h2 id="elevated-console">Elevated console</h2>
 <p>I found that installing things with <code>pip</code> often requires an elevated shell.</p>
-<h2 id="upgrading-pip">Upgrading pip</h2>
+<h2 id="upgrading-pip-use-an-elevated-console">Upgrading pip - use an ELEVATED console</h2>
 <p>Sometimes you see a message like this</p>
 <pre><code>WARNING: You are using pip version 19.2.3, however version 20.1 is available.
 You should consider upgrading via the 'python -m pip install --upgrade pip' command.
 </code></pre>
 <p>So here is the upgrade command... again, need an <code>elevated</code> shell</p>
 <pre><code>python -m pip install --upgrade pip
+</code></pre>
+<h2 id="list-locally-installed-packages">List locally installed packages</h2>
+<pre><code>pip list
 </code></pre>
 
 </article>
