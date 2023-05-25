@@ -76,6 +76,7 @@ param(
 )
 </code></pre>
 <p>todo: ValueFromPipeline</p>
+<h2 id="cmdletbinding"><code>[CmdletBinding()]</code></h2>
 <h2 id="valuefrompipelinebypropertyname"><code>[ValueFromPipelineByPropertyName()]</code></h2>
 <pre><code>function kvi {
 # AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.
@@ -91,10 +92,41 @@ param (
     [string]$ApiKey
 )
 </code></pre>
-<p>todo: ValueFromPipelineByPropertyName
-todo: ParameterSetName
-todo: PSAvoidUsingPositionalParameters
-todo: ValueFromRemainingArguments / Passthrough</p>
+<h2 id="parametersetname"><code>[ParameterSetName]</code></h2>
+<pre><code>[Parameter(Mandatory, ParameterSetName = 'ById')]
+</code></pre>
+<p>Another example</p>
+<h3 id="parametermandatory-parametersetname-byid"><code>[Parameter(Mandatory, ParameterSetName = 'ById')]</code></h3>
+<pre><code>[CmdletBinding()]
+Param(
+	[Parameter(Mandatory, ParameterSetName = 'ById')]
+    [ValidateNotNullOrEmpty()]
+    [Alias('BaseName', 'BaseId')]
+    [string]$BaseIdentity,
+
+    [Parameter(Mandatory, ParameterSetName = 'ById')]
+    [ValidateNotNullOrEmpty()]
+    [string]$Table,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [hashtable]$Fields,
+
+    [switch]$PassThru
+)
+</code></pre>
+<h2 id="psavoidusingpositionalparameters"><code>PSAvoidUsingPositionalParameters</code></h2>
+<ul>
+<li>PSAvoidUsingPositionalParameters</li>
+</ul>
+<h2 id="valuefromremainingarguments"><code>ValueFromRemainingArguments</code></h2>
+<ul>
+<li>ValueFromRemainingArguments</li>
+</ul>
+<h2 id="passthrough"><code>Passthrough</code></h2>
+<ul>
+<li>Passthrough</li>
+</ul>
 <h2 id="sources">Source(s)</h2>
 <ul>
 <li>looking through my own code and documenting things i've learned once and forgotten since, in hope i will remember them again.</li>
@@ -102,8 +134,8 @@ todo: ValueFromRemainingArguments / Passthrough</p>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>
-<li>[parameters general guide](../powershell/parameters general guide.html)</li>
-<li>CmdLetBinding</li>
+<li><a href="pass_argument_to_script.html">How to pass an argument to a powershell script</a></li>
+<li><a href="default_parameter_values.html">How to do default parameter values in Powershell</a></li>
 </ul>
 
 </article>

@@ -25,15 +25,59 @@
 <h1 id="how-to-show-a-little-arrow-glyph-after-target_blank-anchors">How to show a little arrow glyph after 'target=&quot;_blank&quot;' anchors</h1>
 <p>What I wanted was a visual indication of which urls would open in a new window.</p>
 <p>I found a pure css solution, that didn't require altering the html at all.</p>
-<pre><code>a[target=&quot;_blank&quot;]:after {
+<pre><code>a[target=&quot;_blank&quot;]::after {
 	content: &quot; \2197&quot;;
-	font-size:0.9em;
+	font-size:0.7em;
+	position: relative;
+	vertical-align: baseline;
+	top: -0.5em;
 }
 </code></pre>
 <p>This means:</p>
 <pre><code>any `&lt;a&gt;` element with `target=&quot;_blank&quot;`
  - should have a small &quot;North East Arrow&quot; after it.
 </code></pre>
+<p>Here's an example:</p>
+<style>
+a#sample::after {
+	content: " \2197";
+	font-size:0.7em;
+	position: relative;
+    vertical-align: baseline;
+    top: -0.5em;
+}
+</style>
+<p><a href="https://TIL.secretgeek.net" id="sample">this link should have a north east arrow after it</a></p>
+<p>Here's a different technique -- using a bit of svg...</p>
+<pre><code>a[target=&quot;_blank&quot;]::after {
+	content: &quot;&quot;;
+	width: 1em;
+	height: 1em;
+	margin: 0 0.05em 0 0.1em;
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+) no-repeat;
+	background-size: contain;
+	display: inline-block;
+	vertical-align: text-bottom;
+}
+</code></pre>
+<style>
+a#sample2::after {
+content: "";
+width: 1em;
+height: 1em;
+margin: 0 0.05em 0 0.1em;
+background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+) no-repeat;
+background-size: contain;
+display: inline-block;
+vertical-align: text-bottom;
+}
+</style>
+<p><a href="https://TIL.secretgeek.net" id="sample2">this link should have an svg box and arrow glyph after it</a></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://stackoverflow.com/a/65370632/49">paul at stackoverflow</a></li>
+<li><a href="https://www.unicode.org/L2/L2006/06268-ext-link.pdf">Proposal to encode an External Link Sign - at unicode</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net'>secretgeek.net</a> | <a href='https://nimbletext.com'>nimbletext</a> | <a href='http://timesnapper.com'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon'>@secretgeek</a> </small><br /><br /></footer>
