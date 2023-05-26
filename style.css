@@ -847,20 +847,31 @@ code[data-content="bonus"]::after {
 
 /* href attributes containing "//" are links to external pages: give them an arrow glyph.*/
 
-a[href*="://"]:not(.no-glyph)::after
-{
-  content: " \2197";
+a[href*="://"]:not(.no-glyph)::after {
+  content: " ";
   font-size: 0.66em;
   text-decoration: none;
-  opacity: 0.66;
+  opacity: 0.5;
   color: var(--link-hover);
   vertical-align: top;
   display: inline-block;
+  content: "";
+  width: 1.1em;
+  height: 1.1em;
+  margin: 0 0.1em 0 0.1em;
+  background-size: contain;
+  display: inline-block;
+  background-color:var(--link);
+  --svg: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+) no-repeat;
+  /* Chrome, still requires prefix in 2022 */
+  -webkit-mask: var(--svg);
+  /* Firefox and Safari */
+  mask: var(--svg);
 }
-a[href*="://"]:not(.no-glyph)::after:hover
-{
-  box-shadow: none;
-  border: 0 0 0 var(--breadcrumb-shadow-inset1);
+
+a[href*="://"]:not(.no-glyph):hover::after {
+  background-color:var(--link-hover);
+  opacity:1.0;
 }
 
 /* href attributes that start with 'javascript:' are favelets. Give them a cool favelety glyph.*/

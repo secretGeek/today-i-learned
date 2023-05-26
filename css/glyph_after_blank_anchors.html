@@ -40,15 +40,15 @@
 <p>Here's an example:</p>
 <style>
 a#sample::after {
-	content: " \2197";
-	font-size:0.7em;
-	position: relative;
-    vertical-align: baseline;
-    top: -0.5em;
+content: " \2197";
+font-size:0.7em;
+position: relative;
+vertical-align: baseline;
+top: -0.5em;
 }
 </style>
-<p><a href="https://TIL.secretgeek.net" id="sample">this link should have a north east arrow after it</a></p>
-<p>Here's a different technique -- using a bit of svg...</p>
+<p><a href="../css/glyph_after_blank_anchors.html" id="sample">this link should have a north east arrow after it</a></p>
+<p>Here's a different technique -- using a bit of svg.</p>
 <pre><code>a[target=&quot;_blank&quot;]::after {
 	content: &quot;&quot;;
 	width: 1em;
@@ -72,11 +72,85 @@ display: inline-block;
 vertical-align: text-bottom;
 }
 </style>
-<p><a href="https://TIL.secretgeek.net" id="sample2">this link should have an svg box and arrow glyph after it</a></p>
+<ul>
+<li><a href="../css/glyph_after_blank_anchors.html" id="sample2">this link should have an svg box and arrow glyph after it</a></li>
+</ul>
+<p>The problem here is that the color is set in the SVG. But we want to be able to set the color dynamically, using our dark/light theme. So I've altered it to use a different technique...</p>
+<pre><code>a[target=&quot;_blank&quot;]::after {
+	content: &quot;&quot;;
+	width: 1.1em;
+	height: 1.1em;
+	margin: 0 0.1em 0 0.1em;
+	background-size: contain;
+	display: inline-block;
+	background-color:var(--link);
+	--svg: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+) no-repeat;
+	/* Chrome, still requires prefix in 2022 */
+	-webkit-mask: var(--svg);
+	/* Firefox and Safari */
+	mask: var(--svg);
+	vertical-align: text-top;
+	top: -0.5em;
+	opacity:0.5;
+}
+
+a[target=&quot;_blank&quot;]:hover::after {
+	opacity:1.0;
+}
+</code></pre>
+<p>There's a <em>lot</em> going on there.</p>
+<p>First: We use a variable to hold the <code>--svg</code> so that when we use it <em>twice</em> we don't have to write it out twice.</p>
+<p>Next -- instead of setting the background, we set the &quot;mask&quot;. This means our svg does not draw the glyph: it draws a glyph shaped hole. The hole is colored according to the <code>background</code> property.</p>
+<p>Finally, I've lowered the opacity, and then on hover, bring it back to 100%;</p>
+<style>
+a#sample3:hover::after {
+opacity:1.0;
+}
+a#sample3::after {
+opacity:0.5;
+content: "";
+width: 1.1em;
+height: 1.1em;
+margin: 0 0.1em 0 0.1em;
+background-size: contain;
+display: inline-block;
+background-color:var(--link);
+--svg: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+) no-repeat;
+/* Chrome, still requires prefix in 2022 */
+-webkit-mask: var(--svg);
+/* Firefox and Safari */
+mask: var(--svg);
+vertical-align: text-top;
+top: -0.5em;
+}
+a#sample2:active:after{
+background-color:var(--link-active);
+}
+a#sample2:visited:after{
+background-color:var(--link-visited);
+}
+a#sample2:hover:after {
+background-color:var(--link-hover);
+background-color:white;
+opacity:1.0;
+}
+</style>
+<ul>
+<li><a href="../css/glyph_after_blank_anchors.html" id="sample3">this link should have an svg box and arrow glyph after it</a></li>
+</ul>
+<p>Here's the svg, decoded:</p>
+<pre><code class="language-svg">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;path d=&quot;M9 2L9 3 12.3 3 6 9.3 6.7 10 13 3.7 13 7 14 7 14 2ZM4 4C2.9 4 2 4.9 2 6L2 12C2 13.1 2.9 14 4 14L10 14C11.1 14 12 13.1 12 12L12 7 11 8 11 12C11 12.6 10.6 13 10 13L4 13C3.4 13 3 12.6 3 12L3 6C3 5.4 3.4 5 4 5L8 5 9 4Z&quot;/&gt;&lt;/svg&gt;
+</code></pre>
 <h2 id="sources">Sources</h2>
 <ul>
-<li><a href="https://stackoverflow.com/a/65370632/49">paul at stackoverflow</a></li>
+<li><a href="https://stackoverflow.com/a/65370632/49">Paul at stackoverflow</a></li>
 <li><a href="https://www.unicode.org/L2/L2006/06268-ext-link.pdf">Proposal to encode an External Link Sign - at unicode</a></li>
+<li><a href="https://pqina.nl/blog/set-svg-background-image-fill-color/">Set Fill Color of SVG Background-image</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="dark_mode_css.html">How to implement dark mode with css</a></li>
+<li><a href="https://secretgeek.net/var_hue">CSS Variables are cool</a></li>
 </ul>
 
 </article>
