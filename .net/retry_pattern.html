@@ -24,7 +24,7 @@
 <article>
 <h1 id="retry-pattern-in-c">Retry Pattern in C#</h1>
 <p>I'm not sure I want to share this, or encourage this... but it's a piece of code I wrote for doing a &quot;retry&quot; of an unreliable action.</p>
-<pre><code>public bool Retry(Action a, int maxRetries = 10)
+<pre><code>public bool Retry(Action a, int maxRetries = 3)
 {
 	int retries = 0;
 	int sleepDelay = 500;

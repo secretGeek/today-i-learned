@@ -93,6 +93,9 @@
     box-shadow: none;
     border: none;
   }
+  img[src="International_Morse_Code.svg"] {
+    background-color:#e2e2e2;
+  }
 }
 
 a {
@@ -302,11 +305,11 @@ img[src="yfp_book.png"] {
 
 table {
   margin: auto;
-  xborder: 1px solid var(--table-border);
+  border: 1.5px solid var(--table-border);
   border-collapse: collapse;
   border-radius: 1ch;
   border-radius: 5px;
-  border: none;
+  xborder: none;
 }
 
 thead tr th {
@@ -315,7 +318,7 @@ thead tr th {
 }
 
 tbody tr td {
-  padding: 0.25em 1ch;
+  padding: 0.25em 2ch;
   border: 1px solid var(--td-border);
 }
 thead tr th:first-child {
