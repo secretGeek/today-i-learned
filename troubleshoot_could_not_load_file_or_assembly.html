@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>troubleshoot could not load file or assembly . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="troubleshooting-file-not-found-exception-could-not-load-file-or-assembly">Troubleshooting File Not Found Exception&quot; - &quot;Could not load file or assembly&quot;</h1>
+<p>I'm experiencing this on Ubuntu, using .net 6, trying to use SQLite.</p>
+<p>This same application was talking to SQLite just fine yesterday - but now:</p>
+<pre><code>&quot;System.IO.FileNotFoundException: Could not load file or assembly 'Microsoft.Data.Sqlite, Version=7.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'. The system cannot find the file specified.&quot;
+</code></pre>
+<p>The file &quot;Microsoft.Data.Sqlite&quot; is <em>right there</em> in the same folder as the binary.</p>
+<p>On windows, to really deeply troubleshoot this we used to use <code>fuslogvw</code> (fusion log viewer) -- and another technique was to overload the Asemlby Load method and log what it's doing when it fails.</p>
+<p>On ubuntu... I don't know what to do! -- but some research has shown me the way!</p>
+<p>There is a tool called <code>dotnet-trace</code> -- hence this is a guide to:</p>
+<h2 id="troubleshooting-file-not-found-exception-could-not-load-file-or-assembly-with-dotnet-trace">Troubleshooting File Not Found Exception&quot; - &quot;Could not load file or assembly&quot; with dotnet-trace</h2>
+<h3 id="install-dotnet-trace">1. install dotnet-trace</h3>
+<p>Install <code>dotnet-trace</code> on the machine where the app is failing.</p>
+<p>Like so:</p>
+<pre><code>dotnet tool install --global dotnet-trace
+</code></pre>
+<p>The last part of the output from this:</p>
+<pre><code>You can invoke the tool using the following command: dotnet-trace
+Tool 'dotnet-trace' (version '7.0.421201') was successfully installed.
+</code></pre>
+<p>Now -- the basic process is:</p>
+<pre><code>1. Run your application (the one that experiences the problem)
+2. Find out its process id
+3. Tell `dotnet-trace` to trace that process id, and capture events related to assembly loading
+4. Stop `dotnet-trace`
+5. Find the file it has created
+6. import that file onto your windows machine and inspect it there (using visual studio)
+</code></pre>
+<p>(There's other ways you can do those last steps -- you could convert it to a different format on linux and inspect it on linux... or bring it to windows/Mac and other tools that visual studio to do the analysis.)</p>
+<h3 id="run-your-application-the-one-that-experiences-the-problem">Run your application (the one that experiences the problem)</h3>
+<p>In my case the application is always running, supervisor takes care of that.</p>
+<p>Otherwise -- run it from the console. And then leave that console open. From a different console, you will do the next steps:</p>
+<h3 id="find-out-its-process-id">Find out its process id</h3>
+<p>This is something I often have to do anyway... I use &quot;ps x | grep STRING&quot; where string is a part of the name of the application.</p>
+<p>e.g.</p>
+<pre><code>ps x | grep dot
+</code></pre>
+<p>Shows me all running apps whose commandline include &quot;dotnet&quot;</p>
+<p>Once of those is my target app --</p>
+<pre><code>1751 ?        SLl    0:07 /usr/bin/dotnet /opt/webapps/mywebapp/app/myapp.dll
+</code></pre>
+<h3 id="tell-dotnet-trace-to-trace-that-process-id-and-capture-events-related-to-assembly-loading">Tell <code>dotnet-trace</code> to trace that process id, and capture events related to assembly loading</h3>
+<p>Now we know the process id is <code>1751</code> -- we run <code>dotnet-trace</code> and give it that proess id.</p>
+<p>We also tell it which events to capture (I'll explain in a minute)</p>
+<pre><code>dotnet-trace collect --providers Microsoft-Windows-DotNETRuntime:4:4 --process-id 1751        
+</code></pre>
+<p>The provider <code>Microsoft-Windows-DotNETRuntime</code> is relevant for all the assembly load / fail events.</p>
+<p>The 4:4 .... the first 4 refers to which items from this list:
+Microsoft-Windows-DotNETRuntime:4:4</p>
+<table>
+<thead>
+<tr>
+<th>Keyword String Alias</th>
+<th>Keyword Hex Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gc</td>
+<td>0x1</td>
+</tr>
+<tr>
+<td>gchandle</td>
+<td>0x2</td>
+</tr>
+<tr>
+<td>fusion</td>
+<td>0x4</td>
+</tr>
+<tr>
+<td>loader</td>
+<td>0x8</td>
+</tr>
+<tr>
+<td>jit</td>
+<td>0x10</td>
+</tr>
+<tr>
+<td>ngen</td>
+<td>0x20</td>
+</tr>
+<tr>
+<td>startenumeration</td>
+<td>0x40</td>
+</tr>
+<tr>
+<td>endenumeration</td>
+<td>0x80</td>
+</tr>
+<tr>
+<td>security</td>
+<td>0x400</td>
+</tr>
+<tr>
+<td>appdomainresourcemanagement</td>
+<td>0x800</td>
+</tr>
+<tr>
+<td>jittracing</td>
+<td>0x1000</td>
+</tr>
+<tr>
+<td>interop</td>
+<td>0x2000</td>
+</tr>
+<tr>
+<td>contention</td>
+<td>0x4000</td>
+</tr>
+<tr>
+<td>exception</td>
+<td>0x8000</td>
+</tr>
+<tr>
+<td>threading</td>
+<td>0x10000</td>
+</tr>
+<tr>
+<td>jittedmethodiltonativemap</td>
+<td>0x20000</td>
+</tr>
+<tr>
+<td>overrideandsuppressngenevents</td>
+<td>0x40000</td>
+</tr>
+<tr>
+<td>type</td>
+<td>0x80000</td>
+</tr>
+<tr>
+<td>gcheapdump</td>
+<td>0x100000</td>
+</tr>
+<tr>
+<td>gcsampledobjectallocationhigh</td>
+<td>0x200000</td>
+</tr>
+<tr>
+<td>gcheapsurvivalandmovement</td>
+<td>0x400000</td>
+</tr>
+<tr>
+<td>gcheapcollect</td>
+<td>0x800000</td>
+</tr>
+<tr>
+<td>gcheapandtypenames</td>
+<td>0x1000000</td>
+</tr>
+<tr>
+<td>gcsampledobjectallocationlow</td>
+<td>0x2000000</td>
+</tr>
+<tr>
+<td>perftrack</td>
+<td>0x20000000</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>0x40000000</td>
+</tr>
+<tr>
+<td>threadtransfer</td>
+<td>0x80000000</td>
+</tr>
+<tr>
+<td>debugger</td>
+<td>0x100000000</td>
+</tr>
+<tr>
+<td>monitoring</td>
+<td>0x200000000</td>
+</tr>
+<tr>
+<td>codesymbols</td>
+<td>0x400000000</td>
+</tr>
+<tr>
+<td>eventsource</td>
+<td>0x800000000</td>
+</tr>
+<tr>
+<td>compilation</td>
+<td>0x1000000000</td>
+</tr>
+<tr>
+<td>compilationdiagnostic</td>
+<td>0x2000000000</td>
+</tr>
+<tr>
+<td>methoddiagnostic</td>
+<td>0x4000000000</td>
+</tr>
+<tr>
+<td>typediagnostic</td>
+<td>0x8000000000</td>
+</tr>
+</tbody>
+</table>
+<p>...we are after &quot;fusion&quot; -- so we want &quot;4&quot;.  If we wanted fusion(4) plus GC (1) then we'd give the value &quot;5&quot;.</p>
+<p>What about the second numbr?</p>
+<p>I said to use:</p>
+<pre><code>&quot;Microsoft-Windows-DotNETRuntime:4:4&quot;
+</code></pre>
+<p>The first 4 was 'fusion' - the second number is the <code>clreventlevel</code> (<a href="https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.tracing.eventlevel?view=net-7.0">see</a>)</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Meaning</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Critical</td>
+<td>This level corresponds to a critical error, which is a serious error that has caused a major failure.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Error</td>
+<td>This level adds standard errors that signify a problem.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Informational</td>
+<td>This level adds informational events or messages that are not errors. These events can help trace the progress or state of an application.</td>
+</tr>
+<tr>
+<td>0</td>
+<td>LogAlways</td>
+<td>No level filtering is done on the event. When used as a level filter for enabling events, for example in EventListener.EnableEvents(), events of all levels will be included.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Verbose</td>
+<td>This level adds lengthy events or messages. It causes all events to be logged.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Warning</td>
+<td>This level adds warning events (for example, events that are published because a disk is nearing full capacity).</td>
+</tr>
+</tbody>
+</table>
+<p>Now that it's running, do whatever is needed to &quot;cause&quot; the File Not Found error you want to debug.</p>
+<h3 id="stop-dotnet-trace">Stop <code>dotnet-trace</code></h3>
+<p>Stop dotnet-trace with Ctrl-C.</p>
+<h3 id="find-the-file-it-has-created">Find the file it has created</h3>
+<p>You will see that it has written a <code>.nettrace</code> file in your <code>home/user</code> (<code>~</code>) folder -- it will tell you the exact name in its output.</p>
+<h3 id="import-that-file-onto-your-windows-machine-and-inspect-it-there-using-visual-studio">Import that file onto your windows machine and inspect it there (using visual studio)</h3>
+<p>Copy that  <code>.nettrace</code> file onto your windows machine.</p>
+<p>Open it with visual studio --- sometimes this fails. I found I needed a &quot;clean&quot; instance of visual studio.</p>
+<p>First it converts the file into a  <code>.nettrace.etlx</code> file.</p>
+<p>Now look at what the events says.</p>
+<p>Look really hard.</p>
+<p>Look until the beads of blood begin to pool on your forehead.</p>
+<p>This is where I ran out of luck atm.</p>
+<p>But tomorrow brings fresh hope.</p>
+<h2 id="other-thoughts">Other thoughts</h2>
+<p>From &quot;<a href="https://learn.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies">How the runtime locates assemblies</a>&quot;</p>
+<blockquote>
+<ol>
+<li><p>Determines the correct assembly version by examining applicable configuration files, including the application configuration file, publisher policy file, and machine configuration file. If the configuration file is located on a remote machine, the runtime must locate and download the application configuration file first.</p>
+</li>
+<li><p>Checks whether the assembly name has been bound to before and, if so, uses the previously loaded assembly. If a previous request to load the assembly failed, the request is failed immediately without attempting to load the assembly.</p>
+</li>
+</ol>
+<p>Note - The caching of assembly binding failures is new in .NET Framework version 2.0.</p>
+<ol start="3">
+<li><p>Checks the global assembly cache. If the assembly is found there, the runtime uses this assembly.</p>
+</li>
+<li><p>Probes for the assembly using the following steps:</p>
+</li>
+</ol>
+<ol type="a">
+<li><p>If configuration and publisher policy do not affect the original reference and if the bind request was created using the Assembly.LoadFrom method, the runtime checks for location hints.</p>
+</li>
+<li><p>If a codebase is found in the configuration files, the runtime checks only this location. If this probe fails, the runtime determines that the binding request failed and no other probing occurs.</p>
+</li>
+<li><p>Probes for the assembly using the heuristics described in the probing section. If the assembly is not found after probing, the runtime requests the Windows Installer to provide the assembly. This acts as an install-on-demand feature.</p>
+</li>
+</ol>
+<p>Note: There is no version checking for assemblies without strong names, nor does the runtime check in the global assembly cache for assemblies without strong names.</p>
+</blockquote>
+<p>Note this --</p>
+<p>&quot;If a codebase is found in the configuration files, the runtime checks only this location. If this probe fails, the runtime determines that the binding request failed and no other probing occurs.&quot;</p>
+<p>codebase is an element, as in <code>&lt;codebase&gt;...&lt;/codebase&gt;</code>.</p>
+<p>Note that assembly binding failures are cached, not repeated.</p>
+<p>Hence you may fail to capture the failure, if its not performed.</p>
+<blockquote>
+<p>To revert to the behavior of the .NET Framework versions 1.0 and 1.1, which did not cache binding failures, include the <disableCachingBindingFailures> Element in your configuration file.</p>
+</blockquote>
+<p>How is probing performed:</p>
+<blockquote>
+<ol>
+<li><p>Application base, which is the root location where the application is being executed.</p>
+</li>
+<li><p>Culture, which is the culture attribute of the assembly being referenced.</p>
+</li>
+<li><p>Name, which is the name of the referenced assembly.</p>
+</li>
+<li><p>The privatePath attribute of the <probing> element, which is the user-defined list of subdirectories under the root location. This location can be specified in the application configuration file and in managed code using the AppDomainSetup.PrivateBinPath property for an application domain. When specified in managed code, the managed code privatePath is probed first, followed by the path specified in the application configuration file.</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-gb/dotnet/core/diagnostics/dotnet-trace">dotnet-trace performance analysis utility</a>
+<ul>
+<li><a href="https://learn.microsoft.com/en-gb/dotnet/core/diagnostics/dotnet-trace#view-the-trace-captured-from-dotnet-trace">View the trace captured from dotnet-trace</a></li>
+</ul>
+</li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.tracing.eventlevel?view=net-7.0">tracing event levels</a></li>
+<li><a href="https://learn.microsoft.com/en-gb/dotnet/fundamentals/diagnostics/runtime-events">.NET runtime events</a></li>
+<li><a href="https://learn.microsoft.com/en-gb/dotnet/fundamentals/diagnostics/runtime-loader-binder-events">Loader and binder runtime events - .NET | Microsoft Learn</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/framework/deployment/how-the-runtime-locates-assemblies">How the runtime locates assemblies</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../asp.net_mvc/asp_net_mvc_3_patch.html">Asp.net MVC 3.0.0.0 upgrade to Asp.net MVC 3.0.0.1</a></li>
+<li><a href="../sql_spatial/getfieldtype_returned_null.html">DataReader.GetFieldType returned null (for Geography)</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
