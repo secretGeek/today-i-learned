@@ -42,18 +42,19 @@
 Tool 'dotnet-trace' (version '7.0.421201') was successfully installed.
 </code></pre>
 <p>Now -- the basic process is:</p>
-<pre><code>1. Run your application (the one that experiences the problem)
-2. Find out its process id
-3. Tell `dotnet-trace` to trace that process id, and capture events related to assembly loading
-4. Stop `dotnet-trace`
-5. Find the file it has created
-6. import that file onto your windows machine and inspect it there (using visual studio)
-</code></pre>
-<p>(There's other ways you can do those last steps -- you could convert it to a different format on linux and inspect it on linux... or bring it to windows/Mac and other tools that visual studio to do the analysis.)</p>
-<h3 id="run-your-application-the-one-that-experiences-the-problem">Run your application (the one that experiences the problem)</h3>
+<ol>
+<li>Run your application (the one that experiences the problem)</li>
+<li>Find out its process id</li>
+<li>Tell <code>dotnet-trace</code> to trace that process id, and capture events related to assembly loading</li>
+<li>Stop <code>dotnet-trace</code></li>
+<li>Find the file it has created</li>
+<li>Import that file onto your windows machine and inspect it there (using visual studio)</li>
+</ol>
+<p>(There's other ways you can do those last steps -- you could convert it to a different format on linux (<code>speedscope</code>) and inspect it right there on linux... or bring it to Windows/Mac and use tools other than Visual Studio to do the analysis.)</p>
+<h3 id="run-your-application-the-one-that-experiences-the-problem">1. Run your application (the one that experiences the problem)</h3>
 <p>In my case the application is always running, supervisor takes care of that.</p>
 <p>Otherwise -- run it from the console. And then leave that console open. From a different console, you will do the next steps:</p>
-<h3 id="find-out-its-process-id">Find out its process id</h3>
+<h3 id="find-out-its-process-id">2. Find out its process id</h3>
 <p>This is something I often have to do anyway... I use &quot;ps x | grep STRING&quot; where string is a part of the name of the application.</p>
 <p>e.g.</p>
 <pre><code>ps x | grep dot
@@ -62,7 +63,7 @@ Tool 'dotnet-trace' (version '7.0.421201') was successfully installed.
 <p>Once of those is my target app --</p>
 <pre><code>1751 ?        SLl    0:07 /usr/bin/dotnet /opt/webapps/mywebapp/app/myapp.dll
 </code></pre>
-<h3 id="tell-dotnet-trace-to-trace-that-process-id-and-capture-events-related-to-assembly-loading">Tell <code>dotnet-trace</code> to trace that process id, and capture events related to assembly loading</h3>
+<h3 id="tell-dotnet-trace-to-trace-that-process-id-and-capture-events-related-to-assembly-loading">3. Tell <code>dotnet-trace</code> to trace that process id, and capture events related to assembly loading</h3>
 <p>Now we know the process id is <code>1751</code> -- we run <code>dotnet-trace</code> and give it that proess id.</p>
 <p>We also tell it which events to capture (I'll explain in a minute)</p>
 <pre><code>dotnet-trace collect --providers Microsoft-Windows-DotNETRuntime:4:4 --process-id 1751        
@@ -268,14 +269,14 @@ Microsoft-Windows-DotNETRuntime:4:4</p>
 </tbody>
 </table>
 <p>Now that it's running, do whatever is needed to &quot;cause&quot; the File Not Found error you want to debug.</p>
-<h3 id="stop-dotnet-trace">Stop <code>dotnet-trace</code></h3>
+<h3 id="stop-dotnet-trace">4. Stop <code>dotnet-trace</code></h3>
 <p>Stop dotnet-trace with Ctrl-C.</p>
-<h3 id="find-the-file-it-has-created">Find the file it has created</h3>
-<p>You will see that it has written a <code>.nettrace</code> file in your <code>home/user</code> (<code>~</code>) folder -- it will tell you the exact name in its output.</p>
-<h3 id="import-that-file-onto-your-windows-machine-and-inspect-it-there-using-visual-studio">Import that file onto your windows machine and inspect it there (using visual studio)</h3>
-<p>Copy that  <code>.nettrace</code> file onto your windows machine.</p>
+<h3 id="find-the-file-it-has-created">5. Find the file it has created</h3>
+<p>You will see that it has written a <code>*.nettrace</code> file in your <code>home/user</code> (<code>~</code>) folder -- it will tell you the exact name in its output.</p>
+<h3 id="import-that-file-onto-your-windows-machine-and-inspect-it-there-using-visual-studio">6. Import that file onto your windows machine and inspect it there (using visual studio)</h3>
+<p>Copy that <code>*.nettrace</code> file onto your windows machine.</p>
 <p>Open it with visual studio --- sometimes this fails. I found I needed a &quot;clean&quot; instance of visual studio.</p>
-<p>First it converts the file into a  <code>.nettrace.etlx</code> file.</p>
+<p>First it converts the file into a <code>*.nettrace.etlx</code> file.</p>
 <p>Now look at what the events says.</p>
 <p>Look really hard.</p>
 <p>Look until the beads of blood begin to pool on your forehead.</p>
