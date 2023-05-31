@@ -138,7 +138,17 @@ gzip_min_length 256;
 <pre><code>sudo nginx -s reload
 </code></pre>
 <p>I re-run the pagespeed test and my scores are up by 3 points.</p>
-<h2 id="source">Source</h2>
+<h2 id="ok-file-for-nginx-folder">.ok file for nginx folder</h2>
+<p>I use <a href="https://github.com/secretGeek/ok-bash">ok.sh</a> on all my linux/mac systems (and <a href="https://github.com/secretGeek/ok-ps">ok-ps</a> on all my windows systems)</p>
+<p>Here's a useful <code>.ok</code> file for your <code>/etc/nginx</code> folder:</p>
+<pre><code>cat sites-available/* | grep 'server_name\|local'
+ls sites-*/*                    # look at all sites files
+sudo nginx -t                   # verify config
+sudo nginx -s reload            # *reload* nginx config
+cd /etc/supervisor/conf.d/; d   # supervisor
+</code></pre>
+<p>Note that the last line takes me to the <a href="supervisor.html">supervisor</a> config folder (where I have a similar <code>.ok</code> file)</p>
+<h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04</a></li>
 <li><a href="https://docs.asp.net/en/latest/publishing/linuxproduction.html">https://docs.asp.net/en/latest/publishing/linuxproduction.html</a></li>
@@ -148,6 +158,7 @@ gzip_min_length 256;
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../.net_core_MVC/ip_address.html">IP Address in .net core MVC</a></li>
+<li><a href="supervisor.html">Supervisor... it keeps your app running</a></li>
 </ul>
 
 </article>

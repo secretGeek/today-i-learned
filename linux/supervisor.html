@@ -135,6 +135,18 @@ Password:
 <pre><code>@reboot /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 2&gt;&amp;1
 </code></pre>
 <p>Add that to your cron jobs using crontab (described in <a href="cron.html">cron</a>).</p>
+<h2 id="useful.ok-file-for-etcsupervisorconf.d-folder">Useful <code>.ok</code> file for <code>/etc/supervisor/conf.d</code> folder</h2>
+<p>I use <a href="https://github.com/secretGeek/ok-bash">ok.sh</a> on all my linux/mac systems (and <a href="https://github.com/secretGeek/ok-ps">ok-ps</a> on all my windows systems)</p>
+<pre><code>ls *.conf -al # view config of each app
+cat *.conf  | grep 'out\.log\|program'
+sudo tail -n 100 -f /var/log/supervisor/supervisord.log # check sup's log
+sudo tail -n 150 -f /var/log/myapp1.out.log
+sudo tail -n 150 -f /var/log/myapp2.out.log
+service supervisor status
+cd /etc/nginx/; d # nginx
+</code></pre>
+<p>(Those lines that say for example: <code>sudo tail -n 150 -f /var/log/myapp1.out.log</code> ...i have something other than <code>myapp1</code> -- i have the name of the log files output by my web apps. The same files I can find the name of with <code>cat *.conf  | grep 'out\.log\|program'</code>)</p>
+<p>The last line of the <code>.ok</code> file takes me to the <a href="nginx.html">nginx</a> config folder, where I have another <a href="https://github.com/secretGeek/ok-bash"><code>.ok</code> file</a>.</p>
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="http://www.onurguzel.com/supervisord-restarting-and-reloading/">Supervisord: Restarting and Reloading</a></li>
@@ -143,6 +155,7 @@ Password:
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="cron.html">cron &amp; crontab</a></li>
+<li><a href="nginx.html">nginx - a web server</a></li>
 </ul>
 
 </article>
