@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>How to get version of a DLL with Powershell . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-get-the-version-attributes-of-a-dll-using-powershell">How to get the version attributes of a DLL using Powershell</h1>
+<p>The <code>VersionInfo</code> property is the one to look at -- it's child properties</p>
+<p>It may for example have all these sub properties (or others)</p>
+<pre><code>VersionInfo         :
+	File:             C:\Users\user1\app\AngleSharp.dll
+	InternalName:     AngleSharp.dll
+	OriginalFilename: AngleSharp.dll
+	FileVersion:      0.9.9
+	FileDescription:  AngleSharp
+	Product:          AngleSharp.Core
+	ProductVersion:   0.9.9
+	Debug:            False
+	Patched:          False
+	PreRelease:       False
+	PrivateBuild:     False
+	SpecialBuild:     False
+	Language:         Language Neutral
+
+
+
+dir *.dll | % { $_.Name + &quot; &quot; + $_.VersionInfo.FileVersion + &quot; &quot; + $_.VersionInfo.ProductVersion }
+</code></pre>
+<p>Or - expressing those nested properties as custom properties.</p>
+<pre><code>dir *.dll | select  -property Name, @{Ex={($_.VersionInfo.FileVersion)};Label=&quot;FileVersion&quot;}, @{E={$_.VersionInfo.ProductVersion }; Label=&quot;ProductVersion&quot;}
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="custom_objects.html">Create dynamic custom objects</a></li>
+<li><a href="sort.html">To Sort Unique</a> -- shows sorting by a custom property</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
