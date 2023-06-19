@@ -40,11 +40,12 @@ cat nginx.conf
 <pre><code>cd /etc/nginx/sites-available/
 </code></pre>
 <p>If you're only going to host one site, then go ahead and edit the file <code>default</code>.</p>
-<p>But we're not going to do things the easy way: we're going to host multiple sites from this VM. So...</p>
-<p>Make a copy of the file, 'default' and in that file tell us how nginx should pass requests onto your account.
+<p>But we're not going to do things the easy way: we'ore going to host multiple sites from this VM. So...</p>
+<p>Make a copy of the file, 'default' and in that file tell us how nginx should pass requests onto your process.
 e.g.</p>
 <pre><code>sudo cp default yourdomain.com
 </code></pre>
+<p>A cop of the starting config.</p>
 <p>then edit the file, via <code>sudo</code>, ...</p>
 <pre><code>sudo nano yourdomain.com
 </code></pre>
@@ -90,9 +91,9 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 <p>Once everything is tickety-boo you'll see:</p>
 <pre><code>$ sudo nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful
 </code></pre>
-<p>So you can tell nginx to go ahead and use this newly crafted and verified configuration...</p>
+<p>sites-enabled/    nginx: configuration file /etc/nginx/nginx.conf test is successful
+So you can tell nginx to go ahead and use this newly crafted and verified configuration...</p>
 <pre><code>sudo nginx -s reload
 </code></pre>
 <h2 id="about-remote_addr">About remote_addr</h2>
