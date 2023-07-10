@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>group by count in kql . Today I Learned (secretGeek)</title>
+<title>01 summary . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,31 +22,10 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="group-by-count-in-kql">Group by count in KQL</h1>
-<p>Here's a classic <strong>SQL</strong> query I always need in every technology:</p>
-<pre><code class="language-sql">Select some_column, Count(*) as Count 
-from some_table 
-where random_column = 'X'
-group by some_column 
-order by 2 desc
-</code></pre>
-<p>In KQL the equivalent is:</p>
-<pre><code class="language-kql">some_table
-| where random_column == &quot;X&quot;
-| summarize Count=count() by some_column
-| order by Count desc
-</code></pre>
-<p>KQL is concise but also very powerful when it comes to aggregates.</p>
-<p>I love how 'logical' KQL seems to be.</p>
-<h2 id="sources">Sources</h2>
+<h1 id="outlook" class="chapter">outlook</h1>
+<h2 id="content">content</h2>
 <ul>
-<li><a href="https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/count-aggfunction">count() - aggregation function</a></li>
-<li><a href="https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/summarizeoperator">summarize operator</a></li>
-</ul>
-<h2 id="see-also">See also</h2>
-<ul>
-<li><a href="../linqpad/group_by.html">Linqpad: Group by</a></li>
-<li><a href="../powershell/group_objects_in_powershell.html">Powershell: group object</a></li>
+<li><a href="open_links_in_default_browser.html">Open Outlook Links in Chrome or Firefox or Default Browser ...Not Edge!</a></li>
 </ul>
 
 </article>

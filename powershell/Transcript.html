@@ -44,7 +44,7 @@ Transcript stopped, output file is C:\Users\Jack\Documents\PowerShell_transcript
 <pre><code>function Get-TranscriptFilePath {
   try {
     $externalHost = $host.gettype().getproperty(&quot;ExternalHost&quot;,[reflection.bindingflags]&quot;nonpublic,instance&quot;).getvalue($host, @())
-    $externalhost.gettype().getfield(&quot;transcriptFileName&quot;, &quot;nonpublic,instance&quot;).getvalue($externalhost)
+    $externalHost.gettype().getfield(&quot;transcriptFileName&quot;, &quot;nonpublic,instance&quot;).getvalue($externalHost)
   } catch {
     Write-Warning &quot;This host does not support transcription.&quot;
   }

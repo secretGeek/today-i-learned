@@ -518,6 +518,13 @@ function htmlToElement(html) {
 /* ####################### */
 /* ####################### */
 
-onStart();
+//onStart();
+
+
+if (document.readyState !== 'loading') {
+  onStart();
+} else {
+  document.addEventListener('DOMContentLoaded', onStart);
+}
 
 /* don't put anything after this call to 'onStart()' */
