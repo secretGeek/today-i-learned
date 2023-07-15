@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>open local file in github . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="open-local-file-in-github-or-azure-devops">Open Local File in Github (or Azure Devops)</h1>
+<p>If there is a local file, and you want to open github.com <em>at</em> that file (to inspect the history etc in the <em>website</em>)</p>
+<p>You can use this little powershell function, <code>Show-Azuredevops</code>. (It's orginally built for Azure Devops... but works for Github too!)</p>
+<p>As you'll see, it depends on two other functions, <code>Get-GitRemotePath</code> and <code>Get-GitLocalRootPath</code> which are defined in a subsequent code block.</p>
+<pre><code class="language-powershell">function Show-Azuredevops
+{
+	param($searchFilter)
+	
+    # Determine the correct azure instance to use!
+	#
+	# for example: &quot;https://dev.azure.com/COMPANY/_git/REPONAME?path=&quot;; (for a given `COMPANY/REPONAME`)
+	#
+    # But if it's github we want:
+	#
+    #   &quot;https://github.com/COMPANY/util/blob/master/REPONAME/&quot; (for a given `COMPANY/REPONAME`)
+	#
+    # ...but it seems that the &quot;?path=&quot; construct as used by azure devops, gets redirected correctly for Github anyway!
+    # (as long as you have permissions to view the file, with the github user of the browser that opens)
+	#
+
+    $remotePath = (Get-GitRemotePath);
+    Write-Host &quot;Remote path:&quot; -f gray -n;
+    Write-Host $remotePath -f yellow;
+
+    $ado_base = ($remotePath + &quot;?path=&quot;);
+    Write-Host &quot;SEARCHING FOR '$searchFilter'&quot; -f green;
+    $gitroot = (Get-GitLocalRootPath);
+    if (-not (Test-Path $searchFilter) -and (Get-Location).path.ToLowerInvariant() -notlike &quot;$gitroot*&quot;) {
+        Write-Host &quot;YOU'RE NOT CURRENTLY IN A git repo&quot; -f green
+        return;
+    }
+
+    if (Test-Path $searchFilter) {
+        # e.g.                        C:\Apps\repos\CUST\REPO\SOME\FOLDER\SUBFOLDER\FILENAME.EXT which maps to:
+        #   https://dev.azure.com/COMPANY/_git/REPONAME?path=/SOME/FOLDER/SUBFOLDER/FILENAME.EXT
+
+        # turn $searchFilter, whioch is a fraction of a name into a full path....
+
+        $fullPath = (Get-ChildItem $searchFilter |
+                Select-Object -First 1 |
+                ForEach-Object fullName);
+
+        $relativePath = $fullPath -replace [regex]::escape($gitroot), '' # remove root path -- case-insensitive
+        Write-Host &quot;Relative path: &quot; -f gray -n;
+        Write-Host $relativePath -f yellow;
+        $url = ($ado_base + $relativePath.replace(&quot;\&quot;, &quot;/&quot;));
+        Write-Host $url -f magenta;
+        browse $url;
+        return;
+    }
+    return;
+}
+</code></pre>
+<h2 id="get-gitremotepath-function">Get-GitRemotePath Function</h2>
+<p>Here is the <code>Get-GitRemotePath</code> function (comments explain how it works, based on the command <code>git remote -v</code>)</p>
+<pre><code class="language-powershell">function Get-GitRemotePath() {
+    # e.g. 
+    #   git remote -v
+    #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (fetch)
+    #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (push)
+    # 
+    #   git remote -v | ? { $_ -like &quot;*(fetch)&quot; }
+    #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (fetch)
+    #
+    #   git remote -v | ? { $_ -like &quot;*(fetch)&quot; } | % { ($_ -split &quot;[`t ]&quot;)[1]}
+    #   https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME
+    #
+    # ... and we remove any leading &quot;COMPANY@&quot; or &quot;USERNAME@&quot; (if present)...
+    return (git remote -v | 
+            Where-Object { $_ -like &quot;*(fetch)&quot; } | 
+            ForEach-Object { ($_ -split &quot;[`t ]&quot;)[1] }) -replace &quot;//.*@&quot;, &quot;//&quot;;
+}
+</code></pre>
+<h2 id="get-gitlocalrootpath-function">Get-GitLocalRootPath Function</h2>
+<p>Here is the <code>Get-GitLocalRootPath</code> function.</p>
+<p>This returns the name of the folder that the repo is inside, as a full path.</p>
+<pre><code class="language-powershell">function Get-GitLocalRootPath() {
+    # e.g. C:\Apps\repos\CUST\REPO ... the folder that the repo is inside.
+    return ((git rev-parse --show-toplevel) -replace &quot;/&quot;, '\');
+}
+</code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="/azure_devops/open_local_file_in_azure_devops.html">Open Local File in Azure Devops website (or Github website)</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
