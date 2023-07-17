@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="an-issue-with-powershell-tokenize">An issue with Powershell Tokenize</h1>
+<h1 id="an-issue-with-powershell-psparser-tokenize">An issue with Powershell PSParser Tokenize</h1>
 <p>I am trying to use <code>[System.Management.Automation.PSParser]::Tokenize</code> to syntax highlight some code.</p>
 <p>But I have a problem!</p>
 <p>First a simple case (that works ok)</p>
@@ -115,10 +115,10 @@ EndOffset           : 4
 </code></pre>
 <h2 id="pstoken-versus-language.token">PSToken versus Language.Token</h2>
 <p>What sort of tokens are these?</p>
-<p>Here's there Assembly Qualified Name:</p>
+<p>Here is their Assembly Qualified Name:</p>
 <pre><code>System.Management.Automation.Language.Token, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
 </code></pre>
-<p>Whereas my earlier code was return an array of PSToken -- this type:</p>
+<p>Whereas my earlier code was returning an array of <code>PSToken</code> -- this type:</p>
 <pre><code>System.Management.Automation.PSToken, System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
 </code></pre>
 <p>(I wonder if they're related at all though? Is the full token info hidden inside the PSToken in any way?)</p>
@@ -126,7 +126,8 @@ EndOffset           : 4
 <pre><code>{echo &quot;$hello&quot;; echo '$hello'}.ast
 </code></pre>
 <p>And directly access the <code>AST</code>.</p>
-<p><code>todo</code>: use this in <a href="https://github.com/secretGeek/ok-ps"><code>.ok</code></a> syntax highlighter!</p>
+<p>I've since updated the <a href="https://github.com/secretGeek/ok-ps"><code>.ok</code></a> syntax highlighter to use this improved tokenizer.</p>
+<p>And have put out this syntax highlighting collection of cmdLets -- <a href="https://github.com/secretGeek/highlight">github/secretgeek/highlight</a></p>
 <!-- markdownlint-disable-file MD046 -->
 
 </article>
