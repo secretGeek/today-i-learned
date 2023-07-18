@@ -27,53 +27,60 @@
 <p>You need a view which returns all of the unpivoted data, but with all the metrics &quot;Packaged&quot; into a single fields.</p>
 <p>There's two basic types of columns:</p>
 <ol>
-<li><p>Those that you want to group/filter by (e.g. Country, postcode, customerid) and</p>
+<li><p>Those that you want to group/filter by (e.g. Country, postcode, customerid) -- we can call these <code>facets</code></p>
 </li>
-<li><p>All the metrics, the finest granular details. (These are packed into a single column called 'Details')</p>
-<p>CREATE View dbo.[CustomerPerformance_NumberedDays]
-as</p>
-<p>with Days as (
-select
-num,
-DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date] from nums
-where num &lt;= 31 and num &gt; 1
+<li><p>All the <code>metrics</code>, the finest granular details. (These are packed into a single column called 'Details' -- see the <code>+ '|' +</code> concatenations below)</p>
+</li>
+</ol>
+<p>See how the two types of columns are treated below.</p>
+<p>Note also, that this relies on a <code>nums</code> table. A <code>nums</code> table is a handy thing to have! (I believe the writings of Itzik Ben-Gan are where I learned of a <code>nums</code> (or Numbers) table.)</p>
+<hr />
+<pre><code>CREATE View dbo.[CustomerPerformance_NumberedDays]
+as
+
+with Days as (
+	select
+	num,
+	DateAdd(d, num*-1, DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()), 0)) as [Date] from nums
+	where num &lt;= 31 and num &gt; 1
 )
 Select --top 1000
-cj.Country,
-cj.Region,
-cj.PostCode,
-cj.Name as Customer,
-cj.Id as CustomerId
-d.[Date],
-d.num,
-p.SalesTotal + '|' +
-NumberComplaints + '|' +
-NumberCallsOutbound + '|' +
-TargetSalesTotal + '|' +
-s.supportPerson + '|' +
-s.supportComment
-as Details
+	cj.Country,				-- Facets
+	cj.Region,				-- Facets
+	cj.PostCode,			-- Facets
+	cj.Name as Customer,	-- Facets
+	cj.Id as CustomerId,	-- Facets
+	d.[Date],				-- Facets
+	d.num,
+	p.SalesTotal + '|' +
+	NumberComplaints + '|' +
+	NumberCallsOutbound + '|' +
+	TargetSalesTotal + '|' +
+	s.supportPerson + '|' +
+	s.supportComment
+	as Details
 from
-CustomerJourney cj
+	CustomerJourney cj
 cross join [Days] d
 left outer join
 ... e.g.SalesHistory p
 on p.id = cp.CustomerID and DATEADD(DAY, DATEDIFF(DAY, 0, p.Time), -1) = d.[Date]
 outer apply
-(Select top 1
-i.Value as supportComment,
-i.CreatedUser as supportPerson,
-i.CallDateTime as CallTime
-from CustomerCalls i
-where callType = 'Support'
-and i.CustomerID = cj.id
-and DATEADD(DAY, DATEDIFF(DAY, 0, i.CallDateTime), 0) = d.[Date]) as s</p>
-<p>outer apply (select top 1 -- or aggregate...
+	(Select top 1
+		i.Value as supportComment,
+		i.CreatedUser as supportPerson,
+		i.CallDateTime as CallTime
+	from CustomerCalls i
+	where callType = 'Support'
+		and i.CustomerID = cj.id
+	and DATEADD(DAY, DATEDIFF(DAY, 0, i.CallDateTime), 0) = d.[Date]) as s
+
+outer apply (select top 1 -- or aggregate...
 ... other metrics on that date for that customer, e.g. Complaints, expenses, time spent, refunds... anything...
-) as Intervention</p>
-<p>GO</p>
-</li>
-</ol>
+) as Intervention
+
+GO
+</code></pre>
 <p>That view is, in turn, used by a dynamic pivotting stored procedure</p>
 <pre><code>CREATE PROC dbo.CustomerPerformance_NumberedDays_Pivoted
 as
@@ -132,7 +139,7 @@ where
 	num &lt;= 31 and num &gt; 1 --@NumDays
 </code></pre>
 <p>Assuming the website receives this as a DataTable, it can be displayed via a View like this....</p>
-<p>(Not show: you'll always need a custom class for unpacking the Detail column. And you need to load</p>
+<p>(Not shown: you'll always need a custom class for unpacking the Detail column. And you need to load a datatable with that info.</p>
 <pre><code>class PivottedReport {
 	public Dictionary&lt;int, ColumnInfo&gt; ColumnInfo { get; set; }
     public DataSet data { get; set; }
@@ -274,6 +281,10 @@ else {
 	&lt;/table&gt;
 }
 </code></pre>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="nums.html">Nums Table in SQL Server - a table of numbers</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
