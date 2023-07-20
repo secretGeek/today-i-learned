@@ -41,31 +41,32 @@
 </code></pre>
 </li>
 <li><p>Create an Error controller.</p>
-<p>public class ErrorController : Controller
-{
-public ActionResult Index()
-{
-Response.TrySkipIisCustomErrors = true;
-// This will load Views/Shared/Error.cshtml
-return View(&quot;Error&quot;);
-}</p>
-<pre><code> public ActionResult NotFound()
+<pre><code> public class ErrorController : Controller
  {
- 	Response.StatusCode = 404;
- 	Response.TrySkipIisCustomErrors = true;
- 	// This will load Views/Error/View.cshtml
- 	return View();
- }
+ 	public ActionResult Index()
+ 	{
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Shared/Error.cshtml
+ 		return View(&quot;Error&quot;);
+ 	}
 
- public ActionResult Forbidden()
- {
- 	Response.StatusCode = 403;
- 	Response.TrySkipIisCustomErrors = true;
- 	// This will load Views/Error/Forbidden.cshtml
- 	return View();
+ 	public ActionResult NotFound()
+ 	{
+ 		Response.StatusCode = 404;
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Error/View.cshtml
+ 		return View();
+ 	}
+
+ 	public ActionResult Forbidden()
+ 	{
+ 		Response.StatusCode = 403;
+ 		Response.TrySkipIisCustomErrors = true;
+ 		// This will load Views/Error/Forbidden.cshtml
+ 		return View();
+ 	}
  }
 </code></pre>
-<p>}</p>
 </li>
 </ol>
 <p>In an action where you look for a resource but can't find it... <strong>don't do this</strong>:</p>

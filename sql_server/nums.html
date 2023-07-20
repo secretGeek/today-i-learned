@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="nums-table-in-sql-server-a-table-of-numbers">Nums Table in SQL Server - a table of numbers</h1>
-<p>For various purposes, it can be helpful to have a &quot;nums&quot; table in your SQL Server database. This is simply a table, with (for example) one column, called 'num', and perhpas <code>10,000</code> or <code>100,000</code> rows, simply containing the integers from <code>1</code> to <code>10,000</code> (or <code>100,000</code> as the case may be.)</p>
+<p>For various purposes, it can be helpful to have a &quot;nums&quot; table in your SQL Server database. This is simply a table, with (for example) one column, called 'num', and perhaps <code>10,000</code> or <code>100,000</code> rows, simply containing the integers from <code>1</code> to <code>10,000</code> (or <code>100,000</code> as the case may be.)</p>
 <p>One particular use for it is when you wish to aggregate (for example) the &quot;Daily Sales Total&quot; -- and you group sales values by the date, all seems good. But soon you realise there are some dates with no sales. You would like to have a value of &quot;0&quot; for those days, rather than just omit the row from your results.</p>
 <p>So you will instead join first with a Common Table Expression of dates, that uses the <code>nums</code> table as its backbone --</p>
 <pre><code>with Days as (
