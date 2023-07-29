@@ -32,7 +32,7 @@
 </ol>
 <h2 id="create-a-module.psm1">Create a module (.psm1)</h2>
 <p>This is just a script file but with a <code>.psm1</code> extension, and an <code>export-moduleMember</code> declaration(s) at the end, for example:</p>
-<pre><code>Export-Module&lt;ember *-*
+<pre><code>Export-ModuleMember *-*
 </code></pre>
 <p>...means &quot;export every function that has a hyphen in the name&quot;, i.e. standard cmdLet syntax.</p>
 <p>You can also individually specify the functions to be exported, e.g.:</p>
