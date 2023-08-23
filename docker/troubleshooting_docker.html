@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>troubleshooting docker . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,13 +22,16 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="docker" class="chapter">docker</h1>
-<h2 id="content">content</h2>
+<h1 id="troubleshooting-docker-desktop-on-windows">Troubleshooting Docker Desktop on Windows</h1>
+<p>I've seen guides that say the best troubleshooting step is to completely uninstall and reinstall docker desktop. That doesn't seem like a &quot;troubleshooting&quot; option to me. That's more like a &quot;nuke the planet from orbit&quot; option.</p>
 <ul>
-<li><a href="the_basics.html">DOCKER - the absolute basics</a></li>
-<li><a href="docker-compose.html">Docker compose</a></li>
-<li><a href="troubleshooting_docker.html">Troubleshooting Docker Desktop on Windows</a></li>
+<li>Sometimes docker won't start -- or it just says &quot;starting&quot; for a very long time.</li>
 </ul>
+<p>You can view the logs of docker here:</p>
+<pre><code>cd $env:LOCALAPPDATA\Docker\log\vm\
+</code></pre>
+<p>One thing that goes wrong for me -- is a certain container that is configured to restart every time docker starts.</p>
+<p>I need to tell that container to only start when it is manually asked to restart. It doesn't cause a problem apart from when Windows is rebooted by an update. Then it stops Docker from starting, from completing its starts. It starts to start, but never stops starting.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
