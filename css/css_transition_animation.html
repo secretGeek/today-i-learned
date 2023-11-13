@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>maintainable css . Today I Learned (secretGeek)</title>
+<title>css transition animation . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,11 +22,40 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="maintainable-css">Maintainable CSS</h1>
-<p>An approach to creating CSS for an application in a way that ensures it will stay readable, sane, and maintainable over time.</p>
-<ul>
-<li><a href="https://maintainablecss.com/">https://maintainablecss.com/</a></li>
-</ul>
+<h1 id="css-basic-transition-animation-of-a-property-with-css">CSS - Basic Transition Animation of a Property with CSS</h1>
+<p>Example -- when you hover over a element, have the opacity change to 100%, over a nice curve:</p>
+<pre><code>.face {
+	opacity: 0.5; 
+	transition: opacity 2s;
+}
+.face:hover {
+	opacity: 1.0;
+}
+</code></pre>
+<p>Example -- when you hover over a element, have the opacity change to 100%, but following a nice curve:</p>
+<pre><code>.face {
+	opacity: 0.5; 
+	transition: opacity 2s;
+}
+.face:hover {
+	opacity: 1.0 ease-in-out;
+}
+</code></pre>
+<p>transition-timing-function: ease-in;</p>
+<pre><code>	.face {
+	  max-width: 25em;
+	  max-height: 25em;
+	  transiition-duration: .1s;
+	  transition-delay: 0s;
+	}
+	.stretch img:hover {
+	  max-width: 80%;
+	  max-height: 80%;
+	  transition-duration: .2s;
+	  transition-delay: .3s;
+	  transition-timing-function: ease-in;
+	}
+</code></pre>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>

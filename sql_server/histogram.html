@@ -41,6 +41,78 @@ having COUNT(*) &gt; 15
 order by
     Floor(DirectDistance/@interval)  --order by bucket
 </code></pre>
+<h2 id="more-examples">More examples</h2>
+<p>Example -- with:</p>
+<p>A table called</p>
+<ul>
+<li><code>TableOfInterest</code> -- any table we are interested in</li>
+<li><code>MeasuredExpression</code> -- could be a numeric column from <code>TableOfInterest</code>, or a numeric expression using numeric columns from <code>TableOfInterest</code></li>
+</ul>
+<p>I.e. we could run:   <code>Select MeasuredExpression from TableOfInterest</code></p>
+<p>Find the min and max:</p>
+<pre><code>Declare @maxValue int = null;
+Declare @minValue int = null;
+
+select
+	@maxValue = max(MeasuredExpression),
+	@minValue = min(MeasuredExpression)
+from dbo.TableOfInterest 
+</code></pre>
+<p>Decide how many 'buckets' you want to divide the area into.</p>
+<pre><code>Declare @numBuckets int = 10;
+</code></pre>
+<p>Determine the size of the buckets.</p>
+<pre><code>Declare @bucketSize int = null;
+
+Set @BucketSize =  (@Maxvalue - @MinValue) /  @numBuckets;
+</code></pre>
+<p>Review the settings now, before we fine tune them.</p>
+<pre><code>Select 
+	@MinValue as 'MinValue',
+	@MaxValue as 'MaxValue',
+	@BucketSize as 'BucketSize',
+	'Before' as 'StateName';
+</code></pre>
+<h3 id="fine-tuning">FINE TUNING....</h3>
+<p>Now we need to decide how we'd like to fine tune the region that we are graphing. Maybe we only want to go from 15 to 25?</p>
+<pre><code>-- Fine tune the parameters to show different number of buckets in different size...
+Select 
+	@MinValue = 5816,
+	@MaxValue = 7283,
+
+-- recalculate bucketsize...
+Set @BucketSize =  (@Maxvalue - @MinValue) /  @numBuckets;
+
+
+Select 
+	@MinValue as 'MinValue',
+	@MaxValue as 'MaxValue',
+	@BucketSize as 'BucketSize',
+	'Adjusted' as 'StateName';
+
+
+Select
+	--@BucketSize * Floor(MeasuredExpression/@BucketSize) as Min_,
+	--@BucketSize * Floor(MeasuredExpression/@BucketSize) + @BucketSize - 1 as Max_,
+	'' + Cast((@BucketSize * Floor((MeasuredExpression - @minValue)/@BucketSize)) as varchar(20))  + ' - ' +
+		Cast((@BucketSize * Floor((MeasuredExpression - @minValue)/@BucketSize) + @BucketSize - 1) as varchar(20))
+		as 'Range',
+	--Floor(MeasuredExpression/@BucketSize) as Bucket,
+	--AVG(Metres_Per_Minute) as Avg_Metres_Per_Minute,
+	COUNT(*) as Number_of_Examples
+from
+	dbo.TableOfInterest 
+group by
+	Floor((MeasuredExpression - @minValue)/@BucketSize)
+having Min(MeasuredExpression) &gt;= @minValue
+and Max(MeasuredExpression) &lt;= @MaxValue
+--having COUNT(*) &gt; 15
+order by
+	Floor(MeasuredExpression - @minValue)/@BucketSize)  --order by bucket
+</code></pre>
+<h2 id="include-eempty-buckets">Include Eempty Buckets</h2>
+<p>Note: it's good to &quot;cross join&quot; with a nums table to show rows with zero counts as well!</p>
+<p>Join with a nums table..</p>
 <hr />
 <h2 id="see-also">See also</h2>
 <ul>

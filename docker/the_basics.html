@@ -108,6 +108,43 @@ docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &qu
 <p>And conversely, to copy a file from your local file system to a path on a running container called &quot;my_container&quot;:</p>
 <pre><code>docker cp ./.htaccess my_container:/var/www/html/.htaccess
 </code></pre>
+<h2 id="building-an-image-from-a-dockerfile">Building an image from a Dockerfile</h2>
+<p>Simplest thing that can possibly work:</p>
+<p>With the docker daemon running (i.e. with Docker Desktop running)</p>
+<p>In bash (or gitbash or windows subsystem for linux) or even in PowerShell -- in the same folder as your <code>Dockerfile</code></p>
+<pre><code>docker build .
+</code></pre>
+<p>After which if you use <code>docker images</code> you may see that the first image listed is the image you created.</p>
+<p>Boom.</p>
+<p>During the build you can also set metadata of your image -- e.g.</p>
+<pre><code>docker build . --label &quot;test=true&quot;
+</code></pre>
+<p>... will then be found by:</p>
+<pre><code>docker images --filter &quot;label=test=true&quot;
+</code></pre>
+<p>Or if there are multiple found, you find just the first one by:</p>
+<pre><code>docker images --filter &quot;label=test=true&quot; -q | head -1
+</code></pre>
+<p>or in PowerShell</p>
+<pre><code>docker images --filter &quot;label=test=true&quot; -q | select -first 1
+</code></pre>
+<p>(due to <code>-q</code> for &quot;quiet&quot;, returns just the identifier for the image)</p>
+<p>Get that identifier as a variable:</p>
+<pre><code>export id=$(docker images --filter &quot;label=test=true&quot; -q | head -1)
+</code></pre>
+<p>Create an container, from that image, with a name of your own choosing...</p>
+<pre><code>docker create --name &quot;My_New_Container_Name&quot; $id
+</code></pre>
+<p>Copy files from that container:</p>
+<pre><code>docker cp My_New_Container_Name:/src/tests/MyProject/TestResults
+</code></pre>
+<p>(In this case we're copying some test results out)</p>
+<h2 id="list-images-in-more-detail">List Images in More Detail</h2>
+<p>The <code>--format 'json'</code> parameter lets you explore the data more completely.</p>
+<p>In Powershell I pipe that json to <code>ConvertFrom-Json</code> and turn it into objects I can really do things with.</p>
+<pre><code>docker images --all --format 'json' | ConvertFrom-Json | select *
+</code></pre>
+<p>(Or, still in powershell, you can pipe to <code>Out-GridView</code> to explore it in a grid control)</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../serilog/install_seq_locally_for_development.html">Install Seq locally for development</a> -- local seq install instructions, rely on docker (and put the info above into context)</li>

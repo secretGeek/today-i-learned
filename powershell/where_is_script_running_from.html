@@ -33,21 +33,24 @@
 <blockquote>
 <p>The script is located in C:\Scripts</p>
 <p>The script's full name and path is C:\Scripts\HelloWorld.ps1</p>
-<p>You are running it <code>*from</code>* C:\CurrentPath</p>
+<p>You are running it from C:\CurrentPath</p>
 </blockquote>
 <p>How do we do it?</p>
 <p>In <strong>PowerShell 3.0 and above</strong> we write:</p>
 <pre><code>write-host &quot;The script is located in $PSScriptRoot&quot;
 # e.g. C:\Scripts
 
-write-host &quot;The script is called $PSCommandPath&quot;
+write-host &quot;The script's full name and path is $PSCommandPath&quot;
 # e.g. C:\Scripts\HelloWorld.ps1
+
+write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
+# e.g. C:\CurrentPath
 </code></pre>
 <p>In older version we wrote:</p>
 <pre><code>write-host &quot;The script is located in $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)&quot;
 # e.g. C:\Scripts
 
-write-host &quot;The script's full name is called $($MyInvocation.MyCommand.Path)&quot;
+write-host &quot;The script's full name and path is $($MyInvocation.MyCommand.Path)&quot;
 # e.g. C:\Scripts\HelloWorld.ps1
 
 write-host &quot;You are running it from $((Resolve-Path .\).Path)&quot;
@@ -59,7 +62,7 @@ they only work properly when they are inside a script.</p>
 <p>They don't behave the same if you just paste them into the commandline.</p>
 <h2 id="bonus-questions">Bonus questions</h2>
 <h3 id="question-what-if-one-script-is-invoked-from-another-how-do-you-inspectquery-that-chain">Question: What if one script is invoked from another? How do you inspect/query that chain?</h3>
-<p>a caller, tx-14327, asks:</p>
+<p>A caller, tx-14327, asks:</p>
 <blockquote>
 <p>What if one script is invoked from another?</p>
 <p>How do you inspect/query that chain?</p>
@@ -69,7 +72,9 @@ they only work properly when they are inside a script.</p>
 <pre><code>$scriptpath = (split-path (Get-Variable MyInvocation -Scope Script).Value.MyCommand.Path)
 </code></pre>
 <h2 id="see-also">See also</h2>
-<p>Scopes.! and not the monkey trial!</p>
+<ul>
+<li>Scopes! (and not the monkey trial)</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
