@@ -23,7 +23,15 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-do-you-parse-a-date-in-powershell">How do you parse a date in powershell?</h1>
-<h2 id="use-tryparseexact.not-easy-from-powershell">Use TryParseExact... not easy from powershell</h2>
+<h2 id="use-parseexact">Use ParseExact!</h2>
+<pre><code>$DateAsAString = &quot;30-12-1905&quot;;
+$exactDate = [datetime]::ParseExact($DateAsAString,&quot;dd-MM-yyyy&quot;,$Null)
+write-host $exactDate -f blue;
+</code></pre>
+<h2 id="minimal-powershell-example-for-datetime-parseexact">Minimal Powershell Example for DateTime ParseExact</h2>
+<pre><code>[datetime]::ParseExact(&quot;30-12-1905&quot;,&quot;dd-MM-yyyy&quot;,$Null)
+</code></pre>
+<h2 id="can-use-tryparseexact-but-its-not-at-as-easy-from-powershell">Can Use TryParseExact, but it's not at as easy from powershell</h2>
 <pre><code>$DateAsAString = &quot;30-12-1905&quot;;
 $parseddate4 = get-date; # seem to have to initialize this variable...
 if ([DateTime]::TryParseExact(
@@ -37,11 +45,6 @@ if ([DateTime]::TryParseExact(
 } else {
 	Write-Host &quot;it was formatted correctly&quot; -f red;
 }
-</code></pre>
-<h2 id="use-parseexact.easier">Use ParseExact... easier</h2>
-<pre><code>$DateAsAString = &quot;30-12-1905&quot;;
-$exactDate = [datetime]::ParseExact($DateAsAString,&quot;dd-MM-yyyy&quot;,$Null)
-write-host $exactDate -f blue;
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>

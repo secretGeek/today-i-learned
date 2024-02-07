@@ -25,16 +25,16 @@
 <h1 id="find-outdated-npm-packages-with-npm-outdated">Find outdated npm packages with 'npm outdated'</h1>
 <p>(Note: you may <em>first</em> wish to update <code>npm</code> itself, see <a href="update_npm.html">How to update npm?</a>)</p>
 <p>From the folder which contains your <code>package.json</code> file, you can find out of date local packages like this:</p>
-<pre><code>npm outdated
+<pre><code>npx outdated
 </code></pre>
 <p>It gives very nice output, imo.</p>
 <p><img src="outdated_output.png" alt="outdated_output" /></p>
 <p>...and to ask it to look deeper, you can use for example...</p>
-<pre><code>npm outdated --depth 3
+<pre><code>npx outdated --depth 3
 </code></pre>
 <p>(In the screenshot above I've specified a depth, which is why you can see a dependency chain on the right hand side)</p>
 <p>To look for outdated <strong>global</strong> packages, supply a <code>-g</code> parameter:</p>
-<pre><code>npm outdated -g
+<pre><code>npx outdated -g
 </code></pre>
 <p>To update an outdated package, you can use update, or you can remove it and re-add.</p>
 <pre><code>npm uninstall browser-sync --save-dev
