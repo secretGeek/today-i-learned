@@ -37,7 +37,7 @@
 <p>There are many many different scripts for this, with various performance characteristics or limitations.</p>
 <p>Here is one -- it is based on &quot;Method5&quot; from <a href="https://stackoverflow.com/a/1407488/49">this excellent stack overflow answer</a>:</p>
 <pre><code>-- DROP TABLE Nums
-CREATE TABLE Nums (Num  int  not null)  
+CREATE TABLE Nums (Num  int  not null)
 ;WITH
 	Pass0 as (select 1 as C union all select 1), --2 rows
 	Pass1 as (select 1 as C from Pass0 as A, Pass0 as B),--4 rows
@@ -52,7 +52,7 @@ INSERT Nums
 		FROM Tally
 		WHERE Num &lt;= 10000
 ALTER TABLE Nums ADD CONSTRAINT PK_Nums PRIMARY KEY CLUSTERED (Num)
-	
+
 SELECT COUNT(*) as [Number of Numbers in Nums Table] FROM Nums
 </code></pre>
 <p>Mothers, tell your children, not to do what I have done, to spend your life, in sql misery, optimizing nums tables generation, for fun.</p>

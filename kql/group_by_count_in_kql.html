@@ -24,10 +24,10 @@
 <article>
 <h1 id="group-by-count-in-kql">Group by count in KQL</h1>
 <p>Here's a classic <strong>SQL</strong> query I always need in every technology:</p>
-<pre><code class="language-sql">Select some_column, Count(*) as Count 
-from some_table 
+<pre><code class="language-sql">Select some_column, Count(*) as Count
+from some_table
 where random_column = 'X'
-group by some_column 
+group by some_column
 order by 2 desc
 </code></pre>
 <p>In KQL the equivalent is:</p>

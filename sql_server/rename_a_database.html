@@ -28,7 +28,7 @@
 <p>I have a database called &quot;OLD_DB_NAME&quot; -- and I want to rename it (to &quot;NEW_DB_NAME&quot;)</p>
 <p>Right click and rename in SSMS is not too reliable -- it may not be able to get exclusive access. Use this instead:</p>
 <pre><code>use master
-ALTER DATABASE OLD_DB_NAME SET SINGLE_USER WITH ROLLBACK IMMEDIATE    
+ALTER DATABASE OLD_DB_NAME SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 ALTER DATABASE OLD_DB_NAME MODIFY NAME = [NEW_DB_NAME]
 ALTER DATABASE NEW_DB_NAME SET MULTI_USER
 </code></pre>
@@ -75,9 +75,9 @@ GO
 <pre><code>RESTORE FILELISTONLY
 FROM DISK = 'C:\Apps\scratch\NEW_DB_NAME.bak'
 </code></pre>
-<h3 id="step-2-rename-the-now-defunct-db-to-get-it-out-of-the-way">Step 2: Rename the now defunct DB to get it out of the way...</h3>
+<h3 id="step-2-rename-the-now-defunct-db-to-get-it-out-of-the-way">Step 2: Rename the now defunct DB to get it out of the way</h3>
 <pre><code>use master
-ALTER DATABASE NEW_DB_NAME SET SINGLE_USER WITH ROLLBACK IMMEDIATE    
+ALTER DATABASE NEW_DB_NAME SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 ALTER DATABASE NEW_DB_NAME MODIFY NAME = [zz_NEW_DB_NAME]
 ALTER DATABASE zz_NEW_DB_NAME SET MULTI_USER
 </code></pre>
@@ -95,7 +95,7 @@ GO
 FROM DISK = 'C:\Apps\scratch\NEW_DB_NAME.bak'
 
 
-RESTORE DATABASE NEW_DB_NAME	
+RESTORE DATABASE NEW_DB_NAME
   FROM DISK = 'C:\Apps\scratch\NEW_DB_NAME.bak'
   WITH MOVE 'NEW_DB_NAME' TO 'C:\Users\MyUser\NEW_DB_NAME.mdf',
   MOVE 'NEW_DB_NAME_log' TO 'C:\Users\MyUser\NEW_DB_NAME_log.ldf'

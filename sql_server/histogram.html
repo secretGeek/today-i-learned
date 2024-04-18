@@ -56,7 +56,7 @@ Declare @minValue int = null;
 select
 	@maxValue = max(MeasuredExpression),
 	@minValue = min(MeasuredExpression)
-from dbo.TableOfInterest 
+from dbo.TableOfInterest
 </code></pre>
 <p>Decide how many 'buckets' you want to divide the area into.</p>
 <pre><code>Declare @numBuckets int = 10;
@@ -67,16 +67,16 @@ from dbo.TableOfInterest
 Set @BucketSize =  (@Maxvalue - @MinValue) /  @numBuckets;
 </code></pre>
 <p>Review the settings now, before we fine tune them.</p>
-<pre><code>Select 
+<pre><code>Select
 	@MinValue as 'MinValue',
 	@MaxValue as 'MaxValue',
 	@BucketSize as 'BucketSize',
 	'Before' as 'StateName';
 </code></pre>
-<h3 id="fine-tuning">FINE TUNING....</h3>
+<h3 id="fine-tuning">FINE TUNING</h3>
 <p>Now we need to decide how we'd like to fine tune the region that we are graphing. Maybe we only want to go from 15 to 25?</p>
 <pre><code>-- Fine tune the parameters to show different number of buckets in different size...
-Select 
+Select
 	@MinValue = 5816,
 	@MaxValue = 7283,
 
@@ -84,7 +84,7 @@ Select
 Set @BucketSize =  (@Maxvalue - @MinValue) /  @numBuckets;
 
 
-Select 
+Select
 	@MinValue as 'MinValue',
 	@MaxValue as 'MaxValue',
 	@BucketSize as 'BucketSize',
@@ -101,7 +101,7 @@ Select
 	--AVG(Metres_Per_Minute) as Avg_Metres_Per_Minute,
 	COUNT(*) as Number_of_Examples
 from
-	dbo.TableOfInterest 
+	dbo.TableOfInterest
 group by
 	Floor((MeasuredExpression - @minValue)/@BucketSize)
 having Min(MeasuredExpression) &gt;= @minValue

@@ -29,7 +29,7 @@
 <pre><code class="language-powershell">function Show-Azuredevops
 {
 	param($searchFilter)
-	
+
     # Determine the correct azure instance to use!
 	#
 	# for example: &quot;https://dev.azure.com/COMPANY/_git/REPONAME?path=&quot;; (for a given `COMPANY/REPONAME`)
@@ -78,11 +78,11 @@
 <h2 id="get-gitremotepath-function">Get-GitRemotePath Function</h2>
 <p>Here is the <code>Get-GitRemotePath</code> function (comments explain how it works, based on the command <code>git remote -v</code>)</p>
 <pre><code class="language-powershell">function Get-GitRemotePath() {
-    # e.g. 
+    # e.g.
     #   git remote -v
     #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (fetch)
     #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (push)
-    # 
+    #
     #   git remote -v | ? { $_ -like &quot;*(fetch)&quot; }
     #   origin  https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME (fetch)
     #
@@ -90,8 +90,8 @@
     #   https://COMPANY@dev.azure.com/COMPANY/PROJECTNAME/_git/REPONAME
     #
     # ... and we remove any leading &quot;COMPANY@&quot; or &quot;USERNAME@&quot; (if present)...
-    return (git remote -v | 
-            Where-Object { $_ -like &quot;*(fetch)&quot; } | 
+    return (git remote -v |
+            Where-Object { $_ -like &quot;*(fetch)&quot; } |
             ForEach-Object { ($_ -split &quot;[`t ]&quot;)[1] }) -replace &quot;//.*@&quot;, &quot;//&quot;;
 }
 </code></pre>
@@ -105,7 +105,7 @@
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="/azure_devops/open_local_file_in_azure_devops.html">Open Local File in Azure Devops website (or Github website)</a></li>
+<li><a href="../azure_devops/open_local_file_in_azure_devops.html">Open Local File in Azure Devops website (or Github website)</a></li>
 </ul>
 
 </article>

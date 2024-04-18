@@ -26,13 +26,13 @@
 <h2 id="grouped-up-exception-by-eventtype">Grouped up exception by EventType</h2>
 <pre><code>select count(*) as Occurrences,
 	   ( sum(Length(@Document)) / count(@Id)  )  as AverageCh,
-	   first(@MessageTemplate) as MessageTemplate, 
+	   first(@MessageTemplate) as MessageTemplate,
 	   ToHexString(first(@EventType)) as EventType,
 	   ToIsoString(Min(@Timestamp)) as MinTime,
 	   ToIsoString(Max(@Timestamp)) as MaxTime
 from stream
 where ApplicationName not in  ['SomeOtherApplication1','SomeOtherApplication2']
-and 
+and
 	Not(   @Level = 'Verbose'
 		or @Level = 'Trace'
 		or @Level = 'Debug'
@@ -51,11 +51,11 @@ limit 30
 <p>When you group by @EventType it shows the value in base 10 (decimal). But when you view an ordinary Seq trace, the @EventType is shown in Hex.</p>
 <p>You can show the Hex representation by using the ToHexString function. And you can write the number in either hex, with 0xprefix, or in decimal.</p>
 <p>Here is an example of using either form for a comparison, and showing the result in both hex and decimal</p>
-<pre><code>Select count(*) from stream 
-where 
-   @EventType = 0x34fb5e38 
+<pre><code>Select count(*) from stream
+where
+   @EventType = 0x34fb5e38
 or @EventType = 888888888
-group by 
+group by
    @EventType,
    ToHexString(@EventType)
 </code></pre>
@@ -82,7 +82,7 @@ group by count(distinct SomeColumn)
 <p>e.g, errors that effect more than 30 users....</p>
 <pre><code>select count(distinct(UserName)) as CountDistinct
 from stream
-where @Level = 'Error' 
+where @Level = 'Error'
 group by @MessageTemplate
 having CountDistinct &gt; 30
 order by CountDistinct desc

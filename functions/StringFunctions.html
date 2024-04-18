@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>chain of actions . Today I Learned (secretGeek)</title>
+<title>StringFunctions . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,38 +22,12 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="typical-chain-of-actions-in-powershell-functions">Typical Chain of Actions in Powershell functions</h1>
-<p>Starting from:   A File        A Database         A functions</p>
-<div class=":::"><h2 id="process-with-where">Process with &quot;Where&quot;</h2>
-<h3 id="example1-file-where">EXAMPLE1 File Where</h3>
-<p>Get file content, where it starts with a comment indicator</p>
-<pre><code>get-content $profile | ? { $_ -match &quot;^#&quot; }
-</code></pre>
-<h3 id="example2-database-where">EXAMPLE2 Database Where</h3>
-<h3 id="example3-function-where">EXAMPLE3 Function Where</h3>
-<h2 id="sort-with-sort">Sort with &quot;Sort&quot; --</h2>
-<p>...via a custom property --</p>
-<h2 id="for-example">For example</h2>
-<h3 id="with-file-and-where">With &quot;File&quot; and &quot;Where&quot;</h3>
-<div class="EXAMPLE">
-<pre><code>SORT FILE WHERE CUSTOM PROPERTY RELATION VALUE SOURCE
-</code></pre>
-<h3 id="get-csv-and-group">Get CSV and group</h3>
-<div class="EXAMPLE">
-<pre><code>SORT WHERE GROUP BY CUSTOM PROPERTY
-
-SELECT CUSTOM PROPERTY
-</code></pre>
-<h3 id="and-sort-it-too">AND SORT IT TOO</h3>
-<p>e.g. With &quot;From Database&quot; and &quot;Sort&quot;</p>
-<h3 id="get-from-database-and-format">Get from Database and Format</h3>
-<div class="EXAMPLE">
-<pre><code>GET FROM DB -- (Select A B C from D where E sort by F) | FORMAT-WIDE
-</code></pre>
-</div>
-</div>
-</div>
-</div>
+<h1 id="string-functions">String Functions</h1>
+<ul>
+<li>[String] Alteryx</li>
+<li>[Strings] SDU</li>
+<li><a href="#string-functions">String Functions</a> SQL Server</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
