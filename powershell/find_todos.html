@@ -31,7 +31,7 @@
 </code></pre>
 <p>...which relies on my ever-evolving sense of 'findtext'</p>
 <p>Currently something like.... (this is dynamically loaded from util)</p>
-<pre><code>[string[]] $fileTypes = &quot;*.md&quot;, &quot;*.fmw&quot;, &quot;*.txt&quot;, &quot;*.cs&quot;, &quot;*.cshtml&quot;, &quot;*.css&quot;, &quot;*.ps1&quot;, &quot;*.js&quot;, &quot;*.bat&quot;, &quot;*.vbs&quot;, &quot;*.vb&quot;, &quot;*.xml&quot;, &quot;*.config&quot;, &quot;*.htm&quot;, &quot;*.html&quot;, &quot;*.pre&quot;, &quot;*.ini&quot;, &quot;*.sql&quot;, &quot;*.linq&quot;, &quot;*.json&quot;, &quot;*.spark&quot;, &quot;*.ts&quot;, &quot;*.psm1&quot;, &quot;*.psd1&quot;, &quot;*.aspx&quot;, &quot;*.ascx&quot;, &quot;*.asp&quot;, &quot;*.asmx&quot;, &quot;*.pubxml&quot;, &quot;*.dgml&quot;, &quot;*.sln&quot;, &quot;*.*proj&quot;, &quot;*.spark&quot;, &quot;*.rdl&quot;, &quot;*.py&quot;, &quot;*.log&quot;, &quot;*.las&quot;, &quot;*.ascx&quot;, &quot;*.inc&quot;, &quot;*.xaml&quot;,	&quot;*.sh&quot;, &quot;*.csv&quot;, &quot;*.tsv&quot;, &quot;*.php&quot;, &quot;*.ok&quot;, &quot;*.tsx&quot;, &quot;*.targets&quot;, &quot;*.yml&quot;, &quot;*.yaml&quot;, &quot;*.rdp&quot;, &quot;*.less&quot;, &quot;*.scss&quot;, &quot;*.razor&quot;, &quot;*.dbml&quot;, &quot;*.layout&quot;, &quot;*.gradle&quot;, &quot;*.properties&quot;, &quot;*.bas&quot;, &quot;*.java&quot;, &quot;*.m&quot;, &quot;*.h&quot;, &quot;*.iml&quot;, &quot;*.swift&quot;, &quot;*.xib&quot;, &quot;*.strings&quot;, &quot;*.storyboard&quot;, &quot;*.kt&quot;, &quot;*.xcconfig&quot;, &quot;*.plist&quot;, &quot;*.toml&quot;, &quot;*.webmanifest&quot;, &quot;*.prettierrc&quot;, &quot;*.code-workspace&quot;, &quot;*.gitignore&quot;, &quot;*.hgignore&quot;, &quot;*.dockerignore&quot;, &quot;*.tt&quot;, &quot;*.hta&quot;, &quot;*.lock&quot;,&quot;*.nsi&quot;;
+<pre><code>[string[]] $fileTypes = &quot;*.md&quot;, &quot;*.fmw&quot;, &quot;*.txt&quot;, &quot;*.cs&quot;, &quot;*.cshtml&quot;, &quot;*.css&quot;, &quot;*.ps1&quot;, &quot;*.js&quot;, &quot;*.bat&quot;, &quot;*.vbs&quot;, &quot;*.vb&quot;, &quot;*.xml&quot;, &quot;*.config&quot;, &quot;*.htm&quot;, &quot;*.html&quot;, &quot;*.pre&quot;, &quot;*.ini&quot;, &quot;*.sql&quot;, &quot;*.linq&quot;, &quot;*.json&quot;, &quot;*.spark&quot;, &quot;*.ts&quot;, &quot;*.psm1&quot;, &quot;*.psd1&quot;, &quot;*.aspx&quot;, &quot;*.ascx&quot;, &quot;*.asp&quot;, &quot;*.asmx&quot;, &quot;*.pubxml&quot;, &quot;*.dgml&quot;, &quot;*.sln&quot;, &quot;*.*proj&quot;, &quot;*.spark&quot;, &quot;*.rdl&quot;, &quot;*.py&quot;, &quot;*.log&quot;, &quot;*.las&quot;, &quot;*.ascx&quot;, &quot;*.inc&quot;, &quot;*.xaml&quot;,	&quot;*.sh&quot;, &quot;*.csv&quot;, &quot;*.tsv&quot;, &quot;*.php&quot;, &quot;*.ok&quot;, &quot;*.tsx&quot;, &quot;*.targets&quot;, &quot;*.yml&quot;, &quot;*.yaml&quot;, &quot;*.rdp&quot;, &quot;*.less&quot;, &quot;*.scss&quot;, &quot;*.razor&quot;, &quot;*.dbml&quot;, &quot;*.layout&quot;, &quot;*.gradle&quot;, &quot;*.properties&quot;, &quot;*.bas&quot;, &quot;*.java&quot;, &quot;*.m&quot;, &quot;*.h&quot;, &quot;*.iml&quot;, &quot;*.swift&quot;, &quot;*.xib&quot;, &quot;*.strings&quot;, &quot;*.storyboard&quot;, &quot;*.kt&quot;, &quot;*.xcconfig&quot;, &quot;*.plist&quot;, &quot;*.toml&quot;, &quot;*.webmanifest&quot;, &quot;*.prettierrc&quot;, &quot;*.code-workspace&quot;, &quot;*.gitignore&quot;, &quot;*.hgignore&quot;, &quot;*.dockerignore&quot;, &quot;*.tt&quot;, &quot;*.hta&quot;, &quot;*.lock&quot;, &quot;*.nsi&quot;;
 
 ## Commands:
 ## findtext $pattern                       &lt;-- search all text type files for a particular regex
@@ -45,8 +45,8 @@
 ###                                             same as:   `format-findtext $pattern $false`
 ## findtext_help                           &lt;-- help on findtext and related commands
 ## findtext_help_detailed                  &lt;-- verbose help on findtext, with details.
-### find-text ($pattern, $recursive, $basePath, $Raw, $CaseSensitive)
-### format-findtext ($pattern, $recursive, $raw, $CaseSensitive)
+### find-text ($pattern, $recursive, $basePath, $Raw, $caseSensitive)
+### format-findtext ($pattern, $recursive, $raw, $caseSensitive)
 ###                                         &lt;-- (aliased as findtext) sends find-text to format-foundtext
 ### format-foundtext ($result, $raw, $caseSensitive)
 
@@ -64,25 +64,22 @@ function find-text {
         [ValidateNotNullOrEmpty()]
         [String]
         $Pattern,
-        [Bool]
+        [bool]
         # search all subfolders as well (defaults to $true)
         $Recursive = $true,
         [String]
         # the folder from which the command is executed (used for displaying shorter paths)
         $BasePath = (Get-Location | ForEach-Object { $_.ProviderPath }),
-        [Bool]
+        [switch]
         # $true to search for literal pattern, $false (the default) to search for regular expressions
-        $Raw = $false,
-        [Bool]
-        $CaseSensitive = $false,
+        $Raw,
+        [switch]
+        $caseSensitive,
         [String[]]
-        $overRideWithFileTypes = $null,
-        [Bool]
-        $aCaseSensitive = $false
-
+        $overRideWithFileTypes = $null
     )
 
-    if ($overRideWithFileTypes -eq $null) {
+    if ($null -eq $overRideWithFileTypes) {
         $overRideWithFileTypes = $fileTypes;
     }
 
@@ -92,7 +89,7 @@ function find-text {
         Where-Object { $_.FullName -inotmatch 'node_modules' -and
             $_.FullName -inotmatch '\\packages\\' -and
             $_.FullName -inotmatch '\\obj\\' -and
-			$_.FullName -inotmatch '\\bin\\debug\\'
+            $_.FullName -inotmatch '\\bin\\debug\\'
         } | ForEach-Object { $activeFile = $_; $_ } | #.LastWriteTime;
         Select-String -Pattern $pattern -SimpleMatch:$Raw -CaseSensitive:$CaseSensitive |
         ForEach-Object {
@@ -105,7 +102,7 @@ function find-text {
 #
 # NOTE: the alias FINDTEXT points here!
 #
-function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
+function format-findtext($pattern, $recursive, [switch]$raw, [switch]$CaseSensitive) {
     if ($null -eq $pattern) {
         Write-Host &quot;Please provide a Pattern you wish to find (all text files will be searched)&quot; -ForegroundColor  &quot;red&quot;
         return
@@ -137,37 +134,38 @@ function format-findtext($pattern, $recursive, $raw, $CaseSensitive) {
     # write-host $CaseSensitive -f magenta
 
     try {
-        return (find-text  $pattern  $recursive $basePath $raw $caseSensitive |
+        return (find-text  $pattern  $recursive $basePath -raw:$raw -caseSensitive:$caseSensitive |
                 ForEach-Object {
-                    format-foundtext $_ $raw $caseSensitive;
+                    format-foundtext $_ -raw:$raw -caseSensitive:$caseSensitive;
                 } );
     }
     catch {
         Write-Host $_ -f darkred;
         if ($_.FullyQualifiedErrorId -eq &quot;InvalidRegex,Microsoft.PowerShell.Commands.SelectStringCommand&quot;) {
             Write-Host &quot;Falling back to a simple match...&quot; -ForegroundColor  &quot;green&quot;;
-            format-findtext -pattern:$pattern -recursive:$recursive -raw:$true -casesensitive:$CaseSensitive
+            $raw = $true;
+            format-findtext -pattern:$pattern -recursive:$recursive -raw:$raw -casesensitive:$CaseSensitive
         }
     }
 }
 
-function format-foundtextdimmed ($result, $len1, $raw, $caseSensitive) {
+function format-foundtextdimmed ($result, $len1, [switch]$raw, [switch]$caseSensitive) {
     Write-Host $result.RelativeName.SubString(0, $len1) -f darkblue -n;
     Write-Host &quot;$($result.RelativeName.SubString($len1)) &quot; -f cyan -n;
     Write-Host &quot;$($result.LineNumber) &quot; -f yellow -n;
-    Write-MarkedPatternInline ($result.Pattern) ($result.Line.Trim()) $raw $caseSensitive;
+    Write-MarkedPatternInline ($result.Pattern) ($result.Line.Trim()) -raw:$raw -caseSensitive:$caseSensitive;
     Write-Host &quot;&quot;;
 }
 
 $script:previous = $null;
 
 
-function format-foundtext ($result, $raw, $caseSensitive) {
+function format-foundtext ($result, [switch]$raw, [switch]$caseSensitive) {
     $dimLength = FindLongestCommonStartingSubString ($result.RelativeName) ($script:previous.RelativeName);
     # specify what to break on... it returns how many parts in common.... or num chars.
 
     #format-foundtext-old $result $dimLength $raw $caseSensitive
-    format-foundtextdimmed $result $dimLength $raw $caseSensitive
+    format-foundtextdimmed $result $dimLength -raw:$raw -caseSensitive:$caseSensitive
     $script:previous = $result;
     $script:previousDimLength = $dimLength;
 }
@@ -189,8 +187,8 @@ function findtext_raw($pattern, $recursive) {
     return format-findtext $pattern $recursive $true;
 }
 
-function findtext_raw_casesensitive($pattern, $recursive, $raw) {
-    return format-findtext $pattern $recursive $raw $true;
+function findtext_raw_casesensitive($pattern, $recursive, [switch]$raw) {
+    return format-findtext $pattern $recursive -raw:$raw -caseSensitive:$true;
 }
 
 function findtext_raw_type($types, $pattern, $recursive) {
@@ -200,10 +198,10 @@ function findtext_raw_type($types, $pattern, $recursive) {
     $fileTypes = $originalTypes;
 }
 
-function findtext_type($types, $pattern, $recursive, $CaseSensitive, $raw = $false) {
+function findtext_type($types, $pattern, $recursive, [switch]$caseSensitive, [switch]$raw) {
     $originalTypes = $fileTypes;
     $fileTypes = $types;
-    format-findtext $pattern $recursive -caseSensitive $caseSensitive -raw $raw;
+    format-findtext $pattern $recursive -caseSensitive:$caseSensitive -raw:$raw;
     $fileTypes = $originalTypes;
 }
 
@@ -236,12 +234,12 @@ function FindLongestCommonStartingSubString($string1, $string2) {
     return $max;
 }
 
-function list-functions () {
+function List-Functions () {
     #find-text &quot;^\s*function( )&quot; | % { New-Object psobject -property  @{
-    find-text &quot;^\s*function(.*)&quot; $true &quot;.\&quot; $false $false | % { New-Object psobject -Property  @{
+    find-text &quot;^\s*function(.*)&quot; $true &quot;.\&quot; $false $false | ForEach-Object { New-Object psobject -Property  @{
             FileName     = $_.FileName;
             FunctionName = ($_.Line -split '[ (]')[1]
-        } } | ? { $_.FunctionName -ne '' }
+        } } | Where-Object { $_.FunctionName -ne '' }
 }
 
 ## LITTLE ALIASES

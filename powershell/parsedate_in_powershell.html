@@ -23,6 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="how-do-you-parse-a-date-in-powershell">How do you parse a date in powershell?</h1>
+<p>To <code>ParseDate</code> in powershell use <code>ParseExact</code> -- it parses a string and return a date -- you may need to provide a format pattern (or, occasionally, an array of format patterns)</p>
 <h2 id="use-parseexact">Use ParseExact!</h2>
 <pre><code>$DateAsAString = &quot;30-12-1905&quot;;
 $exactDate = [datetime]::ParseExact($DateAsAString,&quot;dd-MM-yyyy&quot;,$Null)
