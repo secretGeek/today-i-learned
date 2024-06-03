@@ -23,7 +23,7 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="javascript-function-to-generate-a-guid">Javascript function to generate a guid</h1>
-<p>As seen at <a href="https://secretgeek.net/hotGuids/index.htm">HotGuids</a> and now included in NimbleText.</p>
+<p>As seen at <a href="https://secretgeek.net/hotGuids/index.htm">HotGuids</a> and now included in <a href="https://nimbletext.com/Help/Functions#newGuid">NimbleText</a>.</p>
 <p>The most widely exploited, non randomly pristine implementation of &quot;new-guid&quot; -- code that will outlast all of us.</p>
 <pre><code>function S4() {
    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -40,7 +40,7 @@ function guid() {
 <p>Or as a NimbleText snippet....</p>
 <pre><code>&lt;% ((((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+&quot;-&quot;+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)+(((1+Math.random())*0x10000)|0).toString(16).substring(1)) %&gt;
 </code></pre>
-<p>(I plan to embed a <code>newGuid()</code> function in <a href="https://nimbleText.com">NimbleText</a>)</p>
+<p>(I also embed a <code>newGuid()</code> function in <a href="https://nimbletext.com/Help/Functions#newGuid">NimbleText (desktop only)</a>)</p>
 <p>....ah, that's &quot;guid-like&quot; but it's not really a guid.</p>
 <p>Here's a better one:</p>
 <pre><code>function uuidv4() {
