@@ -26,6 +26,7 @@
 <p>A common way...</p>
 <pre><code>$ top
 </code></pre>
+<p>(And the newer and prettier <code>htop</code>)</p>
 <p>Also</p>
 <pre><code>$ free -m
               total        used        free      shared  buff/cache   available
@@ -46,12 +47,42 @@ MemAvailable:     223336 kB
 <p>And similarly:</p>
 <pre><code>$ watch -n 5 'cat /proc/meminfo | grep MemAvailable'
 </code></pre>
+<h2 id="how-much-are-particular-apps-using">How much are particular apps using?</h2>
+<p>Sort the current processes by memory usage</p>
+<pre><code>ps aux --sort=-%mem | head
+</code></pre>
+<p>Note, see also <a href="https://www.explainshell.com/explain?cmd=ps+aux+--sort%3D-%25mem+%7C+head">explain shell for this command</a></p>
+<p>Columns of <code>ps aux</code></p>
+<ul>
+<li><code>USER</code></li>
+<li><code>PID</code></li>
+<li><code>%CPU</code></li>
+<li><code>%MEM</code></li>
+<li><code>VSZ</code> -- Virtual Memory Size, in Kb</li>
+<li><code>RSS</code> -- Resident Set Size, in Kb</li>
+<li><code>TTY</code></li>
+<li><code>STAT</code></li>
+<li><code>START</code></li>
+<li><code>TIME</code></li>
+<li><code>COMMAND</code>  e.g. <code>/usr/bin/dotnet /opt/webapps/example.com/app/example.dll</code></li>
+</ul>
+<p>Quickly explanations:</p>
+<ul>
+<li><code>Virtual Memory</code> Size is how much the operating system has been told to set aside for the process, but probably is not all in use.</li>
+<li><code>Resident Set Size</code> is how much is residing in memory that this app can access... the trick though is that there might be resources counted in there that are used by multiple apps. So, killing one app won't necessarily free this much memory.</li>
+<li>...and read more here: <a href="https://linuxconfig.org/ps-output-difference-between-vsz-vs-rss-memory-usage">ps output - Difference between VSZ vs RSS memory usage - Linux Tutorials - Learn Linux Configuration</a></li>
+</ul>
+<h2 id="machine-information">Machine information</h2>
+<p>Related --</p>
 <p>To see a lot of specific info about your machine...</p>
 <pre><code>$ sudo lshw
 </code></pre>
+<p>Meaning: &quot;list hardware&quot;</p>
 <h2 id="external-resources">External Resources</h2>
 <ul>
 <li><a href="http://www.linuxatemyram.com/">Linux Ate My Ram</a></li>
+<li><a href="https://linuxconfig.org/ps-output-difference-between-vsz-vs-rss-memory-usage">ps output - Difference between VSZ vs RSS memory usage - Linux Tutorials - Learn Linux Configuration</a></li>
+<li><a href="https://www.explainshell.com/explain?cmd=ps+aux+--sort%3D-%25mem+%7C+head">explainshell.com for <code>ps aux --sort=-%mem | head</code></a></li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>
