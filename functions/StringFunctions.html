@@ -28,6 +28,281 @@
 <li>[Strings] SDU</li>
 <li><a href="#string-functions">String Functions</a> SQL Server</li>
 </ul>
+<h1 id="string-conversion">&quot;STRING CONVERSION&quot;</h1>
+<p>Html       to     Text
+XML        to     JSON
+JSON       to     CSV
+CSV        to     Markdown
+Markdown   to     Html
+Text       to     XML</p>
+<p>PREDICATES --
+FORMATTERS --
+AGGREGATES --
+CONVERSIONS</p>
+<ul>
+<li>encoders</li>
+<li>decoders</li>
+</ul>
+<h2 id="casing">Casing</h2>
+<ul>
+<li><p><code>CamelCase</code> - Converts a string to camelCase</p>
+</li>
+<li><p><code>CobolCase</code> - Converts a string to COBOL-CASE</p>
+</li>
+<li><p><code>KebabCase</code> - Converts a string to kebab-case</p>
+</li>
+<li><p><code>Lower</code></p>
+<ul>
+<li><code>ToLower</code> -</li>
+<li><code>LowerCase(x)</code></li>
+<li><code>LCase(x)</code></li>
+</ul>
+</li>
+<li><p><code>PascalCase</code> - Converts a string to PascalCase</p>
+</li>
+<li><p><code>ProperCase</code> - Converts a string to Proper Case</p>
+</li>
+<li><p><code>ScreamingSnakeCase</code> - Converts a string to SCREAMING_SNAKE_CASE</p>
+</li>
+<li><p><code>SentenceCase</code> - Converts a string to &quot;Sentence case.&quot; --via-minima.</p>
+</li>
+<li><p><code>SeparateByCase</code> - Inserts spaces in Pascal-cased or camel-cased strings</p>
+</li>
+<li><p><code>SnakeCase</code> - Converts a string to snake_case</p>
+</li>
+<li><p><code>SingleSpaceWords</code> - Trims a string and replaces multiple spaces with single spaces</p>
+</li>
+<li><p><code>SpongeBobSnakeCase</code> - Converts a string to sPoNgEbOb_sNaKeCaSe</p>
+</li>
+<li><p><code>TitleCase(x)</code></p>
+</li>
+<li><p><code>TitleCase</code> - Converts a string to Title Case</p>
+</li>
+<li><p><code>TrainCase</code> - Converts a string to Train-Case</p>
+</li>
+<li><p><code>UPPER</code>	Converts a string to upper-case</p>
+</li>
+<li><p><code>Uppercase(x) Converts a string to upper case</code></p>
+</li>
+<li><p><code>capitalize</code>()	Converts the first character to upper case</p>
+</li>
+<li><p><code>casefold</code>()	Converts string into lower case</p>
+</li>
+</ul>
+<h2 id="spacing-and-alignment">Spacing and Alignment</h2>
+<ul>
+<li><p><code>center</code>()	Returns a centered string</p>
+</li>
+<li><p><code>expandtabs</code>()	Sets the tab size of the string</p>
+</li>
+<li><p><code>SingleSpaceWords</code> - Trims a string and replaces multiple spaces with single spaces</p>
+<ul>
+<li>see also: <code>SeparateByCase</code> - Inserts spaces in Pascal-cased or camel-cased strings</li>
+</ul>
+</li>
+<li><p><code>CanonicalizeString</code>() - Commonly based on -- slugify</p>
+<ul>
+<li>see also: <code>CanonicalizeDateTime</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="predicates">Predicates</h2>
+<ul>
+<li><p><code>Contains(String, Target, CaseInsensitive=1)</code></p>
+</li>
+<li><p><code>endswith</code>()	Returns true if the string ends with the specified value</p>
+</li>
+<li><p><code>EndsWith(String, Target, CaseInsensitive=1)</code></p>
+</li>
+<li><p><code>StartsWith(String, Target, CaseInsensitive=1)</code></p>
+</li>
+</ul>
+<h2 id="search-and-measure">Search and Measure</h2>
+<ul>
+<li><code>find</code>()	Searches the string for a specified value and returns the position of where it was found</li>
+<li><code>count</code>()	Returns the number of times a specified value occurs in a string</li>
+<li><code>glyphwidth</code>()</li>
+<li><code>MeasureText</code>() -- Determines the expected display width in, characters, of a sequence of utf8 bytes.</li>
+<li><code>substring</code>()
+<ul>
+<li>previously: <code>mid</code>()</li>
+</ul>
+</li>
+<li>left()</li>
+<li>right()</li>
+<li>&quot;throw / catch&quot; (previously &quot;onError goto&quot;)</li>
+</ul>
+<p>#####################################################################</p>
+<h2 id="strippers">Strippers</h2>
+<ul>
+<li><p>SLUGGIFY is like this -- it's a mapping to a smaller but still big enough map.</p>
+</li>
+<li><p><code>AlphabeticOnly</code> - Removes any non-alphabetic characters from a string</p>
+</li>
+<li><p><code>AlphanumericOnly</code> - Removes any non-alphanumeric characters from a string</p>
+</li>
+<li><p><code>AsciiOnly</code> - Removes non-ASCII characters from a string</p>
+</li>
+<li><p>Strip</p>
+</li>
+</ul>
+<h2 id="lookups">Lookups</h2>
+<ul>
+<li><p><code>ASCII</code>	Returns the ASCII value for the specific character</p>
+</li>
+<li><p><code>CHAR</code>	Returns the character based on the ASCII code</p>
+</li>
+<li><p><code>CHARINDEX</code>	Returns the position of a substring in a string</p>
+</li>
+<li><p><code>Concat with +</code>	Adds two or more strings together</p>
+</li>
+<li><p><code>CONCAT_WS</code>	Adds two or more strings together with a separator</p>
+</li>
+<li><p><code>CONCAT</code>	Adds two or more strings together</p>
+</li>
+<li><p><code>CountWords(String)</code></p>
+</li>
+<li><p><code>CountWords</code> - Counts the number of words in a string</p>
+</li>
+<li><p><code>DATALENGTH</code>	Returns the number of bytes used to represent an expression</p>
+</li>
+<li><p><code>DecomposeUnicodeForMatch(String)</code></p>
+</li>
+<li><p><code>DIFFERENCE</code>	Compares two SOUNDEX values, and returns an integer value</p>
+</li>
+<li><p><code>DigitsOnly</code> - Removes non-digit characters from a string</p>
+</li>
+<li><p><code>ExtractToken</code> - Extracts a specific token number from a delimited string like a CSV or TSV</p>
+</li>
+<li><p><code>ExtractTrigrams</code> - Extracts trigrams (segments of up to 3 characters) from a string for fast searching</p>
+</li>
+<li><p><code>ExtractTrimmedWords</code> - Extracts words from a string and trims them</p>
+</li>
+<li><p><code>FindString(String,Target)</code></p>
+</li>
+<li><p><code>FORMAT</code>	Formats a value with the specified format</p>
+</li>
+<li><p><code>GetWord(String, n)</code></p>
+</li>
+<li><p><code>InitialsFromName</code> - Extracts a person's initials from their name</p>
+</li>
+<li><p><code>InvertString</code> - Returns an upside down version of the string</p>
+</li>
+<li><p><code>Left(x, len)</code></p>
+</li>
+<li><p><code>LEFT</code>	Extracts a number of characters from a string (starting from left)</p>
+</li>
+<li><p><code>LeftPad</code> - Left pads a string</p>
+</li>
+<li><p><code>LEN</code>	Returns the length of a string</p>
+</li>
+<li><p><code>Length(x)</code></p>
+</li>
+<li><p><code>LOWER</code>	Converts a string to lower-case</p>
+</li>
+<li><p><code>LowerCase(x)</code></p>
+</li>
+<li><p><code>LTRIM</code>	Removes leading spaces from a string</p>
+</li>
+<li><p><code>MD5_ASCII(String)</code></p>
+</li>
+<li><p><code>MD5_UNICODE(String)</code></p>
+</li>
+<li><p><code>NCHAR</code>	Returns the Unicode character based on the number code</p>
+</li>
+<li><p><code>NullIfBlank</code> - Returns NULL if a string is blank or trims the string</p>
+</li>
+<li><p><code>PadLeft (str, len, char)</code></p>
+</li>
+<li><p><code>PadRight (str, len, char)</code></p>
+</li>
+<li><p><code>PATINDEX</code>	Returns the position of a pattern in a string</p>
+</li>
+<li><p><code>PercentEncode</code> - Encodes reserved characters that are used in HTML or URL encoding</p>
+</li>
+<li><p><code>PreviousNonWhitespaceCharacter</code> - Finds the previous non-whitespace character working backwards from the current position</p>
+</li>
+<li><p><code>QUOTENAME</code>	Returns a Unicode string with delimiters added to make the string a valid SQL Server delimited identifier</p>
+</li>
+<li><p><code>QuoteString</code> - Quotes a string</p>
+</li>
+<li><p><code>REGEX_CountMatches(string,pattern,icase)</code></p>
+</li>
+<li><p><code>REGEX_Match(string,pattern,icase)</code></p>
+</li>
+<li><p><code>REGEX_Replace(string, pattern, replace,icase)</code></p>
+</li>
+<li><p><code>Replace(Str, Target, Replacement)</code></p>
+</li>
+<li><p><code>REPLACE</code>	Replaces all occurrences of a substring within a string, with a new substring</p>
+</li>
+<li><p><code>ReplaceChar(x, y, z)</code></p>
+</li>
+<li><p><code>ReplaceFirst(Str, Target, Replacement)</code></p>
+</li>
+<li><p><code>REPLICATE</code>	Repeats a string a specified number of times</p>
+</li>
+<li><p><code>REVERSE</code>	Reverses a string and returns the result</p>
+</li>
+<li><p><code>ReverseString(Str)</code></p>
+</li>
+<li><p><code>Right(String, len)</code></p>
+</li>
+<li><p><code>RIGHT</code>	Extracts a number of characters from a string (starting from right)</p>
+</li>
+<li><p><code>RightPad</code> - Right pads a string</p>
+</li>
+<li><p><code>RTRIM</code>	Removes trailing spaces from a string</p>
+</li>
+<li><p><code>SOUNDEX</code>	Returns a four-character code to evaluate the similarity of two strings</p>
+</li>
+<li><p><code>SPACE</code>	Returns a string of the specified number of space characters</p>
+</li>
+<li><p><code>SplitDelimitedString</code> - Splits a delimited string (often CSV or TSV)</p>
+</li>
+<li><p><code>SplitDelimitedStringIntoColumns</code> - Splits a delimited string (often CSV or TSV) into separate columns</p>
+</li>
+<li><p><code>STR</code>	Returns a number as string</p>
+</li>
+<li><p><code>STRCSPN(x, y)</code></p>
+</li>
+<li><p><code>StringLength</code> - Returns the length of a string (Properly)</p>
+</li>
+<li><p><code>StripDiacritics</code> - Strips diacritics (accents, graves, etc.) from a string</p>
+</li>
+<li><p><code>StripQuotes(x)</code></p>
+</li>
+<li><p><code>STRSPN(x, y)</code></p>
+</li>
+<li><p><code>STUFF</code>	Deletes a part of a string and then inserts another part into the string, starting at a specified position</p>
+</li>
+<li><p><code>Substring(x, start, length)</code></p>
+</li>
+<li><p><code>SUBSTRING</code>	Extracts some characters from a string</p>
+</li>
+<li><p><code>TRANSLATE</code>	Returns the string from the first argument after the characters specified in the second argument are translated into the characters specified in the third argument.</p>
+</li>
+<li><p><code>Translate</code> - Replaces a set of characters in a string</p>
+</li>
+<li><p><code>Trim(x, y)</code></p>
+</li>
+<li><p><code>TRIM</code>	Removes leading and trailing spaces (or other specified characters) from a string</p>
+</li>
+<li><p><code>TrimLeft(x, y)</code></p>
+</li>
+<li><p><code>TrimRight(x, y)</code></p>
+</li>
+<li><p><code>TrimWhitespace</code> - Removes any leading or trailing space, tab, carriage return, and linefeed characters</p>
+</li>
+<li><p><code>UNICODE</code>	Returns the Unicode value for the first character of the input expression</p>
+</li>
+<li><p><code>UuidCreate()</code></p>
+</li>
+<li><p><code>XMLDecodeString</code> - XML decodes a string</p>
+</li>
+<li><p><code>XMLEncodeString</code> - XML encodes a string</p>
+</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
