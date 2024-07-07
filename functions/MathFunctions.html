@@ -28,6 +28,53 @@
 <li><code>RAND</code>(): Returns a random number between 0 and 1</li>
 <li><code>NULL</code>(): Returns a Null value</li>
 </ul>
+<h4 id="math">Math</h4>
+<ul>
+<li><code>ABS</code>(x): Absolute value of (x). It is the distance between 0 and a number. The value is always positive.</li>
+<li><code>ACOS</code>(x): Arc - Cosine of (x) Returns the arccosine, or inverse cosine, of a number. The arccosine is the angle whose cosine is (x). The returned angle is given in radians in the range 0 (zero) to pi. The number (x) must be between -1 and 1.</li>
+<li><code>ASIN</code>(x): Arc - Sine of (x) Returns the arcsine, or inverse sine, of a number. The arcsine is the angle whose sine is (x). The returned angle is given in radians in the range -pi/2 to pi/2.</li>
+<li><code>ATAN</code>(x): Arc - Tangent of (x) Returns the arctangent, or inverse tangent, of a number. The arctangent is the angle whose tangent is (x). The returned angle is given in radians in the range -pi/2 to pi/2.</li>
+<li><code>ATAN2</code>(y, x): Arc - Tangent of (y/x) Returns the arctangent of y and x.</li>
+<li><code>Average</code>(n1,...): Average of a list of numbers.</li>
+<li><code>CEIL</code>(x): Returns smallest integer greater than or equal to (x). Works like the RoundUp function in Excel.</li>
+<li><code>COS</code>(x): Cosine of (x)</li>
+<li><code>COSH</code>(x) : Hyperbolic Cosine of (x)</li>
+<li><code>DISTANCE</code>(from_Lat,from_Lon, to_Lat, to_Lon): Returns distance from (lat1,Lon1) to (lat2,lon2)</li>
+<li><code>EXP</code>(x): Returns e^x</li>
+<li><code>FLOOR</code>(x): Returns largest integer less than or equal to (x)</li>
+<li><code>LOG</code>(x): Natural logarithm of (x)</li>
+<li><code>LOG10</code>(x): Base 10 logarithm of (x)</li>
+<li><code>Median</code>(...): Calculates the median out of one or more (possibly unsorted) values.</li>
+<li><code>Mod</code>(n,d): Modulo of n divided by d (integer operation). The Modulo operation finds the remainder of one integer (n) divided by a divisor integer (d). If (n) is positive, the result is positive. If (n) is negative, the result is negative. If decimal values are used, the decimal is truncated. This can result in a &quot;Divided by 0&quot; error if the divisor is a decimal less than 1.</li>
+<li><code>PI</code>(): Returns the value of the constant PI to 15 digits of accuracy</li>
+<li><code>POW</code>(x, e): Returns (x) raised to the (e) power</li>
+<li><code>RAND</code>(): Returns a random number between 0 and 1</li>
+<li><code>RandInt</code>(n): Returns a random integer between 0 and the specified parameter</li>
+<li><code>Round</code>(x, mult): Returns (x) rounded to nearest multiple of (mult)</li>
+<li><code>SIN</code>(x): Sine of (x)</li>
+<li><code>SINH</code>(x): Hyperbolic Sine of (x)</li>
+<li><code>SmartRound</code>(x): Returns (x) rounded to nearest multiple of a value determined dynamically based on the size of (x)</li>
+<li><code>SQRT</code>(x): Square root of (x)</li>
+<li><code>TAN</code>(x): Tangent of (x)</li>
+<li><code>TANH</code>(x): Hyperbolic Tangent of (x)</li>
+</ul>
+<h4 id="math-bitwise">Math: Bitwise</h4>
+<ul>
+<li><code>BinaryAnd</code>(n,m): Returns a binary of n and m. The result is 1 if both n and m are 1, and 0 otherwise. If 0 is equated with false, and 1 with true the BinaryAnd operation works like a logical And.</li>
+<li><code>BinaryNot</code>(n): Returns a Binary Not of n</li>
+<li><code>BinaryOr</code>(n,m): Returns a Binary Or of n and m</li>
+<li><code>BinaryXOr</code>(n,m): Returns a Binary XOr of n and m</li>
+<li><code>ShiftLeft</code>(n,b): Left shifts n (as integer) by b bits</li>
+<li><code>ShiftRight</code>(n,b): Right shifts n (as integer) by b bits</li>
+</ul>
+<h4 id="minmax">Min/Max</h4>
+<ul>
+<li><code>Bound</code>(x, min, max): If (x &lt; min) return min; else if (x &gt; max) return max; else return x</li>
+<li><code>Max</code>(v0, v1,..., vn): Returns the maximum value from the list.</li>
+<li><code>MaxIDX</code>(v0, v1,..., vn): Returns the 0 based index of the maximum value from the list.</li>
+<li><code>Min</code>(v0, v1,..., vn): Returns the minimum value from the list.</li>
+<li><code>MinIDX</code>(v0, v1,..., vn): Returns the 0 based index of the minimum value from the list.</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>

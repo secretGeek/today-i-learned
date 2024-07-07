@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>StringFunctions RemainingUnclassified . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="string-functions-remaining-unclassified-functions">String Functions: Remaining Unclassified functions</h1>
+<ul>
+<li><p><code>NULL</code>(): Returns a Null value</p>
+</li>
+<li><p><code>UuidCreate</code>(): Creates a Unique identifier.</p>
+</li>
+<li><p><code>swapcase</code>()	Swaps cases, lower case becomes upper case and vice versa</p>
+</li>
+<li><p><code>upper</code>()	Converts a string into upper case</p>
+</li>
+<li><p><code>isnumeric</code>()	Returns True if all characters in the string are numeric</p>
+</li>
+<li><p><code>isdecimal</code>()	Returns True if all characters in the string are decimals</p>
+</li>
+<li><p><code>istitle</code>()	Returns True if the string follows the rules of a title</p>
+</li>
+<li><p><code>isupper</code>()	Returns True if all characters in the string are upper case</p>
+</li>
+<li><p><code>islower</code>()	Returns True if all characters in the string are lower case</p>
+</li>
+<li><p><code>isalpha</code>()	Returns True if all characters in the string are in the alphabet</p>
+</li>
+<li><p><code>isdigit</code>()	Returns True if all characters in the string are digits</p>
+</li>
+<li><p><code>isidentifier</code>()	Returns True if the string is an identifier</p>
+</li>
+</ul>
+<h2 id="standard-string-operations">Standard string operations</h2>
+<ul>
+<li><p><code>zfill</code>()	Fills the string with a specified number of 0 values at the beginning</p>
+</li>
+<li><p><code>trim</code>()	Returns a trimmed version of the string</p>
+</li>
+<li><p><code>ltrim</code>()	Returns a trimmed version of the string</p>
+</li>
+<li><p><code>rtrim</code>()	Returns a trimmed version of the string</p>
+</li>
+<li><p>reserved: <code>strip</code>(x)	Returns a string with matching areas removed, e.g. remove spaces, remove</p>
+</li>
+<li><p><code>replace</code>()	Returns a string where a specified value is replaced with a specified value</p>
+</li>
+<li><p><code>rfind</code>()	Searches the string for a specified value and returns the last position of where it was found</p>
+</li>
+<li><p><code>rindex</code>()	Searches the string for a specified value and returns the last position of where it was found</p>
+</li>
+<li><p>lpad</p>
+</li>
+<li><p>rpad</p>
+</li>
+<li><p><code>rjust</code>()	Returns a right justified version of the string</p>
+</li>
+<li><p><code>rpartition</code>()	Returns a tuple where the string is parted into three parts</p>
+</li>
+<li><p><code>rsplit</code>()	Splits the string at the specified separator, and returns a list</p>
+</li>
+<li><p><code>rstrip</code>()	Returns a right trim version of the string</p>
+</li>
+<li><p><code>split</code>()	Splits the string at the specified separator, and returns a list</p>
+</li>
+<li><p><code>splitlines</code>()	Splits the string at line breaks and returns a list</p>
+</li>
+<li><p><code>startswith</code>()	Returns true if the string starts with the specified value</p>
+</li>
+<li><p><code>title</code>()	Converts the first character of each word to upper case</p>
+</li>
+<li><p><code>translate</code>()	Returns a translated string</p>
+</li>
+<li><p><code>format</code>()	Formats specified values in a string</p>
+</li>
+<li><p><code>format_map</code>()	Formats specified values in a string</p>
+</li>
+<li><p><code>index</code>()	Searches the string for a specified value and returns the position of where it was found</p>
+</li>
+<li><p><code>isalnum</code>()	Returns True if all characters in the string are alphanumeric</p>
+</li>
+<li><p><code>isalpha</code>()	Returns True if all characters in the string are in the alphabet</p>
+</li>
+<li><p><code>isdecimal</code>()	Returns True if all characters in the string are decimals</p>
+</li>
+<li><p><code>isdigit</code>()	Returns True if all characters in the string are digits</p>
+</li>
+<li><p><code>isidentifier</code>()	Returns True if the string is an identifier</p>
+</li>
+<li><p><code>islower</code>()	Returns True if all characters in the string are lower case</p>
+</li>
+<li><p><code>isnumeric</code>()	Returns True if all characters in the string are numeric</p>
+</li>
+<li><p><code>isprintable</code>()	Returns True if all characters in the string are printable</p>
+</li>
+<li><p><code>isspace</code>()	Returns True if all characters in the string are whitespaces</p>
+</li>
+<li><p><code>istitle</code>()	Returns True if the string follows the rules of a title</p>
+</li>
+<li><p><code>isupper</code>()	Returns True if all characters in the string are upper case</p>
+</li>
+<li><p><code>join</code>()	Joins the elements of an iterable to the end of the string</p>
+</li>
+<li><p><code>ljust</code>()	Returns a left justified version of the string</p>
+</li>
+<li><p><code>lower</code>()	Converts a string into lower case</p>
+</li>
+<li><p><code>lstrip</code>()	Returns a left trim version of the string</p>
+</li>
+<li><p><code>maketrans</code>()	Returns a translation table to be used in translations</p>
+</li>
+<li><p><code>partition</code>()	Returns a tuple where the string is parted into three parts</p>
+</li>
+<li><p><code>replace</code>()	Returns a string where a specified value is replaced with a specified value</p>
+</li>
+<li><p><code>rfind</code>()	Searches the string for a specified value and returns the last position of where it was found</p>
+</li>
+<li><p><code>rindex</code>()	Searches the string for a specified value and returns the last position of where it was found</p>
+</li>
+<li><p><code>rjust</code>()	Returns a right justified version of the string</p>
+</li>
+<li><p><code>rpartition</code>()	Returns a tuple where the string is parted into three parts</p>
+</li>
+<li><p><code>rsplit</code>()	Splits the string at the specified separator, and returns a list</p>
+</li>
+<li><p><code>rstrip</code>()	Returns a right trim version of the string</p>
+</li>
+<li><p><code>split</code>()	Splits the string at the specified separator, and returns a list</p>
+</li>
+<li><p><code>splitlines</code>()	Splits the string at line breaks and returns a list</p>
+</li>
+<li><p><code>startswith</code>()	Returns true if the string starts with the specified value</p>
+</li>
+<li><p><code>strip</code>()	Returns a trimmed version of the string</p>
+</li>
+<li><p><code>swapcase</code>()	Swaps cases, lower case becomes upper case and vice versa</p>
+</li>
+<li><p><code>title</code>()	Converts the first character of each word to upper case</p>
+</li>
+<li><p><code>translate</code>()	Returns a translated string</p>
+</li>
+<li><p><code>upper</code>()	Converts a string into upper case</p>
+</li>
+<li><p><code>zfill</code>()	Fills the string with a specified number of 0 values at the beginning</p>
+</li>
+<li><p><code>close</code>()	Closes the file</p>
+</li>
+<li><p><code>detach</code>()	Returns the separated raw stream from the buffer</p>
+</li>
+<li><p><code>fileno</code>()	Returns a number that represents the stream, from the operating system's perspective</p>
+</li>
+<li><p><code>flush</code>()	Flushes the internal buffer</p>
+</li>
+<li><p><code>isatty</code>()	Returns whether the file stream is interactive or not</p>
+</li>
+<li><p><code>read</code>()	Returns the file content</p>
+</li>
+<li><p><code>readable</code>()	Returns whether the file stream can be read or not</p>
+</li>
+<li><p><code>readline</code>()	Returns one line from the file</p>
+</li>
+<li><p><code>readlines</code>()	Returns a list of lines from the file</p>
+</li>
+<li><p><code>seek</code>()	Change the file position</p>
+</li>
+<li><p><code>seekable</code>()	Returns whether the file allows us to change the file position</p>
+</li>
+<li><p><code>tell</code>()	Returns the current file position</p>
+</li>
+<li><p><code>truncate</code>()	Resizes the file to a specified size</p>
+</li>
+<li><p><code>writable</code>()	Returns whether the file can be written to or not</p>
+</li>
+<li><p><code>write</code>()	Writes the specified string to the file</p>
+</li>
+<li><p><code>writelines</code>()	Writes a list of strings to the file</p>
+</li>
+<li><p><code>abs</code>()	Returns the absolute value of a number</p>
+</li>
+<li><p><code>all</code>()	Returns True if all items in an iterable object are true</p>
+</li>
+<li><p><code>any</code>()	Returns True if any item in an iterable object is true</p>
+</li>
+<li><p><code>ascii</code>()	Returns a readable version of an object. Replaces none-ascii characters with escape character</p>
+</li>
+<li><p><code>bin</code>()	Returns the binary version of a number</p>
+</li>
+<li><p><code>bool</code>()	Returns the boolean value of the specified object</p>
+</li>
+<li><p><code>bytearray</code>()	Returns an array of bytes</p>
+</li>
+<li><p><code>bytes</code>()	Returns a bytes object</p>
+</li>
+<li><p><code>callable</code>()	Returns True if the specified object is callable, otherwise False</p>
+</li>
+<li><p><code>chr</code>()	Returns a character from the specified Unicode code.</p>
+</li>
+<li><p><code>classmethod</code>()	Converts a method into a class method</p>
+</li>
+<li><p><code>compile</code>()	Returns the specified source as an object, ready to be executed</p>
+</li>
+<li><p><code>complex</code>()	Returns a complex number</p>
+</li>
+<li><p><code>delattr</code>()	Deletes the specified attribute (property or method) from the specified object</p>
+</li>
+<li><p><code>dict</code>()	Returns a dictionary (Array)</p>
+</li>
+<li><p><code>dir</code>()	Returns a list of the specified object's properties and methods</p>
+</li>
+<li><p><code>divmod</code>()	Returns the quotient and the remainder when argument1 is divided by argument2</p>
+</li>
+<li><p><code>enumerate</code>()	Takes a collection (e.g. a tuple) and returns it as an enumerate object</p>
+</li>
+<li><p><code>eval</code>()	Evaluates and executes an expression</p>
+</li>
+<li><p><code>exec</code>()	Executes the specified code (or object)</p>
+</li>
+<li><p><code>filter</code>()	Use a filter function to exclude items in an iterable object</p>
+</li>
+<li><p><code>float</code>()	Returns a floating point number</p>
+</li>
+<li><p><code>format</code>()	Formats a specified value</p>
+</li>
+<li><p><code>getattr</code>()	Returns the value of the specified attribute (property or method)</p>
+</li>
+<li><p><code>globals</code>()	Returns the current global symbol table as a dictionary</p>
+</li>
+<li><p><code>hasattr</code>()	Returns True if the specified object has the specified attribute (property/method)</p>
+</li>
+<li><p><code>hash</code>()	Returns the hash value of a specified object</p>
+</li>
+<li><p><code>help</code>()	Executes the built-in help system</p>
+</li>
+<li><p><code>hex</code>()	Converts a number into a hexadecimal value</p>
+</li>
+<li><p><code>id</code>()	Returns the id of an object</p>
+</li>
+<li><p><code>input</code>()	Allowing user input</p>
+</li>
+<li><p><code>int</code>()	Returns an integer number</p>
+</li>
+<li><p><code>isinstance</code>()	Returns True if a specified object is an instance of a specified object</p>
+</li>
+<li><p><code>issubclass</code>()	Returns True if a specified class is a subclass of a specified object</p>
+</li>
+<li><p><code>iter</code>()	Returns an iterator object</p>
+</li>
+<li><p><code>len</code>()	Returns the length of an object</p>
+</li>
+<li><p><code>list</code>()	Returns a list</p>
+</li>
+<li><p><code>locals</code>()	Returns an updated dictionary of the current local symbol table</p>
+</li>
+<li><p><code>map</code>()	Returns the specified iterator with the specified function applied to each item</p>
+</li>
+<li><p><code>max</code>()	Returns the largest item in an iterable</p>
+</li>
+<li><p><code>memoryview</code>()	Returns a memory view object</p>
+</li>
+<li><p><code>min</code>()	Returns the smallest item in an iterable</p>
+</li>
+<li><p><code>next</code>()	Returns the next item in an iterable</p>
+</li>
+<li><p><code>object</code>()	Returns a new object</p>
+</li>
+<li><p><code>oct</code>()	Converts a number into an octal</p>
+</li>
+<li><p><code>open</code>()	Opens a file and returns a file object</p>
+</li>
+<li><p><code>ord</code>()	Convert an integer representing the Unicode of the specified character</p>
+</li>
+<li><p><code>pow</code>()	Returns the value of x to the power of y</p>
+</li>
+<li><p><code>print</code>()	Prints to the standard output device</p>
+</li>
+<li><p><code>property</code>()	Gets, sets, deletes a property</p>
+</li>
+<li><p><code>range</code>()	Returns a sequence of numbers, starting from 0 and increments by 1 (by default)</p>
+</li>
+<li><p><code>repr</code>()	Returns a readable version of an object</p>
+</li>
+<li><p><code>reversed</code>()	Returns a reversed iterator</p>
+</li>
+<li><p><code>round</code>()	Rounds a numbers</p>
+</li>
+<li><p><code>set</code>()	Returns a new set object</p>
+</li>
+<li><p><code>setattr</code>()	Sets an attribute (property/method) of an object</p>
+</li>
+<li><p><code>slice</code>()	Returns a slice object</p>
+</li>
+<li><p><code>sorted</code>()	Returns a sorted list</p>
+</li>
+<li><p><code>@staticmethod</code>()	Converts a method into a static method</p>
+</li>
+<li><p><code>str</code>()	Returns a string object</p>
+</li>
+<li><p><code>sum</code>()	Sums the items of an iterator</p>
+</li>
+<li><p><code>super</code>()	Returns an object that represents the parent class</p>
+</li>
+<li><p><code>tuple</code>()	Returns a tuple</p>
+</li>
+<li><p><code>type</code>()	Returns the type of an object</p>
+</li>
+<li><p><code>vars</code>()	Returns the <strong>dict</strong> property of an object</p>
+</li>
+<li><p><code>zip</code>()	Returns an iterator, from two or more iterators</p>
+</li>
+<li><p><code>String()</code> Creates a new String object. It performs type conversion when called as a function, rather than as a constructor, which is usually more useful.</p>
+</li>
+<li><p><code>String.raw()</code> - Returns a string created from a raw template string.
+For most languages, this will return the same as toLowerCase().
+For most languages, this will return the same as toUpperCase().</p>
+</li>
+<li><p><code>String.prototype.toLowerCase()-</code> Returns the calling string value converted to lowercase.</p>
+</li>
+<li><p><code>String.prototype.toString()</code> - Returns a string representing the specified object. Overrides the Object.prototype.toString() method.</p>
+</li>
+<li><p><code>String.prototype.toUpperCase()</code> - Returns the calling string value converted to uppercase.</p>
+</li>
+<li><p><code>String.prototype.trim()</code> - Trims whitespace from the beginning and end of the string. Part of the ECMAScript 5 standard.</p>
+</li>
+<li><p><code>String.prototype.trimStart()</code> - Trims whitespace from the beginning of the string.</p>
+</li>
+<li><p><code>String.prototype.trimEnd()</code> - Trims whitespace from the end of the string.</p>
+</li>
+<li><p><code>String.prototype.valueOf()</code> - Returns the primitive value of the specified object. Overrides the Object.prototype.valueOf() method.</p>
+</li>
+<li><p><code>String.prototype.@@iterator()</code> - Returns a new iterator object that iterates over the code points of a String value, returning each code point as a String value.</p>
+</li>
+<li><p><code>String.prototype.anchor()</code> <code>&lt;a name=&quot;name&quot;&gt;</code> (hypertext target)</p>
+</li>
+<li><p><code>String.prototype.big()</code> <code>&lt;big&gt;</code></p>
+</li>
+<li><p><code>String.prototype.blink()</code> <code>&lt;blink&gt;</code></p>
+</li>
+<li><p><code>String.prototype.bold()</code> <code>&lt;b&gt;</code></p>
+</li>
+<li><p><code>String.prototype.fixed()</code> <code>&lt;tt&gt;</code></p>
+</li>
+<li><p><code>String.prototype.fontcolor()</code> <code>&lt;font color=&quot;color&quot;&gt;</code></p>
+</li>
+<li><p><code>String.prototype.fontsize()</code> <code>&lt;font size=&quot;size&quot;&gt;</code></p>
+</li>
+<li><p><code>String.prototype.italics()</code> <code>&lt;i&gt;</code></p>
+</li>
+<li><p><code>String.prototype.link()</code> <code>&lt;a href=&quot;url&quot;&gt;</code> (link to URL)</p>
+</li>
+<li><p><code>String.prototype.small()</code> <code>&lt;small&gt;</code></p>
+</li>
+<li><p><code>String.prototype.strike()</code> <code>&lt;strike&gt;</code></p>
+</li>
+<li><p><code>String.prototype.sub()</code> <code>&lt;sub&gt;</code></p>
+</li>
+<li><p><code>String.prototype.sup()</code> <code>&lt;sup&gt;</code></p>
+</li>
+<li><p><code>charAt()</code>	Returns the character at the specified index (position)</p>
+</li>
+<li><p><code>charCodeAt()</code>	Returns the Unicode of the character at the specified index</p>
+</li>
+<li><p><code>concat()</code>	Joins two or more strings, and returns a new joined strings</p>
+</li>
+<li><p><code>endsWith()</code>	Checks whether a string ends with specified string/characters</p>
+</li>
+<li><p><code>fromCharCode()</code>	Converts Unicode values to characters</p>
+</li>
+<li><p><code>includes()</code>	Checks whether a string contains the specified string/characters</p>
+</li>
+<li><p><code>indexOf()</code>	Returns the position of the first found occurrence of a specified value in a string</p>
+</li>
+<li><p><code>lastIndexOf()</code>	Returns the position of the last found occurrence of a specified value in a string</p>
+</li>
+<li><p><code>localeCompare()</code>	Compares two strings in the current locale</p>
+</li>
+<li><p><code>match()</code>	Searches a string for a match against a regular expression, and returns the matches</p>
+</li>
+<li><p><code>repeat()</code>	Returns a new string with a specified number of copies of an existing string</p>
+</li>
+<li><p><code>replace()</code>	Searches a string for a specified value, or a regular expression, and returns a new string where the specified values are replaced</p>
+</li>
+<li><p><code>search()</code>	Searches a string for a specified value, or regular expression, and returns the position of the match</p>
+</li>
+<li><p><code>slice()</code>	Extracts a part of a string and returns a new string</p>
+</li>
+<li><p><code>split()</code>	Splits a string into an array of substrings</p>
+</li>
+<li><p><code>startsWith()</code>	Checks whether a string begins with specified characters</p>
+</li>
+<li><p><code>substr()</code>	Extracts the characters from a string, beginning at a specified start position, and through the specified number of character</p>
+</li>
+<li><p><code>substring()</code>	Extracts the characters from a string, between two specified indices</p>
+</li>
+<li><p><code>toLocaleLowerCase()</code>	Converts a string to lowercase letters, according to the host's locale</p>
+</li>
+<li><p><code>toLocaleUpperCase()</code>	Converts a string to uppercase letters, according to the host's locale</p>
+</li>
+<li><p><code>toLowerCase()</code>	Converts a string to lowercase letters</p>
+</li>
+<li><p><code>toString()</code>	Returns the value of a String object</p>
+</li>
+<li><p><code>toUpperCase()</code>	Converts a string to uppercase letters</p>
+</li>
+<li><p><code>trim()</code>	Removes whitespace from both ends of a string</p>
+</li>
+<li><p><code>valueOf()</code>	Returns the primitive value of a String object</p>
+</li>
+<li><p><code>random()</code>	Returns a random number between 0 and 1</p>
+</li>
+<li><p><code>compile()</code>	Deprecated in version 1.5. Compiles a regular expression</p>
+</li>
+<li><p><code>exec()</code>	Tests for a match in a string. Returns the first match</p>
+</li>
+<li><p><code>test()</code>	Tests for a match in a string. Returns true or false</p>
+</li>
+<li><p><code>toString()</code>	Returns the string value of the regular expression</p>
+</li>
+<li><p>(string.)<code>match()</code></p>
+</li>
+<li><p>(string.)<code>matchAll()</code></p>
+</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
