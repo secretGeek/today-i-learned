@@ -23,22 +23,27 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="seq-cli">seq-cli</h1>
-<p>Get it from <a href="https://github.com/datalust/seqcli">https://github.com/datalust/seqcli</a></p>
+<p>Get it from <a href="https://github.com/datalust/">datalust</a> at <a href="https://github.com/datalust/seqcli">https://github.com/datalust/seqcli</a></p>
 <p>Or get it via <code>dotnet</code></p>
 <pre><code>dotnet tool install --global seqcli
 </code></pre>
+<hr />
 <h2 id="seqcli"><code>seqcli -?</code></h2>
+<p>Commandline tool for <a href="https://docs.datalust.co/docs/an-overview-of-seq">seq (see overview)</a>.</p>
+<blockquote>
+<p>Supports logging (<code>seqcli log</code>), searching (<code>seqcli search</code>), tailing (<code>seqcli  tail</code>), querying (<code>seqcli query</code>) and JSON or plain-text log file ingestion (<code>seqcli ingest</code>), and much more.
+— <a href="https://github.com/datalust/seqcli">seqcli at github</a></p>
+</blockquote>
 <pre><code>&gt; seqcli -?
 Usage: seqcli &lt;command&gt; [&lt;args&gt;]
 Type `seqcli help` for available commands
 </code></pre>
 <h2 id="seqcli-help"><code>seqcli help</code></h2>
-<pre><code>&gt; seqcli help
+<pre><code>seqcli help
 </code></pre>
 <p>Help command for help with available commands.</p>
-<blockquote>
-<p>seqcli help <command> <sub-command></p>
-</blockquote>
+<p>seqcli help <command> <sub-command>
+seqcli help <command> <sub-command></p>
 <h2 id="commands"><code>Commands</code></h2>
 <ul>
 <li><a href="#apikey">apikey</a> — <code>sqcli apikey &lt;sub-command&gt;</code>
@@ -49,8 +54,24 @@ Type `seqcli help` for available commands
 <li><a href="#seqcli-apikey-update">apikey update</a> — <code>sqcli apikey update</code></li>
 </ul>
 </li>
-<li><a href="#app">app</a> — <code>&lt;sub-command&gt;</code></li>
-<li><a href="#appinstance">appinstance</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#app">app</a> — <code>&lt;sub-command&gt;</code>
+<ul>
+<li><a href="#seqcli-app-define">app define</a> —  Generate an app definition for a .NET <code>[SeqApp]</code> plug-in</li>
+<li><a href="#seqcli-app-install">app install</a>     — Install an app package</li>
+<li><a href="#seqcli-app-list">app list</a>           — List installed app packages</li>
+<li><a href="#seqcli-app-run">app run</a>             — Host a .NET <code>[SeqApp]</code> plug-in</li>
+<li><a href="#seqcli-app-uninstall">app uninstall</a> — Uninstall an app package</li>
+<li><a href="#seqcli-app-update">app update</a>       — Update an installed app package</li>
+</ul>
+</li>
+<li><a href="#appinstance">appinstance</a> — <code>&lt;sub-command&gt;</code>
+<ul>
+<li><a href="#seqcli-appinstance-create">appinstance create</a> — Create an instance of an installed app</li>
+<li><a href="#seqcli-appinstance-list">appinstance list</a> — List instances of installed apps</li>
+<li><a href="#seqcli-appinstance-remove">appinstance remove</a> — Remove an app instance from the server</li>
+<li><a href="#seqcli-appinstance-update">appinstance update</a> — Update an existing app instance</li>
+</ul>
+</li>
 <li><a href="#bench">bench</a> — Measure query performance</li>
 <li><a href="#config">config</a> — View and set fields in the <code>SeqCli.json</code> file; run with no arguments to list all fields</li>
 <li><a href="#dashboard">dashboard</a> — <code>&lt;sub-command&gt;</code></li>
@@ -131,25 +152,26 @@ update      Update an installed app package</p>
 <h4 id="seqcli-app-update">seqcli app update</h4>
 <p>Update an installed app package</p>
 <h3 id="appinstance">appinstance</h3>
-<sub-command>
-<p>seqcli help appinstance</p>
-<p>Usage: seqcli appinstance <sub-command> [<args>]</p>
-<p>Available sub-commands are:
-create      Create an instance of an installed app
-list        List instances of installed apps
-remove      Remove an app instance from the server
-update      Update an existing app instance</p>
+<p>Via <code>seqcli help appinstance</code></p>
+<p>Usage: <code>seqcli appinstance &lt;sub-command&gt; [&lt;args&gt;]</code></p>
+<p><code>appinstance</code> <em>sub-commands</em>:</p>
+<ul>
+<li>[create]      Create an instance of an installed app</li>
+<li>[list]      List instances of installed apps</li>
+<li>[remove]      Remove an app instance from the server</li>
+<li>[update]      Update an existing app instance</li>
+</ul>
 <p>Type <code>seqcli help appinstance &lt;sub-command&gt;</code> for detailed help</p>
-<h4 id="sqlcli-appinstance-create">sqlcli appinstance create</h4>
+<h4 id="seqcli-appinstance-create">seqcli appinstance create</h4>
 <p>Create an instance of an installed app</p>
-<h4 id="sqlcli-appinstance-list">sqlcli appinstance list</h4>
+<h4 id="seqcli-appinstance-list">seqcli appinstance list</h4>
 <p>List instances of installed apps</p>
-<h4 id="sqlcli-appinstance-remove">sqlcli appinstance remove</h4>
+<h4 id="seqcli-appinstance-remove">seqcli appinstance remove</h4>
 <p>Remove an app instance from the server</p>
-<h4 id="sqlcli-appinstance-update">sqlcli appinstance update</h4>
+<h3 id="seqcli-appinstance-update">seqcli appinstance update</h3>
 <p>Update an existing app instance</p>
 <h3 id="bench">bench</h3>
-<h4 id="sqlcli-bench">sqlcli bench</h4>
+<h4 id="seqcli-bench">seqcli bench</h4>
 <p>Measure query performance</p>
 <p>seqcli help bench</p>
 <p>seqcli bench [<args>]</p>
@@ -311,10 +333,13 @@ list        List connection profiles
 remove      Remove a connection profile</p>
 <p>Type <code>seqcli help profile &lt;sub-command&gt;</code> for detailed help</p>
 <h3 id="query">query</h3>
-<p>Execute an SQL query and receive results in CSV format</p>
-<p>seqcli help query</p>
-<p>seqcli query [<args>]</p>
-<p>Execute an SQL query and receive results in CSV format</p>
+<p>Execute an SEQ query and receive results in CSV format</p>
+<pre><code>seqcli help query
+</code></pre>
+<p>See:</p>
+<pre><code>seqcli query [&lt;args&gt;]
+</code></pre>
+<p>Execute an SEQ query and receive results in CSV format</p>
 <p>Example:
 seqcli query -q &quot;select count(*) from stream group by @Level&quot; --start=&quot;2018-02-28T13:00Z&quot;</p>
 <h3 id="retention">retention</h3>
