@@ -24,10 +24,29 @@
 <article>
 <h1 id="docker-compose">Docker compose</h1>
 <p>Docker Compose is a tool that lets you run more than one container at a time, with links / dependencies between them.</p>
-<p>This is often called &quot;Orchestration&quot; because that's a lovely word isn't it.</p>
-<p>Docker Compose's orchestra of containers are defined in a docker compose YAML file.</p>
+<p>This is often called &quot;Orchestration&quot; because that's a lovely word isn't it. &quot;Plumbing&quot; is a more accurate term, but &quot;Orchestration&quot; sounds better.</p>
+<p>Docker Compose's orchestra of containers are defined in a docker compose YAML file (<code>docker-compose.yml</code>).</p>
 <p>It is particularly well suited for local development and testing, though it can also be used in production.</p>
 <p>In production, alternative &quot;Container Orchestration&quot; techniques such as Kubernetes are more widely used.</p>
+<h2 id="to-run-a-docker-compose.yml-file">To run a <code>docker-compose.yml</code> file</h2>
+<p>(Assuming you have docker desktop, and it is currently running, and that docker tooling, such as <code>docker-compose</code> is available on the command line)</p>
+<p>Navigate to the folder which contains the <code>docker-compose.yml</code> file, and call:</p>
+<pre><code>docker-compose up
+</code></pre>
+<p>This will:</p>
+<ul>
+<li>If necessary, download the container images referenced in the compose file.</li>
+<li>Run the images (i.e. start &quot;containers&quot; based on the downloaded images) with the connections and dependencies (the plumbing) as described in the docker compose file. (Sorry I mean the 'orchestration')</li>
+</ul>
+<h2 id="to-stop-the-orchestra-of-containers-to-stop-the-docker-compose.yml-images-from-running">To stop the Orchestra of containers, to stop the <code>docker-compose.yml</code> images from running....</h2>
+<p>What goes up, must come down. To stop all those running containers from running, execute the complementary command, &quot;down&quot;, like so:</p>
+<pre><code>docker-compose down
+</code></pre>
+<h2 id="concepts-more-concepts">Concepts! More Concepts!</h2>
+<ul>
+<li><code>docker-compose.override.yml</code></li>
+<li>``</li>
+</ul>
 <h2 id="sources">Source(s)</h2>
 <ul>
 <li><a href="https://docs.docker.com/compose/">Docker Compose overview</a></li>

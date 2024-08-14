@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>seq-cli-help . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<ul>
+<li><a href="#apikey">apikey</a> — <code>sqcli apikey &lt;sub-command&gt;</code>
+<ul>
+<li><a href="#apikey-create">apikey create</a> — <code>sqcli apikey create</code></li>
+<li><a href="#apikey-list">apikey list</a> — <code>sqcli apikey list</code></li>
+<li><a href="#apikey-remove">apikey remove</a> — <code>sqcli apikey remove</code></li>
+<li><a href="#apikey-update">apikey update</a> — <code>sqcli apikey update</code></li>
+</ul>
+</li>
+<li><a href="#app">app</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#appinstance">appinstance</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#bench">bench</a> — Measure query performance</li>
+<li><a href="#config">config</a> — View and set fields in the <code>SeqCli.json</code> file; run with no arguments to list all fields</li>
+<li><a href="#dashboard">dashboard</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#expressionindex">expressionindex</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#feed">feed</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#help">help</a> — Show information about available commands</li>
+<li><a href="#index">index</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#ingest">ingest</a> — Send log events from a file or <code>STDIN</code></li>
+<li><a href="#license">license</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#log">log</a> — Send a structured log event to the server</li>
+<li><a href="#node">node</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#print">print</a> — Pretty-print events in <code>CLEF/JSON</code> format</li>
+<li><a href="#profile">profile</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#query">query</a> — Execute an SQL query and receive results in <code>CSV</code> format</li>
+<li><a href="#retention">retention</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#sample">sample</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#search">search</a> — Retrieve log events that match a given filter</li>
+<li><a href="#setting">setting</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#signal">signal</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#tail">tail</a> — Stream log events matching a filter</li>
+<li><a href="#template">template</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#user">user</a> — <code>&lt;sub-command&gt;</code></li>
+<li><a href="#version">version</a> — Print the current executable version</li>
+<li><a href="#workspace">workspace</a> — <code>&lt;sub-command&gt;</code></li>
+</ul>
+<h2 id="apikey">apikey</h2>
+<blockquote>
+<p>seqcli help apikey</p>
+</blockquote>
+<p>Run api <sub-command> -- where <sub-command> is one of these:</p>
+<ul>
+<li>Usage: <code>seqcli apikey &lt;sub-command&gt; [&lt;args&gt;]</code></li>
+</ul>
+<p>Available sub-commands are:</p>
+<ul>
+<li><a href="#apikey-create">create</a>  —    Create an API key for automation or ingestion</li>
+<li><a href="#apikey-list">list</a>      —      List available API keys</li>
+<li><a href="#apikey-remove">remove</a>  —     Remove an API key from the server</li>
+<li><a href="#apikey-update">update</a>  —    Update an existing API key</li>
+</ul>
+<p>Type <code>seqcli help apikey &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="seqcli-apikey-create">seqcli apikey create</h2>
+<ul>
+<li><a href="#apikey-list">list</a></li>
+<li><a href="#apikey-remove">remove</a></li>
+<li><a href="#apikey-update">update</a></li>
+</ul>
+<h2 id="app">app</h2>
+<sub-command>
+<p>seqcli help app</p>
+<p>Usage: seqcli app <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+define      Generate an app definition for a .NET <code>[SeqApp]</code> plug-in
+install     Install an app package
+list        List installed app packages
+run         Host a .NET <code>[SeqApp]</code> plug-in
+uninstall   Uninstall an app package
+update      Update an installed app package</p>
+<p>Type <code>seqcli help app &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="appinstance">appinstance</h2>
+<sub-command>
+<p>seqcli help appinstance</p>
+<p>Usage: seqcli appinstance <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create an instance of an installed app
+list        List instances of installed apps
+remove      Remove an app instance from the server
+update      Update an existing app instance</p>
+<p>Type <code>seqcli help appinstance &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="bench">bench</h2>
+<p>Measure query performance</p>
+<p>seqcli help bench</p>
+<p>seqcli bench [<args>]</p>
+<p>Measure query performance</p>
+<h2 id="config">config</h2>
+<p>View and set fields in the <code>SeqCli.json</code> file; run with no arguments to list all fields</p>
+<p>seqcli help config</p>
+<p>seqcli config [<args>]</p>
+<p>View and set fields in the <code>SeqCli.json</code> file; run with no arguments to list all fields</p>
+<h2 id="dashboard">dashboard</h2>
+<sub-command>
+<p>seqcli help dashboard</p>
+<p>Usage: seqcli dashboard <sub-command> [<args>]</p>
+<p>Available sub-commands are:</p>
+<p>list        List dashboards
+remove      Remove a dashboard from the server
+render      Produce a CSV or JSON result set from a dashboard chart</p>
+<p>Type <code>seqcli help dashboard &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="expressionindex">expressionindex</h2>
+<sub-command>
+<p>seqcli help expressionindex</p>
+<p>Usage: seqcli expressionindex <sub-command> [<args>]</p>
+<p>Available sub-commands are:</p>
+<p>create      Create an expression index
+list        List expression indexes
+remove      Remove an expression index from the server</p>
+<p>Type <code>seqcli help expressionindex &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="feed">feed</h2>
+<sub-command>
+<p>seqcli help feed</p>
+<p>Usage: seqcli feed <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create a NuGet feed
+list        List NuGet feeds
+remove      Remove a NuGet feed from the server
+update      Update an existing NuGet feed</p>
+<p>Type <code>seqcli help feed &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="help">help</h2>
+<p>Show information about available commands</p>
+<p>seqcli help help</p>
+<p>seqcli help [<args>]</p>
+<p>Show information about available commands</p>
+<p>Example:
+seqcli help search</p>
+<h2 id="index">index</h2>
+<sub-command>
+<p>seqcli help index</p>
+<p>Usage: seqcli index <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+list        List indexes
+suppress    Suppress an index</p>
+<p>Type <code>seqcli help index &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="ingest">ingest</h2>
+<p>Send log events from a file or <code>STDIN</code></p>
+<p>seqcli help ingest</p>
+<p>seqcli ingest [<args>]</p>
+<p>Send log events from a file or <code>STDIN</code></p>
+<p>Example:
+seqcli ingest -i log-*.txt --json --filter=&quot;@Level &lt;&gt; 'Debug'&quot; -p Environment=Test</p>
+<h2 id="license">license</h2>
+<sub-command>
+<p>seqcli help license</p>
+<p>Usage: seqcli license <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+apply       Apply a license to the Seq server</p>
+<p>Type <code>seqcli help license &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="log">log</h2>
+<p>Send a structured log event to the server</p>
+<p>seqcli help log</p>
+<p>seqcli log [<args>]</p>
+<p>Send a structured log event to the server</p>
+<p Name="">Example:
+seqcli log -m 'Hello, !' -p Name=World -p App=Test</p>
+<h2 id="node">node</h2>
+<sub-command>
+<p>seqcli help node</p>
+<p>Usage: seqcli node <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+demote      Begin demotion of the current leader node
+health      Probe a Seq node's <code>/health</code> endpoint, and print the returned HTTP s
+tatus code, or 'Unreachable' if the endpoint could not be queried
+list        List nodes in the Seq cluster</p>
+<p>Type <code>seqcli help node &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="print">print</h2>
+<p>Pretty-print events in CLEF/JSON format</p>
+<p>seqcli help print</p>
+<p>seqcli print [<args>]</p>
+<p>Pretty-print events in CLEF/JSON format, from a file or <code>STDIN</code></p>
+<p>Example:
+seqcli print -i log-20201028.clef</p>
+<h2 id="profile">profile</h2>
+<sub-command>
+<p>seqcli help profile</p>
+<p>Usage: seqcli profile <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create or replace a connection profile
+list        List connection profiles
+remove      Remove a connection profile</p>
+<p>Type <code>seqcli help profile &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="query">query</h2>
+<p>Execute an SQL query and receive results in CSV format</p>
+<p>seqcli help query</p>
+<p>seqcli query [<args>]</p>
+<p>Execute an SQL query and receive results in CSV format</p>
+<p>Example:
+seqcli query -q &quot;select count(*) from stream group by @Level&quot; --start=&quot;2018-02-28T13:00Z&quot;</p>
+<h2 id="retention">retention</h2>
+<sub-command>
+<p>seqcli help retention</p>
+<p>Usage: seqcli retention <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create a retention policy
+list        List retention policies
+remove      Remove a retention policy from the server
+update      Update an existing retention policy</p>
+<p>Type <code>seqcli help retention &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="sample">sample</h2>
+<sub-command>
+<p>seqcli help sample</p>
+<p>Usage: seqcli sample <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+ingest      Log sample events into a Seq instance
+setup       Configure a Seq instance with sample dashboards, signals, users, and
+so on</p>
+<p>Type <code>seqcli help sample &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="search">search</h2>
+<p>Retrieve log events that match a given filter</p>
+<p>seqcli help search</p>
+<p>seqcli search [<args>]</p>
+<p>Retrieve log events that match a given filter</p>
+<p>Example:
+seqcli search -f &quot;@Exception like '%TimeoutException%'&quot; -c 30</p>
+<h2 id="setting">setting</h2>
+<sub-command>
+<p>seqcli help setting</p>
+<p>Usage: seqcli setting <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+clear       Clear a runtime-configurable server setting
+names       Print the names of all supported settings
+set         Change a runtime-configurable server setting
+show        Print the current value of a runtime-configurable server setting</p>
+<p>Type <code>seqcli help setting &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="signal">signal</h2>
+<sub-command>
+<p>seqcli help signal</p>
+<p>Usage: seqcli signal <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create a signal
+import      Import signals in newline-delimited JSON format
+list        List available signals
+remove      Remove a signal from the server
+update      Update an existing signal</p>
+<p>Type <code>seqcli help signal &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="tail">tail</h2>
+<p>Stream log events matching a filter</p>
+<p>seqcli help tail</p>
+<p>seqcli tail [<args>]</p>
+<p>Stream log events matching a filter</p>
+<h2 id="template">template</h2>
+<sub-command>
+<p>seqcli help template</p>
+<p>Usage: seqcli template <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+export      Export entities into template files
+import      Import entities from template files</p>
+<p>Type <code>seqcli help template &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="user">user</h2>
+<sub-command>
+<p>seqcli help user</p>
+<p>Usage: seqcli user <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create a user
+list        List users
+remove      Remove a user from the server
+update      Update an existing user</p>
+<p>Type <code>seqcli help user &lt;sub-command&gt;</code> for detailed help</p>
+<h2 id="version">version</h2>
+<p>Print the current executable version</p>
+<p>seqcli help version</p>
+<p>seqcli version</p>
+<p>Print the current executable version</p>
+<h2 id="workspace">workspace</h2>
+<sub-command>
+<p>seqcli help workspace</p>
+<p>Usage: seqcli workspace <sub-command> [<args>]</p>
+<p>Available sub-commands are:
+create      Create a workspace
+list        List available workspaces
+remove      Remove a workspace from the server
+update      Update an existing workspace</p>
+<p>Type <code>seqcli help workspace &lt;sub-command&gt;</code> for detailed help</p>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
