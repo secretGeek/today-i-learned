@@ -1,0 +1,1161 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>example . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="seqcli">seqcli</h1>
+<p>Commandline tool for <a href="https://docs.datalust.co/docs/an-overview-of-seq">seq (see overview)</a>.</p>
+<blockquote>
+<p>Supports logging (<code>seqcli log</code>), searching (<code>seqcli search</code>), tailing (<code>seqcli tail</code>), querying (<code>seqcli query</code>) and JSON or plain-text log file ingestion (<code>seqcli ingest</code>), and much more.
+— <a href="https://github.com/datalust/seqcli">seqcli at github</a></p>
+</blockquote>
+<p>Get it from <a href="https://github.com/datalust/">datalust</a> at <a href="https://github.com/datalust/seqcli">https://github.com/datalust/seqcli</a></p>
+<p>Or get it via <code>dotnet</code></p>
+<pre><code>dotnet tool install --global seqcli
+</code></pre>
+<hr />
+<pre><code>&gt; seqcli -?
+
+Usage: seqcli &lt;command&gt; [&lt;args&gt;]
+Type `seqcli help` for available commands
+</code></pre>
+<h2 id="seqcli-help"><code>seqcli help</code></h2>
+<p>Show information about available commands</p>
+<h2 id="commands-and-sub-commands">Commands (and sub-commands)</h2>
+<ul>
+<li><code>seqcli apikey</code>
+<ul>
+<li><code>seqcli apikey create</code></li>
+<li><code>seqcli apikey list</code></li>
+<li><code>seqcli apikey remove</code></li>
+<li><code>seqcli apikey update</code></li>
+</ul>
+</li>
+<li><code>seqcli app</code>
+<ul>
+<li><code>seqcli app define</code></li>
+<li><code>seqcli app install</code></li>
+<li><code>seqcli app list</code></li>
+<li><code>seqcli app run</code></li>
+<li><code>seqcli app uninstall</code></li>
+<li><code>seqcli app update</code></li>
+</ul>
+</li>
+<li><code>seqcli appinstance</code>
+<ul>
+<li><code>seqcli appinstance create</code></li>
+<li><code>seqcli appinstance list</code></li>
+<li><code>seqcli appinstance remove</code></li>
+<li><code>seqcli appinstance update</code></li>
+</ul>
+</li>
+<li><code>seqcli bench</code></li>
+<li><code>seqcli config</code></li>
+<li><code>seqcli dashboard</code>
+<ul>
+<li><code>seqcli dashboard list</code></li>
+<li><code>seqcli dashboard remove</code></li>
+<li><code>seqcli dashboard render</code></li>
+</ul>
+</li>
+<li><code>seqcli expressionindex</code>
+<ul>
+<li><code>seqcli expressionindex create</code></li>
+<li><code>seqcli expressionindex list</code></li>
+<li><code>seqcli expressionindex remove</code></li>
+</ul>
+</li>
+<li><code>seqcli feed</code>
+<ul>
+<li><code>seqcli feed create</code></li>
+<li><code>seqcli feed list</code></li>
+<li><code>seqcli feed remove</code></li>
+<li><code>seqcli feed update</code></li>
+</ul>
+</li>
+<li><code>seqcli help</code>
+<ul>
+<li><code>seqcli help seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli index</code>
+<ul>
+<li><code>seqcli index list</code></li>
+<li><code>seqcli index suppress</code></li>
+</ul>
+</li>
+<li><code>seqcli ingest</code>
+<ul>
+<li><code>seqcli ingest seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli license</code>
+<ul>
+<li><code>seqcli license apply</code></li>
+</ul>
+</li>
+<li><code>seqcli log</code>
+<ul>
+<li><code>seqcli log seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli node</code>
+<ul>
+<li><code>seqcli node demote</code></li>
+<li><code>seqcli node health</code></li>
+<li><code>seqcli node list</code></li>
+</ul>
+</li>
+<li><code>seqcli print</code>
+<ul>
+<li><code>seqcli print seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli profile</code>
+<ul>
+<li><code>seqcli profile create</code></li>
+<li><code>seqcli profile list</code></li>
+<li><code>seqcli profile remove</code></li>
+</ul>
+</li>
+<li><code>seqcli query</code>
+<ul>
+<li><code>seqcli query seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli retention</code>
+<ul>
+<li><code>seqcli retention create</code></li>
+<li><code>seqcli retention list</code></li>
+<li><code>seqcli retention remove</code></li>
+<li><code>seqcli retention update</code></li>
+</ul>
+</li>
+<li><code>seqcli sample</code>
+<ul>
+<li><code>seqcli sample ingest</code></li>
+<li><code>seqcli sample setup</code></li>
+</ul>
+</li>
+<li><code>seqcli search</code>
+<ul>
+<li><code>seqcli search seqcli</code></li>
+</ul>
+</li>
+<li><code>seqcli setting</code>
+<ul>
+<li><code>seqcli setting clear</code></li>
+<li><code>seqcli setting names</code></li>
+<li><code>seqcli setting set</code></li>
+<li><code>seqcli setting show</code></li>
+</ul>
+</li>
+<li><code>seqcli signal</code>
+<ul>
+<li><code>seqcli signal create</code></li>
+<li><code>seqcli signal import</code></li>
+<li><code>seqcli signal list</code></li>
+<li><code>seqcli signal remove</code></li>
+<li><code>seqcli signal update</code></li>
+</ul>
+</li>
+<li><code>seqcli tail</code></li>
+<li><code>seqcli template</code>
+<ul>
+<li><code>seqcli template export</code></li>
+<li><code>seqcli template import</code></li>
+</ul>
+</li>
+<li><code>seqcli user</code>
+<ul>
+<li><code>seqcli user create</code></li>
+<li><code>seqcli user list</code></li>
+<li><code>seqcli user remove</code></li>
+<li><code>seqcli user update</code></li>
+</ul>
+</li>
+<li><code>seqcli version</code></li>
+<li><code>seqcli workspace</code>
+<ul>
+<li><code>seqcli workspace create</code></li>
+<li><code>seqcli workspace list</code></li>
+<li><code>seqcli workspace remove</code></li>
+<li><code>seqcli workspace update</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="seqcli-apikey"><code>seqcli apikey</code></h2>
+<pre><code>(usage)Usage: seqcli apikey &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create an API key for automation or ingestion
+(available)  list        List available API keys
+(available)  remove      Remove an API key from the server
+(available)  update      Update an existing API key
+(available)
+(type)Type `seqcli help apikey &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-apikey-create"><code>seqcli apikey create</code></h3>
+<pre><code>seqcli apikey create [&lt;args&gt;]
+
+Create an API key for automation or ingestion
+
+Example:
+  seqcli apikey create -t 'Test API Key' -p Environment=Test
+</code></pre>
+<h3 id="seqcli-apikey-list"><code>seqcli apikey list</code></h3>
+<pre><code>seqcli apikey list [&lt;args&gt;]
+
+List available API keys
+
+Example:
+  seqcli apikey list
+</code></pre>
+<h3 id="seqcli-apikey-remove"><code>seqcli apikey remove</code></h3>
+<pre><code>seqcli apikey remove [&lt;args&gt;]
+
+Remove an API key from the server
+
+Example:
+  seqcli apikey remove -t 'Test API Key'
+</code></pre>
+<h3 id="seqcli-apikey-update"><code>seqcli apikey update</code></h3>
+<pre><code>seqcli apikey update [&lt;args&gt;]
+
+Update an existing API key
+
+Example:
+  seqcli apikey update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-app"><code>seqcli app</code></h2>
+<pre><code>(usage)Usage: seqcli app &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  define      Generate an app definition for a .NET `[SeqApp]` plug-in
+(available)  install     Install an app package
+(available)  list        List installed app packages
+(available)  run         Host a .NET `[SeqApp]` plug-in
+(available)  uninstall   Uninstall an app package
+(available)  update      Update an installed app package
+(available)
+(type)Type `seqcli help app &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-app-define"><code>seqcli app define</code></h3>
+<pre><code>seqcli app define [&lt;args&gt;]
+
+Generate an app definition for a .NET `[SeqApp]` plug-in
+
+Example:
+  seqcli app define -d &quot;./bin/Debug/netstandard2.2&quot;
+</code></pre>
+<h3 id="seqcli-app-install"><code>seqcli app install</code></h3>
+<pre><code>seqcli app install [&lt;args&gt;]
+
+Install an app package
+
+Example:
+  seqcli app install --package-id 'Seq.App.JsonArchive'
+</code></pre>
+<h3 id="seqcli-app-list"><code>seqcli app list</code></h3>
+<pre><code>seqcli app list [&lt;args&gt;]
+
+List installed app packages
+
+Example:
+  seqcli app list
+</code></pre>
+<h3 id="seqcli-app-run"><code>seqcli app run</code></h3>
+<pre><code>seqcli app run [&lt;args&gt;]
+
+Host a .NET `[SeqApp]` plug-in
+
+Example:
+  seqcli tail --json | seqcli app run -d &quot;./bin/Debug/netstandard2.2&quot; -p ToAddress=example@example.com
+</code></pre>
+<h3 id="seqcli-app-uninstall"><code>seqcli app uninstall</code></h3>
+<pre><code>seqcli app uninstall [&lt;args&gt;]
+
+Uninstall an app package
+
+Example:
+  seqcli app uninstall --package-id 'Seq.App.JsonArchive'
+</code></pre>
+<h3 id="seqcli-app-update"><code>seqcli app update</code></h3>
+<pre><code>seqcli app update [&lt;args&gt;]
+
+Update an installed app package
+
+Example:
+  seqcli app update -n 'HTML Email'
+</code></pre>
+<hr />
+<h2 id="seqcli-appinstance"><code>seqcli appinstance</code></h2>
+<pre><code>(usage)Usage: seqcli appinstance &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create an instance of an installed app
+(available)  list        List instances of installed apps
+(available)  remove      Remove an app instance from the server
+(available)  update      Update an existing app instance
+(available)
+(type)Type `seqcli help appinstance &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-appinstance-create"><code>seqcli appinstance create</code></h3>
+<pre><code>seqcli appinstance create [&lt;args&gt;]
+
+Create an instance of an installed app
+
+Example:
+  seqcli appinstance create -t 'Email Ops' --app hostedapp-314159 -p To=ops@example.com
+</code></pre>
+<h3 id="seqcli-appinstance-list"><code>seqcli appinstance list</code></h3>
+<pre><code>seqcli appinstance list [&lt;args&gt;]
+
+List instances of installed apps
+
+Example:
+  seqcli appinstance list
+</code></pre>
+<h3 id="seqcli-appinstance-remove"><code>seqcli appinstance remove</code></h3>
+<pre><code>seqcli appinstance remove [&lt;args&gt;]
+
+Remove an app instance from the server
+
+Example:
+  seqcli appinstance remove -t 'Email Ops'
+</code></pre>
+<h3 id="seqcli-appinstance-update"><code>seqcli appinstance update</code></h3>
+<pre><code>seqcli appinstance update [&lt;args&gt;]
+
+Update an existing app instance
+
+Example:
+  seqcli appinstance update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-bench"><code>seqcli bench</code></h2>
+<pre><code>(none)seqcli bench [&lt;args&gt;]
+(none)
+(none)Measure query performance
+(none)
+(argument)Arguments:
+(argument)  -r, --runs=VALUE           The number of runs to execute; the default is 10
+(argument)  -c, --cases=VALUE          A JSON file containing the set of cases to run.
+(argument)                               Defaults to a standard set of cases.
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --start=VALUE          ISO 8601 date/time to query from
+(argument)      --end=VALUE            ISO 8601 date/time to query to
+(argument)      --reporting-server=VALUE
+(argument)                             The address of a Seq server to send bench results
+(argument)                               to
+(argument)      --reporting-apikey=VALUE
+(argument)                             The API key to use when connecting to the
+(argument)                               reporting server
+(argument)      --description=VALUE    Optional description of the bench test run
+(argument)      --with-ingestion       Should the benchmark include sending events to Seq
+(argument)      --with-queries         Should the benchmark include querying Seq
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<hr />
+<h2 id="seqcli-config"><code>seqcli config</code></h2>
+<pre><code>(none)seqcli config [&lt;args&gt;]
+(none)
+(none)View and set fields in the `SeqCli.json` file; run with no arguments to list all fields
+(none)
+(argument)Arguments:
+(argument)  -k, --key=VALUE            The field, for example `connection.serverUrl`
+(argument)  -v, --value=VALUE          The field value; if not specified, the command
+(argument)                               will print the current value
+(argument)  -c, --clear                Clear the field
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<hr />
+<h2 id="seqcli-dashboard"><code>seqcli dashboard</code></h2>
+<pre><code>(usage)Usage: seqcli dashboard &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  list        List dashboards
+(available)  remove      Remove a dashboard from the server
+(available)  render      Produce a CSV or JSON result set from a dashboard chart
+(available)
+(type)Type `seqcli help dashboard &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-dashboard-list"><code>seqcli dashboard list</code></h3>
+<pre><code>seqcli dashboard list [&lt;args&gt;]
+
+List dashboards
+
+Example:
+  seqcli dashboard list
+</code></pre>
+<h3 id="seqcli-dashboard-remove"><code>seqcli dashboard remove</code></h3>
+<pre><code>seqcli dashboard remove [&lt;args&gt;]
+
+Remove a dashboard from the server
+
+Example:
+  seqcli dashboard remove -i dashboard-159
+</code></pre>
+<h3 id="seqcli-dashboard-render"><code>seqcli dashboard render</code></h3>
+<pre><code>seqcli dashboard render [&lt;args&gt;]
+
+Produce a CSV or JSON result set from a dashboard chart
+
+Example:
+  seqcli dashboard render -i dashboard-159 -c 'Response Time (ms)' --last 7d --by 1h
+</code></pre>
+<hr />
+<h2 id="seqcli-expressionindex"><code>seqcli expressionindex</code></h2>
+<pre><code>(usage)Usage: seqcli expressionindex &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create an expression index
+(available)  list        List expression indexes
+(available)  remove      Remove an expression index from the server
+(available)
+(type)Type `seqcli help expressionindex &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-expressionindex-create"><code>seqcli expressionindex create</code></h3>
+<pre><code>seqcli expressionindex create [&lt;args&gt;]
+
+Create an expression index
+
+Example:
+  seqcli expressionindex create --expression &quot;ServerName&quot;
+</code></pre>
+<h3 id="seqcli-expressionindex-list"><code>seqcli expressionindex list</code></h3>
+<pre><code>seqcli expressionindex list [&lt;args&gt;]
+
+List expression indexes
+
+Example:
+  seqcli expressionindex list
+</code></pre>
+<h3 id="seqcli-expressionindex-remove"><code>seqcli expressionindex remove</code></h3>
+<pre><code>seqcli expressionindex remove [&lt;args&gt;]
+
+Remove an expression index from the server
+
+Example:
+  seqcli expressionindex -i expressionindex-2529
+</code></pre>
+<hr />
+<h2 id="seqcli-feed"><code>seqcli feed</code></h2>
+<pre><code>(usage)Usage: seqcli feed &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create a NuGet feed
+(available)  list        List NuGet feeds
+(available)  remove      Remove a NuGet feed from the server
+(available)  update      Update an existing NuGet feed
+(available)
+(type)Type `seqcli help feed &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-feed-create"><code>seqcli feed create</code></h3>
+<pre><code>seqcli feed create [&lt;args&gt;]
+
+Create a NuGet feed
+
+Example:
+  seqcli feed create -n 'CI' --location=&quot;https://f.feedz.io/example/ci&quot; -u Seq --password-stdin
+</code></pre>
+<h3 id="seqcli-feed-list"><code>seqcli feed list</code></h3>
+<pre><code>seqcli feed list [&lt;args&gt;]
+
+List NuGet feeds
+
+Example:
+  seqcli feed list
+</code></pre>
+<h3 id="seqcli-feed-remove"><code>seqcli feed remove</code></h3>
+<pre><code>seqcli feed remove [&lt;args&gt;]
+
+Remove a NuGet feed from the server
+
+Example:
+  seqcli feed remove -n CI
+</code></pre>
+<h3 id="seqcli-feed-update"><code>seqcli feed update</code></h3>
+<pre><code>seqcli feed update [&lt;args&gt;]
+
+Update an existing NuGet feed
+
+Example:
+  seqcli feed update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-help-1"><code>seqcli help</code></h2>
+<pre><code>(none)seqcli help [&lt;args&gt;]
+(none)
+(none)Show information about available commands
+(none)
+(example)Example:
+(example)  seqcli help search
+(example)
+(argument)Arguments:
+(argument)  -m, --markdown             Generate markdown for use in documentation
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-help-seqcli"><code>seqcli help seqcli</code></h3>
+<pre><code>Usage: seqcli help &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Show information about available commands
+
+Type `seqcli help help &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-index"><code>seqcli index</code></h2>
+<pre><code>(usage)Usage: seqcli index &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  list        List indexes
+(available)  suppress    Suppress an index
+(available)
+(type)Type `seqcli help index &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-index-list"><code>seqcli index list</code></h3>
+<pre><code>seqcli index list [&lt;args&gt;]
+
+List indexes
+
+Example:
+  seqcli index list
+</code></pre>
+<h3 id="seqcli-index-suppress"><code>seqcli index suppress</code></h3>
+<pre><code>seqcli index suppress [&lt;args&gt;]
+
+Suppress an index
+
+Example:
+  seqcli index suppress -i index-2191448f1d9b4f22bd32c6edef752748
+</code></pre>
+<hr />
+<h2 id="seqcli-ingest"><code>seqcli ingest</code></h2>
+<pre><code>(none)seqcli ingest [&lt;args&gt;]
+(none)
+(none)Send log events from a file or `STDIN`
+(none)
+(example)Example:
+(example)  seqcli ingest -i log-*.txt --json --filter=&quot;@Level &lt;&gt; 'Debug'&quot; -p Environment=Test
+(example)
+(argument)Arguments:
+(argument)  -i, --input=VALUE          File(s) to ingest, including the `*` wildcard; if
+(argument)                               not specified, `STDIN` will be used
+(argument)      --invalid-data=VALUE   Specify how invalid data is handled: `fail` (
+(argument)                               default) or `ignore`
+(argument)  -p, --property=NAME=VALUE  Specify name/value properties, e.g. `-p Customer=
+(argument)                               C123 -p Environment=Production`
+(argument)  -x, --extract=VALUE        An extraction pattern to apply to plain-text logs
+(argument)                               (ignored when `--json` is specified)
+(argument)      --json                 Read the events as JSON (the default assumes
+(argument)                               plain text)
+(argument)  -f, --filter=VALUE         Filter expression to select a subset of events
+(argument)  -m, --message=VALUE        A message to associate with the ingested events;
+(argument)                               https://messagetemplates.org syntax is
+(argument)                               supported
+(argument)  -l, --level=VALUE          The level or severity to associate with the
+(argument)                               ingested events; this will override any level
+(argument)                               information present in the events themselves
+(argument)      --send-failure=VALUE   Specify how connection failures are handled: `
+(argument)                               fail` (default), `retry`, `continue`, or `
+(argument)                               ignore`
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --batch-size=VALUE     The maximum number of events to send in each
+(argument)                               request to the ingestion endpoint; if not
+(argument)                               specified a value of `100` will be used
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-ingest-seqcli"><code>seqcli ingest seqcli</code></h3>
+<pre><code>Usage: seqcli ingest &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Send log events from a file or `STDIN`
+
+Type `seqcli help ingest &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-license"><code>seqcli license</code></h2>
+<pre><code>(usage)Usage: seqcli license &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  apply       Apply a license to the Seq server
+(available)
+(type)Type `seqcli help license &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-license-apply"><code>seqcli license apply</code></h3>
+<pre><code>seqcli license apply [&lt;args&gt;]
+
+Apply a license to the Seq server
+
+Example:
+  seqcli license apply --certificate=&quot;license.txt&quot;
+</code></pre>
+<hr />
+<h2 id="seqcli-log"><code>seqcli log</code></h2>
+<pre><code>(none)seqcli log [&lt;args&gt;]
+(none)
+(none)Send a structured log event to the server
+(none)
+(example)Example:
+(example)  seqcli log -m 'Hello, {Name}!' -p Name=World -p App=Test
+(example)
+(argument)Arguments:
+(argument)  -m, --message=VALUE        A message to associate with the event (the
+(argument)                               default is to send no message); https://
+(argument)                               messagetemplates.org syntax is supported
+(argument)  -l, --level=VALUE          The level or severity of the event (the default
+(argument)                               is `Information`)
+(argument)  -t, --timestamp=VALUE      The event timestamp as ISO-8601 (the current UTC
+(argument)                               timestamp will be used by default)
+(argument)  -x, --exception=VALUE      Additional exception or error information to send,
+(argument)                                if any
+(argument)  -p, --property=NAME=VALUE  Specify name/value properties, e.g. `-p Customer=
+(argument)                               C123 -p Environment=Production`
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-log-seqcli"><code>seqcli log seqcli</code></h3>
+<pre><code>Usage: seqcli log &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Send a structured log event to the server
+
+Type `seqcli help log &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-node"><code>seqcli node</code></h2>
+<pre><code>(usage)Usage: seqcli node &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  demote      Begin demotion of the current leader node
+(available)  health      Probe a Seq node's `/health` endpoint, and print the returned HTTP s
+(available)              tatus code, or 'Unreachable' if the endpoint could not be queried
+(available)  list        List nodes in the Seq cluster
+(available)
+(type)Type `seqcli help node &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-node-demote"><code>seqcli node demote</code></h3>
+<pre><code>seqcli node demote [&lt;args&gt;]
+
+Begin demotion of the current leader node
+
+Example:
+  seqcli node demote --verbose --wait
+</code></pre>
+<h3 id="seqcli-node-health"><code>seqcli node health</code></h3>
+<pre><code>seqcli node health [&lt;args&gt;]
+
+Probe a Seq node's `/health` endpoint, and print the returned HTTP status code, or 'Unreachable' if the endpoint could not be queried
+
+Example:
+  seqcli node health -s https://seq-2.example.com
+</code></pre>
+<h3 id="seqcli-node-list"><code>seqcli node list</code></h3>
+<pre><code>seqcli node list [&lt;args&gt;]
+
+List nodes in the Seq cluster
+
+Example:
+  seqcli node list --json
+</code></pre>
+<hr />
+<h2 id="seqcli-print"><code>seqcli print</code></h2>
+<pre><code>(none)seqcli print [&lt;args&gt;]
+(none)
+(none)Pretty-print events in CLEF/JSON format, from a file or `STDIN`
+(none)
+(example)Example:
+(example)  seqcli print -i log-20201028.clef
+(example)
+(argument)Arguments:
+(argument)  -i, --input=VALUE          CLEF file to read, including the `*` wildcard; if
+(argument)                               not specified, `STDIN` will be used
+(argument)  -f, --filter=VALUE         Filter expression to select a subset of events
+(argument)      --template=VALUE       Specify an output template to control plain text
+(argument)                               formatting
+(argument)      --invalid-data=VALUE   Specify how invalid data is handled: `fail` (
+(argument)                               default) or `ignore`
+(argument)      --no-color             Don't colorize text output
+(argument)      --force-color          Force redirected output to have ANSI color (
+(argument)                               unless `--no-color` is also specified)
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-print-seqcli"><code>seqcli print seqcli</code></h3>
+<pre><code>Usage: seqcli print &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Pretty-print events in CLEF/JSON format, from a file or `STDIN`
+
+Type `seqcli help print &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-profile"><code>seqcli profile</code></h2>
+<pre><code>(usage)Usage: seqcli profile &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create or replace a connection profile
+(available)  list        List connection profiles
+(available)  remove      Remove a connection profile
+(available)
+(type)Type `seqcli help profile &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-profile-create"><code>seqcli profile create</code></h3>
+<pre><code>seqcli profile create [&lt;args&gt;]
+
+Create or replace a connection profile
+
+Example:
+  seqcli profile create -n Production -s https://seq.example.com -a th15ISanAPIk3y
+</code></pre>
+<h3 id="seqcli-profile-list"><code>seqcli profile list</code></h3>
+<pre><code>seqcli profile list
+
+List connection profiles
+
+Example:
+  seqcli profile list
+</code></pre>
+<h3 id="seqcli-profile-remove"><code>seqcli profile remove</code></h3>
+<pre><code>seqcli profile remove [&lt;args&gt;]
+
+Remove a connection profile
+
+Example:
+  seqcli profile remove -n Production
+</code></pre>
+<hr />
+<h2 id="seqcli-query"><code>seqcli query</code></h2>
+<pre><code>(none)seqcli query [&lt;args&gt;]
+(none)
+(none)Execute an SQL query and receive results in CSV format
+(none)
+(example)Example:
+(example)  seqcli query -q &quot;select count(*) from stream group by @Level&quot; --start=&quot;2018-02-28T13:00Z&quot;
+(example)
+(argument)Arguments:
+(argument)  -q, --query=VALUE          The query to execute
+(argument)      --start=VALUE          ISO 8601 date/time to query from
+(argument)      --end=VALUE            ISO 8601 date/time to query to
+(argument)      --signal=VALUE         A signal expression or list of intersected signal
+(argument)                               ids to apply, for example `signal-1,signal-2`
+(argument)      --timeout=VALUE        The execution timeout in milliseconds
+(argument)      --json                 Print output in newline-delimited JSON (the
+(argument)                               default is plain text)
+(argument)      --no-color             Don't colorize text output
+(argument)      --force-color          Force redirected output to have ANSI color (
+(argument)                               unless `--no-color` is also specified)
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-query-seqcli"><code>seqcli query seqcli</code></h3>
+<pre><code>Usage: seqcli query &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Execute an SQL query and receive results in CSV format
+
+Type `seqcli help query &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-retention"><code>seqcli retention</code></h2>
+<pre><code>(usage)Usage: seqcli retention &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create a retention policy
+(available)  list        List retention policies
+(available)  remove      Remove a retention policy from the server
+(available)  update      Update an existing retention policy
+(available)
+(type)Type `seqcli help retention &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-retention-create"><code>seqcli retention create</code></h3>
+<pre><code>seqcli retention create [&lt;args&gt;]
+
+Create a retention policy
+
+Example:
+  seqcli retention create --after 30d --delete-all-events
+</code></pre>
+<h3 id="seqcli-retention-list"><code>seqcli retention list</code></h3>
+<pre><code>seqcli retention list [&lt;args&gt;]
+
+List retention policies
+
+Example:
+  seqcli retention list
+</code></pre>
+<h3 id="seqcli-retention-remove"><code>seqcli retention remove</code></h3>
+<pre><code>seqcli retention remove [&lt;args&gt;]
+
+Remove a retention policy from the server
+
+Example:
+  seqcli retention remove -i retentionpolicy-17
+</code></pre>
+<h3 id="seqcli-retention-update"><code>seqcli retention update</code></h3>
+<pre><code>seqcli retention update [&lt;args&gt;]
+
+Update an existing retention policy
+
+Example:
+  seqcli retention update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-sample"><code>seqcli sample</code></h2>
+<pre><code>(usage)Usage: seqcli sample &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  ingest      Log sample events into a Seq instance
+(available)  setup       Configure a Seq instance with sample dashboards, signals, users, and
+(available)               so on
+(available)
+(type)Type `seqcli help sample &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-sample-ingest"><code>seqcli sample ingest</code></h3>
+<pre><code>seqcli sample ingest [&lt;args&gt;]
+
+Log sample events into a Seq instance
+
+Example:
+  seqcli sample ingest
+</code></pre>
+<h3 id="seqcli-sample-setup"><code>seqcli sample setup</code></h3>
+<pre><code>seqcli sample setup [&lt;args&gt;]
+
+Configure a Seq instance with sample dashboards, signals, users, and so on
+
+Example:
+  seqcli sample setup
+</code></pre>
+<hr />
+<h2 id="seqcli-search"><code>seqcli search</code></h2>
+<pre><code>(none)seqcli search [&lt;args&gt;]
+(none)
+(none)Retrieve log events that match a given filter
+(none)
+(example)Example:
+(example)  seqcli search -f &quot;@Exception like '%TimeoutException%'&quot; -c 30
+(example)
+(argument)Arguments:
+(argument)  -f, --filter=VALUE         A filter to apply to the search, for example `
+(argument)                               Host = 'xmpweb-01.example.com'`
+(argument)  -c, --count=VALUE          The maximum number of events to retrieve; the
+(argument)                               default is 1
+(argument)      --start=VALUE          ISO 8601 date/time to query from
+(argument)      --end=VALUE            ISO 8601 date/time to query to
+(argument)      --json                 Print output in newline-delimited JSON (the
+(argument)                               default is plain text)
+(argument)      --no-color             Don't colorize text output
+(argument)      --force-color          Force redirected output to have ANSI color (
+(argument)                               unless `--no-color` is also specified)
+(argument)      --signal=VALUE         A signal expression or list of intersected signal
+(argument)                               ids to apply, for example `signal-1,signal-2`
+(argument)      --request-timeout=VALUE
+(argument)                             The time allowed for retrieving each page of
+(argument)                               events, in milliseconds; the default is 100000
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<h3 id="seqcli-search-seqcli"><code>seqcli search seqcli</code></h3>
+<pre><code>Usage: seqcli search &lt;sub-command&gt; [&lt;args&gt;]
+
+Available sub-commands are:
+              Retrieve log events that match a given filter
+
+Type `seqcli help search &lt;sub-command&gt;` for detailed help
+</code></pre>
+<hr />
+<h2 id="seqcli-setting"><code>seqcli setting</code></h2>
+<pre><code>(usage)Usage: seqcli setting &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  clear       Clear a runtime-configurable server setting
+(available)  names       Print the names of all supported settings
+(available)  set         Change a runtime-configurable server setting
+(available)  show        Print the current value of a runtime-configurable server setting
+(available)
+(type)Type `seqcli help setting &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-setting-clear"><code>seqcli setting clear</code></h3>
+<pre><code>seqcli setting clear [&lt;args&gt;]
+
+Clear a runtime-configurable server setting
+</code></pre>
+<h3 id="seqcli-setting-names"><code>seqcli setting names</code></h3>
+<pre><code>seqcli setting names
+
+Print the names of all supported settings
+</code></pre>
+<h3 id="seqcli-setting-set"><code>seqcli setting set</code></h3>
+<pre><code>seqcli setting set [&lt;args&gt;]
+
+Change a runtime-configurable server setting
+</code></pre>
+<h3 id="seqcli-setting-show"><code>seqcli setting show</code></h3>
+<pre><code>seqcli setting show [&lt;args&gt;]
+
+Print the current value of a runtime-configurable server setting
+</code></pre>
+<hr />
+<h2 id="seqcli-signal"><code>seqcli signal</code></h2>
+<pre><code>(usage)Usage: seqcli signal &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create a signal
+(available)  import      Import signals in newline-delimited JSON format
+(available)  list        List available signals
+(available)  remove      Remove a signal from the server
+(available)  update      Update an existing signal
+(available)
+(type)Type `seqcli help signal &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-signal-create"><code>seqcli signal create</code></h3>
+<pre><code>seqcli signal create [&lt;args&gt;]
+
+Create a signal
+
+Example:
+  seqcli signal create -t 'Exceptions' -f &quot;@Exception is not null&quot;
+</code></pre>
+<h3 id="seqcli-signal-import"><code>seqcli signal import</code></h3>
+<pre><code>seqcli signal import [&lt;args&gt;]
+
+Import signals in newline-delimited JSON format
+
+Example:
+  seqcli signal import -i ./Exceptions.json
+</code></pre>
+<h3 id="seqcli-signal-list"><code>seqcli signal list</code></h3>
+<pre><code>seqcli signal list [&lt;args&gt;]
+
+List available signals
+
+Example:
+  seqcli signal list
+</code></pre>
+<h3 id="seqcli-signal-remove"><code>seqcli signal remove</code></h3>
+<pre><code>seqcli signal remove [&lt;args&gt;]
+
+Remove a signal from the server
+
+Example:
+  seqcli signal remove -t 'Test Signal'
+</code></pre>
+<h3 id="seqcli-signal-update"><code>seqcli signal update</code></h3>
+<pre><code>seqcli signal update [&lt;args&gt;]
+
+Update an existing signal
+
+Example:
+  seqcli signal update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-tail"><code>seqcli tail</code></h2>
+<pre><code>(none)seqcli tail [&lt;args&gt;]
+(none)
+(none)Stream log events matching a filter
+(none)
+(argument)Arguments:
+(argument)  -f, --filter=VALUE         An optional server-side filter to apply to the
+(argument)                               stream, for example `@Level = 'Error'`
+(argument)      --json                 Print output in newline-delimited JSON (the
+(argument)                               default is plain text)
+(argument)      --no-color             Don't colorize text output
+(argument)      --force-color          Force redirected output to have ANSI color (
+(argument)                               unless `--no-color` is also specified)
+(argument)      --signal=VALUE         A signal expression or list of intersected signal
+(argument)                               ids to apply, for example `signal-1,signal-2`
+(argument)  -s, --server=VALUE         The URL of the Seq server; by default the `
+(argument)                               connection.serverUrl` config value will be used
+(argument)  -a, --apikey=VALUE         The API key to use when connecting to the server;
+(argument)                               by default the `connection.apiKey` config
+(argument)                               value will be used
+(argument)      --profile=VALUE        A connection profile to use; by default the `
+(argument)                               connection.serverUrl` and `connection.apiKey`
+(argument)                               config values will be used
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<hr />
+<h2 id="seqcli-template"><code>seqcli template</code></h2>
+<pre><code>(usage)Usage: seqcli template &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  export      Export entities into template files
+(available)  import      Import entities from template files
+(available)
+(type)Type `seqcli help template &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-template-export"><code>seqcli template export</code></h3>
+<pre><code>seqcli template export [&lt;args&gt;]
+
+Export entities into template files
+
+Example:
+  seqcli template export -o ./Templates
+</code></pre>
+<h3 id="seqcli-template-import"><code>seqcli template import</code></h3>
+<pre><code>seqcli template import [&lt;args&gt;]
+
+Import entities from template files
+
+Example:
+  seqcli template import -i ./Templates
+</code></pre>
+<hr />
+<h2 id="seqcli-user"><code>seqcli user</code></h2>
+<pre><code>(usage)Usage: seqcli user &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create a user
+(available)  list        List users
+(available)  remove      Remove a user from the server
+(available)  update      Update an existing user
+(available)
+(type)Type `seqcli help user &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-user-create"><code>seqcli user create</code></h3>
+<pre><code>seqcli user create [&lt;args&gt;]
+
+Create a user
+
+Example:
+  seqcli user create -n alice -d 'Alice Example' -r 'User (read/write)' --password-stdin
+</code></pre>
+<h3 id="seqcli-user-list"><code>seqcli user list</code></h3>
+<pre><code>seqcli user list [&lt;args&gt;]
+
+List users
+
+Example:
+  seqcli user list
+</code></pre>
+<h3 id="seqcli-user-remove"><code>seqcli user remove</code></h3>
+<pre><code>seqcli user remove [&lt;args&gt;]
+
+Remove a user from the server
+
+Example:
+  seqcli user remove -n alice
+</code></pre>
+<h3 id="seqcli-user-update"><code>seqcli user update</code></h3>
+<pre><code>seqcli user update [&lt;args&gt;]
+
+Update an existing user
+
+Example:
+  seqcli user update --json '{...}'
+</code></pre>
+<hr />
+<h2 id="seqcli-version"><code>seqcli version</code></h2>
+<pre><code>(none)seqcli version
+(none)
+(none)Print the current executable version
+(none)
+(argument)Arguments:
+(argument)      --verbose              Print verbose output to `STDERR`
+</code></pre>
+<hr />
+<h2 id="seqcli-workspace"><code>seqcli workspace</code></h2>
+<pre><code>(usage)Usage: seqcli workspace &lt;sub-command&gt; [&lt;args&gt;]
+(usage)
+(available)Available sub-commands are:
+(available)  create      Create a workspace
+(available)  list        List available workspaces
+(available)  remove      Remove a workspace from the server
+(available)  update      Update an existing workspace
+(available)
+(type)Type `seqcli help workspace &lt;sub-command&gt;` for detailed help
+</code></pre>
+<h3 id="seqcli-workspace-create"><code>seqcli workspace create</code></h3>
+<pre><code>seqcli workspace create [&lt;args&gt;]
+
+Create a workspace
+
+Example:
+  seqcli workspace create -t 'My Workspace' -c signal-314159 -c dashboard-628318
+</code></pre>
+<h3 id="seqcli-workspace-list"><code>seqcli workspace list</code></h3>
+<pre><code>seqcli workspace list [&lt;args&gt;]
+
+List available workspaces
+
+Example:
+  seqcli workspace list
+</code></pre>
+<h3 id="seqcli-workspace-remove"><code>seqcli workspace remove</code></h3>
+<pre><code>seqcli workspace remove [&lt;args&gt;]
+
+Remove a workspace from the server
+
+Example:
+  seqcli workspace remove -t 'My Workspace'
+</code></pre>
+<h3 id="seqcli-workspace-update"><code>seqcli workspace update</code></h3>
+<pre><code>seqcli workspace update [&lt;args&gt;]
+
+Update an existing workspace
+
+Example:
+  seqcli workspace update --json '{...}'
+</code></pre>
+<hr />
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
