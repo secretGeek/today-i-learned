@@ -24,9 +24,18 @@
 <article>
 <h1 id="async-only-website">Async-Only Website</h1>
 <p>You receive an error like this:</p>
-<ul>
-<li>Synchronous operations are disallowed</li>
-</ul>
+<blockquote>
+<p>Synchronous operations are disallowed</p>
+<p>-- synchronous operations, have quietly been disallowed.</p>
+</blockquote>
+<h2 id="the-sledge-hammer-approach">The Sledge Hammer approach</h2>
+<pre><code>services.Configure&lt;IISServerOptions&gt;(options =&gt;
+{
+  options.AllowSynchronousIO = true;
+});
+</code></pre>
+<p>Or... see what synchronous controller actions you still have.</p>
+<p>Can they <em>all</em> be converted to asynchronous?</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>

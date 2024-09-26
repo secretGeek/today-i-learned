@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>01 summary . Today I Learned (secretGeek)</title>
+<title>install dotnet sdk . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,21 +22,27 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="net" class="chapter">.net</h1>
-<h2 id="content">content</h2>
+<h1 id="install-latest-dotnet-sdk-version">Install latest dotnet sdk version</h1>
+<h2 id="install-via-winget">Install via WinGet</h2>
+<pre><code>winget install Microsoft.DotNet.SDK.8
+</code></pre>
+<h2 id="install-via-choco">Install via Choco</h2>
+<pre><code>choco install dotnet-sdk --version=8.0.0
+</code></pre>
+<h2 id="install-via-powershell-download-and-run-exe">Install via Powershell (download and run exe)</h2>
+<pre><code>Invoke-WebRequest -Uri https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-windows-x64-installer -OutFile dotnet-sdk-8.0.100-win-x64.exe
+Start-Process -FilePath &quot;dotnet-sdk-8.0.100-win-x64.exe&quot; -Wait
+</code></pre>
+<h2 id="to-find-the-latest-dotnet-sdk">To Find the &quot;latest&quot; dotnet sdk</h2>
+<p>Go to this page:</p>
 <ul>
-<li><a href="async_only_websites.html">Async-Only Website</a></li>
-<li><a href="config_external_source.html">Config from an external source</a></li>
-<li><a href="detect_text_encoding.html">Detect the encoding of a file</a></li>
+<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet">Microsoft Dotnet, Download Dotnet</a></li>
+<li>Parse the html of that page to determine the first URL which contains text about &quot;latest&quot;, or is immediately followed by text containing the word &quot;latest&quot;, and that is the link to follow. (Currently: <code>https://dotnet.microsoft.com/en-us/download/dotnet/8.0</code>)</li>
+</ul>
+<p>-- <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0">https://dotnet.microsoft.com/en-us/download/dotnet/8.0</a></p>
+<h2 id="see-also">See also</h2>
+<ul>
 <li><a href="Find_Which_DotNet_Versions_You_Have.html">Find which .net versions you have</a></li>
-<li><a href="install_dotnet_sdk.html">Install latest dotnet sdk version</a></li>
-<li><a href="load_datatable.html">Load DataTable from a SQL query</a></li>
-<li><a href="override_equals.html">Override equals to compare objects in C#</a></li>
-<li><a href="parse_exact.html">ParseExact (and TryParseExact)</a></li>
-<li><a href="pluralize.html">Pluralization Helper</a></li>
-<li><a href="retry_pattern.html">Retry Pattern in C#</a></li>
-<li><a href="troubleshoot_could_not_load_file_or_assembly.html">Troubleshooting File Not Found Exception&quot; - &quot;Could not load file or assembly&quot;</a></li>
-<li><a href="zipfile.html">Zip a single file</a></li>
 </ul>
 
 </article>

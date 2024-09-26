@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>datatypes . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="examples-of-data-types-in-different-systems">Examples of Data Types in Different Systems</h1>
+<h2 id="examples-from-c.net">Examples from c# (.Net)</h2>
+<p>(Via <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types">Built-in types - C# References</a>)</p>
+<ul>
+<li>&quot;Value Types&quot;
+<ul>
+<li><code>bool</code></li>
+<li><code>byte</code></li>
+<li><code>sbyte</code></li>
+<li><code>char</code></li>
+<li><code>decimal</code></li>
+<li><code>double</code></li>
+<li><code>float</code></li>
+<li><code>int</code></li>
+<li><code>uint</code></li>
+<li><code>nint</code></li>
+<li><code>nuint</code></li>
+<li><code>long</code></li>
+<li><code>ulong</code></li>
+<li><code>short</code></li>
+<li><code>ushort</code></li>
+</ul>
+</li>
+<li>&quot;Reference Types&quot; (Built in)
+<ul>
+<li><code>object</code></li>
+<li><code>string</code> (including <code>@verbatim string literals</code> and <code>&quot;&quot;&quot;raw string literals&quot;&quot;&quot;</code>)</li>
+<li><code>dynamic</code></li>
+<li><code>delegate</code> (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#the-delegate-type">see</a>)</li>
+</ul>
+</li>
+<li>&quot;Reference types&quot; (more!)
+<ul>
+<li><code>record</code></li>
+<li><code>class</code></li>
+<li><code>interface</code></li>
+<li><code>Nullable reference types</code></li>
+</ul>
+</li>
+<li>&quot;void&quot;
+<ul>
+<li><code>void</code>  (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/void">see</a>)</li>
+</ul>
+</li>
+<li>&quot;Unmanaged types&quot;
+<ul>
+<li>(all Value types) plus:</li>
+<li><code>enum</code></li>
+<li><code>pointer</code></li>
+<li><code>tuple</code></li>
+<li>any user-defined <code>struct</code> with only fileds of unmanaged types</li>
+</ul>
+</li>
+</ul>
+<h2 id="example-from-sql-server">Example from SQL Server</h2>
+<p>(Via <a href="https://learn.microsoft.com/en-us/sql/t-sql/data-types/data-types-transact-sql">Data types (Transact-SQL)</a>)</p>
+<ul>
+<li>&quot;Exact numerics&quot;
+<ul>
+<li><code>tinyint</code></li>
+<li><code>smallint</code></li>
+<li><code>int</code></li>
+<li><code>bigint</code></li>
+<li><code>bit</code> (i.e. <code>Boolean</code>)</li>
+<li><code>decimal</code> (aka <code>numeric</code>)</li>
+<li><code>money</code></li>
+<li><code>smallmoney</code></li>
+</ul>
+</li>
+<li>&quot;Approximate numerics&quot;
+<ul>
+<li><code>float</code></li>
+<li><code>real</code></li>
+</ul>
+</li>
+<li>&quot;Date and time&quot;
+<ul>
+<li><code>date</code></li>
+<li><code>time</code></li>
+<li><code>datetime2</code></li>
+<li><code>datetimeoffset</code></li>
+<li><code>datetime</code></li>
+<li><code>smalldatetime</code></li>
+</ul>
+</li>
+<li>&quot;Character strings&quot;
+<ul>
+<li><code>char</code></li>
+<li><code>varchar</code></li>
+<li><code>text</code></li>
+</ul>
+</li>
+<li>&quot;Unicode character strings&quot;
+<ul>
+<li><code>nchar</code></li>
+<li><code>nvarchar</code></li>
+<li><code>ntext</code></li>
+</ul>
+</li>
+<li>&quot;Binary strings&quot;
+<ul>
+<li><code>binary</code></li>
+<li><code>varbinary</code></li>
+<li><code>image</code></li>
+</ul>
+</li>
+<li>&quot;Other data types&quot;
+<ul>
+<li><code>cursor</code></li>
+<li><code>geography</code></li>
+<li><code>geometry</code></li>
+<li><code>hierarchyid</code></li>
+<li><code>json</code></li>
+<li><code>rowversion</code></li>
+<li><code>sql_variant</code></li>
+<li><code>table</code></li>
+<li><code>uniqueidentifier</code></li>
+<li><code>xml</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="example-from-seq">Example from  SEQ</h2>
+<p>(Via <a href="https://docs.datalust.co/docs/the-seq-query-language#data-types">Data types</a>)</p>
+<ul>
+<li><code>'single quoted'</code> - strings (which we've already seen); the quote character ' can be escaped by doubling: 'Can''t'</li>
+<li><code>123</code>, <code>0.45</code>, <code>0xc0ffee</code> - numbers, internally represented as 128-bit decimal values</li>
+<li><code>30d</code>, <code>100ms</code> - durations, specified as whole numbers of days, hours, minutes, seconds, or ms milliseconds</li>
+<li><code>true</code> and <code>false</code> - Booleans</li>
+<li><code>[1, 'test', true]</code> - arrays with <code>[0]</code> (zero-based) numeric indexing</li>
+<li><code>{ace: 1, 'beta gamma': 23}</code> - object literals with string or identifier keys</li>
+<li><code>null</code></li>
+</ul>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types">Built-in types - C# References</a></li>
+<li><a href="https://learn.microsoft.com/en-us/sql/t-sql/data-types/data-types-transact-sql">Data types (Transact-SQL)</a></li>
+<li><a href="https://docs.datalust.co/docs/the-seq-query-language#data-types">SEQ Query Language #Data types</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
