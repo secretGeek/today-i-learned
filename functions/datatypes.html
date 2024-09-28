@@ -24,12 +24,10 @@
 <article>
 <h1 id="examples-of-data-types-in-different-systems">Examples of Data Types in Different Systems</h1>
 <p>I'm not quite sure why I've started to pull this together. It's a simple comparison of the &quot;fundamental data types&quot; in a few different systems.</p>
-<p>I think the idea is to see what types are considered most fundamental, and what the differences in these data types says about the systems themselves. A sort of &quot;reverse-engineered&quot; card-sorting exercise.</p>
-<p>Ultimately it's to do with thinking about &quot;universal ontologies&quot; -- which are things I am certain you cannot have. So why I am thinking about something that is unattainable... I do not know.</p>
-<h2 id="examples-from-c.net">Examples from c# (.Net)</h2>
+<p>I think the idea is to see what types are considered most fundamental, and what the differences in these data types says about the systems themselves. A sort of &quot;reverse-engineered&quot; card-sorting exercise.Ultimately it's to do with thinking about &quot;universal ontologies&quot; -- which are things I am certain you cannot have. So why I am thinking about something that is unattainable... I do not know.</p>
+<h2 id="example-data-types-from-c.net">Example Data Types from c# (.Net)</h2>
 <p>(Via <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types">Built-in types - C# References</a>)</p>
-<ul>
-<li>&quot;Value Types&quot;
+<h3 id="value-types">&quot;Value Types&quot;</h3>
 <ul>
 <li><code>bool</code></li>
 <li><code>byte</code></li>
@@ -47,29 +45,25 @@
 <li><code>short</code></li>
 <li><code>ushort</code></li>
 </ul>
-</li>
-<li>&quot;Reference Types&quot; (Built in)
+<h3 id="reference-types-built-in">&quot;Reference Types&quot; (Built in)</h3>
 <ul>
 <li><code>object</code></li>
 <li><code>string</code> (including <code>@verbatim string literals</code> and <code>&quot;&quot;&quot;raw string literals&quot;&quot;&quot;</code>)</li>
 <li><code>dynamic</code></li>
 <li><code>delegate</code> (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/reference-types#the-delegate-type">see</a>)</li>
 </ul>
-</li>
-<li>&quot;Reference types&quot; (more!)
+<h3 id="reference-types-more">&quot;Reference types&quot; (more!)</h3>
 <ul>
 <li><code>record</code></li>
 <li><code>class</code></li>
 <li><code>interface</code></li>
 <li><code>Nullable reference types</code></li>
 </ul>
-</li>
-<li>&quot;void&quot;
+<h3 id="void">&quot;void&quot;</h3>
 <ul>
 <li><code>void</code>  (<a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/void">see</a>)</li>
 </ul>
-</li>
-<li>&quot;Unmanaged types&quot;
+<h3 id="unmanaged-types">&quot;Unmanaged types&quot;</h3>
 <ul>
 <li>(all Value types) plus:</li>
 <li><code>enum</code></li>
@@ -77,12 +71,9 @@
 <li><code>tuple</code></li>
 <li>any user-defined <code>struct</code> with only fileds of unmanaged types</li>
 </ul>
-</li>
-</ul>
-<h2 id="example-from-sql-server">Example from SQL Server</h2>
+<h2 id="example-data-types-from-sql-server">Example Data Types from SQL Server</h2>
 <p>(Via <a href="https://learn.microsoft.com/en-us/sql/t-sql/data-types/data-types-transact-sql">Data types (Transact-SQL)</a>)</p>
-<ul>
-<li>&quot;Exact numerics&quot;
+<h3 id="exact-numerics">&quot;Exact numerics&quot;</h3>
 <ul>
 <li><code>tinyint</code></li>
 <li><code>smallint</code></li>
@@ -93,14 +84,12 @@
 <li><code>money</code></li>
 <li><code>smallmoney</code></li>
 </ul>
-</li>
-<li>&quot;Approximate numerics&quot;
+<h3 id="approximate-numerics">&quot;Approximate numerics&quot;</h3>
 <ul>
 <li><code>float</code></li>
 <li><code>real</code></li>
 </ul>
-</li>
-<li>&quot;Date and time&quot;
+<h3 id="date-and-time">&quot;Date and time&quot;</h3>
 <ul>
 <li><code>date</code></li>
 <li><code>time</code></li>
@@ -109,29 +98,25 @@
 <li><code>datetime</code></li>
 <li><code>smalldatetime</code></li>
 </ul>
-</li>
-<li>&quot;Character strings&quot;
+<h3 id="character-strings">&quot;Character strings&quot;</h3>
 <ul>
 <li><code>char</code></li>
 <li><code>varchar</code></li>
 <li><code>text</code></li>
 </ul>
-</li>
-<li>&quot;Unicode character strings&quot;
+<h3 id="unicode-character-strings">&quot;Unicode character strings&quot;</h3>
 <ul>
 <li><code>nchar</code></li>
 <li><code>nvarchar</code></li>
 <li><code>ntext</code></li>
 </ul>
-</li>
-<li>&quot;Binary strings&quot;
+<h3 id="binary-strings">&quot;Binary strings&quot;</h3>
 <ul>
 <li><code>binary</code></li>
 <li><code>varbinary</code></li>
 <li><code>image</code></li>
 </ul>
-</li>
-<li>&quot;Other data types&quot;
+<h3 id="other-data-types">&quot;Other data types&quot;</h3>
 <ul>
 <li><code>cursor</code></li>
 <li><code>geography</code></li>
@@ -144,9 +129,7 @@
 <li><code>uniqueidentifier</code></li>
 <li><code>xml</code></li>
 </ul>
-</li>
-</ul>
-<h2 id="example-from-seq">Example from  SEQ</h2>
+<h2 id="example-data-types-from-seq">Example Data Types from SEQ</h2>
 <p>(Via <a href="https://docs.datalust.co/docs/the-seq-query-language#data-types">Data types</a>)</p>
 <ul>
 <li><code>'single quoted'</code> - strings (which we've already seen); the quote character ' can be escaped by doubling: 'Can''t'</li>
