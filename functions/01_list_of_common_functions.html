@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>01 list of common functions . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="function-research">Function Research</h1>
+<h2 id="categories-comparison">Categories Comparison</h2>
+<h2 id="categories-appearing-in-more-than-one-place">Categories Appearing in More than one place</h2>
+<p>(Really these are the categories I'm most interested in)</p>
+<h3 id="string-functions">String Functions</h3>
+<ul>
+<li><a href="#string">String</a> Alteryx</li>
+<li><a href="#strings">Strings</a> SDU</li>
+<li><a href="#string-functions">String Functions</a> SQL Server</li>
+</ul>
+<h3 id="convert-functions">Convert Functions</h3>
+<ul>
+<li><a href="#conversion">Conversion</a> Alteryx</li>
+<li><a href="#data-conversion-functions">Data Conversion Functions</a> SDU</li>
+</ul>
+<h3 id="datetime-functions">DateTime Functions</h3>
+<ul>
+<li><a href="#datetime">DateTime</a> Alteryx</li>
+<li><a href="#dates-and-times">Dates and Times</a> SDU</li>
+</ul>
+<h3 id="math-functions">Math Functions</h3>
+<ul>
+<li><a href="#math">Math</a> Alteryx</li>
+<li><a href="#math-bitwise">Math: Bitwise</a> Alteryx</li>
+</ul>
+<h3 id="spatial-functions">Spatial Functions</h3>
+<ul>
+<li><a href="#spatial">Spatial</a> Alteryx  (others will have these!)</li>
+</ul>
+<h3 id="filter-functions">Filter Functions</h3>
+<ul>
+<li><a href="#conditional">Conditional</a> Alteryx</li>
+</ul>
+<h2 id="appearing-in-just-one-place-so-far">Appearing in just one place (so far)</h2>
+<ul>
+<li><p><a href="#file">File</a> Alteryx</p>
+</li>
+<li><p><a href="#finance">Finance</a> Alteryx</p>
+</li>
+<li><p><a href="#minmax">Min/Max</a> Alteryx</p>
+</li>
+<li><p><a href="#operators">Operators</a> Alteryx</p>
+</li>
+<li><p><a href="#specialized">Specialized</a> Alteryx (examples??)</p>
+</li>
+<li><p><a href="#database-utilities">Database Utilities</a> SDU</p>
+</li>
+<li><p><a href="#reporting-services-functions">Reporting Services Functions</a> SDU</p>
+</li>
+<li><p><a href="#scripting-functions">Scripting Functions</a> SDU (this is vague?)</p>
+</li>
+<li><p><a href="#performance-tuning-functions-and-procedures">Performance Tuning Functions and Procedures</a> SDU</p>
+</li>
+<li><p><a href="#utility-views">Utility Views</a> SDU</p>
+</li>
+</ul>
+<h2 id="appendix-a-other-systems-function-lists">Appendix A - Other Systems' Function Lists</h2>
+<p>Background research (step 0) -- Listing functions (grouped) from any places that are easy to grab lists from.</p>
+<ul>
+<li><a href="#alteryx">alteryx</a></li>
+<li><a href="#sql-down-under-tools">sql down under tools</a></li>
+<li><a href="#online-csv-tools">online csv tools</a></li>
+<li><a href="#ssrs">SSRS</a></li>
+<li><a href="#sql-server">sql server</a></li>
+<li><a href="#excel">excel</a></li>
+<li><a href="#python">python</a></li>
+<li><a href="#various-cheat-sheets-etc">various cheat sheets etc</a></li>
+<li><a href="#terraform">terraform</a></li>
+<li><a href="#sql-server">Sql Server</a></li>
+</ul>
+<h3 id="alteryx">Alteryx</h3>
+<ul>
+<li><a href="https://help.alteryx.com/2018.2/Reference/Functions.htm">alteryx</a></li>
+</ul>
+<h4 id="categories-alteryx">Categories (Alteryx)</h4>
+<ul>
+<li><a href="#conditional">Conditional</a></li>
+<li><a href="#conversion">Conversion</a></li>
+<li><a href="#datetime">DateTime</a></li>
+<li><a href="#file">File</a></li>
+<li><a href="#finance">Finance</a></li>
+<li><a href="#math">Math</a></li>
+<li><a href="#math-bitwise">Math: Bitwise</a></li>
+<li><a href="#minmax">Min/Max</a></li>
+<li><a href="#operators">Operators</a></li>
+<li><a href="#spatial">Spatial</a></li>
+<li><a href="#specialized">Specialized</a></li>
+<li><a href="#string">String</a></li>
+</ul>
+<h4 id="conditional">Conditional</h4>
+<p>-<code>IF</code> -<code>IF Else</code> -<code>IIF</code> -<code>Switch</code></p>
+<h4 id="conversion">Conversion</h4>
+<ul>
+<li><code>BinToInt</code> - Converts the binary string s to an integer. (Limited to 53 bits.)</li>
+<li><code>CharFromInt</code>(i) - Returns the Unicode® character that matches the input number.</li>
+<li><code>CharToInt</code>(S) - Returns the number that matches the input Unicode® character.</li>
+<li><code>ConvertFromCodepage</code>(s, codePage): Translates text from a code page to Unicode. See Code Pages.</li>
+<li><code>ConvertToCodepage</code>(s, codePage): Translates text from Unicode® encoding to a specific code page. See Code Pages.</li>
+<li><code>HexToNumber</code>(x): Converts a HEX string to a number. (Limited to 53 bits.)</li>
+<li><code>IntToBin</code>(x): Converts x to a binary string</li>
+<li><code>IntToHex</code>(x): Converts x to a hexadecimal string</li>
+<li><code>ToNumber</code>(x, bIgnoreErrors, keepNulls, decimalSeparator): Converts a string parameter to a number. ToNumber accepts strings that can be interpreted as scientific notation double precision. By default, the period is used as the decimal separator.</li>
+<li><code>ToString</code>(x, numDec, addThousandsSeparator, decimalSeparator): Converts a numeric parameter to a string using numDec decimal places. By default, the period is used as the decimal separato</li>
+</ul>
+<h4 id="datetime">DateTime</h4>
+<ul>
+<li><code>DateTimeAdd</code>(dt,i,u): Adds a specific interval to a DateTime value.
+<ul>
+<li>dt: DateTime data, expressed as a selected column or a specified DateTime value between quotes.</li>
+<li>i: Positive or negative integer of time to add or subtract.</li>
+<li>u: DateTime unit, specified between quotes: years, months, days, hours, minutes, or seconds.</li>
+</ul>
+</li>
+<li><code>DateTimeDay</code>(dt): Return the numerical value for the day of the month in a DateTime value.</li>
+<li><code>DateTimeDiff</code>(dt1,dt2,u): Subtract the second argument from the first and return it as an integer difference. The duration is returned as - a number, not a string, in the specified time units.</li>
+<li><code>DateTimeFirstOfMonth</code>(): Returns the first day of the month, at midnight.</li>
+<li><code>DateTimeFormat</code>(dt,f): Convert DateTime data from ISO format to a format for use by another application. Output to a string data type.</li>
+<li><code>DateTimeHour</code>(dt): Return the hour portion of the time in a DateTime value.</li>
+<li><code>DateTimeLastOfMonth</code>(): Returns the last day of the current month, with the clock set to one second before the end of the day (23:59:59).</li>
+<li><code>DateTimeMinutes</code>(dt): Return the minutes portion of the time in a DateTime value.</li>
+<li><code>DateTimeMonth</code>(dt): Return the numerical value for the month in a DateTime value.</li>
+<li><code>DateTimeNow</code>(): Returns the current system date and time.</li>
+<li><code>DateTimeParse</code>(dt,f): Converts a date string with the specified format to the standard ISO format yyyy-mm-dd HH:MM:SS.</li>
+<li><code>DateTimeSeconds</code>(dt): Return the seconds portion of the time in a DateTime value.</li>
+<li><code>DateTimeStart</code>(): Returns the date and time when the current workflow started running.</li>
+<li><code>DateTimeToday</code>(): Returns today’s date.</li>
+<li><code>DateTimeToLocal</code>(dt): Converts a UTC DateTime to the local system time zone.</li>
+<li><code>DateTimeToUTC</code>(dt): Converts a DateTime (in local system time zone) to UTC.</li>
+<li><code>DateTimeTrim</code>(dt,t): Remove unwanted portions of a DateTime and return the modified DateTime .</li>
+<li><code>DateTimeYear</code>(dt): Return the numerical value for the year in a DateTime value.</li>
+<li><code>ToDate</code>(x): Converts a string, number, or DateTime to a Date.</li>
+<li><code>ToDateTime</code>(x): Converts a string, number, or Date to a DateTime.</li>
+</ul>
+<h4 id="file">File</h4>
+<ul>
+<li><code>FileAddPaths</code>(Path1, Path2): Adds two file path parts, making sure there is exactly one \ (backslash) between the two paths.</li>
+<li><code>FileExists</code>(Path): Returns true if the file exists, false if it does not.</li>
+<li><code>FileGetDir</code>(Path): Returns the directory portion of the path.</li>
+<li><code>FileGetExt</code>(Path): Returns the extension of the path, including the . (period).</li>
+<li><code>FileGetFileName</code>(Path): Returns the name portion of the path, without the extension.</li>
+</ul>
+<h4 id="finance">Finance</h4>
+<ul>
+<li><code>FinanceCAGR</code>(BeginningValue, EndingValue, NumYears): Compound Annual Growth Rate: The geometric mean growth rate on an annualized basis.</li>
+<li><code>FinanceEffectiveRate</code>(NominalRate, PaymentsPerYear): Effective Annual Interest Rate: The interest rate on a loan or financial product - restated from the nominal interest rate as an interest rate with annual compound interest payable in arrears</li>
+<li><code>FinanceFV</code>(Rate, NumPayments, PaymentAmount, PresentValue, PayAtPeriodBegin): Future Value of an Investment: The value of an asset at a - specified time in the future assuming a certain interest rate or rate of return.</li>
+<li><code>FinanceFVSchedule</code>(Principle, Year1Rate, Year2Rate): Future Value Schedule: The future value of an initial principal after applying a - series of interest rates to an investment.</li>
+<li><code>FinanceIRR</code>(Value1, Value2): Internal Rate of Return: The interest rate at which the costs of the investment lead to the benefits of the - investment. This means that all gains from the investment are inherent to the time value of money and that the investment has a zero net - present value at this interest rate.</li>
+<li><code>FinanceMIRR</code>(FinanceRate, ReinvestRate, Value1, Value2): Modified Internal Rate of Return: A modification of the internal rate of return - that aims to resolve some problems with the IRR. The MIRR is a financial measure of an investment's attractiveness.</li>
+<li><code>FinanceMXIRR</code>(FinanceRate, ReinvestRate, Value1, Date1, Value2, Date2): Modified Internal Rate of Return of an investment with dates</li>
+<li><code>FinanceNominalRate</code>(EffectiveRate, PaymentsPerYear): Nominal Annual Interest Rate: An interest rate is called nominal if the frequency of - compounding (such as a month) is not identical to the basic time unit (normally a year).</li>
+<li><code>FinanceNPER</code>(Rate, PaymentAmount, PresentValue, FutureValue, PayAtPeriodBegin): Number of periods for an investment or loan</li>
+<li><code>FinanceNPV</code>(Rate, Value1, Value2): Net Present Value of an investment: Measures the excess or shortfall of cash flows, in present value - terms, once financing charges are met.</li>
+<li><code>FinancePMT</code>(Rate, NumPayments, PresentValue, FutureValue, PayAtPeriodBegin): Calculates payments on a loan</li>
+<li><code>FinancePV</code>(Rate, NumPayments, PaymentAmount, FutureValue, PayAtPeriodBegin): Present Value of an Investment: The value on a given date of - a future payment or series of future payments, discounted to reflect the time value of money and other factors such as investment risk.</li>
+<li><code>FinanceRate</code>(NumPayments, PaymentAmount, PresentValue, FutureValue, PayAtPeriodBegin): Returns the interest rate (per period)</li>
+<li><code>FinanceXIRR</code>(Value1, Date1, Value2, Date2): Internal Rate of Return of an investment with dates</li>
+<li><code>FinanceXNPV</code>(Rate, Value1, Date1, Value2, Date2): Net Present Value of an investment with dates</li>
+</ul>
+<h4 id="math">Math</h4>
+<ul>
+<li><code>ABS</code>(x): Absolute value of (x). It is the distance between 0 and a number. The value is always positive.</li>
+<li><code>ACOS</code>(x): Arc - Cosine of (x) Returns the arccosine, or inverse cosine, of a number. The arccosine is the angle whose cosine is (x). The returned angle is given in radians in the range 0 (zero) to pi. The number (x) must be between -1 and 1.</li>
+<li><code>ASIN</code>(x): Arc - Sine of (x) Returns the arcsine, or inverse sine, of a number. The arcsine is the angle whose sine is (x). The returned angle is given in radians in the range -pi/2 to pi/2.</li>
+<li><code>ATAN</code>(x): Arc - Tangent of (x) Returns the arctangent, or inverse tangent, of a number. The arctangent is the angle whose tangent is (x). The returned angle is given in radians in the range -pi/2 to pi/2.</li>
+<li><code>ATAN2</code>(y, x): Arc - Tangent of (y/x) Returns the arctangent of y and x.</li>
+<li><code>Average</code>(n1,...): Average of a list of numbers.</li>
+<li><code>CEIL</code>(x): Returns smallest integer greater than or equal to (x). Works like the RoundUp function in Excel.</li>
+<li><code>COS</code>(x): Cosine of (x)</li>
+<li><code>COSH</code>(x) : Hyperbolic Cosine of (x)</li>
+<li><code>DISTANCE</code>(from_Lat,from_Lon, to_Lat, to_Lon): Returns distance from (lat1,Lon1) to (lat2,lon2)</li>
+<li><code>EXP</code>(x): Returns e^x</li>
+<li><code>FLOOR</code>(x): Returns largest integer less than or equal to (x)</li>
+<li><code>LOG</code>(x): Natural logarithm of (x)</li>
+<li><code>LOG10</code>(x): Base 10 logarithm of (x)</li>
+<li><code>Median</code>(...): Calculates the median out of one or more (possibly unsorted) values.</li>
+<li><code>Mod</code>(n,d): Modulo of n divided by d (integer operation). The Modulo operation finds the remainder of one integer (n) divided by a divisor integer (d). If (n) is positive, the result is positive. If (n) is negative, the result is negative. If decimal values are used, the decimal is truncated. This can result in a &quot;Divided by 0&quot; error if the divisor is a decimal less than 1.</li>
+<li><code>PI</code>(): Returns the value of the constant PI to 15 digits of accuracy</li>
+<li><code>POW</code>(x, e): Returns (x) raised to the (e) power</li>
+<li><code>RAND</code>(): Returns a random number between 0 and 1</li>
+<li><code>RandInt</code>(n): Returns a random integer between 0 and the specified parameter</li>
+<li><code>Round</code>(x, mult): Returns (x) rounded to nearest multiple of (mult)</li>
+<li><code>SIN</code>(x): Sine of (x)</li>
+<li><code>SINH</code>(x): Hyperbolic Sine of (x)</li>
+<li><code>SmartRound</code>(x): Returns (x) rounded to nearest multiple of a value determined dynamically based on the size of (x)</li>
+<li><code>SQRT</code>(x): Square root of (x)</li>
+<li><code>TAN</code>(x): Tangent of (x)</li>
+<li><code>TANH</code>(x): Hyperbolic Tangent of (x)</li>
+</ul>
+<h4 id="math-bitwise">Math: Bitwise</h4>
+<ul>
+<li><code>BinaryAnd</code>(n,m): Returns a binary of n and m. The result is 1 if both n and m are 1, and 0 otherwise. If 0 is equated with false, and 1 with true the BinaryAnd operation works like a logical And.</li>
+<li><code>BinaryNot</code>(n): Returns a Binary Not of n</li>
+<li><code>BinaryOr</code>(n,m): Returns a Binary Or of n and m</li>
+<li><code>BinaryXOr</code>(n,m): Returns a Binary XOr of n and m</li>
+<li><code>ShiftLeft</code>(n,b): Left shifts n (as integer) by b bits</li>
+<li><code>ShiftRight</code>(n,b): Right shifts n (as integer) by b bits</li>
+</ul>
+<h4 id="minmax">Min/Max</h4>
+<ul>
+<li><code>Bound</code>(x, min, max): If (x &lt; min) return min; else if (x &gt; max) return max; else return x</li>
+<li><code>Max</code>(v0, v1,..., vn): Returns the maximum value from the list.</li>
+<li><code>MaxIDX</code>(v0, v1,..., vn): Returns the 0 based index of the maximum value from the list.</li>
+<li><code>Min</code>(v0, v1,..., vn): Returns the minimum value from the list.</li>
+<li><code>MinIDX</code>(v0, v1,..., vn): Returns the 0 based index of the minimum value from the list.</li>
+</ul>
+<h4 id="operators">Operators</h4>
+<ul>
+<li><code>/*Comment*/</code>: Block Comment: Allows you to add comments to an expression editor (within the expression line) without interfering with the expression.</li>
+<li><code>//Comment</code>: Single Line Comment: Allows you to add comments to an expression editor without interfering with the expression.</li>
+<li><code>Addition +</code>: Addition</li>
+<li><code>Boolean AND &amp;&amp;</code>: Boolean AND: Used to combine two Boolean values. The result is also a Boolean value. The result is true if both of the combined values are true, and the result is false if either of the combined values is false.</li>
+<li><code>Boolean AND - Keyword</code>: Boolean AND: Used to combine two Boolean values. The result is also a Boolean value. The result is true if both of the combined values are true, and the result is false if either of the combined values is false.</li>
+<li><code>Boolean NOT !</code>: Boolean NOT: Accepts one input. If that input is TRUE, it returns FALSE. If that input is FALSE, it returns TRUE.</li>
+<li><code>Boolean NOT - Keyword</code>: Boolean NOT: Accepts one input. If that input is TRUE, it returns FALSE. If that input is FALSE, it returns TRUE.</li>
+<li><code>Boolean OR - Keyword</code>: Boolean OR: If either (or both) of the two values it checks are TRUE, then it returns TRUE.</li>
+<li><code>Boolean OR ||</code>: Boolean OR: If either (or both) of the two values it checks are TRUE, then it returns TRUE.</li>
+<li><code>Close Parenthesis )</code>: Close Parenthesis</li>
+<li><code>Division /</code>: Division</li>
+<li><code>Equal To =</code>: Equal To</li>
+<li><code>Greater Than &gt;</code>: Greater Than</li>
+<li><code>Greater Than Or Equal &gt;=</code>: Greater Than Or Equal</li>
+<li><code>Less Than &lt;</code>: Less Than</li>
+<li><code>Less Than Or Equal &lt;=</code>: Less Than Or Equal</li>
+<li><code>Multiplication *</code>: Multiplication</li>
+<li><code>Not Equal To !=</code>: Not Equal To</li>
+<li><code>Open Parenthesis (</code>: Open Parenthesis</li>
+<li><code>Subtraction -</code>: Subtraction</li>
+<li><code>value IN (...) - Keyword</code>: Test Value in List: Determines if a given value matches any value in a subquery or a list.</li>
+<li><code>value NOT IN (...) - Keyword</code>: Test Value Not in List: Determines if a given value matches any value not in a subquery or a list.</li>
+</ul>
+<h4 id="spatial">Spatial</h4>
+<ul>
+<li><code>ST_Area</code>(object, units): Returns the area in the specified units of the spatial object. (numeric data value)</li>
+<li><code>ST_Boundary</code>(object): Returns the boundary of the spatial object. (polyline spatial object indicating the boundary of the input polygon)</li>
+<li><code>ST_BoundingRectangle</code>(object, ...): Returns the bounding rectangle of the spatial object. (polygon spatial object)</li>
+<li><code>ST_Centroid</code>(object): Returns the centroid of the spatial object. (point spatial object)</li>
+<li><code>ST_CentroidX</code>(object): Returns the longitude of the centroid of the spatial object (numeric data value)</li>
+<li><code>ST_CentroidY</code>(object): Returns the latitude of the centroid of the spatial object (numeric data value)</li>
+<li><code>ST_Combine</code>(object1, object2,...): Combines the spatial objects. (spatial object)</li>
+<li><code>ST_Contains</code>(object1,object2): Returns True if object1 contains object2. (Boolean value)</li>
+<li><code>ST_ConvexHull</code>(object1,...): Returns the convex hull of the object(s). (spatial object)</li>
+<li><code>ST_CreateLine</code>(point1, point2...): Creates a line by connecting the specified points and lines in a sequence. (spatial object)</li>
+<li><code>ST_CreatePoint</code>(x,y): Returns a spatial object containing the specified longitude and latitude coordinates. (spatial object)</li>
+<li><code>ST_CreatePolygon</code>(obj1, obj2...): Creates a polygon by connecting the specified points and lines in a sequence. (spatial object)</li>
+<li><code>ST_Cut</code>(object1,object2): Returns the result of cutting object1 from object 2. (spatial object)</li>
+<li><code>ST_Dimension</code>(object): Returns the dimension of the spatial object. The spatial dimension is the minimum number of coordinates needed to specify every point that makes up the spatial object. Point objects return a value of 0, Line objects return a value of 1, and Polygon objects return a value of 2. (numeric data value)</li>
+<li><code>ST_Distance</code>(object1, object2, units): Returns the distance in specified units from object1 to object2. Supported units are Miles (Mi), Kilometers (KM), Meters, Feet. (numeric data value)</li>
+<li><code>ST_EndPoint</code>(object): Returns the last point of the spatial object. (point spatial object)</li>
+<li><code>ST_Intersection</code>(object1, object2,...): Returns the intersection of the specified spatial objects. (spatial object)</li>
+<li><code>ST_Intersects</code>(object1, object2...): Returns True if the spatial objects intersect. (Boolean value)</li>
+<li><code>ST_InverseIntersection</code>(object1, object2...): Returns the inverse intersection of the specified spatial objects. (spatial object)</li>
+<li><code>ST_Length</code>(object, units): Returns the linear length of the spatial object. (numeric data value)</li>
+<li><code>ST_MaxX</code>(object): Returns the maximum longitude of the spatial object. (numeric data value)</li>
+<li><code>ST_MaxY</code>(object): Returns the maximum latitude of the spatial object. (numeric data value)</li>
+<li><code>ST_MinX</code>(object): Returns the minimum longitude of the spatial object. (numeric data value)</li>
+<li><code>ST_MinY</code>(object): Returns the minimum latitude of the spatial object. (numeric data value)</li>
+<li><code>ST_NumParts</code>(object): Returns the number of parts in the spatial object. (numeric data value)</li>
+<li><code>ST_NumPoints</code>(object): Returns the number of points in the spatial object. (numeric data value)</li>
+<li><code>ST_ObjectType</code>(object): Returns the spatial object type as a string value. (string data value)</li>
+<li><code>ST_PointN</code>(object, n): Returns the Nth point in the spatial object. (point spatial object)</li>
+<li><code>ST_RandomPoint</code>(object): Returns a random point within the spatial object. (point spatial object)</li>
+<li><code>ST_Relate</code>(object1,object2,relation): Returns True if the objects satisfy the provided DE-9IM relation. (Boolean value)</li>
+<li><code>ST_StartPoint</code>(object): Returns the first point in the spatial object. (spatial object)</li>
+<li><code>ST_Touches</code>(object1, object2): Returns True if object 1 touches object 2. (Boolean value)</li>
+<li><code>ST_TouchesOrIntersects</code>(object1, object2): Returns True if object 1 touches or Intersects object 2. (Boolean value)</li>
+<li><code>ST_Within</code>(object1, object2): Returns True if object 1 is contained by object 2. (Boolean value)</li>
+</ul>
+<h4 id="specialized">Specialized</h4>
+<ul>
+<li><code>EscapeXMLMetacharacters</code>(String)</li>
+<li><code>GetVal</code>(index, v0,...vn): Returns the value (v0,..., vn) specified by the 0-based [index].</li>
+<li><code>GetEnvironmentVariable</code>(Name)</li>
+<li><code>Message</code>(messageType, message, returnValue) Use with a conditional statement to output a message to the message log and update column data with a specified value when a condition is met. The message type and text is shown in the Results window. If logging is enabled, the output log file also resembles this information. See Results Window and Output Log File.</li>
+<li><code>NULL</code>(): Returns a Null value</li>
+<li><code>RangeMedian</code>(...): Calculates the median from a series of aggregated ranges. See Range Median.</li>
+<li><code>ReadRegistryString</code>(Key, ValueName, DefaultValue=&quot;): Returns a value from the registry.</li>
+<li><code>Soundex</code>(string): Returns the Soundex of the String. Soundex creates a code based on the first character in the string plus three characters based on the following:</li>
+<li><code>Soundex_Digits</code>(string): Returns the first four digits or the Soundex if none. If there are digits (numbers) in the String, the first four digits are returned. If there are no digits, the Soundex code is returned.</li>
+<li><code>TOPNIDX</code>(N, v0, v1, ..., vn): Returns the 0 based index of the Nth from the maximum value from the list. With N==0, it is the same as MaxIdx(...). N is the starting point, v0 is the indexed field (subsequent Variables are optional), and vn is the goal.</li>
+<li><code>UrlEncode</code>(String): Encodes string as a web legal URL</li>
+</ul>
+<h4 id="string">String</h4>
+<ul class="contains-task-list">
+<li><code>Contains</code>(String, Target, CaseInsensitive=1): Searches for the occurrence of a particular string within a string. Returns a TRUE or FALSE if the string matches the pattern. It is defaulted to case insensitive. The CONTAINS function is case insensitive while the FINDSTRING function is case sensitive.</li>
+<li><code>CountWords</code>(String): Returns the count of words in the specified String. Words are defined by characters separated by a space.</li>
+<li><code>DecomposeUnicodeForMatch</code>(String): Removes accents and expands compound characters while converting to narrow. This function takes a Unicode® string and translates it to a lower case, narrow character string. All accents and other decorations will be removed. This function is useful for matching only. It is not considered a normalized string.</li>
+<li><code>EndsWith</code>(String, Target, CaseInsensitive=1): Checks if a string ends with a particular string. Returns a TRUE or FALSE if the string matches the pattern. It is defaulted to case insensitive. The EndsWith function is case insensitive while the FindString function is case sensitive.</li>
+<li><code>FindString</code>(String,Target): Searches for the occurrence of a particular string (Target) within another string (String) and returns the numeric position of its occurrence in the string. Returns the 0 based index of the first occurrence of Target in String. Returns -1 if no occurrence.</li>
+<li><code>GetWord</code>(String, n): Returns the Nth (0-based) word in the String. Words are defined as a collection of characters separated by a space. 0-based index, means the first word is at the 0 position.</li>
+<li><code>Left</code>(x, len): Returns the first [len] characters of the string (x). If len is less than 0 or greater than the length of x, x remains unchanged.</li>
+<li><code>Length</code>(x) : Returns the length the string (x).</li>
+<li><code>LowerCase</code>(x): Converts a string to lower case</li>
+<li><code>MD5_ASCII</code>(String): Calculates the MD5 hash of the string. The string is expected to be only ASCII characters. Unicode® characters are turned into ? before calculating the MD5 hash.</li>
+<li><code>MD5_UNICODE</code>(String): Calculates the MD5 hash of the string.</li>
+<li><code>PadLeft</code> (str, len, char): Pads the string to the left with the specified character to the specified length. If the padding &quot;char&quot; is more than one character long, only the first character will be used.</li>
+<li><code>PadRight</code> (str, len, char): Pads the string to the right with the specified character to the specified length. If the padding &quot;char&quot; is more than one character long, only the first character will be used.</li>
+<li><code>REGEX_CountMatches</code>(string,pattern,icase): Returns the count of matches within the string to the pattern. The icase is an optional parameter. When specified, the case must match. By default icase=1 meaning ignore case. If set to 0, the case must match. Consult the Boost Regex Perl Regular Expression Syntax page to make the building of the expression easier.</li>
+<li><code>REGEX_Match</code>(string,pattern,icase): Searches a string for an occurrence of a regular expression. Tells if the string matches the pattern from the first character to the end. To look for something that does not necessarily start at the beginning of the string, start the pattern with '.<em>'. To look for something that does not necessarily go all the way to the end of the string, end the pattern with '.</em>'. Consult the Boost Regex Perl Regular Expression Syntax page for more information on how to properly construct a regular expression. icase is an optional parameter. When specified, the case must match. By default icase=1 meaning ignore case. If set to 0, the case must match.</li>
+<li><code>REGEX_Replace</code>(string, pattern, replace,icase): Allows replacement of text using regular expressions and returns the string resulting from the RegEx find pattern and replace string. All occurrences of the match are replaced, not just the first. Consult the Boost Regex Perl Regular Expression Syntax page to make the building of the expression easier. The replace parameter can be either a specified value as shown below, or a marked group, such as &quot;$1&quot;. icase is an optional parameter. When specified, the case must match. By default icase=1 meaning ignore case. If set to 0, the case must match.</li>
+<li><code>Replace</code>(Str, Target, Replacement): Returns the string (Str) after replacing each occurrence of the String (Target) with the String (Replacement).</li>
+<li><code>ReplaceChar</code>(x, y, z): Returns the string (x) after replacing each occurrence of the character (y) with the character(z). If the replacement character (z) is a string with more than one character, only the first one is used. If (z) is empty, each character (x) that matches any character in (y) is simply removed.</li>
+<li><code>ReplaceFirst</code>(Str, Target, Replacement): Returns the string (Str) after replacing the first occurrence of the string (Target) with the string (Replacement).</li>
+<li><code>ReverseString</code>(Str): Reverses all the characters in the string.</li>
+<li><code>Right</code>(String, len): Returns the last (len) characters of the string. If len is less than 0 or greater than the length of String, the string remains unchanged.</li>
+<li><code>StartsWith</code>(String, Target, CaseInsensitive=1): Checks if a string starts with a particular string. Returns a TRUE or FALSE if the string matches the pattern. It is defaulted to case insensitive. The StartsWith function is case insensitive while the FindString function is case sensitive.</li>
+<li><code>STRCSPN</code>(x, y): Returns the length of the initial segment of the string (x) consisting of characters NOT in the string (y)</li>
+<li><code>StripQuotes</code>(x): Removes a matched set of quotation marks or apostrophes from the ends of the string</li>
+<li class="task-list-item"><code>STRSPN</code>(x, y): Returns the length of the initial segment of the string <input disabled="disabled" type="checkbox" checked="checked" /> consisting of characters in the string [y]</li>
+<li><code>Substring</code>(x, start, length): Returns the substring of (x) starting at (start), stopping after(length), if provided</li>
+<li><code>TitleCase</code>(x) : Converts a string to Title case</li>
+<li><code>Trim</code>(x, y): Removes the character(s) in the string y from the ends of the string x. Y is optional and defaults to trimming white space. Notice in the TRIM function examples the specified characters are trimmed. It doesn't matter what order the characters are in.</li>
+<li><code>TrimLeft</code>(x, y): Removes character in the string y from the beginning of the string x. Y is optional and defaults to trimming white space</li>
+<li><code>TrimRight</code>(x, y): Removes character in the string y from the end of the string x. Y is optional and defaults to trimming white space While you may be passing in a string of characters to trim, the TRIM functions do not respect the order of the characters; it treats the string as a &quot;list.&quot; Therefore it will trim ALL of the characters in the list. If you are looking to replace a string, use a REPLACE function or a REGEX function in your expression.</li>
+<li><code>Uppercase</code>(x) Converts a string to upper case</li>
+<li><code>UuidCreate</code>(): Creates a Unique identifier.</li>
+</ul>
+<h3 id="sql-down-under-tools">sql down under tools</h3>
+<ul>
+<li><a href="https://sqldownunder.com/sdu-tools">Sql Downunder sdu tools</a> by Greg Low</li>
+</ul>
+<h4 id="categories-sdu">Categories (SDU)</h4>
+<ul>
+<li>Strings</li>
+<li>Dates and Times</li>
+<li>Data Conversion Functions</li>
+<li>Database Utilities</li>
+<li>Reporting Services Functions</li>
+<li>Scripting Functions</li>
+<li>Performance Tuning Functions and Procedures</li>
+<li>Utility Views</li>
+</ul>
+<h4 id="strings">Strings</h4>
+<ul>
+<li><code>AlphabeticOnly</code> - Removes any non-alphabetic characters from a string</li>
+<li><code>AlphanumericOnly</code> - Removes any non-alphanumeric characters from a string</li>
+<li><code>AsciiOnly</code> - Removes non-ASCII characters from a string</li>
+<li><code>CamelCase</code> - Converts a string to camelCase</li>
+<li><code>CobolCase</code> - Converts a string to COBOL-CASE</li>
+<li><code>CountWords</code> - Counts the number of words in a string</li>
+<li><code>DigitsOnly</code> - Removes non-digit characters from a string</li>
+<li><code>ExtractToken</code> - Extracts a specific token number from a delimited string like a CSV or TSV</li>
+<li><code>ExtractTrigrams</code> - Extracts trigrams (segments of up to 3 characters) from a string for fast searching</li>
+<li><code>ExtractTrimmedWords</code> - Extracts words from a string and trims them</li>
+<li><code>InitialsFromName</code> - Extracts a person's initials from their name</li>
+<li><code>InvertString</code> - Returns an upside down version of the string</li>
+<li><code>KebabCase</code> - Converts a string to kebab-case</li>
+<li><code>LeftPad</code> - Left pads a string</li>
+<li><code>NullIfBlank</code> - Returns NULL if a string is blank or trims the string</li>
+<li><code>PascalCase</code> - Converts a string to PascalCase</li>
+<li><code>PercentEncode</code> - Encodes reserved characters that are used in HTML or URL encoding</li>
+<li><code>PreviousNonWhitespaceCharacter</code> - Finds the previous non-whitespace character working backwards from the current position</li>
+<li><code>ProperCase</code> - Converts a string to Proper Case</li>
+<li><code>QuoteString</code> - Quotes a string</li>
+<li><code>RightPad</code> - Right pads a string</li>
+<li><code>ScreamingSnakeCase</code> - Converts a string to SCREAMING_SNAKE_CASE</li>
+<li><code>SeparateByCase</code> - Inserts spaces in Pascal-cased or camel-cased strings</li>
+<li><code>SingleSpaceWords</code> - Trims a string and replaces multiple spaces with single spaces</li>
+<li><code>SnakeCase</code> - Converts a string to snake_case</li>
+<li><code>SplitDelimitedString</code> - Splits a delimited string (often CSV or TSV)</li>
+<li><code>SplitDelimitedStringIntoColumns</code> - Splits a delimited string (often CSV or TSV) into separate columns</li>
+<li><code>SpongeBobSnakeCase</code> - Converts a string to sPoNgEbOb_sNaKeCaSe</li>
+<li><code>StringLength</code> - Returns the length of a string (Properly)</li>
+<li><code>StripDiacritics</code> - Strips diacritics (accents, graves, etc.) from a string</li>
+<li><code>TitleCase</code> - Converts a string to Title Case</li>
+<li><code>TrainCase</code> - Converts a string to Train-Case</li>
+<li><code>Translate</code> - Replaces a set of characters in a string</li>
+<li><code>TrimWhitespace</code> - Removes any leading or trailing space, tab, carriage return, and linefeed characters</li>
+<li><code>XMLDecodeString</code> - XML decodes a string</li>
+<li><code>XMLEncodeString</code> - XML encodes a string</li>
+</ul>
+<h4 id="dates-and-times">Dates and Times</h4>
+<ul>
+<li><code>AddWeekdays</code> - Adds a number of weekdays to a date</li>
+<li><code>CalculateAge</code> - Calculates the age of anything based upon a target date</li>
+<li><code>ChineseNewYearAnimalName</code> - Calculates the zodiac animal name for a given year</li>
+<li><code>ChineseYears</code> - View that returns details about Chinese years</li>
+<li><code>DateDiffNoWeekends</code> - Determines the number of days between two dates, excluding weekends</li>
+<li><code>DateDimensionColumns</code> - Returns columns often used in data warehouse date dimensions</li>
+<li><code>DateDimensionPeriodColumns</code> - Returns columns often used in date warehouse period dimensions</li>
+<li><code>DateOfChineseNewYear</code> - Calculates the date of Chinese New Year for a given year</li>
+<li><code>DateOfEasterSunday</code> - Calculates the date of (Christian) Easter Sunday for a given year</li>
+<li><code>DateOfOrthodoxEaster</code> - Calculates the date of (Orthodox) Easter Sunday for a given year</li>
+<li><code>DatesBetween</code> - Function that returns the list of dates between two dates</li>
+<li><code>DatesBetweenNoWeekends</code> - Function that returns the list of dates between two dates excluding weekends</li>
+<li><code>DatesInPeriod</code> - Function that returns the list of dates for a number of periods</li>
+<li><code>DateTime2ToUnixTime</code> - Converts datetime2 values to Unix time</li>
+<li><code>DateToJulianDayNumber</code> - Converts a date to a Julian day number</li>
+<li><code>DayNumberOfMonth</code> - Returns the nth instance of a specific day for a month</li>
+<li><code>DaysInMonth</code> - Returns the number of days in a specific month</li>
+<li><code>EndOfFinancialYear</code> - Calculates the end of a financial year date based upon a starting month</li>
+<li><code>EndOfMonth</code> - Calculates the end of a month</li>
+<li><code>EndOfWeek</code> - Calculates the end of a week</li>
+<li><code>EndOfWorkingWeek</code> - Calculates the end of a working week</li>
+<li><code>EndOfYear</code> - Calculates the end of a year</li>
+<li><code>GetDateDimension</code> - Returns a data warehouse date dimension for a specified range of dates</li>
+<li><code>GetTimePeriodDimension</code> - Returns a data warehouse time dimension for a given day</li>
+<li><code>IsLeapYear</code> - Determines if a year is a leap year</li>
+<li><code>IsWeekday</code> - Determines if a day is a weekday</li>
+<li><code>IsWeekend</code> - Determines if a day is a weekend</li>
+<li><code>JulianDayNumberToDate</code> - Converts a Julian day number to a date</li>
+<li><code>NearestWeekday</code> - Calculates the nearest specified day of the week to a date</li>
+<li><code>StartOfFinancialYear</code> - Calculates the start of the financial year for a specified starting month</li>
+<li><code>StartOfMonth</code> - Calculates the start of a month</li>
+<li><code>StartOfWeek</code> - Calculates the start of a week</li>
+<li><code>StartOfWorkingWeek</code> - Calculates the start of a working week</li>
+<li><code>StartOfYear</code> - Calculates the start of a year</li>
+<li><code>TimePeriodDimensionColumns</code> - Returns the columns often used in a data warehouse time dimension</li>
+<li><code>TimePeriodsBetween</code> - Returns a list of time periods of a specified size between two times</li>
+<li><code>TimezoneOffsetToHours</code> - Converts a timezoneoffset to a decimal number of hours</li>
+<li><code>UnixTimeToDateTime2</code> - Converts a Unix time to a datetime2 value</li>
+<li><code>WeekdayOfMonth</code> - Returns the nth weekday of a month (e.g. 2nd Tuesday)</li>
+<li><code>WeekdayOfSameWeek</code> - Returns the specified weekday for a given week</li>
+</ul>
+<h4 id="data-conversion-functions">Data Conversion Functions</h4>
+<ul>
+<li><code>Base64ToVarbinary</code> - Converts a base 64 value to varbinary</li>
+<li><code>CharToHexadecimal</code> - Converts a character to a hexadecimal string</li>
+<li><code>CurrentSessionDecimalSeparator</code> - Determines the decimal separator for the current session</li>
+<li><code>CurrentSessionThousandsSeparator</code> - Determines the thousands separator for the current session</li>
+<li><code>HexCharStringToChar</code> - Converts a hexadecimal string to a character</li>
+<li><code>HexCharStringToInt</code> - Converts a hexadecimal string to an int</li>
+<li><code>NumberAsText</code> - Converts a number to English words (like appeared on checks/cheques)</li>
+<li><code>NumberToRomanNumerals</code> - Converts a number to Roman numerals as a string</li>
+<li><code>ROT13</code> - Applies ROT13 encoding/decoding of a string</li>
+<li><code>SecondsToDuration</code> - Converts a number of seconds to a SQL Server duration string</li>
+<li><code>SQLServerVersionForCompatibilityLevel</code> - Converts a SQL Server database compatibility level to a version</li>
+<li><code>SQLVariantInfo</code> - Returns information about a sql_variant value</li>
+<li><code>TruncateTrailingZeroes</code> - Converts a decimal value to a string without trailing zeroes</li>
+<li><code>VarbinaryToBase64</code> - Converts a varbinary value to base 64</li>
+<li><code>Database</code> and Table Comparison Tools - GetDBSchemaCoreComparison</li>
+<li><code>Checks</code> the schema of two databases, looking for basic differences - GetTableSchemaComparison</li>
+<li><code>Checks</code> the schema of two tables, looking for basic differences - General Purpose Functions</li>
+<li><code>IsIPv4Address</code> - Determines if a string has a valid IPv4 address format</li>
+<li><code>NULLIfZero</code> - Returns NULL if the input value is zero otherwise decimal(18, 2) output</li>
+<li><code>ProductVersionComponents</code> - Extracts the components of a product version</li>
+<li><code>ProductVersionToBuild</code> - Extracts the build from a build number (product version)</li>
+<li><code>ProductVersionToMajorVersion</code> - Extracts a product major version from a build number (product version)</li>
+<li><code>ProductVersionToMinorVersion</code> - Extracts a product minor version from a build number (product version)</li>
+<li><code>ProductVersionToRelease</code> - Extracts a product release from a build number (product version)</li>
+<li><code>SQLServerVersion</code> - Returns the SQL Server version as a string</li>
+<li><code>SDUToolsVersion</code> - Returns the version of SDU Tools</li>
+<li><code>TableOfNumbers</code> - Returns a specified set of numbers from a starting value</li>
+</ul>
+<h4 id="database-utilities">Database Utilities</h4>
+<ul>
+<li><code>AnalyzeTableColumns</code> - Metadata and distinct values for columns in a table</li>
+<li><code>CalculateTableLoadingOrder</code> - Determines the order to load tables based upon foreign keys</li>
+<li><code>CheckInstantFileInitializationState</code> - Determines if IFI is enabled</li>
+<li><code>ClearServiceBrokerTransmissionQueue</code> - Clears the contents of the transmission queue for service broker</li>
+<li><code>CreateLinkedServerToAzureSQLDatabase</code> - Creates a linked server to an Azure SQL Database</li>
+<li><code>CreateSQLLoginWithSIDFromDB</code> - Avoids SID mismatch problems by creating a login with the SID taken from a database</li>
+<li><code>DropTemporaryTableIfExists</code> - Drops a temporary table if it exists</li>
+<li><code>EmptySchema</code> - Removes all objects from within a schema</li>
+<li><code>EmptySchemaInCurrentDatabase</code> - Removes all objects from within a schema in the current database (useful for Azure SQL Database)</li>
+<li><code>ExecuteCommandInEachDB</code> - Executes a command in each database</li>
+<li><code>ExecuteJobAndWaitForCompletion</code> - Executes a SQL Agent job and waits for it to complete</li>
+<li><code>FindStringWithinADatabase</code> - Searches for any occurrence of a string within a database (useful for checking masking)</li>
+<li><code>IsJobRunning</code> - Checks if a SQL Agent job is currently running</li>
+<li><code>IsLockedPagesInMemoryEnabled</code> - Checks if the Lock Pages in Memory setting is enabled</li>
+<li><code>IsXActAbortOn</code> - Checks if XACT_ABORT is currently in the session</li>
+<li><code>ListAllDataTypesInUse</code> - Lists all data types in use in the database</li>
+<li><code>ListColumnsAndDataTypes</code> - Lists all columns and their data types for a database</li>
+<li><code>ListDisabledIndexes</code> - Lists disabled indexes</li>
+<li><code>ListEmptyUserTables</code> - Lists user tables that are empty</li>
+<li><code>ListForeignKeyColumns</code> - Lists foreign keys and their columns</li>
+<li><code>ListForeignKeys</code> - Lists foreign keys</li>
+<li><code>ListIncomingForeignKeys</code> - Lists incoming foreign keys (targets of foreign keys)</li>
+<li><code>ListIndexes</code> - Lists indexes</li>
+<li><code>ListMismatchedDatabaseCollations</code> - Lists databases with collations different to the server</li>
+<li><code>ListMismatchedDataTypes</code> - Lists columns with the same name that are defined differently across a database</li>
+<li><code>ListNonIndexedForeignKeys</code> - Lists foreign keys not supported by an index</li>
+<li><code>ListPotentialDateColumns</code> - Lists columns names as dates but not date data type</li>
+<li><code>ListPotentialDateColumnsByValue</code> - Lists columns declared as having date and time values but only holding dates</li>
+<li><code>ListPrimaryKeyColumns</code> - Lists primary keys and their columns</li>
+<li><code>ListSubsetIndexes</code> - Lists indexes that are subsets (or duplicates) of other indexes</li>
+<li><code>ListUnusedIndexes</code> - Lists indexes declared but not used</li>
+<li><code>ListUseOfDeprecatedDataTypes</code> - Lists columns declared with deprecated data types</li>
+<li><code>ListUserHeapTables</code> - Lists user tables with no clustering key</li>
+<li><code>ListUserTableAndIndexSizes</code> - Lists the size of tables and their indexes</li>
+<li><code>ListUserTableSizes</code> - Lists the size of user tables</li>
+<li><code>ListUserTablesWithNoPrimaryKey</code> - Lists user tables that have no declared primary key</li>
+<li><code>PrintMessage</code> - Print a message without delay</li>
+<li><code>ReadCSVFile</code> - Reads CSV or TSV file with up to 50 columns</li>
+<li><code>ReseedSequenceBeyondTableValues</code> - Finds the highest value used by a sequence in any table and sets its next value beyond that</li>
+<li><code>RetrustCheckConstraints</code> - Retrusts check constraints that are flagged as untrusted</li>
+<li><code>RetrustForeignKeys</code> - Retrusts foreign keys that are flagged as untrusted</li>
+<li><code>ServerMaximumDBCompatibilityLevel</code> - Determines the maximum DB compatibilty level for a server</li>
+<li><code>SetAnsiNullsOnForTable</code> - Fix the Ansi Nulls setting for a table created with it off</li>
+<li><code>SetAnsiNullsQuotedIdentifierForStoredProcedures</code> - Set Ansi Nulls and quoted identifier settings for stored procedures</li>
+<li><code>SetDatabaseCompatibilityLevelForAllDatabases</code> - Sets the database compatibility level for all databases</li>
+<li><code>ShowBackupCompletionEstimates</code> - Estimate when a backup will complete</li>
+<li><code>ShowCurrentBlocking</code> - Show blocking currently occurring in the database</li>
+<li><code>Sleep</code> - Sleep for a number of seconds (non-blocking)</li>
+<li><code>UpdateStatistics</code> - Update statistics within a database</li>
+</ul>
+<h4 id="reporting-services-functions">Reporting Services Functions</h4>
+<ul>
+<li><code>RSCatalogTypes</code> - Lists different types of catalog objects</li>
+<li><code>RSListContentItems</code> - Lists all items stored in RS along with their types and paths</li>
+<li><code>RSListUserAccess</code> - Lists RS users and their roles</li>
+<li><code>RSListUserAccessToContent</code> - Lists RS users and their access to content</li>
+</ul>
+<h4 id="scripting-functions">Scripting Functions</h4>
+<ul>
+<li><code>ExecuteOrPrint</code> - Executes and/or prints SQL Server code (deals with longer values than PRINT does)</li>
+<li><code>FormatDataTypeName</code> - Converts a data type, maximum length, precision, and scale to the standard format</li>
+<li><code>PGObjectName</code> - Converts a Pascal-cased or camel-cased SQL Server object name to one that could be useful in other databases like PostgreSQL</li>
+<li><code>ScriptDatabaseObjectPermissions</code> - Scripts object permissions for a database</li>
+<li><code>ScriptDatabaseUsers</code> - Scripts users in a database</li>
+<li><code>ScriptServerPermissions</code> - Scripts object permissions for a SQL Server</li>
+<li><code>ScriptServerRoleMembers</code> - Scripts role members for server roles</li>
+<li><code>ScriptSQLLogins</code> - Scripts SQL logins along with security IDs (SIDs)</li>
+<li><code>ScriptTable</code> - Scripts a table with many options, including alternate name and schema</li>
+<li><code>ScriptTableAsUnpivot</code> - Scripts a table as an unpivoted query or view</li>
+<li><code>ScriptUserDefinedDatabaseRolePermissions</code> - Scripts user defined database role permissions</li>
+<li><code>ScriptUserDefinedDatabaseRoles</code> - Scripts user defined database roles</li>
+<li><code>ScriptUserDefinedServerRolePermissions</code> - Scripts user defined server role permissions</li>
+<li><code>ScriptUserDefinedServerRoles</code> - Scripts user defined server roles</li>
+<li><code>ScriptWindowsLogins</code> - Scripts Windows logins</li>
+</ul>
+<h4 id="performance-tuning-functions-and-procedures">Performance Tuning Functions and Procedures</h4>
+<ul>
+<li><code>AnalyzePerformanceTuningTrace</code> - Analyzes the queries found in a loaded trace file</li>
+<li><code>CapturePerformanceTuningTrace</code> - Capture a performance tuning trace file</li>
+<li><code>DeExecuteSQLString</code> - Converts an sp_executesql string to a query</li>
+<li><code>ExtractSQLTemplate</code> - Extracts a normalized SQL query from a parameterized query</li>
+<li><code>LastParameterStartPosition</code> - Helper function for finding parameters in an sp_executesql query</li>
+<li><code>LoadPerformanceTuningTrace</code> - Loads a captured performance tuning trace</li>
+</ul>
+<h4 id="utility-views">Utility Views</h4>
+<ul>
+<li><code>Countries</code> - List of the world's countries</li>
+<li><code>Currencies</code> - List of the world's currencies</li>
+<li><code>CurrenciesByCountry</code> - List of currencies used by each country</li>
+<li><code>FutureReservedWords</code> - List of SQL Server future reserved words</li>
+<li><code>LatestSQLServerBuilds</code> - List of the latest builds for each version of SQL Server</li>
+<li><code>LoginTypes</code> - List of SQL Server login types</li>
+<li><code>NonDefaultSystemConfigurationOptions</code> - List of SQL Server configurations not currently set to default values</li>
+<li><code>ODBCReservedWords</code> - List of ODBC reserved words</li>
+<li><code>OperatingSystemConfiguration</code> - Lists the configuration of the current operating system</li>
+<li><code>OperatingSystemLocales</code> - List of operating system locales</li>
+<li><code>OperatingSystemSKUs</code> - List of operating system SKUs</li>
+<li><code>OperatingSystemVersions</code> - List of operating system versions</li>
+<li><code>ReservedWords</code> - List of SQL Server reserved words</li>
+<li><code>SQLServerProductVersions</code> - List of SQL Server product versions and builds</li>
+<li><code>SystemConfigurationOptionDefaults</code> - List of SQL Server system configuration default values</li>
+<li><code>SystemDataTypeNames</code> - List of SQL Server system data type names</li>
+<li><code>SystemWords</code> - List of SQL Server reserved words and future reserved words</li>
+<li><code>UserTypes</code> - List of SQL Server user types</li>
+</ul>
+<h3 id="online-csv-tools">online csv tools</h3>
+<ul>
+<li><a href="https://onlinecsvtools.com/">online csv tools</a></li>
+</ul>
+<p>Here's some things they have (those these are all standalone...)</p>
+<ul>
+<li><a href="https://onlinecsvtools.com/append-csv-columns">Append a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/change-csv-delimiter">Change CSV Delimiter</a></li>
+<li><a href="https://onlinecsvtools.com/convert-base64-to-csv">Convert Base64 to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-columns-to-rows">Convert CSV Cols to Rows</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-rows-to-columns">Convert CSV Rows to Cols</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-base64">Convert CSV to Base64</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-json">Convert CSV to JSON</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-text">Convert CSV to Text Columns</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-tsv">Convert CSV to TSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-xml">Convert CSV to XML</a></li>
+<li><a href="https://onlinecsvtools.com/convert-csv-to-yaml">Convert CSV to YAML</a></li>
+<li><a href="https://onlinecsvtools.com/convert-json-to-csv">Convert JSON to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-text-to-csv">Convert Text Columns to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-tsv-to-csv">Convert TSV to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-xml-to-csv">Convert XML to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/convert-yaml-to-csv">Convert YAML to CSV</a></li>
+<li><a href="https://onlinecsvtools.com/delete-csv-columns">Delete a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/extract-csv-columns">Extract a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/insert-csv-columns">Insert a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/prepend-csv-columns">Prepend a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/replace-csv-columns">Replace a CSV Column</a></li>
+<li><a href="https://onlinecsvtools.com/swap-csv-columns">Swap CSV Columns</a></li>
+<li><a href="https://onlinecsvtools.com/transpose-csv">Transpose CSV</a></li>
+<li><a href="https://onlinecsvtools.com/trim-csv-columns">Trim CSV Columns</a></li>
+<li><a href="https://onlinecsvtools.com/truncate-csv-columns">Truncate CSV Columns</a></li>
+<li><a href="https://onlinecsvtools.com/url-decode-csv">URL-decode CSV</a></li>
+<li><a href="https://onlinecsvtools.com/url-encode-csv">URL-encode CSV</a></li>
+</ul>
+<h3 id="ssrs">SSRS</h3>
+<h3 id="sql-server">sql server</h3>
+<h3 id="excel">excel</h3>
+<h4 id="various-cheat-sheets-etc">various cheat sheets etc</h4>
+<h3 id="python">python</h3>
+<h4 id="categories">Categories</h4>
+<ul>
+<li>String Functions</li>
+</ul>
+<h4 id="string-functions-python">String Functions (Python)</h4>
+<ul>
+<li><code>capitalize</code>()	Converts the first character to upper case</li>
+<li><code>casefold</code>()	Converts string into lower case</li>
+<li><code>center</code>()	Returns a centered string</li>
+<li><code>count</code>()	Returns the number of times a specified value occurs in a string</li>
+<li><code>encode</code>()	Returns an encoded version of the string</li>
+<li><code>endswith</code>()	Returns true if the string ends with the specified value</li>
+<li><code>expandtabs</code>()	Sets the tab size of the string</li>
+<li><code>find</code>()	Searches the string for a specified value and returns the position of where it was found</li>
+<li><code>format</code>()	Formats specified values in a string</li>
+<li><code>format_map</code>()	Formats specified values in a string</li>
+<li><code>index</code>()	Searches the string for a specified value and returns the position of where it was found</li>
+<li><code>isalnum</code>()	Returns True if all characters in the string are alphanumeric</li>
+<li><code>isalpha</code>()	Returns True if all characters in the string are in the alphabet</li>
+<li><code>isdecimal</code>()	Returns True if all characters in the string are decimals</li>
+<li><code>isdigit</code>()	Returns True if all characters in the string are digits</li>
+<li><code>isidentifier</code>()	Returns True if the string is an identifier</li>
+<li><code>islower</code>()	Returns True if all characters in the string are lower case</li>
+<li><code>isnumeric</code>()	Returns True if all characters in the string are numeric</li>
+<li><code>isprintable</code>()	Returns True if all characters in the string are printable</li>
+<li><code>isspace</code>()	Returns True if all characters in the string are whitespaces</li>
+<li><code>istitle</code>()	Returns True if the string follows the rules of a title</li>
+<li><code>isupper</code>()	Returns True if all characters in the string are upper case</li>
+<li><code>join</code>()	Joins the elements of an iterable to the end of the string</li>
+<li><code>ljust</code>()	Returns a left justified version of the string</li>
+<li><code>lower</code>()	Converts a string into lower case</li>
+<li><code>lstrip</code>()	Returns a left trim version of the string</li>
+<li><code>maketrans</code>()	Returns a translation table to be used in translations</li>
+<li><code>partition</code>()	Returns a tuple where the string is parted into three parts</li>
+<li><code>replace</code>()	Returns a string where a specified value is replaced with a specified value</li>
+<li><code>rfind</code>()	Searches the string for a specified value and returns the last position of where it was found</li>
+<li><code>rindex</code>()	Searches the string for a specified value and returns the last position of where it was found</li>
+<li><code>rjust</code>()	Returns a right justified version of the string</li>
+<li><code>rpartition</code>()	Returns a tuple where the string is parted into three parts</li>
+<li><code>rsplit</code>()	Splits the string at the specified separator, and returns a list</li>
+<li><code>rstrip</code>()	Returns a right trim version of the string</li>
+<li><code>split</code>()	Splits the string at the specified separator, and returns a list</li>
+<li><code>splitlines</code>()	Splits the string at line breaks and returns a list</li>
+<li><code>startswith</code>()	Returns true if the string starts with the specified value</li>
+<li><code>strip</code>()	Returns a trimmed version of the string</li>
+<li><code>swapcase</code>()	Swaps cases, lower case becomes upper case and vice versa</li>
+<li><code>title</code>()	Converts the first character of each word to upper case</li>
+<li><code>translate</code>()	Returns a translated string</li>
+<li><code>upper</code>()	Converts a string into upper case</li>
+<li><code>zfill</code>()	Fills the string with a specified number of 0 values at the beginning</li>
+</ul>
+<h4 id="file-functions">File Functions</h4>
+<ul>
+<li><code>close</code>()	Closes the file</li>
+<li><code>detach</code>()	Returns the separated raw stream from the buffer</li>
+<li><code>fileno</code>()	Returns a number that represents the stream, from the operating system's perspective</li>
+<li><code>flush</code>()	Flushes the internal buffer</li>
+<li><code>isatty</code>()	Returns whether the file stream is interactive or not</li>
+<li><code>read</code>()	Returns the file content</li>
+<li><code>readable</code>()	Returns whether the file stream can be read or not</li>
+<li><code>readline</code>()	Returns one line from the file</li>
+<li><code>readlines</code>()	Returns a list of lines from the file</li>
+<li><code>seek</code>()	Change the file position</li>
+<li><code>seekable</code>()	Returns whether the file allows us to change the file position</li>
+<li><code>tell</code>()	Returns the current file position</li>
+<li><code>truncate</code>()	Resizes the file to a specified size</li>
+<li><code>writable</code>()	Returns whether the file can be written to or not</li>
+<li><code>write</code>()	Writes the specified string to the file</li>
+<li><code>writelines</code>()	Writes a list of strings to the file</li>
+</ul>
+<h4 id="built-in-functions">Built-in Functions</h4>
+<ul>
+<li><code>abs</code>()	Returns the absolute value of a number</li>
+<li><code>all</code>()	Returns True if all items in an iterable object are true</li>
+<li><code>any</code>()	Returns True if any item in an iterable object is true</li>
+<li><code>ascii</code>()	Returns a readable version of an object. Replaces none-ascii characters with escape character</li>
+<li><code>bin</code>()	Returns the binary version of a number</li>
+<li><code>bool</code>()	Returns the boolean value of the specified object</li>
+<li><code>bytearray</code>()	Returns an array of bytes</li>
+<li><code>bytes</code>()	Returns a bytes object</li>
+<li><code>callable</code>()	Returns True if the specified object is callable, otherwise False</li>
+<li><code>chr</code>()	Returns a character from the specified Unicode code.</li>
+<li><code>classmethod</code>()	Converts a method into a class method</li>
+<li><code>compile</code>()	Returns the specified source as an object, ready to be executed</li>
+<li><code>complex</code>()	Returns a complex number</li>
+<li><code>delattr</code>()	Deletes the specified attribute (property or method) from the specified object</li>
+<li><code>dict</code>()	Returns a dictionary (Array)</li>
+<li><code>dir</code>()	Returns a list of the specified object's properties and methods</li>
+<li><code>divmod</code>()	Returns the quotient and the remainder when argument1 is divided by argument2</li>
+<li><code>enumerate</code>()	Takes a collection (e.g. a tuple) and returns it as an enumerate object</li>
+<li><code>eval</code>()	Evaluates and executes an expression</li>
+<li><code>exec</code>()	Executes the specified code (or object)</li>
+<li><code>filter</code>()	Use a filter function to exclude items in an iterable object</li>
+<li><code>float</code>()	Returns a floating point number</li>
+<li><code>format</code>()	Formats a specified value</li>
+<li><code>frozenset</code>()	Returns a frozenset object</li>
+<li><code>getattr</code>()	Returns the value of the specified attribute (property or method)</li>
+<li><code>globals</code>()	Returns the current global symbol table as a dictionary</li>
+<li><code>hasattr</code>()	Returns True if the specified object has the specified attribute (property/method)</li>
+<li><code>hash</code>()	Returns the hash value of a specified object</li>
+<li><code>help</code>()	Executes the built-in help system</li>
+<li><code>hex</code>()	Converts a number into a hexadecimal value</li>
+<li><code>id</code>()	Returns the id of an object</li>
+<li><code>input</code>()	Allowing user input</li>
+<li><code>int</code>()	Returns an integer number</li>
+<li><code>isinstance</code>()	Returns True if a specified object is an instance of a specified object</li>
+<li><code>issubclass</code>()	Returns True if a specified class is a subclass of a specified object</li>
+<li><code>iter</code>()	Returns an iterator object</li>
+<li><code>len</code>()	Returns the length of an object</li>
+<li><code>list</code>()	Returns a list</li>
+<li><code>locals</code>()	Returns an updated dictionary of the current local symbol table</li>
+<li><code>map</code>()	Returns the specified iterator with the specified function applied to each item</li>
+<li><code>max</code>()	Returns the largest item in an iterable</li>
+<li><code>memoryview</code>()	Returns a memory view object</li>
+<li><code>min</code>()	Returns the smallest item in an iterable</li>
+<li><code>next</code>()	Returns the next item in an iterable</li>
+<li><code>object</code>()	Returns a new object</li>
+<li><code>oct</code>()	Converts a number into an octal</li>
+<li><code>open</code>()	Opens a file and returns a file object</li>
+<li><code>ord</code>()	Convert an integer representing the Unicode of the specified character</li>
+<li><code>pow</code>()	Returns the value of x to the power of y</li>
+<li><code>print</code>()	Prints to the standard output device</li>
+<li><code>property</code>()	Gets, sets, deletes a property</li>
+<li><code>range</code>()	Returns a sequence of numbers, starting from 0 and increments by 1 (by default)</li>
+<li><code>repr</code>()	Returns a readable version of an object</li>
+<li><code>reversed</code>()	Returns a reversed iterator</li>
+<li><code>round</code>()	Rounds a numbers</li>
+<li><code>set</code>()	Returns a new set object</li>
+<li><code>setattr</code>()	Sets an attribute (property/method) of an object</li>
+<li><code>slice</code>()	Returns a slice object</li>
+<li><code>sorted</code>()	Returns a sorted list</li>
+<li><code>@staticmethod</code>()	Converts a method into a static method</li>
+<li><code>str</code>()	Returns a string object</li>
+<li><code>sum</code>()	Sums the items of an iterator</li>
+<li><code>super</code>()	Returns an object that represents the parent class</li>
+<li><code>tuple</code>()	Returns a tuple</li>
+<li><code>type</code>()	Returns the type of an object</li>
+<li><code>vars</code>()	Returns the <strong>dict</strong> property of an object</li>
+<li><code>zip</code>()	Returns an iterator, from two or more iterators</li>
+</ul>
+<h3 id="terraform">terraform</h3>
+<ul>
+<li><a href="https://www.terraform.io/docs/language/functions/">Terraform functions</a></li>
+</ul>
+<h4 id="numeric-functions">Numeric Functions</h4>
+<ul>
+<li><code>abs</code></li>
+<li><code>ceil</code></li>
+<li><code>floor</code></li>
+<li><code>log</code></li>
+<li><code>max</code></li>
+<li><code>min</code></li>
+<li><code>parseint</code></li>
+<li><code>pow</code></li>
+<li><code>signum</code></li>
+</ul>
+<h4 id="string-functions-terraform">String Functions (terraform)</h4>
+<ul>
+<li><code>chomp</code></li>
+<li><code>format</code></li>
+<li><code>formatlist</code></li>
+<li><code>indent</code></li>
+<li><code>join</code></li>
+<li><code>lower</code></li>
+<li><code>regex</code></li>
+<li><code>regexall</code></li>
+<li><code>replace</code></li>
+<li><code>split</code></li>
+<li><code>strrev</code></li>
+<li><code>substr</code></li>
+<li><code>title</code></li>
+<li><code>trim</code></li>
+<li><code>trimprefix</code></li>
+<li><code>trimsuffix</code></li>
+<li><code>trimspace</code></li>
+<li><code>upper</code></li>
+</ul>
+<h4 id="collection-functions">Collection Functions</h4>
+<ul>
+<li><code>alltrue</code></li>
+<li><code>anytrue</code></li>
+<li><code>chunklist</code></li>
+<li><code>coalesce</code></li>
+<li><code>coalescelist</code></li>
+<li><code>compact</code></li>
+<li><code>concat</code></li>
+<li><code>contains</code></li>
+<li><code>distinct</code></li>
+<li><code>element</code></li>
+<li><code>flatten</code></li>
+<li><code>index</code></li>
+<li><code>keys</code></li>
+<li><code>length</code></li>
+<li><code>list</code></li>
+<li><code>lookup</code></li>
+<li><code>map</code></li>
+<li><code>matchkeys</code></li>
+<li><code>merge</code></li>
+<li><code>range</code></li>
+<li><code>reverse</code></li>
+<li><code>setintersection</code></li>
+<li><code>setproduct</code></li>
+<li><code>setsubtract</code></li>
+<li><code>setunion</code></li>
+<li><code>slice</code></li>
+<li><code>sort</code></li>
+<li><code>sum</code></li>
+<li><code>transpose</code></li>
+<li><code>values</code></li>
+<li><code>zipmap</code></li>
+</ul>
+<h4 id="encoding-functions">Encoding Functions</h4>
+<ul>
+<li><code>base64decode</code></li>
+<li><code>base64encode</code></li>
+<li><code>base64gzip</code></li>
+<li><code>csvdecode</code></li>
+<li><code>jsondecode</code></li>
+<li><code>jsonencode</code></li>
+<li><code>textdecodebase64</code></li>
+<li><code>textencodebase64</code></li>
+<li><code>urlencode</code></li>
+<li><code>yamldecode</code></li>
+<li><code>yamlencode</code></li>
+</ul>
+<h4 id="filesystem-functions">Filesystem Functions</h4>
+<ul>
+<li><code>abspath</code></li>
+<li><code>dirname</code></li>
+<li><code>pathexpand</code></li>
+<li><code>basename</code></li>
+<li><code>file</code></li>
+<li><code>fileexists</code></li>
+<li><code>fileset</code></li>
+<li><code>filebase64</code></li>
+<li><code>templatefile</code></li>
+</ul>
+<h4 id="date-and-time-functions">Date and Time Functions</h4>
+<ul>
+<li><code>formatdate</code></li>
+<li><code>timeadd</code></li>
+<li><code>timestamp</code></li>
+</ul>
+<h4 id="hash-and-crypto-functions">Hash and Crypto Functions</h4>
+<ul>
+<li><code>base64sha256</code></li>
+<li><code>base64sha512</code></li>
+<li><code>bcrypt</code></li>
+<li><code>filebase64sha256</code></li>
+<li><code>filebase64sha512</code></li>
+<li><code>filemd5</code></li>
+<li><code>filesha1</code></li>
+<li><code>filesha256</code></li>
+<li><code>filesha512</code></li>
+<li><code>md5</code></li>
+<li><code>rsadecrypt</code></li>
+<li><code>sha1</code></li>
+<li><code>sha256</code></li>
+<li><code>sha512</code></li>
+<li><code>uuid</code></li>
+<li><code>uuidv5</code></li>
+</ul>
+<h4 id="ip-network-functions">IP Network Functions</h4>
+<ul>
+<li><code>cidrhost</code></li>
+<li><code>cidrnetmask</code></li>
+<li><code>cidrsubnet</code></li>
+<li><code>cidrsubnets</code></li>
+</ul>
+<h4 id="type-conversion-functions">Type Conversion Functions</h4>
+<ul>
+<li><code>can</code></li>
+<li><code>defaults</code></li>
+<li><code>tobool</code></li>
+<li><code>tolist</code></li>
+<li><code>tomap</code></li>
+<li><code>tonumber</code></li>
+<li><code>toset</code></li>
+<li><code>tostring</code></li>
+<li><code>try</code></li>
+</ul>
+<h3 id="sql-server-1">SQL Server</h3>
+<h4 id="string-functions-sql-server">String Functions (SQL Server)</h4>
+<ul>
+<li><code>ASCII</code>	Returns the ASCII value for the specific character</li>
+<li><code>CHAR</code>	Returns the character based on the ASCII code</li>
+<li><code>CHARINDEX</code>	Returns the position of a substring in a string</li>
+<li><code>CONCAT</code>	Adds two or more strings together</li>
+<li><code>Concat with +</code>	Adds two or more strings together</li>
+<li><code>CONCAT_WS</code>	Adds two or more strings together with a separator</li>
+<li><code>DATALENGTH</code>	Returns the number of bytes used to represent an expression</li>
+<li><code>DIFFERENCE</code>	Compares two SOUNDEX values, and returns an integer value</li>
+<li><code>FORMAT</code>	Formats a value with the specified format</li>
+<li><code>LEFT</code>	Extracts a number of characters from a string (starting from left)</li>
+<li><code>LEN</code>	Returns the length of a string</li>
+<li><code>LOWER</code>	Converts a string to lower-case</li>
+<li><code>LTRIM</code>	Removes leading spaces from a string</li>
+<li><code>NCHAR</code>	Returns the Unicode character based on the number code</li>
+<li><code>PATINDEX</code>	Returns the position of a pattern in a string</li>
+<li><code>QUOTENAME</code>	Returns a Unicode string with delimiters added to make the string a valid SQL Server delimited identifier</li>
+<li><code>REPLACE</code>	Replaces all occurrences of a substring within a string, with a new substring</li>
+<li><code>REPLICATE</code>	Repeats a string a specified number of times</li>
+<li><code>REVERSE</code>	Reverses a string and returns the result</li>
+<li><code>RIGHT</code>	Extracts a number of characters from a string (starting from right)</li>
+<li><code>RTRIM</code>	Removes trailing spaces from a string</li>
+<li><code>SOUNDEX</code>	Returns a four-character code to evaluate the similarity of two strings</li>
+<li><code>SPACE</code>	Returns a string of the specified number of space characters</li>
+<li><code>STR</code>	Returns a number as string</li>
+<li><code>STUFF</code>	Deletes a part of a string and then inserts another part into the string, starting at a specified position</li>
+<li><code>SUBSTRING</code>	Extracts some characters from a string</li>
+<li><code>TRANSLATE</code>	Returns the string from the first argument after the characters specified in the second argument are translated into the characters specified in the third argument.</li>
+<li><code>TRIM</code>	Removes leading and trailing spaces (or other specified characters) from a string</li>
+<li><code>UNICODE</code>	Returns the Unicode value for the first character of the input expression</li>
+<li><code>UPPER</code>	Converts a string to upper-case</li>
+</ul>
+<h3 id="javascript">Javascript</h3>
+<p>Categories here are technical not thematic...</p>
+<ul>
+<li><a href="#constructor">Constructor</a></li>
+<li><a href="#static-methods">Static methods</a></li>
+<li><a href="#instance-properties">Instance properties</a></li>
+<li><a href="#instance-methods">Instance methods</a></li>
+<li><a href="#html-wrapper-methods">HTML wrapper methods</a> (deprecated)</li>
+</ul>
+<h4 id="constructor">Constructor</h4>
+<ul>
+<li><code>String()</code> Creates a new String object. It performs type conversion when called as a function, rather than as a constructor, which is usually more useful.</li>
+</ul>
+<h4 id="static-methods">Static methods</h4>
+<ul>
+<li><code>String.fromCharCode(num1 [, ...[, numN]])</code> - Returns a string created by using the specified sequence of Unicode values.</li>
+<li><code>String.fromCodePoint(num1 [, ...[, numN)</code> - Returns a string created by using the specified sequence of code points.</li>
+<li><code>String.raw()</code> - Returns a string created from a raw template string.</li>
+</ul>
+<h4 id="instance-properties">Instance properties</h4>
+<ul>
+<li><code>String.prototype.length</code> - Reflects the length of the string. Read-only.</li>
+</ul>
+<h4 id="instance-methods">Instance methods</h4>
+<ul>
+<li><p><code>String.prototype.at(index)</code> - Returns the character (exactly one UTF-16 code unit) at the specified index. Accepts negative integers, which count back from the last string character.</p>
+</li>
+<li><p><code>String.prototype.charAt(index)</code> - Returns the character (exactly one UTF-16 code unit) at the specified index.</p>
+</li>
+<li><p><code>String.prototype.charCodeAt(index)</code> - Returns a number that is the UTF-16 code unit value at the given index.</p>
+</li>
+<li><p><code>String.prototype.codePointAt(pos)</code> - Returns a nonnegative integer Number that is the code point value of the UTF-16 encoded code point starting at the specified pos.</p>
+</li>
+<li><p><code>String.prototype.concat(str [, ...strN ])</code> - Combines the text of two (or more) strings and returns a new string.</p>
+</li>
+<li><p><code>String.prototype.includes(searchString [, position])</code> - Determines whether the calling string contains searchString.</p>
+</li>
+<li><p><code>String.prototype.endsWith(searchString [, length])</code> - Determines whether a string ends with the characters of the string searchString.</p>
+</li>
+<li><p><code>String.prototype.indexOf(searchValue [, fromIndex])</code> - Returns the index within the calling String object of the first occurrence of searchValue, or -1 if not found.</p>
+</li>
+<li><p><code>String.prototype.lastIndexOf(searchValue [, fromIndex])</code> - Returns the index within the calling String object of the last occurrence of searchValue, or -1 if not found.</p>
+</li>
+<li><p><code>String.prototype.localeCompare(compareString [, locales [, options]])</code> - Returns a number indicating whether the reference string compareString comes before, after, or is equivalent to the given string in sort order.</p>
+</li>
+<li><p><code>String.prototype.match(regexp)</code> - Used to match regular expression regexp against a string.</p>
+</li>
+<li><p><code>String.prototype.matchAll(regexp)</code> - Returns an iterator of all regexp's matches.</p>
+</li>
+<li><p><code>String.prototype.normalize([form])</code> - Returns the Unicode Normalization Form of the calling string value.</p>
+</li>
+<li><p><code>String.prototype.padEnd(targetLength [, padString])</code> - Pads the current string from the end with a given string and returns a new string of the length targetLength.</p>
+</li>
+<li><p><code>String.prototype.padStart(targetLength [, padString])</code> - Pads the current string from the start with a given string and returns a new string of the length targetLength.</p>
+</li>
+<li><p><code>String.prototype.repeat(count)</code> - Returns a string consisting of the elements of the object repeated count times.</p>
+</li>
+<li><p><code>String.prototype.replace(searchFor, replaceWith)</code> - Used to replace occurrences of searchFor using replaceWith. searchFor may be a string or Regular Expression, and replaceWith may be a string or function.</p>
+</li>
+<li><p><code>String.prototype.replaceAll(searchFor, replaceWith)</code> - Used to replace all occurrences of searchFor using replaceWith. searchFor may be a string or Regular Expression, and replaceWith may be a string or function.</p>
+</li>
+<li><p><code>String.prototype.search(regexp)</code> - Search for a match between a regular expression regexp and the calling string.</p>
+</li>
+<li><p><code>String.prototype.slice(beginIndex[, endIndex])</code> - Extracts a section of a string and returns a new string.</p>
+</li>
+<li><p><code>String.prototype.split([sep [, limit] ])</code> - Returns an array of strings populated by splitting the calling string at occurrences of the substring sep.</p>
+</li>
+<li><p><code>String.prototype.startsWith(searchString [, length])</code> - Determines whether the calling string begins with the characters of string searchString.</p>
+</li>
+<li><p><code>String.prototype.substring(indexStart [, indexEnd])</code> - Returns a new string containing characters of the calling string from (or between) the specified index (or indeces).</p>
+</li>
+<li><p>`String.prototype.toLocaleLowerCase( [locale, ...locales])</p>
+<pre><code>  The characters within a string are converted to lowercase while respecting the current locale.
+  For most languages, this will return the same as toLowerCase().
+</code></pre>
+</li>
+<li><p>`String.prototype.toLocaleUpperCase( [locale, ...locales])</p>
+<pre><code>  The characters within a string are converted to uppercase while respecting the current locale.
+  For most languages, this will return the same as toUpperCase().
+</code></pre>
+</li>
+<li><p><code>String.prototype.toLowerCase()-</code> Returns the calling string value converted to lowercase.</p>
+</li>
+<li><p><code>String.prototype.toString()</code> - Returns a string representing the specified object. Overrides the Object.prototype.toString() method.</p>
+</li>
+<li><p><code>String.prototype.toUpperCase()</code> - Returns the calling string value converted to uppercase.</p>
+</li>
+<li><p><code>String.prototype.trim()</code> - Trims whitespace from the beginning and end of the string. Part of the ECMAScript 5 standard.</p>
+</li>
+<li><p><code>String.prototype.trimStart()</code> - Trims whitespace from the beginning of the string.</p>
+</li>
+<li><p><code>String.prototype.trimEnd()</code> - Trims whitespace from the end of the string.</p>
+</li>
+<li><p><code>String.prototype.valueOf()</code> - Returns the primitive value of the specified object. Overrides the Object.prototype.valueOf() method.</p>
+</li>
+<li><p><code>String.prototype.@@iterator()</code> - Returns a new iterator object that iterates over the code points of a String value, returning each code point as a String value.</p>
+</li>
+</ul>
+<h4 id="html-wrapper-methods">HTML wrapper methods</h4>
+<p><strong>Deprecated</strong> Avoid these methods! They are of limited use, as they provide only a subset of the available HTML tags and attributes.</p>
+<ul>
+<li><code>String.prototype.anchor()</code> <code>&lt;a name=&quot;name&quot;&gt;</code> (hypertext target)</li>
+<li><code>String.prototype.big()</code> <code>&lt;big&gt;</code></li>
+<li><code>String.prototype.blink()</code> <code>&lt;blink&gt;</code></li>
+<li><code>String.prototype.bold()</code> <code>&lt;b&gt;</code></li>
+<li><code>String.prototype.fixed()</code> <code>&lt;tt&gt;</code></li>
+<li><code>String.prototype.fontcolor()</code> <code>&lt;font color=&quot;color&quot;&gt;</code></li>
+<li><code>String.prototype.fontsize()</code> <code>&lt;font size=&quot;size&quot;&gt;</code></li>
+<li><code>String.prototype.italics()</code> <code>&lt;i&gt;</code></li>
+<li><code>String.prototype.link()</code> <code>&lt;a href=&quot;url&quot;&gt;</code> (link to URL)</li>
+<li><code>String.prototype.small()</code> <code>&lt;small&gt;</code></li>
+<li><code>String.prototype.strike()</code> <code>&lt;strike&gt;</code></li>
+<li><code>String.prototype.sub()</code> <code>&lt;sub&gt;</code></li>
+<li><code>String.prototype.sup()</code> <code>&lt;sup&gt;</code></li>
+</ul>
+<h4 id="thematics-listing">Thematics Listing</h4>
+<p>The following listing of javascript functions is by theme not by technique of invocation.</p>
+<h4 id="string-functions-javascript">String Functions (JavaScript)</h4>
+<ul>
+<li><code>charAt()</code>	Returns the character at the specified index (position)</li>
+<li><code>charCodeAt()</code>	Returns the Unicode of the character at the specified index</li>
+<li><code>concat()</code>	Joins two or more strings, and returns a new joined strings</li>
+<li><code>endsWith()</code>	Checks whether a string ends with specified string/characters</li>
+<li><code>fromCharCode()</code>	Converts Unicode values to characters</li>
+<li><code>includes()</code>	Checks whether a string contains the specified string/characters</li>
+<li><code>indexOf()</code>	Returns the position of the first found occurrence of a specified value in a string</li>
+<li><code>lastIndexOf()</code>	Returns the position of the last found occurrence of a specified value in a string</li>
+<li><code>localeCompare()</code>	Compares two strings in the current locale</li>
+<li><code>match()</code>	Searches a string for a match against a regular expression, and returns the matches</li>
+<li><code>repeat()</code>	Returns a new string with a specified number of copies of an existing string</li>
+<li><code>replace()</code>	Searches a string for a specified value, or a regular expression, and returns a new string where the specified values are replaced</li>
+<li><code>search()</code>	Searches a string for a specified value, or regular expression, and returns the position of the match</li>
+<li><code>slice()</code>	Extracts a part of a string and returns a new string</li>
+<li><code>split()</code>	Splits a string into an array of substrings</li>
+<li><code>startsWith()</code>	Checks whether a string begins with specified characters</li>
+<li><code>substr()</code>	Extracts the characters from a string, beginning at a specified start position, and through the specified number of character</li>
+<li><code>substring()</code>	Extracts the characters from a string, between two specified indices</li>
+<li><code>toLocaleLowerCase()</code>	Converts a string to lowercase letters, according to the host's locale</li>
+<li><code>toLocaleUpperCase()</code>	Converts a string to uppercase letters, according to the host's locale</li>
+<li><code>toLowerCase()</code>	Converts a string to lowercase letters</li>
+<li><code>toString()</code>	Returns the value of a String object</li>
+<li><code>toUpperCase()</code>	Converts a string to uppercase letters</li>
+<li><code>trim()</code>	Removes whitespace from both ends of a string</li>
+<li><code>valueOf()</code>	Returns the primitive value of a String object</li>
+</ul>
+<h4 id="math-functions-javascript">Math Functions (JavaScript)</h4>
+<h5 id="math-object-properties">Math Object Properties</h5>
+<ul>
+<li><code>E</code>	Returns Euler's number (approx. 2.718)</li>
+<li><code>LN2</code>	Returns the natural logarithm of 2 (approx. 0.693)</li>
+<li><code>LN10</code>	Returns the natural logarithm of 10 (approx. 2.302)</li>
+<li><code>LOG2E</code>	Returns the base-2 logarithm of E (approx. 1.442)</li>
+<li><code>LOG10E</code>	Returns the base-10 logarithm of E (approx. 0.434)</li>
+<li><code>PI</code>	Returns PI (approx. 3.14)</li>
+<li><code>SQRT1_2</code>	Returns the square root of 1/2 (approx. 0.707)</li>
+<li><code>SQRT2</code>	Returns the square root of 2 (approx. 1.414)</li>
+</ul>
+<h5 id="math-methods">Math Methods</h5>
+<ul>
+<li><code>abs(x)</code>	Returns the absolute value of x</li>
+<li><code>acos(x)</code>	Returns the arccosine of x, in radians</li>
+<li><code>acosh(x)</code>	Returns the hyperbolic arccosine of x</li>
+<li><code>asin(x)</code>	Returns the arcsine of x, in radians</li>
+<li><code>asinh(x)</code>	Returns the hyperbolic arcsine of x</li>
+<li><code>atan(x)</code>	Returns the arctangent of x as a numeric value between -PI/2 and PI/2 radians</li>
+<li><code>atan2(y, x)</code>	Returns the arctangent of the quotient of its arguments</li>
+<li><code>atanh(x)</code>	Returns the hyperbolic arctangent of x</li>
+<li><code>cbrt(x)</code>	Returns the cubic root of x</li>
+<li><code>ceil(x)</code>	Returns x, rounded upwards to the nearest integer</li>
+<li><code>clz32(x)</code>	Returns the number of leading zeros in a 32-bit binary representation of x</li>
+<li><code>cos(x)</code>	Returns the cosine of x (x is in radians)</li>
+<li><code>cosh(x)</code>	Returns the hyperbolic cosine of x</li>
+<li><code>exp(x)</code>	Returns the value of Ex</li>
+<li><code>expm1(x)</code>	Returns the value of Ex minus 1</li>
+<li><code>floor(x)</code>	Returns x, rounded downwards to the nearest integer</li>
+<li><code>fround(x)</code>	Returns the nearest (32-bit single precision) float representation of a number</li>
+<li><code>log(x)</code>	Returns the natural logarithmof x</li>
+<li><code>log10(x)</code>	Returns the base-10 logarithm of x</li>
+<li><code>log1p(x)</code>	Returns the natural logarithm of 1 + x</li>
+<li><code>log2(x)</code>	Returns the base-2 logarithm of x</li>
+<li><code>max(x, y, z, ..., n)</code>	Returns the number with the highest value</li>
+<li><code>min(x, y, z, ..., n)</code>	Returns the number with the lowest value</li>
+<li><code>pow(x, y)</code>	Returns the value of x to the power of y</li>
+<li><code>random()</code>	Returns a random number between 0 and 1</li>
+<li><code>round(x)</code>	Rounds x to the nearest integer</li>
+<li><code>sign(x)</code>	Returns the sign of a number (checks whether it is positive, negative or zero)</li>
+<li><code>sin(x)</code>	Returns the sine of x (x is in radians)</li>
+<li><code>sinh(x)</code>	Returns the hyperbolic sine of x</li>
+<li><code>sqrt(x)</code>	Returns the square root of x</li>
+<li><code>tan(x)</code>	Returns the tangent of an angle</li>
+<li><code>tanh(x)</code>	Returns the hyperbolic tangent of a number</li>
+<li><code>trunc(x)</code>	Returns the integer part of a number (x)</li>
+</ul>
+<h4 id="regex-methods">Regex Methods</h4>
+<ul>
+<li><code>compile()</code>	Deprecated in version 1.5. Compiles a regular expression</li>
+<li><code>exec()</code>	Tests for a match in a string. Returns the first match</li>
+<li><code>test()</code>	Tests for a match in a string. Returns true or false</li>
+<li><code>toString()</code>	Returns the string value of the regular expression</li>
+<li>(string.)<code>match()</code></li>
+<li>(string.)<code>matchAll()</code></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
