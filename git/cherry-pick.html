@@ -23,18 +23,18 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="cherry-pick-some-commits-from-one-branch-to-another">Cherry-pick some commits from one branch to another</h1>
-<p>This is pretty easy. Many of the guides online talk about using particular tools, so i just want to write down the technique used for the commandline.</p>
+<p>This is pretty easy. Many of the guides online talk about using particular tools, so I just want to write down the technique used for the commandline.</p>
 <p>First -- find the <em>full</em> SHA of the commits you want to cherry-pick.</p>
 <p>If they are commits that have been merged into another branch -- then make sure to grab the original commit, not the merge commit. (if you grab the merge commit's SHA -- you'll end up with an error message that is pretty clear about the issue, so it's quite a recoverable error anyway)</p>
 <p>The full <code>SHA</code> is quite long, eg. <code>5f8c11b8f5ca131fdc00776ac428cc9b0a90ee19</code></p>
 <p>To cherry-pick that commit into the current branch:</p>
 <pre><code>git cherry-pick -x 5f8c11b8f5ca131fdc00776ac428cc9b0a90ee19
 </code></pre>
-<p>The <code>-x</code> is optional, but if included it will get the commit message of the original commit, and append this to it:</p>
+<p>The <code>-x</code> is optional, <em>recommended</em>, -- if included it will get the commit message of the original commit, and append this to it:</p>
 <pre><code>(cherry picked from commit 5f8c11b8f5ca131fdc00776ac428cc9b0a90ee19)
 </code></pre>
 <p>... which I think is a nice and classy touch!</p>
-<h2 id="cherry-pick-for-a-hot-fix">Cherry Pick for a hot fix</h2>
+<h2 id="cherry-pick-for-a-hotfix">Cherry Pick for a hotfix</h2>
 <p>When creating a cherry pick for a hot-fix to main -- you probably want to follow this slightly more involved process, so that it becomes a pull request, not just a direct commit to main.</p>
 <ol>
 <li><p>switch to the main branch, if you're not there already:</p>
@@ -51,6 +51,12 @@
  git cherry-pick -x b5728539028366e98a57855514549ad7e0776458
 </code></pre>
 </li>
+</ol>
+<p>...If cherry picking a merge-commit (the result of a previously completed PR, for example) -- you also need to specify which side to take -- do that with <code>-m 1</code>.</p>
+<pre><code>	git cherry-pick -x -m 1 5f8c11b8f5ca131fdc00776ac428cc9b0a90ee19
+	git cherry-pick -x -m 1 b5728539028366e98a57855514549ad7e0776458
+</code></pre>
+<ol start="4">
 <li><p>(Optional) Look at your local outgoing commits to make sure you're about to push what you want to push....</p>
 <pre><code> git log --branches --not --remotes=origin
 </code></pre>
@@ -64,6 +70,11 @@
 </code></pre>
 </li>
 </ol>
+<h2 id="immediately-undo-a-cherry-pick">Immediately undo a cherry pick</h2>
+<p>If you've just cherry picked something and you want to undo it (immediately) -- you're essentially undoing a commit -- so you can:</p>
+<pre><code>git reset --hard HEAD~
+</code></pre>
+<p>...to get back to the previous state.</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="branch.html">Branching in git</a></li>
