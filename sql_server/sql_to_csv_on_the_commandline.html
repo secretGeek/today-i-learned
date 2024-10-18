@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>sql to csv on the commandline . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="how-to-run-sql-queries-to-csv-in-powershell-on-the-commandline">How to run sql queries, to CSV, in powershell, on the commandline</h1>
+<h2 id="sql-cmd">SQL CMD</h2>
+<p>If you have sql server management studio installed, then <code>sqlcmd</code> should be available from the commandline.</p>
+<pre><code>sqlcmd -S &quot;MySqlServer.somebank.com\high&quot; -d &quot;MyDatabaseName&quot; -E -Q &quot;select count(*) from sysobjects&quot; -o &quot;DataResult.csv&quot; -s&quot;,&quot; -w 700
+</code></pre>
+<p>Or, to execute a query stored in a <code>.sql</code> file, you can use the <code>-i</code> option instead of <code>-Q</code>, like this:</p>
+<pre><code>sqlcmd -S &quot;MySqlServer.somebank.com\high&quot; -d &quot;MyDatabaseName&quot; -E -i &quot;ExampleQuery.sql&quot; -o &quot;DataResult.csv&quot; -s&quot;,&quot; -w 700
+</code></pre>
+<p>However, <code>sqlcmd</code> is quite a poor generator of output, and not recommended as a data extraction tool.</p>
+<p>The resulting files can be truncated if the <code>-w</code> value is not high enough (you must make it as wide as the widest column), or can create malformed CSV, as there is no escaping performed.</p>
+<h2 id="powershell-sqlserver-module-and-invoke-sqlcmd-cmdlet">Powershell SqlServer module and Invoke-SqlCmd cmdlet</h2>
+<p>It's better to install  the powershell &quot;SqlServer&quot; module, and use <code>Invoke-SqlCmd</code> to run queries.</p>
+<p>You can install the module from powershell window (run as administrator, btw), with this command:</p>
+<pre><code>Install-Module -Name SqlServer -AllowClobber
+</code></pre>
+<p>To execute an adhoc query, and write it to a CSV file, using the SqlServer module, use the <code>Invoke-SqlCmd</code> like so:</p>
+<pre><code>Invoke-Sqlcmd -Query &quot;SELECT count(*) as CCCC from Sysobjects&quot; -ServerInstance &quot;MySqlServer.somebank.com\high&quot; -Database MyDatabaseName | Export-Csv -Path &quot;Filename.csv&quot; -NoTypeInformation
+</code></pre>
+<p>Note we provided a server name (<code>-ServerInstance</code>) and a database name (<code>-Database</code>).</p>
+<p>Or with a full connection string (which you can get from the config of the web application(s)) use the <code>-ConnectionString</code> parameter, and don't use the <code>-ServerInstance</code> or <code>-Database</code> parameters. (Note, I found I did have to edit the connection string to remove the <code>;TrustServerCertificate=true</code> clause, and I set the <code>App=</code> clause to a meaningful value, as a courtesy)</p>
+<pre><code>Invoke-Sqlcmd -Query &quot;SELECT count(*) as CCCC from Sysobjects&quot; -ConnectionString &quot;data source=MySqlServer.somebank.com\high;initial catalog=MyDatabaseName;integrated security=True;MultipleActiveResultSets=True;App=AdhocSqlScript;Encrypt=false;&quot;  | Export-Csv -Path &quot;ResultData.csv&quot; -NoTypeInformation
+</code></pre>
+<p>Or, to specify a <strong>file that contains the SQL query</strong>, rather than specifying the SQL itself on the commandline, use the <code>-InputFile</code> parameter, and <em>not</em> the <code>-Query</code> parameter</p>
+<pre><code>Invoke-Sqlcmd -InputFile &quot;ExampleQuery.sql&quot; -ConnectionString &quot;data source=MySqlServer.somebank.com\high;initial catalog=MyDatabaseName;integrated security=True;MultipleActiveResultSets=True;App=AdhocSqlScript;Encrypt=false;&quot;  | Export-Csv -Path &quot;ResultData.csv&quot; -NoTypeInformation
+</code></pre>
+<h2 id="common-failure-patterns-invoke-sqlcmd">Common failure patterns (Invoke-SqlCmd)</h2>
+<p>If you get the server instance or database name wrong, you're likely to get errors such as:</p>
+<blockquote>
+<p>A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct
+and that SQL Server is configured to allow remote connections.</p>
+</blockquote>
+<p>If you don't specify the right set of parameters (e.g. you specify a <code>-Connectionstring</code> <em>as well</em> as either <code>-ServerInstance</code> or <code>-Database</code>) you will get an error such as:</p>
+<blockquote>
+<p>Parameter set cannot be resolved using the specified named parameters.</p>
+</blockquote>
+<h2 id="running-a-whole-folder-of-sql-scripts">Running a whole folder of SQL Scripts</h2>
+<p>We can quickly extend the concepts above, with a light sprinkling of Powershell, to run a whole folder of SQL queries, storing the output from each one of them in a a CSV file that match the source file name.</p>
+<p>Given a folder full of <code>.sql</code> files that conform to some naming pattern, you can execute each of them against a database, and store the result in a CSV file, as follows.</p>
+<pre><code>dir . &quot;??somepattern??*.sql&quot; | % { write-host &quot;We want to execute '$($_.Name)' against our database, and store the output in '$($_.Name).csv'&quot; }
+</code></pre>
+<h3 id="script-to-execute-all-somepattern.sql-query-files-against-the-a-db-and-store-the-result-in-the-appropriate-csv-file">Script to execute all <code>??somepattern??*.sql</code> query files against the a DB, and store the result in the appropriate CSV file</h3>
+<pre><code># Script to execute all `??somepattern??*.sql` query files against the a DB, and store the result in the appropriate CSV file
+
+$DBServer = &quot;&quot;;
+$DBName =   &quot;&quot;;
+
+dir . &quot;??somepattern??*.sql&quot; | % { 
+		&quot;Executing: '$($_.Name)',`nOn DBServer: $DBServer,`nAnd DB: $DBName,`nWith output: '$($_.Name).csv'&quot;;
+		Invoke-Sqlcmd -InputFile $_.Name -ConnectionString &quot;data source=$($DBServer);initial catalog=$($DBName);integrated security=True;MultipleActiveResultSets=True;App=AdhocSqlScript;Encrypt=false;&quot;  | Export-Csv -Path $($_.BaseName + &quot;.csv&quot;) -NoTypeInformation;
+		dir $($_.BaseName + &quot;.csv&quot;) | % { &quot;Output: $($_.Length) bytes (see $($_.Name))&quot;}
+		&quot;`...Executed '$($_.Name)`n`n&quot;
+}
+</code></pre>
+<p>If performing this over a VPN, the first step is connect to the VPN:</p>
+<ol>
+<li>Connect to the bank's VPN</li>
+<li>Launch powershell (or SSMS or other query tool) as your user within the virtual network.</li>
+</ol>
+<p>For example, if you run something like this:</p>
+<pre><code>runas /netonly /user:somebank\leonb &quot;powershell&quot;
+</code></pre>
+<p>...you will be prompted for the password, then powershell will open in a new window.</p>
+<p>Within that the instance of powershell you will have the correct security context to run sql commands (or launch SSMS etc.) from the commandline.</p>
+<h2 id="common-failure-patterns">Common failure patterns</h2>
+<p>If you needed to connect to a VPN but didn't, you will get error messages such as:</p>
+<blockquote>
+<p>A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct
+and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)</p>
+</blockquote>
+<p>If you are connected to the VPN, but not running as a user of the remote network, you will get error messages such as:</p>
+<blockquote>
+<p>Failed to generate SSPI context</p>
+</blockquote>
+<p>and/or:</p>
+<blockquote>
+<p>SQL Server Network Interfaces: No credentials are available in the security package</p>
+</blockquote>
+<h2 id="all-references">All References</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/sql/tools/sqlcmd/sqlcmd-run-transact-sql-script-files?view=sql-server-ver16">Execute T-SQL from a script file with sqlcmd</a></li>
+<li><a href="https://learn.microsoft.com/en-us/powershell/sql-server/download-sql-server-ps-module?view=sqlserver-ps&amp;viewFallbackFrom=sql-server-ver15">PowerShell modules for SQL Server</a></li>
+<li><a href="https://www.powershellgallery.com/packages/Sqlserver/22.2.0">Powershell:SqlServer Module</a></li>
+<li><a href="https://www.sqlservercentral.com/articles/exporting-data-with-powershell">Exporting Data with Powershell</a></li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../csv/import_csv_to_db.html">Import CSV file to a Database, quickly</a></li>
+<li><a href="../linqpad/datatable_to_csv.html">Data Table to CSV</a></li>
+<li><a href="table_to_csv.html">Aggregate table strings into one csv value (with SQL Server)</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
