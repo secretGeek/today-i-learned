@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="search-all-views-functions-or-sprocs-for-a-piece-of-text">Search all views functions or sprocs for a piece of text</h1>
+<h1 id="find-tables-or-columns-by-name-and-or-search-all-views-functions-or-sprocs-for-a-piece-of-text">Find Tables or Columns by Name, and or Search all views functions or sprocs for a piece of text</h1>
 <p>This is my most used snippet in &quot;<a href="https://secretgeek.net/kv">kv</a>&quot; (key value snippet storer). &quot;kv sysc&quot;</p>
 <pre><code>Select distinct 'sp_helptext ''' + Schema_Name(UID) + '.' + so.Name + '''
 go' from sysobjects so inner join syscomments sc on so.id = sc.id where sc.text like

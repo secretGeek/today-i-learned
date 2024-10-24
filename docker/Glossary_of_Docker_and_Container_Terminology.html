@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Glossary of Docker and Container Terminology . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="glossary-of-docker-and-container-terminology">Glossary of Docker and Container Terminology</h1>
+<h2 id="containers">Containers</h2>
+<ul>
+<li><strong>Container</strong>: A lightweight, standalone executable package that includes everything needed to run a piece of software: code, runtime, system tools, libraries, and settings. Containers are isolated from each other and the host system.</li>
+<li><strong>Image</strong>: A static, read-only template used to create containers. It includes the application and its dependencies. Containers are instances of images. When an image is &quot;running&quot;, you have a container. (Container is to image, as Object is to class)</li>
+<li><strong>Container Runtime</strong>: The software that runs and manages containers on a host machine. Docker is one example of a container runtime.</li>
+</ul>
+<h3 id="docker-specific-terminology">Docker-Specific Terminology</h3>
+<ul>
+<li><strong>Docker</strong>: A platform that enables developers to build, ship, and run applications inside containers. It includes tools like the Docker Engine (which runs containers) and the Docker CLI (which interacts with the Docker Engine).</li>
+<li><strong>Docker (CLI)</strong>: The command-line interface (e.g., <code>docker</code>, <code>docker.exe</code>) used to interact with Docker services, such as managing images, containers, volumes, and networks. Common commands include <code>docker run</code>, <code>docker pull</code>, <code>docker ps</code>, <code>docker stop</code>, etc.</li>
+<li><strong>Dockerfile</strong>: A text file that contains a series of instructions for building a Docker image. Each instruction in the Dockerfile creates a layer in the final image. Examples of Dockerfile commands include <code>FROM</code>, <code>COPY</code>, <code>RUN</code>, and <code>CMD</code>.</li>
+<li><strong>Docker Hub</strong>: A cloud-based repository for Docker images. It allows users to share and distribute Docker images. It can be thought of as a version-controlled storage for container images.</li>
+<li><strong>Docker Compose</strong>: A tool that allows you to define and manage multi-container Docker applications. It uses a YAML file (<code>docker-compose.yml</code>) to configure application services and run them with a single command (<code>docker-compose up</code>).</li>
+<li><strong>Docker Daemon</strong>: The background service (also known as <code>dockerd</code>) that manages Docker containers and images on the host machine.</li>
+<li><strong>Docker Engine</strong>: The core part of Docker that enables containerization. It includes the Docker Daemon and the CLI.</li>
+</ul>
+<h2 id="container-lifecycle-and-management">Container Lifecycle and Management</h2>
+<ul>
+<li><strong>Container Orchestration</strong>: The process of managing the lifecycle of containers, especially in large-scale environments where there may be thousands of containers running. Kubernetes is a popular tool for orchestration.</li>
+<li><strong>Host</strong>: The physical or virtual machine on which Docker (or any other container runtime) is installed and running containers. Containers share the host system's kernel but are isolated from other containers.</li>
+<li><strong>Repository</strong>: A collection of Docker images, usually stored in a registry like Docker Hub or a private registry. It can store multiple versions of the same image.</li>
+<li><strong>Tag</strong>: A label attached to an image version in a repository (e.g., <code>myapp:1.0</code>, where <code>1.0</code> is the tag). Tags help differentiate between versions of an image.</li>
+<li><strong>Volume</strong>: A mechanism for persisting data generated and used by Docker containers. Volumes are stored on the host file system and can be shared between containers.</li>
+<li><strong>Bind Mount</strong>: A type of volume where a specific directory on the host system is directly mounted into a container, allowing for real-time synchronization between the host and the container.</li>
+<li><strong>Layer</strong>: Each step in a Dockerfile (like <code>RUN</code>, <code>COPY</code>, etc.) creates a new layer in an image. Layers are cached and reused to optimize image builds.</li>
+</ul>
+<h2 id="networking-and-security-in-docker">Networking and Security in Docker</h2>
+<ul>
+<li><strong>Docker Network</strong>: A virtual network that allows Docker containers to communicate with each other. Types of networks include <code>bridge</code>, <code>host</code>, and <code>overlay</code>.
+<ul>
+<li><strong>Bridge Network</strong>: The default network where containers on the same host can communicate.</li>
+<li><strong>Host Network</strong>: Binds the container to the host machine's network stack, allowing direct access to the host's network interfaces.</li>
+<li><strong>Overlay Network</strong>: Allows containers on different hosts to communicate securely.</li>
+</ul>
+</li>
+<li><strong>Registry</strong>: A service for storing and distributing Docker images. Docker Hub is a public registry, while private registries can also be set up for internal use.</li>
+<li><strong>Docker Content Trust (DCT)</strong>: A security feature that ensures the authenticity and integrity of Docker images using cryptographic signing.</li>
+<li><strong>Namespace</strong>: A Linux kernel feature used by Docker to isolate various aspects of a container's environment, such as process trees, network interfaces, and mount points, ensuring separation from other containers and the host.</li>
+<li><strong>Cgroups (Control Groups)</strong>: A kernel feature that Docker uses to limit and prioritize the resources (CPU, memory, I/O) a container can use.</li>
+</ul>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<ul>
+<li><strong>Entrypoint</strong>: The default executable that runs inside a container when it starts. It can be defined in the Dockerfile or overridden at runtime.</li>
+<li><strong>CMD</strong>: A Dockerfile instruction that specifies the command to be run inside the container when it starts. <code>CMD</code> can be overridden by passing a command in <code>docker run</code>.</li>
+<li><strong>Build Context</strong>: The directory containing the files required to build a Docker image. The build context is sent to the Docker Daemon during the build process.</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="Glossary_of_Kubernetes_Terminology.html">Glossary of Kubernetes Terminology</a></li>
+<li><a href="Lesson_Plan_for_Mastering_Containers_Docker_and_Kubernetes.html">Lesson Plan for Mastering Containers, Docker, and Kubernetes</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

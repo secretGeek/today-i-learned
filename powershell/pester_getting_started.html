@@ -36,7 +36,7 @@
 </code></pre>
 <p>That succeeded then retried installing pester.</p>
 <p>I then received this error message:</p>
-<pre><code>&gt; Find-Module pester -Repository psgallery | Install-Module
+<pre><code class="language-plaintext">&gt; Find-Module pester -Repository psgallery | Install-Module
 PackageManagement\Install-Package : A Microsoft-signed module named 'Pester' with version '3.4.0' that was previously installed conflicts with the new module
 'Pester' from publisher 'CN=DigiCert Assured ID Root CA, OU=www.digicert.com, O=DigiCert Inc, C=US' with version '4.10.1'. Installing the new module may
 result in system instability. If you still want to install or update, use -SkipPublisherCheck parameter.
@@ -47,7 +47,8 @@ At C:\Program Files\WindowsPowerShell\Modules\PowerShellGet\1.0.0.1\PSModule.psm
 		+ FullyQualifiedErrorId : PublishersMismatch,Validate-ModuleAuthenticodeSignature,Microsoft.PowerShell.PackageManagement.Cmdlets.InstallPackage
 </code></pre>
 <p>So I tried:</p>
-<p>Find-Module pester -Repository psgallery | Install-Module -SkipPublisherCheck</p>
+<pre><code>Find-Module pester -Repository psgallery | Install-Module -SkipPublisherCheck
+</code></pre>
 <h2 id="get-help">Get Help</h2>
 <pre><code>Invoke-Pester -?
 New-Fixture -?

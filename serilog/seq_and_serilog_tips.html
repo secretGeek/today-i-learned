@@ -90,6 +90,22 @@ order by CountDistinct desc
 <p>...You can plug the relevant @MessageTemplate value into this query (for example)</p>
 <pre><code>@EventType = ToEventType('Unhandled exception when retrieving {PizzaType}')
 </code></pre>
+<h2 id="overview-of-tips">Overview of tips</h2>
+<ul>
+<li>overly generic naming of a property</li>
+<li>inconsistent name of a property</li>
+<li>case insensitive naming of a property</li>
+<li>using $&quot;interpolated &quot; prevents serilog doing &quot;proper &quot;, logging</li>
+<li>suggest enriching a context if multiple log events will be recorded -- and helping correlation anyway you can --</li>
+<li>Error(ex.Message, ex) versus -- Error(ex, &quot;Description here&quot;)</li>
+<li>lack of &quot;environment&quot; / &quot;machine&quot; / &quot;applicationName&quot; properties
+<ul>
+<li>inconsistent or slightly different variants on those... &quot;EnvironmentName&quot;, &quot;MachineName&quot; etc -- ruins grouping.</li>
+</ul>
+</li>
+<li>any and all string concatentation  ruins the message template pattern</li>
+<li>putting <code>@</code> before a property, when it is not a good idea to do so .... and the times when it is a good idea (simple arrays).</li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>

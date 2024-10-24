@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Glossary of Kubernetes Terminology . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="glossary-of-kubernetes-terminology">Glossary of Kubernetes Terminology</h1>
+<h2 id="kubernetes-architecture">Kubernetes Architecture</h2>
+<ul>
+<li><strong>Kubernetes (K8s)</strong>: An open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications.</li>
+<li><strong>Cluster</strong>: A set of nodes (machines) that run containerized applications managed by Kubernetes. A Kubernetes cluster has a control plane (master node) and worker nodes.</li>
+<li><strong>Node</strong>: A machine (physical or virtual) in a Kubernetes cluster. It can be a master node (control plane) or a worker node that runs the actual application workloads.</li>
+<li><strong>Control Plane</strong>: The set of components that manage the state of the Kubernetes cluster, including scheduling, API access, and managing the desired state of the system.</li>
+</ul>
+<h2 id="kubernetes-core-objects">Kubernetes Core Objects</h2>
+<ul>
+<li><strong>Pod</strong>: The smallest and simplest Kubernetes object, representing a single instance of a running process in a cluster. A pod can run one or more containers.</li>
+<li><strong>Deployment</strong>: A controller in Kubernetes that manages the desired state of pods and replicates them as needed. It ensures that a certain number of identical pods are running at all times.</li>
+<li><strong>ReplicaSet</strong>: Ensures that a specific number of pod replicas are running at any given time. Deployments usually manage ReplicaSets.</li>
+<li><strong>Service</strong>: An abstraction that defines a logical set of pods and a policy for accessing them. Kubernetes services allow stable endpoints for a set of dynamic pods.
+<ul>
+<li><strong>ClusterIP</strong>: The default service type that exposes the service on a cluster-internal IP.</li>
+<li><strong>NodePort</strong>: Exposes the service on each node’s IP at a static port.</li>
+<li><strong>LoadBalancer</strong>: Exposes the service using a cloud provider’s load balancer.</li>
+</ul>
+</li>
+</ul>
+<h2 id="advanced-kubernetes-concepts">Advanced Kubernetes Concepts</h2>
+<ul>
+<li><strong>ConfigMap</strong>: An object that stores non-sensitive configuration data in key-value pairs. Pods can use ConfigMaps to retrieve configuration details at runtime.</li>
+<li><strong>Secret</strong>: Similar to ConfigMaps but used to store sensitive information like passwords, tokens, or keys.</li>
+<li><strong>Persistent Volume (PV)</strong>: A piece of storage that has been provisioned by an administrator or dynamically provisioned using storage classes. It is abstracted from the underlying storage system.</li>
+<li><strong>Persistent Volume Claim (PVC)</strong>: A request for storage by a user. Pods use PVCs to consume storage resources.</li>
+<li><strong>StatefulSet</strong>: A Kubernetes controller that is used to manage stateful applications. Unlike Deployments, StatefulSets ensure that pods are created and deleted in a predictable order.</li>
+<li><strong>DaemonSet</strong>: Ensures that a copy of a pod is running on all (or some) nodes in the cluster.</li>
+<li><strong>Job</strong>: A Kubernetes object used to run tasks that are expected to terminate after completion. Jobs ensure that a specified number of pods successfully complete the task.</li>
+<li><strong>CronJob</strong>: A Kubernetes object for running jobs on a time-based schedule, similar to cron jobs in Linux.</li>
+</ul>
+<h2 id="kubernetes-scheduling-and-scaling">Kubernetes Scheduling and Scaling</h2>
+<ul>
+<li><strong>Scheduler</strong>: A Kubernetes control plane component responsible for assigning pods to nodes based on resource requirements and constraints.</li>
+<li><strong>Horizontal Pod Autoscaler (HPA)</strong>: Automatically scales the number of pod replicas in a deployment or ReplicaSet based on CPU utilization or other select metrics.</li>
+<li><strong>Taints and Tolerations</strong>: Taints allow a node to repel specific pods, while tolerations enable pods to tolerate those taints and still be scheduled on the nodes.</li>
+</ul>
+<h2 id="kubernetes-networking-and-security">Kubernetes Networking and Security</h2>
+<ul>
+<li><strong>Ingress</strong>: An API object that manages external access to services in a cluster, typically via HTTP/HTTPS routing.</li>
+<li><strong>Ingress Controller</strong>: The controller that watches Ingress resources and manages the HTTP load balancing and routing.</li>
+<li><strong>Service Mesh</strong>: A dedicated infrastructure layer that controls service-to-service communication, making it observable, secure, and resilient. Popular service meshes include Istio and Linkerd.</li>
+<li><strong>Role-Based Access Control (RBAC)</strong>: A method of regulating access to resources in Kubernetes based on the roles of individual users within your cluster.</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="Glossary_of_Docker_and_Container_Terminology.html">Glossary of Docker and Container Terminology</a></li>
+<li><a href="Lesson_Plan_for_Mastering_Containers_Docker_and_Kubernetes.html">Lesson Plan for Mastering Containers, Docker, and Kubernetes</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
