@@ -1,0 +1,6 @@
+<svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:none'>
+  <g transform="scale(1 1)">
+  <circle cx="203" cy="203" r="203" fill="#333" stroke="none"/>
+		<path d="M 96,106 L 96,310 120,310 120,163 278,310 278,129 330,129 330,106 203,106 203,129 255,129 255,256 96,106 C" fill="#888" stroke="none" />
+	</g>
+</svg>
