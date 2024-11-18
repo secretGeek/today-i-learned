@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>datetime trim hours milliseconds . Today I Learned (secretGeek)</title>
+<title>01 summary . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,33 +22,10 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="trim-or-zero-out-a-portion-of-a-datetime">Trim or zero-out a portion of a datetime</h1>
-<p>To trim off the milliseconds... (this was necessary when sending to XML for consumption by Excel...)</p>
-<pre><code>DATEADD(ms, -DATEPART(ms, YourDate), YourDate)
-</code></pre>
-<p>To trim off the entire time portion....
-i.e. want just the date portion of a datetime? (dateonly)</p>
-<pre><code>DATEADD(dd, 0, DATEDIFF(dd, 0, YourDate))
-</code></pre>
-<p>A function to do it for you....</p>
-<pre><code>CREATE FUNCTION dbo.JustDate(@date DATETIME)
-RETURNS DATETIME
-AS
-BEGIN
-      RETURN DATEADD(dd, 0, DATEDIFF(dd, 0, @date))
-END
-</code></pre>
-<h2 id="today-in-sql-with-no-time-component">Today in SQL (with no time component)</h2>
-<p>You can use the above to return &quot;today&quot; without a time component:</p>
-<pre><code>DATEADD(dd, 0, DATEDIFF(dd, 0, GetDate()))
-</code></pre>
-<h2 id="yesterday-in-sql-with-no-time-component">Yesterday in SQL (with no time component)</h2>
-<p>Or Yesterday</p>
-<pre><code>DATEADD(dd, 0, DATEDIFF(dd, 0, GetDate()))
-</code></pre>
-<h2 id="see-also">See also</h2>
+<h1 id="d3" class="chapter">d3</h1>
+<h2 id="content">content</h2>
 <ul>
-<li><a href="first_day_of_month.html">First (and last) day of the month.</a></li>
+<li><a href="simple_d3_example.html">Simple D3 Example</a></li>
 </ul>
 
 </article>

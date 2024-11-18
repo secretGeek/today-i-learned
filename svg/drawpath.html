@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>drawpath . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="draw-path">Draw Path</h1>
+<h2 id="a-few-svg-path-commands">A few svg path commands</h2>
+<p>(in the following rel. means relative and abs. means absolute.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Letter</strong></th>
+<th>Meaning</th>
+<th><code>Sample</code></th>
+<th>Params</th>
+<th><em>Note</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>M</strong></td>
+<td>Move to</td>
+<td><code>M 10 30</code></td>
+<td>(X,Y)+</td>
+<td><em>set current point to abs.</em> (10,30)</td>
+</tr>
+<tr>
+<td><strong>m</strong></td>
+<td>move delta</td>
+<td><code>m 1 2</code></td>
+<td>(dx,dy)+</td>
+<td><em>change current point by rel.</em> (1,2)</td>
+</tr>
+<tr>
+<td><strong>L</strong></td>
+<td>Line to</td>
+<td><code>L 10 20</code></td>
+<td>(dx,dy)+</td>
+<td><em>line from current point, to rel.</em> (10,20)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>L 10 20 30 40</code></td>
+<td>(dx,dy)+</td>
+<td><em>line from current point to rel.</em> (10,20) <em>and line from there to rel.</em> (30,40)</td>
+</tr>
+<tr>
+<td><strong>H</strong></td>
+<td>Horiz Line to</td>
+<td><code>H 10</code></td>
+<td>x+</td>
+<td><em>horiz line from current point to abs.</em> x <em>of</em> 10</td>
+</tr>
+<tr>
+<td><strong>h</strong></td>
+<td>Horiz Line delta</td>
+<td><code>h 10</code></td>
+<td>dx+</td>
+<td><em>horiz line from current point to rel.</em> x <em>of</em> x + 10</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>h -10</code></td>
+<td>dx+</td>
+<td><em>horiz line from current point to rel.</em> x <em>of</em> x - 10</td>
+</tr>
+<tr>
+<td><strong>V</strong></td>
+<td>Vert Line to</td>
+<td><code>V 10</code></td>
+<td>y+</td>
+<td><em>vertical from current point to</em> y <em>of</em> 10</td>
+</tr>
+<tr>
+<td><strong>v</strong></td>
+<td>Vert Line delta</td>
+<td><code>v 10</code></td>
+<td>dy+</td>
+<td><em>vertical from current point to rel.</em> y <em>of</em> y + 10</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>v -10</code></td>
+<td>dy+</td>
+<td><em>vertical from current point to rel.</em> y <em>of</em> y - 10</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>from current point to end point</em> x,y <em>with control points at</em> x1,y1 <em>and</em> x2,y2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>C 30,90 25,10 50,10 10,25 90,30 10,50</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>subsequent triplets of pairs continue the curve</em></td>
+</tr>
+<tr>
+<td><strong>c</strong></td>
+<td>relative Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(dx1,dy1, dx2,dy2, dx,dy)+</td>
+<td><em>from current point to relative end point</em> x,y <em>with relative control points at</em> dx1,dy1 <em>and</em> dx2,dy2</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Cubic Bézier</td>
+<td><code>C 30,90 25,10 50,10</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>from current point to end point</em> x,y <em>with control points at</em> x1,y1 <em>and</em> x2,y2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>C 30,90 25,10 50,10 10,25 90,30 10,50</code></td>
+<td>(x1,y1, x2,y2, x,y)+</td>
+<td><em>subsequent triplets of pairs continue the curve</em></td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td>Smooth Cubic Bézier</td>
+<td><code>S 20,50 80,110</code></td>
+<td>(x2, y2, x, y)+</td>
+<td><em>from current point to end point</em> x,y <em>with end control point</em> x2, y2 <em>and start control point of previous control point or current point if previous curve wasn't a cubic bézier</em></td>
+</tr>
+<tr>
+<td><strong>Q</strong></td>
+<td>Quadratic Bézier</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>q</strong></td>
+<td>Relative Quad Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>T</strong></td>
+<td>Smooth Quad Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t</strong></td>
+<td>Realitve smooth quad Béz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>Arc curve</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>a</strong></td>
+<td>Relative Arc curve</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Z</strong></td>
+<td>Close path</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-svg">&lt;svg width=&quot;190&quot; height=&quot;210&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+  &lt;path d=&quot;M 10 10 20 20&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 40 20 50 10&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 10 C 20 20, 40 20, 50 10&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 10 70 20&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 110 20 110 10&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 10 C 70 20, 110 20, 110 10&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 10 120 20&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 180 20 170 10&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 10 C 120 20, 180 20, 170 10&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 60 20 80&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 40 80 50 60&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 60 C 20 80, 40 80, 50 60&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 60 70 80&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 110 80 110 60&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 60 C 70 80, 110 80, 110 60&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 60 120 80&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 180 80 170 60&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 60 C 120 80, 180 80, 170 60&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 110 20 140&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 40 140 50 110&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 110 C 20 140, 40 140, 50 110&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 110 70 140&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 110 140 110 110&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+	  &lt;path d=&quot;M 70 110 C 70 140, 110 140, 110 110&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 110 120 140&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 180 140 170 110&quot; stroke=&quot;red&quot; fill=&quot;transparent&quot;/&gt;
+		  &lt;path d=&quot;M 130 110 C 120 140, 180 140, 170 110&quot; stroke=&quot;black&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;!-- recreate that first line... but using relative coords, l and c --&gt;
+  &lt;path d=&quot;M 10 160 l 10 10&quot; stroke=&quot;pink&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 50 160 l -10 10&quot; stroke=&quot;pink&quot; fill=&quot;transparent&quot;/&gt;
+  &lt;path d=&quot;M 10 160 c 10 10, 30 10, 40 0&quot; stroke=&quot;blue&quot; fill=&quot;transparent&quot;/&gt;
+&lt;/svg&gt;
+</code></pre>
+<svg width="190" height="210" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 10 10 20 20" stroke="red" fill="transparent"/>
+  <path d="M 40 20 50 10" stroke="red" fill="transparent"/>
+  <path d="M 10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+	  <path d="M 70 10 70 20" stroke="red" fill="transparent"/>
+	  <path d="M 110 20 110 10" stroke="red" fill="transparent"/>
+	  <path d="M 70 10 C 70 20, 110 20, 110 10" stroke="black" fill="transparent"/>
+		  <path d="M 130 10 120 20" stroke="red" fill="transparent"/>
+		  <path d="M 180 20 170 10" stroke="red" fill="transparent"/>
+		  <path d="M 130 10 C 120 20, 180 20, 170 10" stroke="black" fill="transparent"/>
+  <path d="M 10 60 20 80" stroke="red" fill="transparent"/>
+  <path d="M 40 80 50 60" stroke="red" fill="transparent"/>
+  <path d="M 10 60 C 20 80, 40 80, 50 60" stroke="black" fill="transparent"/>
+	  <path d="M 70 60 70 80" stroke="red" fill="transparent"/>
+	  <path d="M 110 80 110 60" stroke="red" fill="transparent"/>
+	  <path d="M 70 60 C 70 80, 110 80, 110 60" stroke="black" fill="transparent"/>
+		  <path d="M 130 60 120 80" stroke="red" fill="transparent"/>
+		  <path d="M 180 80 170 60" stroke="red" fill="transparent"/>
+		  <path d="M 130 60 C 120 80, 180 80, 170 60" stroke="black" fill="transparent"/>
+  <path d="M 10 110 20 140" stroke="red" fill="transparent"/>
+  <path d="M 40 140 50 110" stroke="red" fill="transparent"/>
+  <path d="M 10 110 C 20 140, 40 140, 50 110" stroke="black" fill="transparent"/>
+	  <path d="M 70 110 70 140" stroke="red" fill="transparent"/>
+	  <path d="M 110 140 110 110" stroke="red" fill="transparent"/>
+	  <path d="M 70 110 C 70 140, 110 140, 110 110" stroke="black" fill="transparent"/>
+<path d="M 130 110 120 140" stroke="red" fill="transparent"/>
+<path d="M 180 140 170 110" stroke="red" fill="transparent"/>
+<path d="M 130 110 C 120 140, 180 140, 170 110" stroke="black" fill="transparent"/>
+<!-- recreate that first line... but using relative coords, l and c -->
+<path d="M 10 160 l 10 10" stroke="pink" fill="transparent"/>
+<path d="M 50 160 l -10 10" stroke="pink" fill="transparent"/>
+<path d="M 10 160 c 10 10, 30 10, 40 0" stroke="blue" fill="transparent"/>
+</svg>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="drawsquare.html">Drawing a square with svg</a></li>
+<li><a href="drawcircle.html">How to draw a circle with svg</a></li>
+<li><a href="svg-to-favicon.html">How to use an svg as a website or web page's favicon</a></li>
+<li><a href="svg-to-ico-file.html">How to convert an svg to a Windows .ico icon file, with inkScape and Magick (via Powershell)</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

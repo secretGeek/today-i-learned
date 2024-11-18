@@ -24,19 +24,31 @@
 <article>
 <h1 id="drawing-a-square-with-svg">Drawing a square with svg</h1>
 <p>Here is the codes:</p>
-<pre><code>&lt;svg width=&quot;400&quot; height=&quot;110&quot;&gt;
-	&lt;rect width=&quot;100&quot; height=&quot;100&quot; style=&quot;fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)&quot; /&gt;
+<pre><code class="language-svg">&lt;svg width=&quot;400&quot; height=&quot;110&quot;&gt;
+  &lt;rect width=&quot;100&quot; height=&quot;100&quot; style=&quot;fill:rgb(255,255,30,0.0);stroke-width:1;stroke:rgb(255,128,0)&quot; /&gt;
 &lt;/svg&gt;
 </code></pre>
+<p>Is:</p>
 <svg width="400" height="110">
   <rect width="300" height="100" style="fill:rgb(255,255,30,0.0);stroke-width:1;stroke:rgb(255,128,0)" />
 </svg>
 <ul>
-<li><code>stroke-width</code> e.g. 1, 2, 10%.</li>
-<li><code>stroke</code> (color) e.g. rgb(255,127,63), green</li>
+<li><code>stroke-width</code> e.g. <code>1</code>, <code>2</code>, <code>10%</code>.</li>
+<li><code>stroke</code> (color) e.g. <code>rgb(255,127,63)</code>, <code>green</code></li>
 </ul>
 <h2 id="stroke-example-also-a-circle-example">Stroke Example (also a circle example)</h2>
 <p>Can define a stroke using another element.</p>
+<pre><code class="language-svg">&lt;svg width=&quot;200&quot; height=&quot;200&quot;&gt;
+  &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;97&quot; fill=&quot;none&quot;
+      stroke=&quot;url(#myGradient)&quot; /&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id=&quot;myGradient&quot;&gt;
+    &lt;stop offset=&quot;0%&quot;   stop-color=&quot;green&quot; /&gt;
+    &lt;stop offset=&quot;100%&quot; stop-color=&quot;white&quot; /&gt;
+    &lt;/linearGradient&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;
+</code></pre>
 <svg width="200" height="200">
   <circle cx="100" cy="100" r="97" fill="none"
       stroke="url(#myGradient)" />
@@ -442,7 +454,8 @@ svg.squiggle:hover {
 	</g>
 </svg>
 </div>
-<p><img src="nt.svg" alt="svg" />    nt.svg</p>
+<h2 id="nt.svg">nt.svg</h2>
+<p><img src="nt.svg" alt="svg" /></p>
 <div style='padding:30px;background-color:#333;'>
 <svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#333'>
   <g transform="scale(1 1)">
@@ -491,7 +504,9 @@ svg.squiggle:hover {
 	</g>
 </svg>
 </div>
-<p><img src="nt.svg" alt="nt.svg" /> - nt.svg</p>
+<h2 id="nt.svg-1">nt.svg</h2>
+<p><img src="nt.svg" alt="nt.svg" /></p>
+<hr />
 <div style='padding:30px;background-color:#111;'>
 <svg class='nt-logo' width="406" height="406" xmlns="http://www.w3.org/2000/svg" style='background-color:#111'>
 <g transform="scale(1 1)">
