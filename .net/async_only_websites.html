@@ -29,7 +29,7 @@
 <p>-- synchronous operations, have quietly been disallowed.</p>
 </blockquote>
 <h2 id="the-sledge-hammer-approach">The Sledge Hammer approach</h2>
-<pre><code>services.Configure&lt;IISServerOptions&gt;(options =&gt;
+<pre><code class="language-csharp">services.Configure&lt;IISServerOptions&gt;(options =&gt;
 {
   options.AllowSynchronousIO = true;
 });

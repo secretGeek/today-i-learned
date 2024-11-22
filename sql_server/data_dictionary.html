@@ -127,7 +127,7 @@ ORDER BY
 	GROUP BY
 		t.Name, s.Name, p.Rows
 )
-Select 
+Select
 	[Schema],
 	[Table],
 	FORMAT([Rows],'#,0') as [Rows],
@@ -136,11 +136,9 @@ Select
 	FORMAT([UnusedPages]*8.0/1024,'#,0.0') as [Unused Space MB],
 	FORMAT(PagesPerRow * 8.0, '#,0.0') as [Avg KB/Row],
 	FORMAT(PagesPerRow * 8.0/(1024), '#,0.0') as [Avg MB/Row]
-from 
+from
 Summary
 	ORDER BY		[TotalPages] desc, 7 desc
-
-	
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>

@@ -24,11 +24,11 @@
 <article>
 <h1 id="find-which.net-versions-you-have">Find which .net versions you have</h1>
 <h2 id="on-windows-10-or-11">On Windows 10 or 11</h2>
-<pre><code>reg query &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; /s | 
-	? { $_ -like &quot;*version*&quot; } | 
-	% { ($_ -split &quot; &quot;) | 
-	? { $_ -match &quot;[0-9.]+&quot; } | 
-			% { $_ } 
+<pre><code>reg query &quot;HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP&quot; /s |
+	? { $_ -like &quot;*version*&quot; } |
+	% { ($_ -split &quot; &quot;) |
+	? { $_ -match &quot;[0-9.]+&quot; } |
+			% { $_ }
 		} |
 	sort -desc |
 	unique
@@ -51,11 +51,11 @@
 <h2 id="on-ubuntu-linux">On ubuntu linux</h2>
 <pre><code>dpkg --get-selections | grep -v deinstall | grep dot
 </code></pre>
-<h2 id="to-install-a-dotnet-sdk">To Install a Dotnet SDK:</h2>
+<h2 id="to-install-a-dotnet-sdk">To Install a Dotnet SDK</h2>
 <ul>
 <li><a href="install_dotnet_sdk.html">Install latest dotnet sdk version</a></li>
 </ul>
-<h2 id="see-aslo">See aslo</h2>
+<h2 id="see-also">See also</h2>
 <ul>
 <li><a href="install_dotnet_sdk.html">Install latest dotnet sdk version</a></li>
 </ul>

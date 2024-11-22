@@ -68,7 +68,7 @@ and that SQL Server is configured to allow remote connections.</p>
 $DBServer = &quot;&quot;;
 $DBName =   &quot;&quot;;
 
-dir . &quot;??somepattern??*.sql&quot; | % { 
+dir . &quot;??somepattern??*.sql&quot; | % {
 		&quot;Executing: '$($_.Name)',`nOn DBServer: $DBServer,`nAnd DB: $DBName,`nWith output: '$($_.Name).csv'&quot;;
 		Invoke-Sqlcmd -InputFile $_.Name -ConnectionString &quot;data source=$($DBServer);initial catalog=$($DBName);integrated security=True;MultipleActiveResultSets=True;App=AdhocSqlScript;Encrypt=false;&quot;  | Export-Csv -Path $($_.BaseName + &quot;.csv&quot;) -NoTypeInformation;
 		dir $($_.BaseName + &quot;.csv&quot;) | % { &quot;Output: $($_.Length) bytes (see $($_.Name))&quot;}

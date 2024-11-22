@@ -44,7 +44,7 @@ END
 </code></pre>
 <h2 id="yesterday-in-sql-with-no-time-component">Yesterday in SQL (with no time component)</h2>
 <p>Or Yesterday</p>
-<pre><code>DATEADD(dd, 0, DATEDIFF(dd, 0, GetDate()))
+<pre><code>DATEADD(dd, -1, DATEDIFF(dd, 0, GetDate()))
 </code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
