@@ -42,19 +42,19 @@ RETURN
 -- Declare @BaseTime DateTime = DateAdd(d, 0, GetDate());
 
 Select
-	@BaseTime as [Now],
-	cast(Cast(@BaseTime as Date) as DateTime) as [Today],
+	-- Basic date terms
+	@BaseTime as [Now],	
+						cast(Cast(@BaseTime as Date) as DateTime) as [Today],
 	Cast(DateAdd(d, -1, Cast(@BaseTime as Date)) as DateTime) as [Yesterday],
-	Cast(DateAdd(d, 1, Cast(@BaseTime as Date)) as DateTime) as [Tomorrow],
-	DateAdd(d, 7, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Today],
-	DateAdd(d, 14, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Today],
-	DateAdd(d, -7, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Ago],
-	DateAdd(d, -14, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Ago],
-
+	Cast(DateAdd(d, 1,	Cast(@BaseTime as Date)) as DateTime) as [Tomorrow],
+	DateAdd(d, 7, 		Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Today],
+	DateAdd(d, 14, 		Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Today],
+	DateAdd(d, -7, 		Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Ago],
+	DateAdd(d, -14, 	Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Ago],
 	-- Mondays
-	DateAdd(day, 1, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
-	DateAdd(day, 1+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_next_week,
-	DateAdd(day, 1+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_Fortnight,
+	DateAdd(day, 1, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
+	DateAdd(day, 1+7, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_next_week,
+	DateAdd(day, 1+14, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_Fortnight,
 	-- This week
 	DateAdd(day, 1, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
 	DateAdd(day, 2, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Tuesday_of_this_week,
