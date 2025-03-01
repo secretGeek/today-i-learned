@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>list every hour of this week . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="list-today-and-the-last-7-days">List today and the last 7 days</h1>
+<h1 id="list-from-11pm-tonight-the-last-168-hours">List from 11pm  tonight, the last 168 hours</h1>
+<pre><code>select DateAdd(Hour, -n, DateAdd(HOUR, 23, cast(CAST(GETDATE() AS DATE) as DateTime)))
+as [CountDown]
+FROM (SELECT TOP 168 ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS n 
+	  FROM sys.all_objects) t
+</code></pre>
+<h2 id="get-the-current-date">Get the current date</h2>
+<pre><code>   select GETDATE() as [GETDATE]
+</code></pre>
+<h2 id="get-the-current-date-as-a-date">Get the current Date as a Date</h2>
+<pre><code>   select CAST(GETDATE() AS DATE) as [TODAY]
+</code></pre>
+<h2 id="get-the-current-date-as-a-datetime">Get the current Date as a DateTime</h2>
+<pre><code>   select cast(CAST(GETDATE() AS DATE) as DateTime) as [TODAY]
+</code></pre>
+<h2 id="see-also">See also</h2>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

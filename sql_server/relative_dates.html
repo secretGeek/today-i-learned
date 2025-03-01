@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>relative dates . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="relative-dates">Relative Dates</h1>
+<pre><code>ALTER FUNCTION dbo.[DaysRelative]
+(	
+	-- Add the parameters for the function here
+	@BaseTime DateTime
+)
+RETURNS TABLE 
+AS
+RETURN 
+
+
+(
+-- Declare @BaseTime DateTime = DateAdd(d, 0, GetDate());
+
+Select
+	@BaseTime as [Now],
+	cast(Cast(@BaseTime as Date) as DateTime) as [Today],
+	Cast(DateAdd(d, -1, Cast(@BaseTime as Date)) as DateTime) as [Yesterday],
+	Cast(DateAdd(d, 1, Cast(@BaseTime as Date)) as DateTime) as [Tomorrow],
+	DateAdd(d, 7, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Today],
+	DateAdd(d, 14, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Today],
+	DateAdd(d, -7, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Ago],
+	DateAdd(d, -14, cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Ago],
+
+	DateAdd(day, 1, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
+	DateAdd(day, 1+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_next_week,
+	DateAdd(day, 1+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_Fortnight,
+
+	DateAdd(day, 2, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Tuesday_of_this_week,
+	DateAdd(day, 3, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Wednesday_of_this_week,
+	DateAdd(day, 4, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Thursday_of_this_week,
+	DateAdd(day, 5, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Friday_of_this_week,
+	DateAdd(day, 6, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Saturday_of_this_week,
+	DateAdd(day, 7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Sunday_of_this_week,
+
+	DateAdd(day, 2+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Tuesday_of_next_week,
+	DateAdd(day, 3+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Wednesday_of_next_week,
+	DateAdd(day, 4+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Thursday_of_next_week,
+	DateAdd(day, 5+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Friday_of_next_week,
+	DateAdd(day, 6+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Saturday_of_next_week,
+	DateAdd(day, 7+7, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Sunday_of_next_week,
+
+	DateAdd(day, 3+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Wednesday_Fortnight,
+	DateAdd(day, 4+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Thursday_Fortnight,
+	DateAdd(day, 5+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Friday_Fortnight,
+	DateAdd(day, 6+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Saturday_Fortnight,
+	DateAdd(day, 7+14, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Sunday_Fortnight
+)
+</code></pre>
+<h1 id="columns-results">Columns / Results</h1>
+<p>Given any base date (such as, the day after tomorrow), it will tell you, relative to that date when is:</p>
+<ul>
+<li><code>Now</code> - Now</li>
+<li><code>Today</code> - Today</li>
+<li><code>Yesterday</code> - Yesterday</li>
+<li><code>Tomorrow</code> - Tomorrow</li>
+<li><code>Monday_of_this_week</code> - Monday of this week</li>
+<li><code>Monday_of_next_week</code> - Monday of next week</li>
+<li><code>Monday_Fortnight</code> - Monday Fortnight</li>
+<li><code>Tuesday_of_this_week</code> - Tuesday of this week</li>
+<li><code>Wednesday_of_this_week</code> - Wednesday of this week</li>
+<li><code>Thursday_of_this_week</code> - Thursday of this week</li>
+<li><code>Friday_of_this_week</code> - Friday of this week</li>
+<li><code>Saturday_of_this_week</code> - Saturday of this week</li>
+<li><code>Sunday_of_this_week</code> - Sunday of this week</li>
+<li><code>Tuesday_of_next_week</code> - Tuesday of next week</li>
+<li><code>Wednesday_of_next_week</code> - Wednesday of next week</li>
+<li><code>Thursday_of_next_week</code> - Thursday of next week</li>
+<li><code>Friday_of_next_week</code> - Friday of next week</li>
+<li><code>Saturday_of_next_week</code> - Saturday of next week</li>
+<li><code>Sunday_of_next_week</code> - Sunday of next week</li>
+<li><code>Wednesday_Fortnight</code> - Wednesday Fortnight</li>
+<li><code>Thursday_Fortnight</code> - Thursday Fortnight</li>
+<li><code>Friday_Fortnight</code> - Friday Fortnight</li>
+<li><code>Saturday_Fortnight</code> - Saturday Fortnight</li>
+<li><code>Sunday_Fortnight</code> - Sunday Fortnight</li>
+</ul>
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="datetime_trim_hours_milliseconds.html">Trim or zero-out a portion of a datetime</a></li>
+<li><a href="format_datetime_yyyy-MM-dd.html">Format DateTime as yyyy-MM-dd</a></li>
+<li><a href="parse_varchar_into_datetime.html">Parse varchar into DateTime</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
