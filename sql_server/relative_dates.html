@@ -23,11 +23,17 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="relative-dates">Relative Dates</h1>
-<p>This is a function that gives a whole bunch of day functions --</p>
+<p>This is a function that gives a whole bunch of day functions, relative to any given DateTime</p>
 <ul>
-<li>Yesterday</li>
-<li>Tomorrow</li>
-<li>A week Today</li>
+<li><em>Now</em></li>
+<li><em>Today</em></li>
+<li><em>Yesterday</em></li>
+<li><em>Tomorrow</em></li>
+<li><em>A week Today</em></li>
+<li><em>Monday of this week</em></li>
+<li><em>Monday of last week</em></li>
+<li><em>Monday Fortnight</em> - (Although not commonly used in the American English, a &quot;<strong>fortnight</strong>&quot; is a two-week period, and is used in other variants of English)</li>
+<li>...and so on for the other days of the week.</li>
 </ul>
 <p>The function itself</p>
 <pre><code>CREATE FUNCTION dbo.[DaysRelative]
@@ -44,7 +50,7 @@ RETURN
 Select
 	-- Basic date terms
 	@BaseTime as [Now],	
-						cast(Cast(@BaseTime as Date) as DateTime) as [Today],
+	Cast(Cast(@BaseTime as Date) as DateTime) as [Today],
 	Cast(DateAdd(d, -1, Cast(@BaseTime as Date)) as DateTime) as [Yesterday],
 	Cast(DateAdd(d, 1,	Cast(@BaseTime as Date)) as DateTime) as [Tomorrow],
 	DateAdd(d, 7, 		Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Today],
@@ -52,9 +58,9 @@ Select
 	DateAdd(d, -7, 		Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Week_Ago],
 	DateAdd(d, -14, 	Cast(Cast(@BaseTime as Date) as DateTime)) as [A_Fortnight_Ago],
 	-- Mondays
-	DateAdd(day, 1, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
-	DateAdd(day, 1+7, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_next_week,
-	DateAdd(day, 1+14, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_Fortnight,
+	DateAdd(day, 1, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week_,
+	DateAdd(day, 1+7, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_next_week_,
+	DateAdd(day, 1+14, 	DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_Fortnight_,
 	-- This week
 	DateAdd(day, 1, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Monday_of_this_week,
 	DateAdd(day, 2, DATEADD(wk, DATEDIFF(wk, 6, @BaseTime), 6)) as Tuesday_of_this_week,
