@@ -33,21 +33,22 @@
 </code></pre>
 <h2 id="overview">Overview</h2>
 <p>Two stages:</p>
-<ul>
-<li>Query Tuning
+<ol>
+<li>Query Tuning</li>
+</ol>
 <ul>
 <li>i.e. you tune individual queries and come up with decent indexes for them in isolation</li>
 </ul>
-</li>
-<li>Server Tuning
+<ol start="2">
+<li>Server Tuning</li>
+</ol>
 <ul>
-<li>consolidate indexes for all typical queries to avoid:
+<li>consolidate indexes for all typical queries.</li>
+<li>This way you reduce or avoid:
 <ul>
 <li>unused indexes</li>
 <li>duplicate indexes</li>
 <li>too-similar indexes</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -56,34 +57,40 @@
 <li><p>When running queries to be analysed:</p>
 <ul>
 <li><p>Turn on statistics io</p>
-<p>SET STATISTICS IO ON;</p>
+<pre><code>SET STATISTICS IO ON;
+</code></pre>
 </li>
 <li><p>Turn on show plan (i.e. &quot;show actual execution plan&quot; button -- Kimberly calls it 'Show Plan')</p>
 </li>
 </ul>
 </li>
 <li><p>To inspect indexes:</p>
-<ul>
-<li><p>DMV for index (Kimberly uses '[sys].[dm_db_index_physical_stats]' so much she just refers to it as 'the DMV')</p>
-<pre><code>-- Now, use the DMV (adding index ID) to review all indexes:
-SELECT [index_id] AS [ID]
-	, [index_depth] AS [D]
-		, [index_level] AS [L]
-		, [record_count] AS [Rows]
-		, [page_count] AS [Pages]
-		, [avg_page_space_used_in_percent] AS [Page:Percent Full]
-		, [min_record_size_in_bytes] AS [Row:MinLen]
-		, [max_record_size_in_bytes] AS [Row:MaxLen]
-		, [avg_record_size_in_bytes] AS [Row:AvgLen]
-FROM [sys].[dm_db_index_physical_stats]
-		(DB_ID (N'EmployeeCaseStudy')					-- Database ID
-		, OBJECT_ID (N'EmployeeCaseStudy.dbo.Employee') -- Object ID
-		, NULL											-- Index ID
-		, NULL											-- Partition ID
-		, 'DETAILED');									-- Mode
-GO
-</code></pre>
 </li>
+</ul>
+<h3 id="run-the-dmv-indexid">Run the 'DMV'  @IndexId</h3>
+<p>Kimberly uses</p>
+<pre><code>[sys].[dm_db_index_physical_stats]
+</code></pre>
+<p>...so much she just refers to it as 'the DMV')</p>
+<pre><code>	-- Now, use the DMV (adding index ID) to review all indexes:
+	SELECT [index_id] AS [ID]
+		, [index_depth] AS [D]
+			, [index_level] AS [L]
+			, [record_count] AS [Rows]
+			, [page_count] AS [Pages]
+			, [avg_page_space_used_in_percent] AS [Page:Percent Full]
+			, [min_record_size_in_bytes] AS [Row:MinLen]
+			, [max_record_size_in_bytes] AS [Row:MaxLen]
+			, [avg_record_size_in_bytes] AS [Row:AvgLen]
+	FROM [sys].[dm_db_index_physical_stats]
+			(DB_ID (N'EmployeeCaseStudy')					-- Database ID
+			, OBJECT_ID (N'EmployeeCaseStudy.dbo.Employee') -- Object ID
+			, NULL											-- Index ID
+			, NULL											-- Partition ID
+			, 'DETAILED');									-- Mode
+	GO
+</code></pre>
+<ul>
 <li><p>DBCC Ind</p>
 <pre><code>EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 1)');
 EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 2)');
@@ -93,8 +100,6 @@ EXEC ('DBCC IND ([EmployeeCaseStudy], ''[dbo].[Employee]'', 3)');
 <li><p>Show the statistics:</p>
 <pre><code>DBCC SHOW_STATISTICS ('Employee', 'EmployeeZipRange1FilteredIX');
 </code></pre>
-</li>
-</ul>
 </li>
 </ul>
 <h2 id="when-is-index-used">When is index used</h2>
