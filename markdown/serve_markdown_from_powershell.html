@@ -23,14 +23,16 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="serve-markdown-as-html-in-a-browser-from-powershell">Serve markdown as html, in a browser, from powershell</h1>
+<p>Above is a <code>h1</code> heading, and this is a code block:</p>
 <pre><code># Hello World
 
 This is a test.
-
-
-
-\serve-md.ps1 -FilePath .\README.md -Port 8080
 </code></pre>
+<p>The command used to <strong>serve</strong> this file is:</p>
+<pre><code>.\serve-md.ps1 -FilePath .\serve_markdown_from_powershell.md -Port 8086
+</code></pre>
+<p>The powershell script is here: <a href="./serve-md.ps1">serve-md.ps1</a></p>
+<p>It relies on <code>Microsoft.PowerShell.Utility</code> to perform the markdown to html conversion.</p>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>

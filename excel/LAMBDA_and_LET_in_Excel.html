@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>LAMBDA and LET in Excel . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="lamba-and-let-in-excel">LAMBA and LET in Excel</h1>
+<p>The <code>LAMBDA</code> function lets you create custom, reusable functions directly in Excel formulas.</p>
+<p>The syntax is:</p>
+<pre><code>=LAMBDA(&lt;parameters&gt;, &lt;formula-using-those-parameters&gt;)(&lt;input&gt;)
+</code></pre>
+<h2 id="simplest-example-of-lambda">Simplest example of LAMBDA</h2>
+<pre><code>=LAMBDA(x, x^2)(5)
+</code></pre>
+<p>...means:</p>
+<ol>
+<li>Define a lambda, that, when given parameter <code>x</code>, returns <code>x^2</code>.</li>
+<li>Now give it an <code>x</code> parameter of <code>5</code>.</li>
+<li>Result should be <code>25</code>.</li>
+</ol>
+<h2 id="second-example-of-lambda">Second example of LAMBDA</h2>
+<pre><code>=LAMBDA(a, b, a + b)(3, 4)
+</code></pre>
+<p>...means:</p>
+<ol>
+<li>Define a lambda, that, when given parameter <code>a</code> and <code>b</code>, returns <code>a+b</code>.</li>
+<li>Now give it an <code>a</code> parameter of <code>3</code> and a <code>b</code> parameter of <code>4</code>.</li>
+<li>Result should be <code>7</code>.</li>
+</ol>
+<p>So, as we all know from our boring buddies who bang on about functional programming and the lambda calculus and old mate Alonzo Church, etc, a <code>lambda</code> is simply an anonymous function. Note that we essentially defined a <code>Squared()</code> function here, but without having to name it <code>Squared()</code>, and then we defined an <code>Add_Two_Numbers()</code> function, without having to <em>name</em> it, <code>Add_Two_Numbers()</code>.</p>
+<p>Naming, you may recall, is one of the two hardest problems in computer science. So with this one neat trick, Alonzo Church has eradicated 50% of the difficulties of computer science.</p>
+<h2 id="why-mention-let">Why mention LET ?</h2>
+<p><code>LET</code> is a complementary concept to LAMBDA... as you'll see. But forget LAMBDA for now.</p>
+<p>Think about a boring repetitive expression like this:</p>
+<pre><code>=SQRT(A1) + SQRT(A1) * 10
+</code></pre>
+<p>Look at all that repetition! Over and over we've had to type that same boring bit, <code>SQRT(A1)</code>. Wouldn't it be cool if we could save our fingers all that typing. Let <code>LET</code> do it!</p>
+<p><code>LET</code> lets you define a name and a value, then use that name (as many times as you want) in an expression.</p>
+<p>So we can say:</p>
+<ul>
+<li>&quot;Let x be <code>SQRT(A1)</code>. Please calculate the expression:  <code>x + x * 10</code>&quot;</li>
+</ul>
+<p>To say that, we use this syntax:</p>
+<pre><code>=LET(x, SQRT(A1), x + x * 10)
+</code></pre>
+<p>The general syntax being:</p>
+<pre><code>=LET(name1, value1, [name2, value2, ...], calculation)
+</code></pre>
+<p>We could use <code>LET</code> with multiple pairs of names and values. For example here is the volume of a rectangular block:</p>
+<pre><code>=LET(
+  height, 5,
+  width, 4,
+  length, 3,
+  volume, height * width * length,
+  volume
+)
+</code></pre>
+<p>But rather than having our variables intermingled with our formula, we can combine LET with LAMBDA to make a more elegant function, like this:</p>
+<pre><code>=LAMBDA(height, width, length,
+  LET(
+	volume, height * width * length,
+	volume
+  )
+)(5, 4, 3)
+</code></pre>
+<h2 id="proper-reusable-functions-without-macros">PROPER reusable functions without macros</h2>
+<p>But even better, you can define an actual reusable function -- by doing the following:</p>
+<ol>
+<li><p>Go to &quot;Formulas&quot; &gt; &quot;Name Manager&quot;</p>
+</li>
+<li><p>Click New</p>
+</li>
+<li><p>Give your new formula a name, e.g. <code>BlockVolume</code></p>
+</li>
+<li><p>And a formula of:</p>
+<p>=LAMBDA(height, width, length,
+LET(
+volume, height * width * length,
+volume
+)
+)</p>
+</li>
+</ol>
+<p>Now, anywhere within your spreadsheet you can use your custom <code>BlockVolume</code> function:</p>
+<pre><code>=BlockVolume(A2, B2, C2)
+</code></pre>
+<p>Excellent! And, ah, remember to choose sensible names. We didn't escape that problem at all, in the end.</p>
+<h2 id="sources">Source(s)</h2>
+<ul>
+<li><a href="https://superuser.com/questions/550592/is-there-an-excel-function-to-create-a-hash-value">Is there an Excel function to create a hash value? - Super User</a> — some of the answers at this question made me want to write down what <code>LET</code> and <code>LAMBDA</code> are all about in Excel.</li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>

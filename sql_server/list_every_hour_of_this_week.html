@@ -23,10 +23,11 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="list-today-and-the-last-7-days">List today and the last 7 days</h1>
-<h1 id="list-from-11pm-tonight-the-last-168-hours">List from 11pm  tonight, the last 168 hours</h1>
+<h2 id="list-from-11pm-tonight-the-last-168-hours">List from 11pm tonight, the last 168 hours</h2>
+<p>That is, if today is <code>tuesday</code>, list the <code>7*24</code> hours that started at the beginning of last <code>wednesday</code> (i.e. the week that ends tonight). This lists them in descending order.</p>
 <pre><code>select DateAdd(Hour, -n, DateAdd(HOUR, 23, cast(CAST(GETDATE() AS DATE) as DateTime)))
 as [CountDown]
-FROM (SELECT TOP 168 ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS n 
+FROM (SELECT TOP 168 ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS n
 	  FROM sys.all_objects) t
 </code></pre>
 <h2 id="get-the-current-date">Get the current date</h2>
@@ -39,6 +40,12 @@ FROM (SELECT TOP 168 ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) - 1 AS n
 <pre><code>   select cast(CAST(GETDATE() AS DATE) as DateTime) as [TODAY]
 </code></pre>
 <h2 id="see-also">See also</h2>
+<ul>
+<li><a href="relative_dates.html">Relative Dates</a></li>
+<li><a href="datetime_trim_hours_milliseconds.html">Trim or zero-out a portion of a datetime</a></li>
+<li><a href="format_datetime_yyyy-MM-dd.html">Format DateTime as yyyy-MM-dd</a></li>
+<li><a href="parse_varchar_into_datetime.html">Parse varchar into DateTime</a></li>
+</ul>
 
 </article>
 <footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
