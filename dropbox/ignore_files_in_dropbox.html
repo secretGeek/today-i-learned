@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>ignore files in dropbox . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="ignore-files-in-dropbox">Ignore Files in Dropbox</h1>
+<p>There is no <code>.gitignore</code> equivalent for Dropbox.</p>
+<p>But you can tell dropbox to ignore a specific file or folder:</p>
+<ul>
+<li>just set the file's <code>com.dropbox.ignored</code> stream to <code>1</code>.</li>
+</ul>
+<p>(The &quot;stream&quot; we speak of here is an &quot;alternate data stream&quot; or <code>ADS</code> to the nerdliest. Files downloaded from the internet, for example, are &quot;gifted&quot; an extra stream, in windows, when stored in NTFS, called the <code>Zone.Identifier</code> stream, which contains <code>ZoneId</code>, <code>ReferrerUrl</code> and <code>HostUrl</code> keyvalue pairs.)</p>
+<p>To undo the ignoring of the file or folder, clear the <code>com.dropbox.ignored</code> stream.</p>
+<h2 id="set-the-com.dropbox.ignored-stream-to-1">Set the <code>com.dropbox.ignored</code> stream to 1</h2>
+<p>Set the stream's value</p>
+<pre><code>Set-Content -Path '~\Dropbox\FileToIgnore.pdf' -Stream com.dropbox.ignored -Value 1
+Set-Content -Path '~\Dropbox\FolderToIgnore\' -Stream com.dropbox.ignored -Value 1
+</code></pre>
+<h2 id="see-if-the-com.dropbox.ignored-stream-has-been-updated">See if the <code>com.dropbox.ignored</code> stream has been updated</h2>
+<p>Get the value of the stream...</p>
+<pre><code>Get-Content -Path '~\Dropbox\FileToIgnore.pdf' -Stream com.dropbox.ignored
+Get-Content -Path '~\Dropbox\FolderToIgnore\' -Stream com.dropbox.ignored
+</code></pre>
+<h2 id="clear-the-com.dropbox.ignored-stream">Clear the <code>com.dropbox.ignored</code> stream</h2>
+<pre><code>Clear-Content -Path '~\Dropbox\FolderToIgnore\' -Stream com.dropbox.ignored
+Clear-Content -Path '~\Dropbox\FolderToIgnore\' -Stream com.dropbox.ignored
+</code></pre>
+<h2 id="see-all-the-streams-that-a-filefolder-has">See all the streams that a file/folder has</h2>
+<pre><code>Get-item -Path '~\Dropbox\FolderToIgnore\FileToIgnore.pdf' -Stream * | select -prop stream, length
+</code></pre>
+<p>Returns (for example)</p>
+<pre><code>Stream               Length
+------               ------
+:$DATA              1495529
+com.dropbox.ignored       3
+</code></pre>
+<h2 id="source">Source</h2>
+<ul>
+<li><a href="https://help.dropbox.com/sync/ignored-files">Dropbox Ignored Files</a></li>
+<li><a href="https://www.komprise.com/glossary_terms/alternate-data-streams-ads/">Understanding Alternate Data Streams (ADS) in Windows</a></li>
+</ul>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
