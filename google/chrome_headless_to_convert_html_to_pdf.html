@@ -25,10 +25,12 @@
 <h1 id="use-headless-chrome-to-convert-html-to-pdf">Use Headless Chrome to Convert Html to Pdf</h1>
 <p>TL/DR</p>
 <h2 id="simple-example">Simple example</h2>
-<p>chrome.exe --headless --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; &quot;file:///C:/temp/MyHtml.html&quot;</p>
+<pre><code>chrome.exe --headless --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; &quot;file:///C:/temp/MyHtml.html&quot;
+</code></pre>
 <h2 id="example-with-more-parameters">Example with more parameters</h2>
 <p>This example has more (and quite useful) parameters</p>
-<p>chrome.exe --headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; --no-margins &quot;file:///C:/temp/MyHtml.html&quot;</p>
+<pre><code>chrome.exe --headless --disable-gpu --run-all-compositor-stages-before-draw --print-to-pdf-no-header --print-to-pdf=&quot;C:\Output\MyPdf.pdf&quot; --no-margins &quot;file:///C:/temp/MyHtml.html&quot;
+</code></pre>
 <h2 id="more-realistic-battle-tested-example">More realistic (battle tested) example</h2>
 <p>Here's an <em>actual</em> script I used for converting hundreds of html files into pdf.</p>
 <pre><code>$fileNum = 0;
