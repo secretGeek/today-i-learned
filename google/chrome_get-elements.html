@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>use dev tools to collect elements from page . Today I Learned (secretGeek)</title>
+<title>chrome get-elements . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,21 +22,33 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
+<h1 id="get-data-from-trello-page-as-markdown-using-javascript-in-the-developer-tools">Get Data from Trello Page as Markdown Using Javascript in the Developer Tools</h1>
+<p>From a 2018 comment on <a href="https://secretgeek.net/trello_ws">this blogpost</a></p>
+<p>Still works as of 2023.</p>
+<pre><code>var s = [];
+s.push(&quot;# &quot; + jQuery(&quot;.board-header&quot;).children()[0].innerText);
+jQuery(&quot;.list:has(.list-header-name)&quot;).each(function() {
+s.push(&quot;\n## &quot; + jQuery(this).find(&quot;.list-header-name&quot;)[0].value + &quot;\n\n&quot;);
+jQuery(this).find(&quot;.list-card-title&quot;).each(function() {
+s.push(&quot;- &quot; + this.innerText);
+});
+});
+copy(s.join(&quot;\n&quot;));
+</code></pre>
+<h2 id="source">Source</h2>
 <h1 id="using-browsers-dev-tools-to-collect-elements-from-a-page">Using browser's Dev Tools to collect elements from a page</h1>
-<p>Any page!</p>
 <p>Example -- you want to grab all of the <code>h2</code> headings from the current page.</p>
 <p>Use the browser's dev tools (available with key Function 12,  <code>F12</code>) -- and enter this command in the console:</p>
 <pre><code>let s = []; document.querySelectorAll(&quot;h2&quot;).forEach(function (el) { s.push(el.innerText);}); copy(s.join(&quot;\n&quot;));
 </code></pre>
 <p>You may use different selectors instead for other text.</p>
-<h2 id="source">Source</h2>
-<p>Similar to the <a href="trello-get.html">trello-get implementation</a> that runs in Chrome's F12 Dev tools.</p>
+<h2 id="source-1">Source</h2>
 <ul>
-<li><a href="https://secretgeek.net/trello_ws">Extracting a Trello board as markdown (secretGeek.net)</a> This is a variation on something I wrote about previously here. But many people use this kind of technique in all sorts of ways. I haven't seen enough written on it.</li>
+<li><a href="https://secretgeek.net/trello_ws">Extracting a Trello board as markdown (secretGeek.net)</a> This is a variation on something I wrote about previously here. But many people use this kind of technique in all sorts of ways. I haven't seen very much written on it.</li>
 </ul>
 <h2 id="see-also">See also</h2>
 <ul>
-<li><a href="trello-get.html">Get Data from Trello Page as Markdown Using Javascript in the Developer Tools</a></li>
+<li><a href="use_dev_tools_to_collect_elements_from_page.html">Using browser's Dev Tools to collect elements from a page</a></li>
 <li><a href="https://secretgeek.net/trello_ws">secretGeek.net Blogpost: Extracting a Trello board as markdown</a></li>
 <li><a href="../bookmarkets/useful_bookmarklets.html">Useful bookmarklets</a></li>
 </ul>

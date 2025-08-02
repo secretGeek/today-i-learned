@@ -50,7 +50,7 @@ dir . *.html | #select -first 100 |
 		sleep 1;
 	});
 	Write-host &quot;$fileNum / $numFiles`t&quot; -f darkgray -n;
-	Write-Host &quot;`t$($commandTime.TotalMilliseconds)ms &quot; -n;
+	Write-Host &quot;`t$($commandTime.TotalMilliseconds.ToString().PadLeft(10))ms&quot; -n;
 	Write-Host &quot;`t$ff&quot; -f white;
 }
 </code></pre>

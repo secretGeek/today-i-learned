@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>tips . Today I Learned (secretGeek)</title>
+<title>get-from-trello-page-using-javascript . Today I Learned (secretGeek)</title>
 <script type="text/javascript" src="/highlight.pack.js" defer></script>
 <script type="text/javascript" src="/script.js" defer></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
@@ -22,19 +22,22 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="wordle-for-word-clouds-or-tag-clouds-tips">Wordle for Word Clouds or Tag Clouds: Tips!</h1>
-<p>There's a lot of word cloud generators, all inspired by &quot;<a href="https://web.archive.org/web/20200205035903/http://www.wordle.net/">Wordle</a>&quot; -- the original and still the best, created by <a href="https://www.mrfeinberg.com/">Jonathan Feinberg</a>. Sadly it requires java to run it properly. If you do get it, here's some tips to get the best out of it:</p>
-<ul>
-<li>To control the size of words you can either repeat the words many times, or end every word with &quot;:3&quot; (or some other number) to indicate it's relative size.</li>
-<li>To treat a phrase with spaces as a single word, replace the spaces with <code>~</code> -- the tilde character.</li>
-<li>Common words like &quot;Not&quot; are hidden, by default. To show them, select <code>Do not hide common words</code> in the <code>Language</code> menu.</li>
-</ul>
-<h2 id="naming-is-hard">Naming is hard</h2>
-<p>The word &quot;wordle&quot;, which was originally associated with word clouds, has now been entirely subsumed by its use for the daily word-guessing game &quot;Wordle&quot;.</p>
-<p>The <em>error</em> in this choice of name, is that although the game &quot;Wordle&quot; is entirely focused on words with 5 letters, <code>Wordle</code> has six letters.</p>
+<h1 id="get-data-from-trello-page-as-markdown-using-javascript-in-the-developer-tools">Get Data from Trello Page as Markdown Using Javascript in the Developer Tools</h1>
+<p>From a 2018 comment on <a href="https://secretgeek.net/trello_ws">this blogpost</a></p>
+<p>Still works as of 2023.</p>
+<pre><code>var s = [];
+s.push(&quot;# &quot; + jQuery(&quot;.board-header&quot;).children()[0].innerText);
+jQuery(&quot;.list:has(.list-header-name)&quot;).each(function() {
+s.push(&quot;\n## &quot; + jQuery(this).find(&quot;.list-header-name&quot;)[0].value + &quot;\n\n&quot;);
+jQuery(this).find(&quot;.list-card-title&quot;).each(function() {
+s.push(&quot;- &quot; + this.innerText);
+});
+});
+copy(s.join(&quot;\n&quot;));
+</code></pre>
 <h2 id="source">Source</h2>
 <ul>
-<li><a href="https://web.archive.org/web/20200205035903/http://www.wordle.net/faq">wordle faq</a> (now retrieved from archive.org...)</li>
+<li><a href="https://secretgeek.net/trello_ws">secretGeek.net Blogpost: Extracting a Trello board as markdown</a></li>
 </ul>
 
 </article>

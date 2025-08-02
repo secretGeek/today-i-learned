@@ -417,7 +417,26 @@ function showFloatingMessage(message, element) {
   }, 10);
 }
 
-const getSortableCellValue = (tr, idx) => tr.children[idx].getAttribute("data-sortable-value") || tr.children[idx].innerText || tr.children[idx].textContent;
+// const getSortableCellValue = (tr, idx) => tr.children[idx].getAttribute("data-sortable-value") || tr.children[idx].innerText || tr.children[idx].textContent;
+
+const getSortableCellValue = (tr, idx) => {
+  const cell = tr.children[idx];
+  const rawValue =
+    cell.getAttribute("data-sortable-value") ||
+    cell.innerText ||
+    cell.textContent;
+
+  // Attempt to extract leading number
+  const match = rawValue.trim().match(/^(\d+(?:\.\d+)?)/); // Handles integers and decimals
+
+  if (match) {
+    return parseFloat(match[1]);
+  }
+
+  return rawValue.trim();
+};
+
+
 
 const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
 	v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
