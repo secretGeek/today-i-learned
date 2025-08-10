@@ -35,7 +35,7 @@ s.push(&quot;- &quot; + this.innerText);
 });
 copy(s.join(&quot;\n&quot;));
 </code></pre>
-<h1 id="using-browsers-dev-tools-to-collect-elements-from-a-page"># Using browser's Dev Tools to collect elements from a page</h1>
+<h2 id="using-browsers-dev-tools-to-collect-elements-from-a-page">Using browser's Dev Tools to collect elements from a page</h2>
 <p>Example -- you want to grab all of the <code>h2</code> headings from the current page.</p>
 <p>Use the browser's dev tools (available with key Function 12,  <code>F12</code>) -- and enter this command in the console:</p>
 <pre><code>let s = []; document.querySelectorAll(&quot;h2&quot;).forEach(function (el) { s.push(el.innerText);}); copy(s.join(&quot;\n&quot;));
