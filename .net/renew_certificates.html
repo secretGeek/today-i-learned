@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>renew certificates . Today I Learned (secretGeek)</title>
+<script type="text/javascript" src="/highlight.pack.js" defer></script>
+<script type="text/javascript" src="/script.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💡</text></svg>">
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="/highlight.min.css">
+<link rel="stylesheet" type="text/css" href="/dracula.css">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<header>
+<div class='nav'><a href='/'>💡 Today I Learned</a>
+<form action="https://www.google.com/search" method="get" class='search'>
+<input type="hidden" value="til.secretgeek.net" name="as_sitesearch">
+<input type="submit" value="🔎" class="search-button" name="btnG" title="Search" style="float:right">
+<input type="text" maxlength="255" size="20" name="q" class="search-text" placeholder="Search..." style="float:right">
+</form>
+</div>
+</header>
+<div id='breadcrumb' class='breadcrumb'>*</div>
+<article>
+<h1 id="renew-certificates-in-a.net-project-on-windows">Renew certificates in a .net project on windows</h1>
+<p>When you create an asp.net web application and develop it in visual studio, it also creates self signed certificates (a PEM and a Key) file stored in <code>$ENV:APPDATA\ASP.NET\Https</code>.</p>
+<p>For example, a solution called <code>Project1</code> might create files called:</p>
+<pre><code>$ENV:APPDATA\ASP.NET\Https\project1.client.key
+$ENV:APPDATA\ASP.NET\Https\project1.client.pem
+</code></pre>
+<p>These will have an expiry of one year.</p>
+<p>One year later they will need to be renewed.</p>
+<p>If things go well, this may happen automatically. Perhaps visual studio will prompt you to make sure it's ok. I don't know.</p>
+<p>The only thing I know about it what it feels like when it goes <em>wrong</em>. It gets very confusing. You've changed nothing, and yet a project that worked yesterday does not work today.</p>
+<p>Allegedly you can run</p>
+<pre><code>dotnet dev-certs https --clean
+dotnet dev-certs https --trust
+</code></pre>
+<p>But the solution that worked for me was to delete the files and re-load the project in visual studio, so they would be re-created.</p>
+<p>Actually, it's less drastic than that. I didn't <strong>delete</strong> the files, I &quot;zz'd&quot; them: I renamed them to have a &quot;zz_&quot; prefix at the staert of their name, so that they would not be found. That's it.</p>
+<p>Then, when I restarted visual studio I found that new files had been created.</p>
+<h2 id="some-notes-on-diagnosis">Some notes on diagnosis</h2>
+<p>i could see that there was an allegedly expired  certificate by looking at the certificate warning in Chrome or Edge.</p>
+<p>I found the name of the certificate file(s) by looking at the config for &quot;vite&quot;.</p>
+<p>In <code>vite.config.ts</code> I could see it was looking in <code>$ENV:Appdata/ASP.NET/https/</code> for a specific <code>.pem</code> and <code>.key</code> file.</p>
+<p>So I went to that folder, and saw a bunch of files, with <code>.pfx</code>, <code>.pem</code> and <code>.key</code> file types. The relevant ones, named after my problem project, were easy to spot.</p>
+<h2 id="inspect-certificates">Inspect certificates</h2>
+<p>Also -- you can inspect the relevant certificates, from powershell, by running this query, which looks in the <code>Cert:</code> Powershell drive.</p>
+<pre><code>Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -like '*localhost*' } | select -prop *
+</code></pre>
+
+</article>
+<footer><hr /><small><a href='http://secretgeek.net' class='no-glyph'>secretgeek.net</a> | <a href='https://nimbletext.com' class='no-glyph'>nimbletext</a> | <a href='http://timesnapper.com' class='no-glyph'>TimeSnapper</a>|  <a rel='me' href='https://mastodon.cloud/@secretgeek' title='@secretgeek on mastodon' class='no-glyph'>@secretgeek</a> </small><br /><br /></footer>
+</body>
+</html>
