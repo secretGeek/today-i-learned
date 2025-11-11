@@ -24,13 +24,18 @@
 <article>
 <h1 id="bulk-resize-images-with-image-magick">Bulk resize images with image magick</h1>
 <p>When I need to resize images, in bulk (or even one at a time) and I want them to stay sharp, i use ImageMagick</p>
-<pre><code>&gt; magick human_resource_machine.png -resize 200 -unsharp 0x6+0.5+0 human_resource_machine_200.png
+<pre><code>magick human_resource_machine.png -resize 200 -unsharp 0x6+0.5+0 human_resource_machine_200.png
 </code></pre>
 <p>This gives the file a width of 200 pixels, and a height in proportion to the current aspect ratio.</p>
 <p>It also applies an <code>unsharp</code> filter, which sharpens the image (go figure!)</p>
 <p>ImageMagick is here (and is in my <code>path</code>)</p>
-<pre><code>C:\Program Files\ImageMagick-7.0.7-Q16\magick.exe
+<pre><code>C:\Program Files\ImageMagick-7.1.2-Q16-HDRI\magick.exe
 </code></pre>
+<p>(Previously here: <code>	C:\Program Files\ImageMagick-7.0.7-Q16\magick.exe</code>)</p>
+<h2 id="download-imagemagick-from-the-official-site">Download ImageMagick from the official site</h2>
+<ul>
+<li><a href="https://imagemagick.org/script/download.php">https://imagemagick.org/script/download.php</a></li>
+</ul>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../powershell/PATH.html">Set path</a></li>

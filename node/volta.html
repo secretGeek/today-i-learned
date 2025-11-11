@@ -74,14 +74,13 @@ C:\Program Files\nodejs\npm.cmd
 <p>We see that even though node and npm are both available from more than one location, the <em>Volta</em> instance is discovered <strong>first</strong>.</p>
 <p>When looking at my <code>%path%</code> (<code>$env:path</code> in powershell) environment variable I can see that this is because Volta has placed itself at the absolute start of the list. Good work Volta. You win. (It does make sense: if Volta wants to control the version of Node/Npm it is more effectively able to do this from the front of the path.)</p>
 <p>To find out &quot;which&quot; actual file on your computer will be used by Volta for a given tool, use volta's which command --</p>
-<blockquote>
-<p>volta which node
+<pre><code class="language-powershell">&gt; volta which node
 C:\Users\user1\AppData\Local\Volta\tools\image\node\18.16.0\node.exe
-Using Volta
-Install Volta from the Official Website after enabling Developer mode as described above.</p>
-</blockquote>
+</code></pre>
+<h2 id="using-volta">Using Volta</h2>
+<p>Install Volta from the Official Website after enabling Developer mode as described above.</p>
 <p>See which versions of node have been installed / controlled by Volta:</p>
-<pre><code class="language-powershell"> volta list node
+<pre><code class="language-powershell">volta list node
 ⚡️ Node runtimes in your toolchain:
 
     v14.21.3
