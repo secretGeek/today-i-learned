@@ -49,6 +49,7 @@ True     True     Object[]                                 System.Array
 <p>Hence <code>$SatelliteName</code> would be an array of objects.</p>
 <p>Apart from remembering the &quot;no brackets&quot; syntax -- you also need to learn how to give types to your parameters, and so much more.</p>
 <h2 id="param"><code>param()</code></h2>
+<p>We can move the parameters out of a <code>(){}</code> and into a  <code>{param()}</code></p>
 <pre><code>Function Invoke-Clippy{
 param(
 		$text=&quot;Hi! I am Clippy, your office assistant. Would you like some assistance today?&quot;
@@ -75,8 +76,42 @@ param(
     [string]$ApiKey
 )
 </code></pre>
-<p>todo: ValueFromPipeline</p>
+<h1 id="question-does-value-from-pipeline-require-a-cmdlet-binding">QUESTION: DOES VALUE FROM PIPELINE REQUIRE A CMDLEt bindinG???</h1>
+<pre><code>Param(
+    [parameter(ValueFromPipeline=$True)]
+    [string[]]$Computername
+)
+</code></pre>
 <h2 id="cmdletbinding"><code>[CmdletBinding()]</code></h2>
+<p>Okay, so here's what it is about <code>CmdLetBinding</code></p>
+<ul>
+<li>You get access too all the <code>Common Parameters</code> -- these are things that come in handy all the time.</li>
+</ul>
+<h2 id="common-parameters-are">Common Parameters are:</h2>
+<ul>
+<li><code>Verbose</code>,</li>
+<li><code>Debug</code>,</li>
+<li><code>ErrorAction</code>,</li>
+<li><code>ErrorVariable</code>,</li>
+<li><code>OutVariable</code>,</li>
+<li><code>OutBuffer</code>,</li>
+<li><code>PipelineVariable</code>, and</li>
+<li><code>WarningAction</code>.</li>
+</ul>
+<p>These handy parameters, provide arguably consistent behavior and debugging capabilities across all your scripts.</p>
+<h2 id="parameter-validation-and-type-checking">Parameter Validation and Type Checking</h2>
+<p>When you use CmdletBinding you choose to opt in to robust parameter validation and <code>type checking</code>.</p>
+<p>These confirm that input to your function has the correct form, and prevents many, if not all, common scripting errors.</p>
+<p>With cmdLetBinding you get -- and this is a big deal right here -- <em>Pipeline Support</em>!</p>
+<p>Your <em><code>Advanced functions</code></em> can seamlessly integrate with the PowerShell pipeline, allowing them to process objects passed from previous commands and enabling more flexible and modular scripting.</p>
+<p>You get access to other advanced features too, including:</p>
+<p>SupportsShouldProcess: Enables</p>
+<p>Confirm and  WhatIf parameters -- there are available if the SupportsShouldProcess feature is enabled. These  work together providing another safety layer, preventing some potentially destructive operations.</p>
+<p>You can now use Parameter Sets</p>
+<p>Parameter sets allow you to define different sets of parameters for different scenarios. This offers more flexibility in how your function can be called, giving optional competing distinct sets of parameters names and types, in a priority order.
+$PSCmdlet Automatic Variable: Provides access to the $PSCmdlet automatic variable, which offers methods and properties for interacting with the PowerShell runtime environment (e.g., WriteVerbose, WriteWarning).
+ConfirmImpact: Allows setting a confirmation impact level for the function, influencing when the Confirm prompt appears.
+Improved Error Handling: CmdletBinding enhances error handling by automatically generating errors for unknown parameters and unhandled positional arguments, making your scripts more robust.</p>
 <h2 id="valuefrompipelinebypropertyname"><code>[ValueFromPipelineByPropertyName()]</code></h2>
 <pre><code>function kvi {
 # AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.
