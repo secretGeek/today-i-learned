@@ -13,4 +13,6 @@ $template = "C:\users\leonb\Dropbox\secretGeek\all_someday_projects\git_playgrou
 & $clowncarExe -p="$tilSource" -o="$tilTarget" -t="$template" -r -z;
 move-item .\readme.html .\index.html -force
 
+dir ..\google\*.html.safe
+
 stat
