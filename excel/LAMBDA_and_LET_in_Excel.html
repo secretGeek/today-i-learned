@@ -22,7 +22,7 @@
 </header>
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
-<h1 id="lamba-and-let-in-excel">LAMBA and LET in Excel</h1>
+<h1 id="lambda-and-let-in-excel">LAMBDA and LET in Excel</h1>
 <p>The <code>LAMBDA</code> function lets you create custom, reusable functions directly in Excel formulas.</p>
 <p>The syntax is:</p>
 <pre><code>=LAMBDA(&lt;parameters&gt;, &lt;formula-using-those-parameters&gt;)(&lt;input&gt;)
@@ -47,16 +47,22 @@
 </ol>
 <p>So, as we all know from our boring buddies who bang on about functional programming and the lambda calculus and old mate Alonzo Church, etc, a <code>lambda</code> is simply an anonymous function. Note that we essentially defined a <code>Squared()</code> function here, but without having to name it <code>Squared()</code>, and then we defined an <code>Add_Two_Numbers()</code> function, without having to <em>name</em> it, <code>Add_Two_Numbers()</code>.</p>
 <p>Naming, you may recall, is one of the two hardest problems in computer science. So with this one neat trick, Alonzo Church has eradicated 50% of the difficulties of computer science.</p>
+<h2 id="many-parameters">Many parameters</h2>
+<p>A Lambda can have as many parameters as it needs. e.g.</p>
+<pre><code>=LAMBDA(a, b, c, d, e, f, a - b + c - d + e - f)(3,4,5,6,7,8)
+</code></pre>
+<p>All of the &quot;parameters&quot; are treated as <em>input</em> parameters, and the final parameter is the expression that may use those parameters.</p>
 <h2 id="why-mention-let">Why mention LET ?</h2>
-<p><code>LET</code> is a complementary concept to LAMBDA... as you'll see. But forget LAMBDA for now.</p>
-<p>Think about a boring repetitive expression like this:</p>
+<p><code>LET</code> is a complementary concept to LAMBDA... as you'll see. But forget LAMBDA for a moment.</p>
+<p>Think instead about a boring repetitive expression like this:</p>
 <pre><code>=SQRT(A1) + SQRT(A1) * 10
 </code></pre>
-<p>Look at all that repetition! Over and over we've had to type that same boring bit, <code>SQRT(A1)</code>. Wouldn't it be cool if we could save our fingers all that typing. Let <code>LET</code> do it!</p>
-<p><code>LET</code> lets you define a name and a value, then use that name (as many times as you want) in an expression.</p>
+<p>Look at all that nasty nasty repetition! Over and over we've had to type that same boring bit, <code>SQRT(A1)</code>. Wouldn't it be cool if we could save our fingers all that typing?</p>
+<p>Here's how we can let <code>LET</code> do it!</p>
+<p><code>LET</code> lets you define name and values, then lets you <em>use</em> those names, as many times as you want, in an expression.</p>
 <p>So we can say:</p>
 <ul>
-<li>&quot;Let x be <code>SQRT(A1)</code>. Please calculate the expression:  <code>x + x * 10</code>&quot;</li>
+<li>&quot;Let <code>x</code> be <code>SQRT(A1)</code>. Please calculate the expression:  <code>x + x * 10</code>&quot;</li>
 </ul>
 <p>To say that, we use this syntax:</p>
 <pre><code>=LET(x, SQRT(A1), x + x * 10)
@@ -73,7 +79,17 @@
   volume
 )
 </code></pre>
-<p>But rather than having our variables intermingled with our formula, we can combine LET with LAMBDA to make a more elegant function, like this:</p>
+<p>which in pseudo-code could be written like this:</p>
+<pre><code>LET
+  height = 5
+  width = 4,
+  length = 3,
+  volume =  height * width * length
+RETURN the answer: 
+  volume
+</code></pre>
+<p>That's kind of cool... but intermingling our variables and our values is pretty messy.</p>
+<p>To avoid that intermingling, we can combine LET with LAMBDA to make a function, like this:</p>
 <pre><code>=LAMBDA(height, width, length,
   LET(
 	volume, height * width * length,
@@ -86,11 +102,11 @@
 <ol>
 <li><p>Go to &quot;Formulas&quot; &gt; &quot;Name Manager&quot;</p>
 </li>
-<li><p>Click New</p>
+<li><p>Click &quot;New&quot;</p>
 </li>
 <li><p>Give your new formula a name, e.g. <code>BlockVolume</code></p>
 </li>
-<li><p>And a formula of:</p>
+<li><p>And define the formula:</p>
 <p>=LAMBDA(height, width, length,
 LET(
 volume, height * width * length,

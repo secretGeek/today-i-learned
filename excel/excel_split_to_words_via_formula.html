@@ -26,7 +26,7 @@
 <p>To get everything before the first space:</p>
 <pre><code>=LEFT(B2,FIND(&quot; &quot;,B2)-1)
 </code></pre>
-<p>BETTER: get everything before the first space, but if there is not space get everything:</p>
+<p>BETTER: get everything before the first space, but if there is no, space get everything:</p>
 <pre><code>=IFERROR(LEFT(B2,FIND(&quot; &quot;,B2)-1), B2)
 </code></pre>
 <p>Get everything after the first space</p>

@@ -5,3 +5,4 @@ todo.txt
 chapter_summary.txt
 .markdownlint.json
 linterrors.xlsx
+~$*.xlsx

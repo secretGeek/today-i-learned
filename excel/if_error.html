@@ -23,9 +23,9 @@
 <div id='breadcrumb' class='breadcrumb'>*</div>
 <article>
 <h1 id="avoid-value-with-iferror">Avoid <code>#VALUE!</code> with IFERROR</h1>
-<p>Sick of you carefully crafted excel formula resulted in <code>#VALUE!</code> for all the edge cases you don't care about?</p>
-<p>Just wrap your formula in an IFERROR function.....</p>
-<p>e.g. here's a formula for grabbing everything before the first comma....</p>
+<p>Sick of your carefully crafted excel formula resulting in <code>#VALUE!</code> for all the edge cases you don't care about?</p>
+<p>Just wrap your formula in an IFERROR function...</p>
+<p>e.g. here's a formula for grabbing everything before the first comma...</p>
 <pre><code>=LEFT(B3, FIND(&quot;,&quot;, B3)-1)
 </code></pre>
 <p>...but what happens when there is no comma!? A dirty great error that's what!</p>
