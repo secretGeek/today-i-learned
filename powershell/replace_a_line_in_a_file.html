@@ -27,9 +27,9 @@
 <pre><code>$targetFile = 'FileName.ps1'
 $regex = '^This is the old line$&quot;'
 $with = &quot;This is the new line&quot;
-(Get-Content $targetFile) -replace $regex, $hashyLine | Set-Content $targetFile
+(Get-Content $targetFile -encoding utf8) -replace $regex, $with | Set-Content $targetFile -encoding utf8
 </code></pre>
-<p>Unexplored edge cases... what happens to the encoding? What if you want to replace one thing many times on a single line? What if it's not the whole line, etc. What if you only want to do the replace on the first match, or on the last match?</p>
+<p>Unexplored edge cases... What if you want to replace one thing many times on a single line? What if it's not the whole line, etc. What if you only want to do the replace on the first match, or on the last match?</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../chocolatey/specify_checksum_for_chocolatey.html">Giving Chocolatey a Checksum when creating a package</a></li>
