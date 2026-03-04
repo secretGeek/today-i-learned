@@ -76,7 +76,7 @@ param(
     [string]$ApiKey
 )
 </code></pre>
-<h1 id="question-does-value-from-pipeline-require-a-cmdlet-binding">QUESTION: DOES VALUE FROM PIPELINE REQUIRE A CMDLEt bindinG???</h1>
+<h2 id="question-does-value-from-pipeline-required-a-cmdlet-binding">QUESTION: Does value from Pipeline required a cmdLet binding?</h2>
 <pre><code>Param(
     [parameter(ValueFromPipeline=$True)]
     [string[]]$Computername
@@ -107,11 +107,11 @@ param(
 <p>You get access to other advanced features too, including:</p>
 <p>SupportsShouldProcess: Enables</p>
 <p>Confirm and  WhatIf parameters -- there are available if the SupportsShouldProcess feature is enabled. These  work together providing another safety layer, preventing some potentially destructive operations.</p>
-<p>You can now use Parameter Sets</p>
-<p>Parameter sets allow you to define different sets of parameters for different scenarios. This offers more flexibility in how your function can be called, giving optional competing distinct sets of parameters names and types, in a priority order.
-$PSCmdlet Automatic Variable: Provides access to the $PSCmdlet automatic variable, which offers methods and properties for interacting with the PowerShell runtime environment (e.g., WriteVerbose, WriteWarning).
-ConfirmImpact: Allows setting a confirmation impact level for the function, influencing when the Confirm prompt appears.
-Improved Error Handling: CmdletBinding enhances error handling by automatically generating errors for unknown parameters and unhandled positional arguments, making your scripts more robust.</p>
+<h3 id="you-can-now-use-parameter-sets">You can now use Parameter Sets</h3>
+<p>Parameter sets allow you to define different sets of parameters for different scenarios. This offers more flexibility in how your function can be called, giving optional competing distinct sets of parameters names and types, in a priority order.</p>
+<p><code>$PSCmdlet</code> Automatic Variable: Provides access to the $PSCmdlet automatic variable, which offers methods and properties for interacting with the PowerShell runtime environment (e.g., WriteVerbose, WriteWarning).</p>
+<p>ConfirmImpact: Allows setting a confirmation impact level for the function, influencing when the Confirm prompt appears.</p>
+<p>Improved Error Handling: CmdletBinding enhances error handling by automatically generating errors for unknown parameters and unhandled positional arguments, making your scripts more robust.</p>
 <h2 id="valuefrompipelinebypropertyname"><code>[ValueFromPipelineByPropertyName()]</code></h2>
 <pre><code>function kvi {
 # AAA reads stream. you give it an object. it will iterate it and return an object which is the keys.

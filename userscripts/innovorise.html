@@ -143,14 +143,14 @@
 		styles += ' .table_tag[data-content=&quot;hp-newsletter&quot;] { background-color: hsl(86deg 80% 99%);}';
 		styles += ' .table_tag[data-content=&quot;hp-newsletter&quot;]::after { content: &quot; 📰&quot;;text-shadow:1px 1px 1px #000;}';
 		styles += ' .table_tag[data-content=&quot;beta particpant&quot;]::after { content: &quot; ⭐&quot;;text-shadow:1px 1px 1px #000;}';
-		
-		
+
+
 		// styles += ' .table_tag[data-content=&quot;break-in&quot;] { box-shadow: 0 0 3px red;}';
-														 
+
 		addStyle(styles);
 
 		// And now we set up the loop that will call &quot;onLoop&quot; over and over.
-		// this is needed because elements are continually added/removed 
+		// this is needed because elements are continually added/removed
 		// as you open/close/scroll/interact with the page
 		// the loop is only called once every 3 seconds because i don't want to cause performance issues.
 		setInterval(function () {
