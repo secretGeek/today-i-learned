@@ -39,10 +39,20 @@
 <p>To add a folder to the <code>PATH</code>, only for the <strong>current session</strong>:</p>
 <pre><code>$env:path += [System.IO.Path]::PathSeparator + $NewPath
 </code></pre>
-<p>(To get the current folder:  $NewPath = Get-Location</p>
-<p>To persist the current session's path (requires admin)</p>
-<pre><code>[Environment]::SetEnvironmentVariable( &quot;Path&quot;, $env:Path, [System.EnvironmentVariableTarget]::Machine )
+<p>(To get the current folder:  <code>$NewPath = Get-Location</code>)</p>
+<p>To persist the current session's path (requires admin) (But don't do this! It will add everything from the user path to the machine path!)</p>
+<pre><code>[Environment]::SetEnvironmentVariable( &quot;Path&quot;, $env:Path, [System.EnvironmentVariableTarget]::Machine )  # Don't do this!
 </code></pre>
+<p>It's better to get just the machine path, like so:</p>
+<pre><code>$currentMachinePath = [Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)
+</code></pre>
+<p>Add to that variable:</p>
+<pre><code>$newMachinePath = $currentMachinePath + [System.IO.Path]::PathSeparator + $NewPath
+</code></pre>
+<p>And then set that as the new value.</p>
+<pre><code>[Environment]::SetEnvironmentVariable( &quot;Path&quot;, $newMachinePath, [System.EnvironmentVariableTarget]::Machine )
+</code></pre>
+<p>(Or do the same process as just described, but with the user path, using <code>[System.EnvironmentVariableTarget]::User</code>).</p>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../windows/environment_variables.html">Environment variables -- view/edit them on windows</a></li>

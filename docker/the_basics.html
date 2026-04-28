@@ -147,7 +147,11 @@ docker run -d -e &quot;ACCEPT_EULA=Y&quot; -v a-sql-volume:/var/opt/mssql -e &qu
 <p>(Or, still in powershell, you can pipe to <code>Out-GridView</code> to explore it in a grid control)</p>
 <h2 id="updating-docker.exe">Updating docker.exe</h2>
 <p>You can see the current version of docker.exe by using <code>docker --version</code></p>
-<p>When docker desktop is running, it constantly checks for updates. If you update docker desktop to the latest version, this will also updated docker.exe.</p>
+<p>When docker desktop is running, it constantly checks for updates. If you update docker desktop to the latest version, this will also update <code>docker.exe</code>.</p>
+<h2 id="view-docker-logs-for-a-particular-container">View docker logs for a particular container</h2>
+<p>assume the container is called <code>container-1</code> (a snazzy name)</p>
+<pre><code>docker logs container-1
+</code></pre>
 <h2 id="see-also">See also</h2>
 <ul>
 <li><a href="../serilog/install_seq_locally_for_development.html">Install Seq locally for development</a> -- local seq install instructions, rely on docker (and put the info above into context)</li>
