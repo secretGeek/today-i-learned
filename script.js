@@ -52,6 +52,7 @@ function applyLanguageClassesToPre() {
     npm: "javascript",
     nuget: "powershell",
     oracle: "sql",
+    postgres: "sql",
     powershell: "powershell",
     python: "python",
     react: "javascript",
